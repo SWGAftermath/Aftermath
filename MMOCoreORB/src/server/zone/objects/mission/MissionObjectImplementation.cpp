@@ -160,13 +160,6 @@ void MissionObjectImplementation::setRewardCredits(int creds, bool notifyClient)
 	ManagedReference<CreatureObject*> player = getParentRecursively(SceneObjectType::PLAYERCREATURE).castTo<CreatureObject*>();
 
 	if (player != NULL) {
-		if (player->isGrouped()) {
-			Reference<GroupObject*> group = player->getGroup();
-
-			rewardCreditsDivisor = group->getNumberOfPlayerMembers();
-		} else {
-			rewardCreditsDivisor = 1;
-		}
 
 		MissionObjectDeltaMessage3* delta = new MissionObjectDeltaMessage3(_this.getReferenceUnsafeStaticCast());
 		delta->updateRewardCredits(creds);

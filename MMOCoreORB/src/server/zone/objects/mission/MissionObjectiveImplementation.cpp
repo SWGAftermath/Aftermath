@@ -179,12 +179,9 @@ void MissionObjectiveImplementation::awardReward() {
 
 	ManagedReference<GroupObject*> group = owner->getGroup();
 
-	int playerCount = 1;
-
 	if (group != NULL) {
 		Locker lockerGroup(group, _this.getReferenceUnsafeStaticCast());
 
-		playerCount = group->getNumberOfPlayerMembers();
 
 #ifdef LOCKFREE_BCLIENT_BUFFERS
 	Reference<BasePacket*> pack = pmm;
@@ -220,19 +217,7 @@ void MissionObjectiveImplementation::awardReward() {
 		players.add(owner);
 	}
 
-	int divisor = mission->getRewardCreditsDivisor();
-	bool expanded = false;
-
-	if (playerCount > divisor) {
-		divisor = playerCount;
-		expanded = true;
-	}
-
-	if (playerCount > players.size()) {
-		owner->sendSystemMessage("@mission/mission_generic:group_too_far"); // Mission Alert! Some group members are too far away from the group to receive their reward and and are not eligible for reward.
-	}
-
-	int dividedReward = mission->getRewardCredits() / Math::max(divisor, 1);
+	int dividedReward = mission->getRewardCredits() / players.size();
 
 	for (int i = 0; i < players.size(); i++) {
 		ManagedReference<CreatureObject*> player = players.get(i);
@@ -244,17 +229,7 @@ void MissionObjectiveImplementation::awardReward() {
 		player->addBankCredits(dividedReward, true);
 	}
 
-	if (group != NULL) {
-		if (expanded) {
-			owner->sendSystemMessage("@mission/mission_generic:group_expanded"); // Group Mission Success! Reward credits have been transmitted to the bank account of all group members in the immediate area. They have been recalculated to reflect the newly added members.
-		} else {
-			owner->sendSystemMessage("@mission/mission_generic:group_success"); // Group Mission Success! Reward credits have been transmitted to the bank account of all group members in the immediate area.
-		}
-	}
-
-	int creditsDistributed = dividedReward * players.size();
-
-	StatisticsManager::instance()->completeMission(mission->getTypeCRC(), creditsDistributed);
+	StatisticsManager::instance()->completeMission(mission->getTypeCRC(), mission->getRewardCredits());
 }
 
 Vector3 MissionObjectiveImplementation::getEndPosition() {
