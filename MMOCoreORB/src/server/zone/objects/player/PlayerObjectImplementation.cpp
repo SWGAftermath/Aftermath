@@ -1771,7 +1771,7 @@ void PlayerObjectImplementation::activateForcePowerRegen() {
 
 		float timer = regen / 5.f;
 
-		float scheduledTime = 10 / timer;
+		float scheduledTime = 5 / timer;
 		uint64 miliTime = static_cast<uint64>(scheduledTime * 1000.f);
 		forceRegenerationEvent->schedule(miliTime);
 	}
