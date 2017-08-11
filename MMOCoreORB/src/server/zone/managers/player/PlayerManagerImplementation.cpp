@@ -1249,15 +1249,25 @@ void PlayerManagerImplementation::disseminateExperience(TangibleObject* destruct
 			ManagedReference<GroupObject*> group = attacker->getGroup();
 
 			uint32 combatXp = 0;
+			uint32 playerTotal = 0;
 
 			Locker crossLocker(attacker, destructedObject);
+
+			for (int v = 0; v < entry->size(); ++v){
+				uint32 weapDamage = entry->elementAt(v).getValue();
+				playerTotal += weapDamage;
+			}
+
 
 			for (int j = 0; j < entry->size(); ++j) {
 				uint32 damage = entry->elementAt(j).getValue();
 				String xpType = entry->elementAt(j).getKey();
 				float xpAmount = baseXp;
 
-				xpAmount *= (float) damage / totalDamage;
+				//remove damage-based xp split
+				//xpAmount *= (float) damage / totalDamage;
+				//add in weapon damage split
+				xpAmount *= (float) damage / playerTotal;
 
 				//Cap xp based on level
 				xpAmount = Math::min(xpAmount, calculatePlayerLevel(attacker, xpType) * 300.f);
