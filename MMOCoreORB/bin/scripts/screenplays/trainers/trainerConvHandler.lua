@@ -156,7 +156,7 @@ function trainerConvHandler:handleLearnScreen(pConvTemplate, pPlayer, pNpc, sele
 	end
 
 	clonedConversation:setDialogTextStringId(stringTable .. "prose_cost")
-	clonedConversation:setDialogTextDI(moneyRequired)
+	clonedConversation:setDialogTextDI(moneyRequired/2)
 	clonedConversation:setDialogTextTO(skillStringId)
 
 	writeData(SceneObject(pPlayer):getObjectID() .. ":trainerTeachSkill", skillNum)

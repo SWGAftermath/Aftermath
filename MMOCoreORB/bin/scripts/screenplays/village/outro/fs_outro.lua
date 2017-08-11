@@ -9,6 +9,7 @@ FsOutro = ScreenPlay:new {
 
 	stepDelay = {
 		[1] = { 300, 600 }, -- Old man visit, 5-10 mins
+	}
 }
 
 function FsOutro:getCurrentStep(pPlayer)
