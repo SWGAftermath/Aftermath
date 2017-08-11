@@ -8,12 +8,14 @@ FsVillageDefense = ScreenPlay:new {
 			outlaw = {
 				questNum = QuestManager.quests.FS_DEFEND_01,
 				questName = "fs_defend_01",
-				killReq = 50
+				--killReq = 50
+				killReq = 5 -- for testing
 			},
 			pirate = {
 				questNum = QuestManager.quests.FS_DEFEND_02,
 				questName = "fs_defend_02",
-				killReq = 25
+				--killReq = 25
+				killReq = 5 -- for testing
 			}
 		},
 		melee = {
@@ -22,12 +24,14 @@ FsVillageDefense = ScreenPlay:new {
 			outlaw = {
 				questNum = QuestManager.quests.FS_DEFEND_03,
 				questName = "fs_defend_03",
-				killReq = 50
+				--killReq = 50
+				killReq = 5 -- for testing
 			},
 			pirate = {
 				questNum = QuestManager.quests.FS_DEFEND_04,
 				questName = "fs_defend_04",
-				killReq = 25
+				--killReq = 25
+				killReq = 5 -- for testing
 			}
 		}
 	}
