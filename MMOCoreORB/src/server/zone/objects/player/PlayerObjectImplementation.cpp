@@ -1281,6 +1281,9 @@ void PlayerObjectImplementation::notifyOnline() {
 
 	schedulePvpTefRemovalTask();
 
+	playerCreature->sendExecuteConsoleCommand("/chatRoom join SWG.aftermath.General");
+	playerCreature->sendExecuteConsoleCommand("/chatRoom join SWG.aftermath.PvP");
+
 	MissionManager* missionManager = zoneServer->getMissionManager();
 
 	if (missionManager != NULL && playerCreature->hasSkill("force_title_jedi_rank_02")) {
