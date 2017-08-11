@@ -22,6 +22,9 @@ includeFile("groups/skill_buffs.lua")
 includeFile("groups/tailor_components.lua")
 includeFile("groups/treasure_map_group.lua")
 
+includeFile("groups/named_color_crystals.lua")
+
+
 -- armor sub-folder
 includeFile("groups/armor/armor_all.lua")
 includeFile("groups/armor/bone_armor.lua")
