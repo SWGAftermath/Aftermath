@@ -1562,13 +1562,38 @@ int PlayerManagerImplementation::awardExperience(CreatureObject* player, const S
 
 	if (playerObject == NULL)
 		return 0;
+	int xp;
+	if (amount <= 0 || xpType == "jedi_general" || xpType == "gcw_currency_rebel" || xpType == "gcw_currency_imperial" ){
+		xp = playerObject->addExperience(xpType, amount);
+	} else if (xpType == "imagedesigner" ||
+		xpType == "crafting_medicine_general" ||
+		xpType == "crafting_general" ||
+		xpType == "crafting_bio_engineer_creature" ||
+		xpType == "bio_engineer_dna_harvesting" ||
+		xpType == "crafting_clothing_armor" ||
+		xpType == "crafting_weapons_general" ||
+		xpType == "crafting_food_general" || 
+		xpType == "crafting_clothing_general" || 
+		xpType == "crafting_structure_general" ||
+		xpType == "crafting_droid_general" ||
+		xpType == "crafting_spice" || 
+		xpType == "shipwright" ||
+		xpType == "bountyhunter" || 
+		xpType == "music" || 
+		xpType == "dance" ||
+		xpType == "entertainer_healing"){
+			xp = playerObject->addExperience(xpType, (amount * 3));
+			float speciesModifier = 1.f;
 
-	float speciesModifier = 1.f;
+			if (amount > 0)
+				speciesModifier = getSpeciesXpModifier(player->getSpeciesName(), xpType);
 
-	if (amount > 0)
-		speciesModifier = getSpeciesXpModifier(player->getSpeciesName(), xpType);
-
-	int xp = playerObject->addExperience(xpType, (int) (amount * speciesModifier * localMultiplier * globalExpMultiplier));
+	} else {
+		float speciesModifier = 1.f;
+		if (amount > 0)
+			speciesModifier = getSpeciesXpModifier(player->getSpeciesName(), xpType);
+		xp = playerObject->addExperience(xpType, (int) (amount * speciesModifier * localMultiplier * globalExpMultiplier));
+	}
 
 	player->notifyObservers(ObserverEventType::XPAWARDED, player, xp);
 
