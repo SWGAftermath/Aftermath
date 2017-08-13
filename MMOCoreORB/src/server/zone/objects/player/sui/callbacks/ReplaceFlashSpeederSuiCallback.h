@@ -15,7 +15,7 @@ class ReplaceFlashSpeederSuiCallback : public SuiCallback {
 public:
 
 	enum {
-		FLASH_SPEEDER_COST = 20000
+		FLASH_SPEEDER_COST = 50000
 	};
 
 	ReplaceFlashSpeederSuiCallback(ZoneServer* server)
