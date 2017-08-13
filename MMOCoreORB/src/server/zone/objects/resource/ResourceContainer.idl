@@ -16,7 +16,7 @@ class ResourceContainer extends TangibleObject {
 	protected ResourceSpawn spawnObject;
 	protected int stackQuantity;
 
-	public static final int MAXSIZE = 100000;
+	public static final int MAXSIZE = 10000000;
 
 	public ResourceContainer() {
 		stackQuantity = 0;

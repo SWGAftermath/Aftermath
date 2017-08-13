@@ -19,6 +19,7 @@
 #include "server/zone/objects/player/sui/listbox/SuiListBox.h"
 #include "server/zone/objects/player/sessions/survey/SurveySession.h"
 #include "server/zone/managers/stringid/StringIdManager.h"
+#include "engine/log/Logger.h"
 
 ResourceSpawner::ResourceSpawner(ManagedReference<ZoneServer*> serv,
 		ZoneProcessServer* impl) {
@@ -361,6 +362,126 @@ bool ResourceSpawner::writeAllSpawnsToScript() {
 		return false;
 	}
 
+	return true;
+}
+
+bool ResourceSpawner::ghDumpAll() {
+	/* This is custom code written to export resources in a way that an additional script can easily push them to Galaxy Harvester -c0pp3r */
+	if(!scriptLoading)
+		return false;
+	planets =  new Vector<String> ();
+	planets->add("corellia");
+	planets->add("dantooine");
+	planets->add("dathomir");
+	planets->add("endor");
+	planets->add("lok");
+	planets->add("naboo");
+	planets->add("rori");
+	planets->add("talus");
+	planets->add("tatooine");
+	planets->add("yavin4");
+	//String planets = "corellia";
+
+	try {
+		File* ghfile = new File("scripts/managers/ghoutput.xml");
+
+		FileWriter* ghwriter = new FileWriter(ghfile);
+		ghwriter->writeLine("<SpawnOutput>");
+		int last = 0;
+
+		for(int i = 0; i < resourceMap->size(); ++i) {
+
+			ManagedReference<ResourceSpawn*> spawn = resourceMap->get(i);
+
+			uint64 despawned = spawn->getDespawned();
+			uint64 currTime = System::getTime();
+
+			int diff = 0;
+			int inPhase = 0;
+			if(despawned > currTime) {
+				diff = despawned - currTime;
+			} else {
+				diff = currTime - despawned;
+			}
+			if(despawned > currTime) {
+				inPhase = 1;
+			}
+			if(String::valueOf(inPhase) == "1") {
+				for(int j = 0; j < planets->size(); ++j){
+					ZoneResourceMap* zoneMap = resourceMap->getZoneResourceList(planets->get(j));
+					ManagedReference<ResourceSpawn*> resourceSpawn;
+					
+					for (int b = 0; b< zoneMap->size(); ++b) {
+						resourceSpawn = zoneMap->get(b);
+						if (spawn->getName() == resourceSpawn->getName()){
+							ghwriter->writeLine("<resource>");
+							
+							ghwriter->write("<SpawnName>");
+							ghwriter->write(spawn->getName());
+							ghwriter->writeLine("</SpawnName>");
+							ghwriter->write("<resType>");
+							for(int i = 0; i < 8; ++i) {
+								String spawnClass = spawn->getClass(i);
+								if(spawnClass != "") {
+									last = i;
+									String spawnClass2 = spawn->getStfClass(i);
+								}
+							}
+							ghwriter->write(spawn->getStfClass(last));
+							ghwriter->writeLine("</resType>");
+							//ghwriter->writeLine("<attributes>");
+							for(int i = 0; i < 12; ++i) {
+								String attribute = "";
+								int value = spawn->getAttributeAndValue(attribute, i);
+								if(attribute != "") {
+									ghwriter->writeLine("<attribute name=\"" + attribute + "\">" + String::valueOf(value) + "</attribute>");
+								}
+							}
+							//ghwriter->writeLine("</attributes>");
+							ghwriter->write("<planet>");
+							ghwriter->write(planets->get(j));
+							ghwriter->writeLine("</planet>");
+							ghwriter->writeLine("</resource>");
+							ghwriter->writeLine("");
+						}
+					}
+				}
+				/*ZoneResourceMap* zoneMap = resourceMap->getZoneResourceList(planets);
+				ManagedReference<ResourceSpawn*> resourceSpawn;
+				for (int i = 0; i < zoneMap->size(); ++i) {
+					resourceSpawn = zoneMap->get(i);
+					if (spawn->getName() == resourceSpawn->getName())
+						ghwriter->write(planets + ",");
+				}
+				for(int i = 0; i < 8; ++i) {
+				String spawnClass = spawn->getClass(i);
+				if(spawnClass != "") {
+					last = i;
+				}
+			}
+				
+				ghwriter->write(spawn->getClass(last));
+				for(int i = 0; i < 12; ++i) {
+					String attribute = "";
+					int value = spawn->getAttributeAndValue(attribute, i);
+					if(attribute != "") {
+						ghwriter->write("," + attribute + ":" + String::valueOf(value));
+					}
+				}*/
+				
+			}
+			
+		}
+		ghwriter->writeLine("</SpawnOutput>");
+		ghwriter->close();
+
+		delete ghwriter;
+
+		return true;
+	} catch (Exception& e) {
+		error("Error dumping resources");
+		return false;
+	}
 	return true;
 }
 
