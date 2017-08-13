@@ -183,7 +183,7 @@ void MissionManagerImplementation::handleMissionListRequest(MissionTerminal* mis
 	if (missionBag == NULL)
 		return;
 
-	int maximumNumberOfItemsInMissionBag = 12;
+	int maximumNumberOfItemsInMissionBag = 48;
 
 
 	if (enableFactionalCraftingMissions) {
