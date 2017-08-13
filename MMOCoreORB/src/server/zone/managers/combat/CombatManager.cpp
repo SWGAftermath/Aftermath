@@ -710,21 +710,21 @@ int CombatManager::getAttackerAccuracyModifier(TangibleObject* attacker, Creatur
 		attackerAccuracy += creoAttacker->getSkillMod("ranged_accuracy");
 
 	// now apply overall weapon defense mods
-	if (weapon->isMeleeWeapon()) {
+	/*if (weapon->isMeleeWeapon()) {
 		switch (defender->getWeapon()->getGameObjectType()) {
 		case SceneObjectType::PISTOL:
 			attackerAccuracy += 20.f;
-			/* no break */
+			
 		case SceneObjectType::CARBINE:
 			attackerAccuracy += 55.f;
-			/* no break */
+			
 		case SceneObjectType::RIFLE:
 		case SceneObjectType::MINE:
 		case SceneObjectType::SPECIALHEAVYWEAPON:
 		case SceneObjectType::HEAVYWEAPON:
 			attackerAccuracy += 25.f;
 		}
-	}
+	}*/
 
 	return attackerAccuracy;
 }
