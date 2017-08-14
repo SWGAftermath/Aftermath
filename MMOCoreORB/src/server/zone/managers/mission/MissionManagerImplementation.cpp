@@ -1054,7 +1054,9 @@ void MissionManagerImplementation::randomizeGenericBountyMission(CreatureObject*
 			mission->setMissionDescription(stfFile, "m" + String::valueOf(randTexts) + "d");
 		}
 	} else {
-		mission->setMissionTargetName(nm->makeCreatureName());
+		//mission->setMissionTargetName(nm->makeCreatureName());
+		String tarName = nm->makeCreatureName();
+		mission->setMissionTargetName(tarName);
 
 		String planet = playerZone->getZoneName();
 		if (level == 3 && bhTargetZones.size() > 0) {
@@ -1112,6 +1114,7 @@ void MissionManagerImplementation::randomizeGenericBountyMission(CreatureObject*
 
 		mission->setMissionNumber(randTexts);
 		mission->setMissionDifficulty(3 * creoLevel + 7);
+		int level = 3 * creoLevel +7;
 
 		UnicodeString possibleCreatorName = StringIdManager::instance()->getStringId(String::hashCode("@" + stfFile + diffString + ":" + "m" + String::valueOf(randTexts) + "o"));
 		String creatorName = "";
@@ -1124,7 +1127,8 @@ void MissionManagerImplementation::randomizeGenericBountyMission(CreatureObject*
 		}
 
 		mission->setCreatorName(creatorName);
-		mission->setMissionTitle(stfFile + diffString, "m" + String::valueOf(randTexts) + "t");
+		//mission->setMissionTitle(stfFile + diffString, "m" + String::valueOf(randTexts) + "t");
+		mission->setMissionTitle("Level:" + String::valueOf(level), " End the life of " + tarName);
 		mission->setMissionDescription(stfFile + diffString, "m" + String::valueOf(randTexts) + "d");
 	}
 
