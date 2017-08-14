@@ -234,11 +234,20 @@ CitySpecializations = {
 			{"private_spec_entertainer", 10}
 		}
 	},
-	{--Stronghold
-		name = "@city/city:city_spec_stronghold",
+	{--Manufacturing Center
+		name = "@city/city:city_spec_master_manufacturing",
 		cost = 150000,
 		skillMods = {
-			{"private_defense", 90}
+			{"private_spec_assembly", 10}
+			{"private_spec_experimentation", 15}
+		}
+	},
+	{--Scientific Society
+		name = "@city/city:city_spec_master_healing",
+		cost = 150000,
+		skillMods = {
+			{"private_spec_entertainer", 10}
+			{"private_medical_rating", 10}
 		}
 	},
 }
