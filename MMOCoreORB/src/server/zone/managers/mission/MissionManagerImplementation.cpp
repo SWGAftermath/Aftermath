@@ -537,6 +537,7 @@ void MissionManagerImplementation::populateMissionList(MissionTerminal* missionT
 void MissionManagerImplementation::randomizeGeneralTerminalMissions(CreatureObject* player, int counter, bool slicer) {
 	SceneObject* missionBag = player->getSlottedObject("mission_bag");
 	int bagSize = missionBag->getContainerObjectsSize();
+	info("bagSize = " + String::valueOf(bagSize), true);
 
 	for (int i = 0; i < bagSize; ++i) {
 		Reference<MissionObject*> mission = missionBag->getContainerObject(i).castTo<MissionObject*>( );
