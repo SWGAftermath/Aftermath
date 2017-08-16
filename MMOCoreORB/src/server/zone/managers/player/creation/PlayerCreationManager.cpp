@@ -598,14 +598,18 @@ bool PlayerCreationManager::createCharacter(ClientCreateCharacterCallback* callb
 
 	JediManager::instance()->onPlayerCreated(playerCreature);
 
-	chatManager->sendMail("system", "@newbie_tutorial/newbie_mail:welcome_subject", "@newbie_tutorial/newbie_mail:welcome_body", playerCreature->getFirstName());
+	chatManager->sendMail("system", "Welcome to Aftermath!", "Welcome to Aftermath. In order to have the best player experience please consider joining our discord and visiting our website to keep up with the latest news and announcements. Currently, the servers unofficial 'Hub' is Coronet. Play cities can be found scattered around Corellia, Tatooine, Naboo, and Dantooine. Please use the 'Vendor Search' tab of the bazaar in order to check for supplies from our numerous crafters. If you have any questions just ask in general or discord. Welcome again!", playerCreature->getFirstName());
 
 	//Join auction chat room
 	ghost->addChatRoom(chatManager->getAuctionRoom()->getRoomID());
 
 	ManagedReference<SuiMessageBox*> box = new SuiMessageBox(playerCreature, SuiWindowType::NONE);
 	box->setPromptTitle("PLEASE NOTE");
-	box->setPromptText("You are limited to creating one character per hour. Attempting to create another character or deleting your character before the 1 hour timer expires will reset the timer.");
+	box->setPromptText("You are limited to creating one character per 20 minutes. Attempting to create another character or deleting your character before the 20 minute timer expires will reset the timer.");
+	String playerName = playerCreature->getFirstName();
+	StringBuffer zBroadcast;
+	zBroadcast << "\\#00ace6" << playerName << " \\#ffb90f Has Joined Aftermath!";
+	playerCreature->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, zBroadcast.toString());
 
 	ghost->addSuiBox(box);
 	playerCreature->sendMessage(box->generateMessage());
