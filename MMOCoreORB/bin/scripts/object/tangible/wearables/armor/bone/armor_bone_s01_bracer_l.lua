@@ -41,7 +41,7 @@
 --this exception also makes it possible to release a modified version 
 
 
-object_tangible_wearables_armor_bone_armor_bone_s01_bracer_l = object_tangible_wearables_armor_bone_shared_armor_bone_s01_bracer_l:new {
+object_tangible_wearables_armor_bone_armor_bone_s01_boots = object_tangible_wearables_armor_bone_shared_armor_bone_s01_boots:new {
 	templateType = ARMOROBJECT,
 
 	playerRaces = { "object/creature/player/bothan_male.iff",
@@ -54,8 +54,6 @@ object_tangible_wearables_armor_bone_armor_bone_s01_bracer_l = object_tangible_w
 				"object/creature/player/rodian_female.iff",
 				"object/creature/player/sullustan_male.iff",
 				"object/creature/player/sullustan_female.iff",
-				"object/creature/player/trandoshan_male.iff",
-				"object/creature/player/trandoshan_female.iff",
 				"object/creature/player/twilek_male.iff",
 				"object/creature/player/twilek_female.iff",
 				"object/creature/player/zabrak_male.iff",
@@ -79,8 +77,6 @@ object_tangible_wearables_armor_bone_armor_bone_s01_bracer_l = object_tangible_w
 				"object/mobile/vendor/rodian_male.iff",
 				"object/mobile/vendor/sullustan_female.iff",
 				"object/mobile/vendor/sullustan_male.iff",
-				"object/mobile/vendor/trandoshan_female.iff",
-				"object/mobile/vendor/trandoshan_male.iff",
 				"object/mobile/vendor/twilek_female.iff",
 				"object/mobile/vendor/twilek_male.iff",
 				"object/mobile/vendor/weequay_male.iff",
@@ -88,11 +84,13 @@ object_tangible_wearables_armor_bone_armor_bone_s01_bracer_l = object_tangible_w
 				"object/mobile/vendor/zabrak_male.iff" },
 
 	-- kineticeffectiveness, energyeffectiveness, electricaleffectiveness, stuneffectiveness, blasteffectiveness, heateffectiveness, coldeffectiveness, acideffectiveness, restraineffectiveness
-	vulnerability = KINETIC + BLAST + STUN + HEAT + COLD + ACID + LIGHTSABER,
+	vulnerability = STUN + LIGHTSABER,
+
+	specialResists = ELECTRICITY,
 
 	-- These are default Blue Frog stats
 	healthEncumbrance = 6,
-	actionEncumbrance = 8,
+	actionEncumbrance = 15,
 	mindEncumbrance = 4,
 
 	-- LIGHT, MEDIUM, HEAVY
@@ -108,15 +106,15 @@ object_tangible_wearables_armor_bone_armor_bone_s01_bracer_l = object_tangible_w
 	acid = 0,
 	lightSaber = 0,
 
-	numberExperimentalProperties = {1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1},
-	experimentalProperties = {"XX", "XX", "XX", "OQ", "SR", "OQ", "SR", "OQ", "UT", "MA", "OQ", "MA", "OQ", "MA", "OQ", "XX", "XX", "OQ", "SR", "XX"},
-	experimentalWeights = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	experimentalGroupTitles = {"null", "null", "null", "exp_durability", "exp_quality", "exp_durability", "exp_durability", "exp_durability", "exp_durability", "null", "null", "exp_resistance", "null"},
+	numberExperimentalProperties = {1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 2, 1},
+	experimentalProperties = {"XX", "XX", "XX", "XX", "OQ", "SR", "OQ", "SR", "MA", "OQ", "MA", "OQ", "MA", "OQ", "XX", "XX", "OQ", "SR", "XX"},
+	experimentalWeights = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	experimentalGroupTitles = {"null", "null", "null", "exp_durability", "exp_quality", "exp_resistance", "exp_durability", "exp_durability", "exp_durability", "null", "null", "exp_resistance", "null"},
 	experimentalSubGroupTitles = {"null", "null", "sockets", "hit_points", "armor_effectiveness", "armor_integrity", "armor_health_encumbrance", "armor_action_encumbrance", "armor_mind_encumbrance", "armor_rating", "armor_special_type", "armor_special_effectiveness", "armor_special_integrity"},
-	experimentalMin = {0, 0, 0, 1000, 5, 7500, 6, 8, 4, 1, 2, 5, 7500},
-	experimentalMax = {0, 0, 0, 1000, 20, 12500, 4, 4, 2, 1, 2, 30, 12500},
+	experimentalMin = {0, 0, 0, 1000, 1, 30000, 25, 44, 25, 1, 256, 0, 0},
+	experimentalMax = {0, 0, 0, 1000, 40, 50000, 15, 26, 15, 1, 256, 0, 0},
 	experimentalPrecision = {0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0},
 	experimentalCombineType = {0, 0, 4, 1, 1, 1, 1, 1, 1, 4, 4, 4, 1},
 }
 
-ObjectTemplates:addTemplate(object_tangible_wearables_armor_bone_armor_bone_s01_bracer_l, "object/tangible/wearables/armor/bone/armor_bone_s01_bracer_l.iff")
+ObjectTemplates:addTemplate(object_tangible_wearables_armor_bone_armor_bone_s01_boots, "object/tangible/wearables/armor/bone/armor_bone_s01_boots.iff")
