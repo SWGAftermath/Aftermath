@@ -260,6 +260,22 @@ bool SkillManager::awardSkill(const String& skillName, CreatureObject* creature,
 		return false;
 	}
 
+	//Check for precluded skills.
+	auto skillsPrecluded = skill->getSkillsPrecluded();
+	for (int i = 0; i < skillsPrecluded->size(); ++i) {
+		const String& precludedSkillName = skillsPrecluded->get(i);
+		Skill* precludedSkill = skillMap.get(precludedSkillName.hashCode());
+
+		if (precludedSkill == NULL) {
+			continue;
+		}
+
+		if (creature->hasSkill(precludedSkillName)) {
+			return false;
+		}
+	}
+
+
 	//If they already have the skill, then return true.
 	if (creature->hasSkill(skill->getSkillName()))
 		return true;
@@ -701,6 +717,22 @@ bool SkillManager::canLearnSkill(const String& skillName, CreatureObject* creatu
 		return false;
 	}
 
+	//Check for precluded skills.
+	auto skillsPrecluded = skill->getSkillsPrecluded();
+	for (int i = 0; i < skillsPrecluded->size(); ++i) {
+		const String& precludedSkillName = skillsPrecluded->get(i);
+		Skill* precludedSkill = skillMap.get(precludedSkillName.hashCode());
+
+		if (precludedSkill == NULL) {
+			continue;
+		}
+
+		if (creature->hasSkill(precludedSkillName)) {
+			return false;
+		}
+	}
+
+
 
 	return true;
 }
@@ -723,6 +755,22 @@ bool SkillManager::fulfillsSkillPrerequisitesAndXp(const String& skillName, Crea
 			return false;
 		}
 	}
+
+	//Check for precluded skills.
+	auto skillsPrecluded = skill->getSkillsPrecluded();
+	for (int i = 0; i < skillsPrecluded->size(); ++i) {
+		const String& precludedSkillName = skillsPrecluded->get(i);
+		Skill* precludedSkill = skillMap.get(precludedSkillName.hashCode());
+
+		if (precludedSkill == NULL) {
+			continue;
+		}
+
+		if (creature->hasSkill(precludedSkillName)) {
+			return false;
+		}
+	}
+
 
 	return true;
 }
@@ -766,6 +814,22 @@ bool SkillManager::fulfillsSkillPrerequisites(const String& skillName, CreatureO
 			return false;
 		}
 	}
+
+	//Check for precluded skills.
+	auto skillsPrecluded = skill->getSkillsPrecluded();
+	for (int i = 0; i < skillsPrecluded->size(); ++i) {
+		const String& precludedSkillName = skillsPrecluded->get(i);
+		Skill* precludedSkill = skillMap.get(precludedSkillName.hashCode());
+
+		if (precludedSkill == NULL) {
+			continue;
+		}
+
+		if (creature->hasSkill(precludedSkillName)) {
+			return false;
+		}
+	}
+
 
 	PlayerObject* ghost = creature->getPlayerObject();
 	if (ghost == NULL || ghost->getJediState() < skill->getJediStateRequired()) {
