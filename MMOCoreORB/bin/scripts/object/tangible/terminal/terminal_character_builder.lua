@@ -2070,7 +2070,7 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 					"Rental: Flag of Yavin", "object/tangible/deed/event_perk/yavin_flag_deed.iff",
 					--"Rental: Flags of the Universe", "object/tangible/deed/event_perk/universe_flags_theater.iff",
 					--"Rental: Fruit Stand", "object/tangible/deed/event_perk/fruit_stand.iff",
-					--"", "object/tangible/deed/event_perk/game_flag_deed.iff",
+					"Rental: King of the Hill Flag Game", "object/tangible/deed/event_perk/game_flag_deed.iff",
 					--"Rental: Grave Stone", "object/tangible/deed/event_perk/gravestone.iff",
 					--"Rental: Graveyard", "object/tangible/deed/event_perk/graveyard_deed.iff",
 					--"Rental: Imperial At-AT Landing Party", "object/tangible/deed/event_perk/imperial_landing_party_atat_theater_deed.iff",
