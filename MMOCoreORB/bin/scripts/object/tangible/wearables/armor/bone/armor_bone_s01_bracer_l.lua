@@ -41,7 +41,7 @@
 --this exception also makes it possible to release a modified version 
 
 
-object_tangible_wearables_armor_bone_armor_bone_s01_boots = object_tangible_wearables_armor_bone_shared_armor_bone_s01_boots:new {
+object_tangible_wearables_armor_bone_armor_bone_s01_bracer_l = object_tangible_wearables_armor_bone_shared_armor_bone_s01_bracer_l:new {
 	templateType = ARMOROBJECT,
 
 	playerRaces = { "object/creature/player/bothan_male.iff",
@@ -54,6 +54,8 @@ object_tangible_wearables_armor_bone_armor_bone_s01_boots = object_tangible_wear
 				"object/creature/player/rodian_female.iff",
 				"object/creature/player/sullustan_male.iff",
 				"object/creature/player/sullustan_female.iff",
+				"object/creature/player/trandoshan_male.iff",
+				"object/creature/player/trandoshan_female.iff",
 				"object/creature/player/twilek_male.iff",
 				"object/creature/player/twilek_female.iff",
 				"object/creature/player/zabrak_male.iff",
@@ -77,6 +79,8 @@ object_tangible_wearables_armor_bone_armor_bone_s01_boots = object_tangible_wear
 				"object/mobile/vendor/rodian_male.iff",
 				"object/mobile/vendor/sullustan_female.iff",
 				"object/mobile/vendor/sullustan_male.iff",
+				"object/mobile/vendor/trandoshan_female.iff",
+				"object/mobile/vendor/trandoshan_male.iff",
 				"object/mobile/vendor/twilek_female.iff",
 				"object/mobile/vendor/twilek_male.iff",
 				"object/mobile/vendor/weequay_male.iff",
@@ -90,7 +94,7 @@ object_tangible_wearables_armor_bone_armor_bone_s01_boots = object_tangible_wear
 
 	-- These are default Blue Frog stats
 	healthEncumbrance = 6,
-	actionEncumbrance = 15,
+	actionEncumbrance = 8,
 	mindEncumbrance = 4,
 
 	-- LIGHT, MEDIUM, HEAVY
@@ -106,15 +110,15 @@ object_tangible_wearables_armor_bone_armor_bone_s01_boots = object_tangible_wear
 	acid = 0,
 	lightSaber = 0,
 
-	numberExperimentalProperties = {1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 2, 1},
-	experimentalProperties = {"XX", "XX", "XX", "XX", "OQ", "SR", "OQ", "SR", "MA", "OQ", "MA", "OQ", "MA", "OQ", "XX", "XX", "OQ", "SR", "XX"},
-	experimentalWeights = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	numberExperimentalProperties = {1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1},
+	experimentalProperties = {"XX", "XX", "XX", "OQ", "SR", "OQ", "SR", "OQ", "UT", "MA", "OQ", "MA", "OQ", "MA", "OQ", "XX", "XX", "OQ", "SR", "XX"},
+	experimentalWeights = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	experimentalGroupTitles = {"null", "null", "null", "exp_durability", "exp_quality", "exp_resistance", "exp_durability", "exp_durability", "exp_durability", "null", "null", "exp_resistance", "null"},
 	experimentalSubGroupTitles = {"null", "null", "sockets", "hit_points", "armor_effectiveness", "armor_integrity", "armor_health_encumbrance", "armor_action_encumbrance", "armor_mind_encumbrance", "armor_rating", "armor_special_type", "armor_special_effectiveness", "armor_special_integrity"},
-	experimentalMin = {0, 0, 0, 1000, 1, 30000, 25, 44, 25, 1, 256, 0, 0},
-	experimentalMax = {0, 0, 0, 1000, 40, 50000, 15, 26, 15, 1, 256, 0, 0},
+	experimentalMin = {0, 0, 0, 1000, 1, 30000, 25, 22, 25, 1, 256, 0, 0},
+	experimentalMax = {0, 0, 0, 1000, 40, 50000, 15, 13, 15, 1, 256, 0, 0},
 	experimentalPrecision = {0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0},
 	experimentalCombineType = {0, 0, 4, 1, 1, 1, 1, 1, 1, 4, 4, 4, 1},
 }
 
-ObjectTemplates:addTemplate(object_tangible_wearables_armor_bone_armor_bone_s01_boots, "object/tangible/wearables/armor/bone/armor_bone_s01_boots.iff")
+ObjectTemplates:addTemplate(object_tangible_wearables_armor_bone_armor_bone_s01_bracer_l, "object/tangible/wearables/armor/bone/armor_bone_s01_bracer_l.iff")
