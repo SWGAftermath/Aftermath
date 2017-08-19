@@ -737,9 +737,9 @@ bool InstallationObjectImplementation::isAttackableBy(CreatureObject* object) {
 			return false;
 		}
 
-		if ((getPvpStatusBitmask() & CreatureFlag::OVERT) && object->getFactionStatus() != FactionStatus::OVERT) {
-			return false;
-		}
+		//if ((getPvpStatusBitmask() & CreatureFlag::OVERT) && object->getFactionStatus() != FactionStatus::OVERT) {
+		//	return false;
+		//}
 	}
 
 	SharedInstallationObjectTemplate* instTemplate = templateObject.castTo<SharedInstallationObjectTemplate*>();
