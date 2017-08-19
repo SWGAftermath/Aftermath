@@ -2786,6 +2786,9 @@ bool AiAgentImplementation::isAggressiveTo(CreatureObject* target) {
 		// this is the same thing, but ensures that if the target is a player, that they aren't on leave
 		else if (ghost != NULL && (targetFaction != getFaction()) && target->getFactionStatus() != FactionStatus::ONLEAVE)
 			return true;
+		//Appear yellow if they are Covert and non-TEFed
+		else if (ghost !=NULL && (targetFaction != getFaction()) && target->getFactionStatus() != FactionStatus::COVERT)
+			return true;
 	}
 
 	// now grab the generic faction (which could include imp/reb)
