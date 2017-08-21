@@ -932,7 +932,7 @@ bool GCWManagerImplementation::canUseTerminals(CreatureObject* creature, Buildin
 	// check for PvE base
 	else {
 		if (creature->getFactionStatus() < FactionStatus::COVERT) {
-			creature->sendSystemMessage("You must be at least combatant");
+			creature->sendSystemMessage("You must be at least Covert");
 			return false;
 		}
 	}

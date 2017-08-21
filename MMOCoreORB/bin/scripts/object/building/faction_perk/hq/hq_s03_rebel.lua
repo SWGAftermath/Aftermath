@@ -131,8 +131,8 @@ object_building_faction_perk_hq_hq_s03_rebel = object_building_faction_perk_hq_s
 
 		childCreatureObjects = {
 
-			{ mobile="fbase_rebel_master_sergeant_hard", x=10, z=0, y=4, cellid=-1, respawn=360, containmentType=-1, heading=0},
-		 	{ mobile="fbase_rebel_command_security_guard_hard", x=10, z=0, y=10, cellid=-1, respawn=360, containmentType=-1, heading=0},
+			{ mobile="at_xt", x=10, z=0, y=4, cellid=-1, respawn=600, containmentType=-1, heading=0},
+		 	{ mobile="at_xt", x=10, z=0, y=10, cellid=-1, respawn=600, containmentType=-1, heading=0},
 
 		 	{ mobile="fbase_rebel_sharpshooter_hard", x=-10, z=0, y=4, cellid=-1, respawn=360, containmentType=-1, heading=0},
 		 	{ mobile="fbase_rebel_recruit_hard", x=-10, z=0, y=10, cellid=-1, respawn=360, containmentType=-1, heading=0},
