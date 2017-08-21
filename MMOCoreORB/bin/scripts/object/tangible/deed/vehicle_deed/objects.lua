@@ -454,6 +454,67 @@ object_tangible_deed_vehicle_deed_shared_speederbike_swoop_deed = SharedTangible
 
 ObjectTemplates:addClientTemplate(object_tangible_deed_vehicle_deed_shared_speederbike_swoop_deed, "object/tangible/deed/vehicle_deed/shared_speederbike_swoop_deed.iff")
 
+object_tangible_deed_vehicle_deed_shared_barc_speeder_deed = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/deed/vehicle_deed/shared_barc_speeder_deed.iff"
+	--Data below here is deprecated and loaded from the tres, keeping for easy lookups
+--[[
++	appearanceFilename = "appearance/eqp_tool_datapad.apt",
++	arrangementDescriptorFilename = "",
++
++	certificationsRequired = {},
++	clearFloraRadius = 0,
++	clientDataFile = "",
++	clientGameObjectType = 8388613,
++	collisionActionBlockFlags = 0,
++	collisionActionFlags = 51,
++	collisionActionPassFlags = 1,
++	collisionMaterialBlockFlags = 0,
++	collisionMaterialFlags = 1,
++	collisionMaterialPassFlags = 0,
++	containerType = 0,
++	containerVolumeLimit = 1,
++	customizationVariableMapping = {},
++
++	detailedDescription = "@pet_deed:speederbike_swoop",
++
++	gameObjectType = 8388613,
++
++	locationReservationRadius = 0,
++	lookAtText = "",
++
++	noBuildRadius = 0,
++
++	objectName = "@pet_deed:speederbike_swoop",
++	onlyVisibleInTools = 0,
++
++	paletteColorCustomizationVariables = {},
++	portalLayoutFilename = "",
++
++	rangedIntCustomizationVariables = {},
++
++	scale = 1,
++	scaleThresholdBeforeExtentTest = 0.5,
++	sendToClient = 1,
++	slotDescriptorFilename = "",
++	snapToTerrain = 1,
+Add a comment to this line
++	socketDestinations = {},
++	structureFootprintFileName = "",
++	surfaceType = 0,
++
++	targetable = 1,
++	totalCellNumber = 0,
++
++	useStructureFootprintOutline = 0,
++
++	clientObjectCRC = 495473751,
++	derivedFromTemplates = {"object/object/base/shared_base_object.iff", "object/tangible/base/shared_tangible_base.iff", "object/tangible/deed/vehicle_deed/shared_vehicle_deed_base.iff"}
++]]
+}
+
+ObjectTemplates:addClientTemplate(object_tangible_deed_vehicle_deed_shared_barc_speeder_deed, "object/tangible/deed/vehicle_deed/shared_barc_speeder_deed.iff")
+
+
 object_tangible_deed_vehicle_deed_shared_vehicle_deed_base = SharedTangibleObjectTemplate:new {
 	clientTemplateFileName = "object/tangible/deed/vehicle_deed/shared_vehicle_deed_base.iff"
 	--Data below here is deprecated and loaded from the tres, keeping for easy lookups

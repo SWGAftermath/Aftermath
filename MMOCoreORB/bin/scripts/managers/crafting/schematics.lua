@@ -1437,6 +1437,7 @@ schematics = {
 	{path="object/draft_schematic/structure/city/garden_exotic_endor.iff"},
 	{path="object/draft_schematic/vehicle/civilian/landspeeder_x34.iff"},
 	{path="object/draft_schematic/vehicle/civilian/speeder_bike_swoop.iff"},
+	{path="object/draft_schematic/vehicle/civilian/barc_speeder.iff"},
 	{path="object/draft_schematic/vehicle/civilian/speeder_bike.iff"},
 	{path="object/draft_schematic/vehicle/vehicle_customization_kit.iff"},
 	{path="object/draft_schematic/space/chassis/z95.iff"},
