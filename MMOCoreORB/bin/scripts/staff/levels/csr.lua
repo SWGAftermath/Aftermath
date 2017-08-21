@@ -1,6 +1,7 @@
 csr = {
 	level = 12,
 	name = "csr",
+	flag = 1,
 	tag = "Aftermath-CSR",
 	skills = {
 		"admin_base",
