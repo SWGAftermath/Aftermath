@@ -107,6 +107,7 @@ core3_TESTS = 	server/zone/objects/area/areashapes/tests/CircularAreaShapeTest.c
 			  	server/zone/managers/objectcontroller/command/tests/CommandLuaTest.cpp
 
 core3_IDLS =	autogen/server/zone/objects/mission/PlayerBounty.cpp \
+				autogen/server/chat/PendingMessageList.cpp \
 				autogen/server/zone/managers/frs/FrsManager.cpp \
 				autogen/server/zone/objects/tangible/misc/ContractCrate.cpp \
 				autogen/server/zone/objects/tangible/misc/FsBuffItem.cpp \
