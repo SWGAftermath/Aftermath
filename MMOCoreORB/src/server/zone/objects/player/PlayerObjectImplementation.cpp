@@ -257,8 +257,8 @@ void PlayerObjectImplementation::unload() {
 }
 
 int PlayerObjectImplementation::calculateBhReward() {
-	int minReward = 25000; // Minimum reward for a player bounty
-	int maxReward = 250000; // Maximum reward for a player bounty
+	int minReward = 60000; // Minimum reward for a player bounty
+	int maxReward = 305000; // Maximum reward for a player bounty
 
 	int reward = minReward;
 
@@ -2345,8 +2345,16 @@ int PlayerObjectImplementation::getSpentJediSkillPoints() {
 	for(int i = 0; i < skillList->size(); ++i) {
 		Skill* jediSkill = skillList->get(i);
 
-		if (jediSkill->getSkillName().indexOf("force_discipline") != -1)
-			jediSkillPoints += jediSkill->getSkillPointsRequired();
+		if (jediSkill->getSkillName().indexOf("jedi") != -1){
+			if (jediSkill->getSkillName().indexOf("_padawan_") != -1){
+				jediSkillPoints += 4;
+			}else if (jediSkill->getSkillName().indexOf("_journeyman_") != -1) {
+				jediSkillPoints += 6;
+			}else if (jediSkill->getSkillName().indexOf("_master_") != -1){
+				jediSkillPoints += 7;
+			}
+		}
+
 	}
 
 	return jediSkillPoints;
