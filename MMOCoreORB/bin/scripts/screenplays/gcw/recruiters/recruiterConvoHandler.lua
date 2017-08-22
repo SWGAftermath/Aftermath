@@ -47,16 +47,6 @@ function RecruiterConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, s
 		CreatureObject(pPlayer):setFutureFactionStatus(1)
 		writeData(CreatureObject(pPlayer):getObjectID() .. ":changingFactionStatus", 1)
 		createEvent(300000, "recruiterScreenplay", "handleGoCovert", pPlayer, "")
-	elseif (screenID == "accepted_go_on_leave") then
-		if (CreatureObject(pPlayer):hasSkill("force_rank_light_novice") or CreatureObject(pPlayer):hasSkill("force_rank_dark_novice")) then
-			CreatureObject(pPlayer):sendSystemMessage("@faction_recruiter:jedi_cant_go_covert")
-			return
-		end
-
-		CreatureObject(pPlayer):setFutureFactionStatus(0)
-		writeData(CreatureObject(pPlayer):getObjectID() .. ":changingFactionStatus", 1)
-		createEvent(300000, "recruiterScreenplay", "handleGoOnLeave", pPlayer, "")
-
 	elseif (screenID == "accepted_resign") then
 		if (CreatureObject(pPlayer):hasSkill("force_rank_light_novice") or CreatureObject(pPlayer):hasSkill("force_rank_dark_novice")) then
 			CreatureObject(pPlayer):sendSystemMessage("@faction_recruiter:jedi_cant_resign")
@@ -149,9 +139,7 @@ function RecruiterConvoHandler:getInitialScreen(pPlayer, pNpc, pConvTemplate)
 	elseif (CreatureObject(pPlayer):isChangingFactionStatus()) then
 		return convoTemplate:getScreen("greet_changing_status")
 	elseif (faction == recruiterScreenplay:getRecruiterFactionHashCode(pNpc)) then
-		if (CreatureObject(pPlayer):isOnLeave()) then
-			return convoTemplate:getScreen("greet_onleave_start")
-		elseif (CreatureObject(pPlayer):isCovert()) then
+		if (CreatureObject(pPlayer):isCovert()) then
 			return convoTemplate:getScreen("greet_member_start_covert")
 		else
 			return convoTemplate:getScreen("greet_member_start_overt")
