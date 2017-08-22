@@ -135,6 +135,7 @@ function JediTrials:unlockJediPadawan(pPlayer)
 
 	CreatureObject(pPlayer):playEffect("clienteffect/trap_electric_01.cef", "")
 	CreatureObject(pPlayer):playMusicMessage("sound/music_become_jedi.snd")
+	broadcastGalaxy("\\#00ff00IMPERIAL COMMUNICATION FROM THE REGIONAL GOVERNOR: Lord Vader has detected a vergence in the Force. Be on the lookout for any suspicious persons displaying unique or odd abilities. Lord Vader authorizes all citizens to use deadly force to eliminate this threat from the Empire.")
 
 	PlayerObject(pGhost):setJediState(2)
 
