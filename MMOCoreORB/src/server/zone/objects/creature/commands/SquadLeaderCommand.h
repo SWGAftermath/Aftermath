@@ -10,6 +10,7 @@
 
 #include "CombatQueueCommand.h"
 #include "server/zone/objects/group/GroupObject.h"
+#include "server/zone/ZoneServer.h"
 
 class SquadLeaderCommand : public CombatQueueCommand {
 protected:
@@ -60,6 +61,9 @@ public:
 	}
 
 	static bool isValidGroupAbilityTarget(CreatureObject* leader, CreatureObject* target, bool allowPet) {
+		ZoneServer* zoneServer = target->getZoneServer();
+		ManagedReference<SceneObject*> targetObject = zoneServer->getObject(target->getTargetID());
+		ManagedReference<SceneObject*> leaderObject = zoneServer->getObject(leader->getTargetID());
 		if (allowPet) {
 			if (!target->isPlayerCreature() && !target->isPet()) {
 				return false;
@@ -68,6 +72,10 @@ public:
 			return false;
 		}
 
+		if (!targetObject->isInRange(leaderObject, 128))
+			return false;
+
+
 		if (target == leader)
 			return true;
 
@@ -75,6 +83,7 @@ public:
 			return false;
 
 		CreatureObject* targetCreo = target;
+		PlayerObject* targetGhost = targetCreo->getPlayerObject();
 
 		if (allowPet && target->isPet())
 			targetCreo = target->getLinkedCreature().get();
@@ -88,10 +97,10 @@ public:
 		int targetStatus = targetCreo->getFactionStatus();
 
 		if (leaderFaction == 0) {
-			if (targetFaction != 0 && targetStatus > FactionStatus::ONLEAVE)
+			if (targetFaction != 0 && targetGhost->hasPvpTef())
 				return false;
 		} else if (targetFaction != 0) {
-			if (leaderFaction != targetFaction && targetStatus > FactionStatus::ONLEAVE)
+			if (leaderFaction != targetFaction && targetGhost->hasPvpTef())
 				return false;
 
 			if (leaderFaction == targetFaction && targetStatus > leader->getFactionStatus())
