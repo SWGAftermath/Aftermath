@@ -34,7 +34,7 @@ rebelRewardData = {
 
 	installationsList = {
 		"hq_s01_pvp_rebel", "hq_s01_rebel", "hq_s02_pvp_rebel", "hq_s02_rebel", "hq_s03_pvp_rebel", "hq_s03_rebel", "hq_s04_pvp_rebel", "hq_s04_rebel", --"hq_s05_pvp_rebel",
-		"turret_block_lg", "turret_block_med", "turret_block_sm", "turret_dish_sm", "turret_dish_lg", "turret_tower_sm", "turret_tower_med", "turret_tower_lg",
+		"turret_block_lg", "turret_block_med", "turret_block_sm", "turret_dish_sm", "turret_dish_lg", "turret_tower_sm", "turret_tower_med", "turret_tower_lg","covert_detector_32m",
 		"minefield_1x1",
 	},
 
@@ -144,7 +144,7 @@ imperialRewardData = {
 		"hq_s01_pvp_imperial", "hq_s01_imperial", "hq_s02_pvp_imperial", "hq_s02_imperial", "hq_s03_pvp_imperial", "hq_s03_imperial", "hq_s04_pvp_imperial", "hq_s04_imperial",
 		--"hq_s05_pvp_imperial",
 		"turret_block_lg", "turret_block_med", "turret_block_sm", "turret_dish_sm", "turret_dish_lg", "turret_tower_sm", "turret_tower_med", "turret_tower_lg",
-		--"covert_detector_32m",
+		"covert_detector_32m",
 		"minefield_1x1",
 	},
 
