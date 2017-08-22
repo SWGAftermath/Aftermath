@@ -118,9 +118,10 @@ object_building_faction_perk_hq_hq_s04_rebel = object_building_faction_perk_hq_s
 			{templateFile = "object/tangible/hq_destructible/override_terminal.iff", x = 12.75, z = -13.75, y = 10.2, ox = 0, oy =.7, oz = 0, ow =.7, cellid = 9, containmentType = -1 },
 			{templateFile = "object/tangible/hq_destructible/security_terminal.iff", x = -5.5, z = -13.75, y = 7.5, ox = 0, oy = 1, oz = 0, ow = 0, cellid = 7, containmentType = -1 },
 			{templateFile = "object/tangible/hq_destructible/uplink_terminal.iff", x = 6.5, z = -6.75, y = -10, ow =1, ox =0, oz = 0, oy =0, cellid = 5, containmentType = -1},
-
-			{templateFile = "object/installation/faction_perk/minefield/field_1x1.iff", x=7, z=0, y=45,  ox=0, oy=.7, oz=0, ow=.7, cellid=-1, containmentType=-1},
-			{templateFile = "object/installation/faction_perk/minefield/field_1x1.iff", x=-7, z=0, y=45,  ox=0, oy=.7, oz=0, ow=.7, cellid=-1, containmentType=-1},
+			--scanner
+			{templateFile = "object/installation/faction_perk/covert_detector/detector_base.iff", x=7, z=0, y=45,  ox=0, oy=.7, oz=0, ow=.7, cellid=-1, containmentType=-1},
+			--minefields
+			{templateFile = "object/installation/faction_perk/covert_detector/detector_base.iff", x=-7, z=0, y=45,  ox=0, oy=.7, oz=0, ow=.7, cellid=-1, containmentType=-1},
 			{templateFile = "object/installation/faction_perk/minefield/field_1x1.iff", x=0, z=0, y=25,  ox=0, oy=.7, oz=0, ow=.7, cellid=-1, containmentType=-1},
 
 			{templateFile="object/tangible/terminal/terminal_mission.iff", x=18.25, z=-13.75, y=14.65, ow=-.69, ox=0, oz=0, oy=.71, cellid=9, containmentType=-1},
