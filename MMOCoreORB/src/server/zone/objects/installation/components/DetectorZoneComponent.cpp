@@ -47,6 +47,7 @@ void DetectorZoneComponent::notifyPositionUpdate(SceneObject* sceneObject, QuadT
 			scannerData->updateCooldown();
 			PlayClientEffectLoc* explodeLoc = new PlayClientEffectLoc("clienteffect/survey_effect.cef", tano->getZone()->getZoneName(), tano->getPositionX(), tano->getPositionZ(), tano->getPositionY());
 			tano->broadcastMessage(explodeLoc, false);
+			playerObject->updateLastPvpCombatActionTimestamp(true, false);
 		}
 
 	}
