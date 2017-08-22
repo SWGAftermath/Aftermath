@@ -21,6 +21,10 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
+			if (creature->hasBuff(BuffCRC::JEDI_AVOID_INCAPACITATION)) {
+				creature->sendSystemMessage("Force Absorb cannot be used with Avoid Incapacitation");
+				return GENERALERROR;
+			}
 		return doJediSelfBuffCommand(creature);
 	}
 

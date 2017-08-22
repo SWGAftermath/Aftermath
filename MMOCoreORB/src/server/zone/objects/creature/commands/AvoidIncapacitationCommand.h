@@ -35,6 +35,10 @@ public:
 				creature->playEffect(clientEffect, "");
 
 			return SUCCESS;
+		} else if (creature->hasBuff(BuffCRC::JEDI_FORCE_ABSORB_1) || creature->hasBuff(BuffCRC::JEDI_FORCE_ABSORB_2)){
+			creature->sendSystemMessage("Avoid Incapacitation cannot be used with Force Absorb");
+			return GENERALERROR;
+
 		} else {
 			return doJediSelfBuffCommand(creature);
 		}
