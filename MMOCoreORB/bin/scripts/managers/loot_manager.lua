@@ -136,7 +136,10 @@ lootableArmorAttachmentStatMods = {
 	"unarmed_damage",
 	"unarmed_speed",
 	"volley",
-	"warcry"
+	"warcry",
+	"twohandlightsaber_accuracy",
+	"onehandlightsaber_accuracy",
+	"polearmlightsaber_accuracy"
 }
 
 lootableClothingAttachmentStatMods = {
@@ -252,7 +255,10 @@ lootableClothingAttachmentStatMods = {
 	"warcry",
 	"weapon_assembly",
 	"weapon_experimentation",
-	"weapon_repair"
+	"weapon_repair",
+	"twohandlightsaber_accuracy",
+	"onehandlightsaber_accuracy",
+	"polearmlightsaber_accuracy"
 }
 
 lootableArmorStatMods = {
