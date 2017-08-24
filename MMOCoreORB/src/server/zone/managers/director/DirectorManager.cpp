@@ -418,6 +418,7 @@ void DirectorManager::initializeLuaEngine(Lua* luaEngine) {
 	lua_register(luaEngine->getLuaState(), "spawnTheaterObject", spawnTheaterObject);
 	lua_register(luaEngine->getLuaState(), "getSchematicItemName", getSchematicItemName);
 	lua_register(luaEngine->getLuaState(), "getBadgeListByType", getBadgeListByType);
+	lua_register(luaEngine->getLuaState(), "broadcastGalaxy", broadcastGalaxy);
 
 	//Navigation Mesh Management
 	lua_register(luaEngine->getLuaState(), "createNavMesh", createNavMesh);
@@ -3552,3 +3553,19 @@ int DirectorManager::getBadgeListByType(lua_State* L) {
 
 	return 1;
 }
+
+int DirectorManager::broadcastGalaxy(lua_State* L){
+	ZoneServer* zoneServer = ServerCore::getZoneServer();
+	ChatManager* chatManager = zoneServer->getChatManager();
+
+	/*if (lua_islightuserdata(L, -1)) {
+		StringIdChatParameter* message = (StringIdChatParameter*)lua_touserdata(L, -1);
+		chatManager->broadcastGalaxy(message);
+	} else { */
+		String value = lua_tostring(L, -1);
+		chatManager->broadcastGalaxy(NULL, value);
+
+	//}
+	return 0;
+}
+
