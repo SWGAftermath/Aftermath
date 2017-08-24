@@ -493,6 +493,7 @@ void ResourceSpawner::shiftResources() {
 	manualPool->update();
 
 	dumpResources();
+	ghDumpAll();
 }
 
 ResourceSpawn* ResourceSpawner::createRecycledResourceSpawn(ResourceTreeEntry* entry) {
