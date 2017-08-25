@@ -9,6 +9,8 @@
 #include "FactionMap.h"
 #include "server/zone/objects/player/PlayerObject.h"
 #include "templates/manager/TemplateManager.h"
+#include "server/zone/managers/player/PlayerManager.h"
+#include "server/chat/ChatManager.h"
 
 FactionManager::FactionManager() {
 	setLoggingName("FactionManager");
@@ -158,17 +160,29 @@ void FactionManager::awardPvpFactionPoints(TangibleObject* killer, CreatureObjec
 		ManagedReference<PlayerObject*> ghost = killerCreature->getPlayerObject();
 
 		ManagedReference<PlayerObject*> killedGhost = destructedObject->getPlayerObject();
+		ManagedReference<PlayerManager*> playerManager = killerCreature->getZoneServer()->getPlayerManager();
+
+		//Broadcast to Server
+		String playerName = destructedObject->getFirstName();
+		String killerName = killerCreature->getFirstName();
+		StringBuffer zBroadcast;
 
 		if (killer->isRebel() && destructedObject->isImperial()) {
 			ghost->increaseFactionStanding("rebel", 30);
 			ghost->decreaseFactionStanding("imperial", 45);
 
 			killedGhost->decreaseFactionStanding("imperial", 45);
+			playerManager->awardExperience(killerCreature, "gcw_currency_rebel", 1000);
+			zBroadcast << "\\#00e604" << playerName << " \\#e60000 was slain in the GCW by " << "\\#00cc99" << killerName;
+			ghost->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, zBroadcast.toString());
 		} else if (killer->isImperial() && destructedObject->isRebel()) {
 			ghost->increaseFactionStanding("imperial", 30);
 			ghost->decreaseFactionStanding("rebel", 45);
 
 			killedGhost->decreaseFactionStanding("rebel", 45);
+			playerManager->awardExperience(killerCreature, "gcw_currency_imperial", 1000);
+			zBroadcast << "\\#00e604" << playerName << " \\#e60000 was slain in the GCW by " << "\\#00cc99" << killerName;
+			ghost->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, zBroadcast.toString());
 		}
 	}
 }
