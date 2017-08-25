@@ -42,7 +42,24 @@
 
 
 object_tangible_beta_beta_terminal_warp = object_tangible_beta_shared_beta_terminal_warp:new {
-	gameObjectType = 16399
+	gameObjectType = 16400,
+	customName = "GCW Reward Terminal",
+
+	maxCondition = 0,
+
+
+	templateType = CHARACTERBUILDERTERMINAL,
+
+     suiBoxTitle = "GCW Rewards", 
+     suiBoxText = "Welcome Soldier! Try your luck on a reward from an Ancient Krayt Dragon.",
+
+
+	itemList = {
+			"[REBEL] Roll Krayt Dragon loot (2,000 GCW Currency)", "ancient_roll_rebel",
+			"[IMPERIAL] Roll Krayt Draogon loot (2,000 GCW Currency)", "ancient_roll_imperial",
+			
+	}
+
 }
 
 ObjectTemplates:addTemplate(object_tangible_beta_beta_terminal_warp, "object/tangible/beta/beta_terminal_warp.iff")

@@ -42,6 +42,23 @@
 
 
 object_tangible_beta_beta_terminal_resource = object_tangible_beta_shared_beta_terminal_resource:new {
+	gameObjectType = 16400,
+	customName = "GCW Reward Terminal",
+
+	maxCondition = 0,
+
+
+	templateType = CHARACTERBUILDERTERMINAL,
+
+     suiBoxTitle = "GCW Rewards", 
+     suiBoxText = "Welcome Soldier! Try your luck on a reward from Fire Spider.",
+
+
+	itemList = {
+			"[REBEL] Roll Fire Spider loot (2,000 GCW Currency)", "firespider_roll_rebel",
+			"[IMPERIAL] Roll Fire Spider loot (2,000 GCW Currency)", "firespider_roll_imperial",
+			
+	}
 
 }
 

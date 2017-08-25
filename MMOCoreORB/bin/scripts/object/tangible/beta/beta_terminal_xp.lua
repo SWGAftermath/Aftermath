@@ -42,6 +42,23 @@
 
 
 object_tangible_beta_beta_terminal_xp = object_tangible_beta_shared_beta_terminal_xp:new {
+	gameObjectType = 16400,
+	customName = "GCW Reward Terminal",
+
+	maxCondition = 0,
+
+
+	templateType = CHARACTERBUILDERTERMINAL,
+
+     suiBoxTitle = "GCW Rewards", 
+     suiBoxText = "Welcome Soldier! Try your luck on a reward from Axkva Min.",
+
+
+	itemList = {
+			"[REBEL] Roll Axkva Min loot (2,000 GCW Currency)", "axkva_roll_rebel",
+			"[IMPERIAL] Roll Axkva Min loot (2,000 GCW Currency)", "axkva_roll_imperial",
+			
+	}
 
 }
 

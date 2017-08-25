@@ -42,6 +42,23 @@
 
 
 object_tangible_beta_beta_terminal_food = object_tangible_beta_shared_beta_terminal_food:new {
+	gameObjectType = 16400,
+	customName = "GCW Reward Terminal",
+
+	maxCondition = 0,
+
+
+	templateType = CHARACTERBUILDERTERMINAL,
+
+     suiBoxTitle = "GCW Rewards", 
+     suiBoxText = "Welcome Soldier! Try your luck on a reward from Acklay.",
+
+
+	itemList = {
+			"[REBEL] Roll Acklay loot (2,000 GCW Currency)", "acklay_roll_rebel",
+			"[IMPERIAL] Roll Acklay loot (2,000 GCW Currency)", "acklay_roll_imperial",
+			
+	}
 
 }
 
