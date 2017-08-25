@@ -676,7 +676,8 @@ void EntertainingSessionImplementation::addEntertainerBuffStrength(CreatureObjec
 		healingXp += maxBuffStrength - buffStrength;
 		newBuffStrength = maxBuffStrength;
 	}
-
+	float cityPerkStrength = entertainer->getSkillMod("private_spec_entertainer");
+	newBuffStrength += cityPerkStrength;
 	//newBuffStrength = newBuffStrength;
 
 	setEntertainerBuffStrength(creature, performanceType, newBuffStrength);
