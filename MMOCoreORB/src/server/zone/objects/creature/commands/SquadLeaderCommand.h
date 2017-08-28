@@ -101,7 +101,7 @@ public:
 				leader->getPlayerObject()->updateLastJediAttackableTimestamp();
 				if (targetGhost->hasJediTef())
 					leader->getPlayerObject()->updateLastJediPvpCombatActionTimestamp();
-				return true
+				return true;
 			}else if (targetFaction != 0 && targetGhost->hasPvpTef()){
 				return false;
 			}
@@ -110,7 +110,7 @@ public:
 				leader->getPlayerObject()->updateLastJediAttackableTimestamp();
 				if (targetGhost->hasJediTef())
 					leader->getPlayerObject()->updateLastJediPvpCombatActionTimestamp();
-				return true
+				return true;
 			}else if (leaderFaction != targetFaction && targetGhost->hasPvpTef())
 				return false;
 
