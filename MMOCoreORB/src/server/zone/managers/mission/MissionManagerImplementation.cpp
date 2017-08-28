@@ -2026,7 +2026,7 @@ void MissionManagerImplementation::completePlayerBounty(uint64 targetId, uint64 
 				ManagedReference<CreatureObject*> creo = server->getObject(activeBountyHunters.get(i)).castTo<CreatureObject*>();
 				auto ghost = creo->getPlayerObject();
 				if (ghost != NULL)
-					ghost->schedulePvpTefRemovalTask(false, true);
+					ghost->schedulePvpTefRemovalTask(false, true, false);
 			}
 		}
 	}
@@ -2051,7 +2051,7 @@ void MissionManagerImplementation::failPlayerBountyMission(uint64 bountyHunter) 
 
 					auto ghost = player->getPlayerObject();
 					if (ghost != NULL)
-						ghost->schedulePvpTefRemovalTask(false, true);
+						ghost->schedulePvpTefRemovalTask(false, true, false);
 				}
 
 				objective->fail();

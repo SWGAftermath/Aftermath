@@ -758,7 +758,7 @@ void PlayerManagerImplementation::killPlayer(TangibleObject* attacker, CreatureO
 	if (ghost != NULL) {
 		ghost->resetIncapacitationTimes();
 		if(ghost->hasPvpTef()) {
-			ghost->schedulePvpTefRemovalTask(true, true);
+			ghost->schedulePvpTefRemovalTask(true, true, true);
 		}
 	}
 

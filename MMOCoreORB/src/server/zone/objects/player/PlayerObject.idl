@@ -234,6 +234,12 @@ class PlayerObject extends IntangibleObject {
 	protected Time lastGcwPvpCombatActionTimestamp;
 
 	@dereferenced
+	protected Time lastJediPvpCombatActionTimestamp;
+
+	@dereferenced
+	protected Time lastJediAttackableTimestamp;
+
+	@dereferenced
 	protected Reference<PvpTefRemovalTask> pvpTefTask;
 
 	@dereferenced
@@ -350,6 +356,8 @@ class PlayerObject extends IntangibleObject {
 
 		lastBhPvpCombatActionTimestamp.updateToCurrentTime();
 		lastGcwPvpCombatActionTimestamp.updateToCurrentTime();
+		lastJediPvpCombatActionTimestamp.updateToCurrentTime();
+		lastJediAttackableTimestamp.updateToCurrentTime();
 
 		lastDigestion.updateToCurrentTime();
 
@@ -1615,18 +1623,34 @@ class PlayerObject extends IntangibleObject {
 	@dereferenced
 	@local
 	public native Time getLastGcwPvpCombatActionTimestamp();
+
+	@dereferenced
+	@local
+	public native Time getLastJediPvpCombatActionTimestamp();
+
+	@dereferenced
+	@local
+	public native Time getLastJediAttackableTimestamp();
 	
-	public native void updateLastPvpCombatActionTimestamp(boolean updateGcwAction, boolean updateBhAction);
+	public native void updateLastPvpCombatActionTimestamp(boolean updateGcwAction, boolean updateBhAction, boolean updateJediAction);
 
 	public native void updateLastBhPvpCombatActionTimestamp();
 
 	public native void updateLastGcwPvpCombatActionTimestamp();
 
+	public native void updateLastJediPvpCombatActionTimestamp();
+
+	public native void updateLastJediAttackableTimestamp();
+
 	public native boolean hasPvpTef();
 	
 	public native boolean hasBhTef();
+
+	public native boolean hasJediTef();
+
+	public native boolean isJediAttackable();
 	
-	public native void schedulePvpTefRemovalTask(boolean removeGcwTefNow, boolean removeBhTefNow);
+	public native void schedulePvpTefRemovalTask(boolean removeGcwTefNow, boolean removeBhTefNow, boolean removeJediTefNow);
 
 	public native void schedulePvpTefRemovalTask(boolean removeNow = false);
 
