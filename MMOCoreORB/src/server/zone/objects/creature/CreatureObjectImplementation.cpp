@@ -3091,11 +3091,11 @@ bool CreatureObjectImplementation::isHealableBy(CreatureObject* object) {
 	if (playerGhost->hasPvpTef() && (object->getFaction() == 0 || object->getFaction() != getFaction()))
 			return false;
 
-	if(targetCreo->isPlayerCreature()) {
+	/*if(targetCreo->isPlayerCreature()) {
 		PlayerObject* targetGhost = targetCreo->getPlayerObject();
 		if(targetGhost != NULL && targetGhost->hasBhTef())
 			return false;
-	}
+	}*/
 
 /*	if ((playerGhost->hasPvpTef() || currentFactionStatus == FactionStatus::OVERT) && targetFactionStatus != FactionStatus::OVERT){
 			ghost->updateLastPvpCombatActionTimestamp();
