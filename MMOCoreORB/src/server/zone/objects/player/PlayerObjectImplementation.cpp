@@ -2171,17 +2171,13 @@ void PlayerObjectImplementation::schedulePvpTefRemovalTask(bool removeGcwTefNow,
 	}
 
 	if (!pvpTefTask->isScheduled()) {
-		info("Jedi TEF Time: " + llabs(getLastJediPvpCombatActionTimestamp().miliDifference()), true);
+		info("No Tef Scheduled, adding one");
 		if (hasPvpTef()) {
 			auto gcwTefMs = getLastGcwPvpCombatActionTimestamp().miliDifference();
 			auto bhTefMs = getLastBhPvpCombatActionTimestamp().miliDifference();
 			auto jediTefMs = getLastJediPvpCombatActionTimestamp().miliDifference();
-			if (jediTefMs < 0){
-				info("Jedi TEF Time: " + llabs(jediTefMs), true);
-				pvpTefTask->schedule(llabs(jediTefMs));
-			}else {
-				pvpTefTask->schedule(llabs(gcwTefMs < bhTefMs ? gcwTefMs : bhTefMs));
-			}
+	
+			pvpTefTask->schedule(llabs(jediTefMs < gcwTefMs ? (jediTefMs < bhTefMs ? jediTefMs : bhTefMs) : (gcwTefMs < bhTefMs ? gcwTefMs : bhTefMs)));
 		} else {
 			pvpTefTask->execute();
 		}

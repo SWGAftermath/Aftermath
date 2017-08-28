@@ -40,7 +40,7 @@ public:
 			if (jediTefMs < 0){
 				this->reschedule(llabs(jediTefMs));
 			}else{
-				this->reschedule(llabs(gcwTefMs < bhTefMs ? gcwTefMs : bhTefMs));
+				this->reschedule(llabs(jediTefMs < gcwTefMs ? (jediTefMs < bhTefMs ? jediTefMs : bhTefMs) : (gcwTefMs < bhTefMs ? gcwTefMs : bhTefMs )));
 			}
 		} else {
 			ghost->updateInRangeBuildingPermissions();
