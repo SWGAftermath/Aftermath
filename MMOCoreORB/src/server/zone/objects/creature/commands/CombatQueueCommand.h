@@ -261,8 +261,11 @@ public:
 			PlayerObject* visGhost = creature->getPlayerObject().get();
 			if (visGhost->isJedi()){
 				WeaponObject* visWeap = creature->getWeapon();
-				if (visWeap->isJediWeapon())
+				if (visWeap->isJediWeapon()){
 					VisibilityManager::instance()->increaseVisibility(creature, 25);
+					//Jedi Attackable
+					visGhost->updateLastJediAttackableTimestamp();
+				}
 
 			}
 		}
