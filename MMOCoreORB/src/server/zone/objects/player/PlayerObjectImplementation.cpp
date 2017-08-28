@@ -2104,6 +2104,7 @@ void PlayerObjectImplementation::updateLastPvpCombatActionTimestamp(bool updateG
 	if (updateJediAction){
 		lastJediPvpCombatActionTimestamp.updateToCurrentTime();
 		lastJediPvpCombatActionTimestamp.addMiliTime(FactionManager::TEFTIMER);
+		info("Updating Jedi TEF");
 	}
 
 	schedulePvpTefRemovalTask();
