@@ -2144,7 +2144,7 @@ bool PlayerObjectImplementation::isJediAttackable() {
 
 void PlayerObjectImplementation::schedulePvpTefRemovalTask(bool removeGcwTefNow, bool removeBhTefNow, bool removeJediTefNow) {
 	ManagedReference<CreatureObject*> parent = getParent().get().castTo<CreatureObject*>();
-	info("Scheduling PVP Tef Removal", true)
+	info("Scheduling PVP Tef Removal", true);
 
 	if (parent == NULL)
 		return;
@@ -2176,9 +2176,11 @@ void PlayerObjectImplementation::schedulePvpTefRemovalTask(bool removeGcwTefNow,
 			auto gcwTefMs = getLastGcwPvpCombatActionTimestamp().miliDifference();
 			auto bhTefMs = getLastBhPvpCombatActionTimestamp().miliDifference();
 			auto jediTefMs = getLastJediPvpCombatActionTimestamp().miliDifference();
-			auto bhGcwMs = llabs(gcwTefMs < bhTefMs ? gcwTefMs : bhTefMs);
-			info("Time left on TEF: " + llabs(bhGcwMs < jediTefMs ? bhGcwMs : jediTefMs, true));
-			pvpTefTask->schedule(llabs(bhGcwMs < jediTefMs ? bhGcwMs : jediTefMs));
+			if (jediTefMs > 0){
+				pvpTefTask->schedule(llabs(gcwTefMs < jediTefMs ? gcwTefMs : jediTefMs));
+			}else {
+				pvpTefTask->schedule(llabs(gcwTefMs < bhTefMs ? gcwTefMs : bhTefMs));
+			}
 		} else {
 			pvpTefTask->execute();
 		}
