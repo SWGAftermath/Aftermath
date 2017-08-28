@@ -2171,7 +2171,7 @@ void PlayerObjectImplementation::schedulePvpTefRemovalTask(bool removeGcwTefNow,
 	}
 
 	if (!pvpTefTask->isScheduled()) {
-		info("Jedi TEF Time: " + getLastJediPvpCombatActionTimestamp().miliDifference(), true);
+		info("Jedi TEF Time: " + llabs(getLastJediPvpCombatActionTimestamp().miliDifference()), true);
 		if (hasPvpTef()) {
 			auto gcwTefMs = getLastGcwPvpCombatActionTimestamp().miliDifference();
 			auto bhTefMs = getLastBhPvpCombatActionTimestamp().miliDifference();
