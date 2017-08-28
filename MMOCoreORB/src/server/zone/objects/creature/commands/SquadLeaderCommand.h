@@ -72,7 +72,7 @@ public:
 			return false;
 		}
 
-		if (!targetObject->isInRange(leaderObject, 128))
+		if (targetobject != NULL && !targetObject->isInRange(leaderObject, 128))
 			return false;
 
 
