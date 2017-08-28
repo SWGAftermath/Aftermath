@@ -97,10 +97,21 @@ public:
 		int targetStatus = targetCreo->getFactionStatus();
 
 		if (leaderFaction == 0) {
-			if (targetFaction != 0 && targetGhost->hasPvpTef())
+			if (targetGhost->hasJediTef() || targetGhost->isJediAttackable()){
+				leader->getPlayerObject()->updateLastJediAttackableTimestamp();
+				if (targetGhost->hasJediTef())
+					leader->getPlayerObject()->updateLastJediPvpCombatActionTimestamp();
+				return true
+			}else if (targetFaction != 0 && targetGhost->hasPvpTef()){
 				return false;
+			}
 		} else if (targetFaction != 0) {
-			if (leaderFaction != targetFaction && targetGhost->hasPvpTef())
+			if (targetGhost->hasJediTef() || targetGhost->isJediAttackable()){
+				leader->getPlayerObject()->updateLastJediAttackableTimestamp();
+				if (targetGhost->hasJediTef())
+					leader->getPlayerObject()->updateLastJediPvpCombatActionTimestamp();
+				return true
+			}else if (leaderFaction != targetFaction && targetGhost->hasPvpTef())
 				return false;
 
 			if (leaderFaction == targetFaction && targetStatus > leader->getFactionStatus())
