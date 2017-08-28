@@ -2175,7 +2175,8 @@ void PlayerObjectImplementation::schedulePvpTefRemovalTask(bool removeGcwTefNow,
 			auto bhTefMs = getLastBhPvpCombatActionTimestamp().miliDifference();
 			auto jediTefMs = getLastJediPvpCombatActionTimestamp().miliDifference();
 			auto bhGcwMs = llabs(gcwTefMs < bhTefMs ? gcwTefMs : bhTefMs);
-			pvpTefTask->schedule(bhGcwMs < jediTefMs ? bhGcwMs : jediTefMs);
+			info("Time left on TEF: " + llabs(bhGcwMs < jediTefMs ? bhGcwMs : jediTefMs));
+			pvpTefTask->schedule(llabs(bhGcwMs < jediTefMs ? bhGcwMs : jediTefMs));
 		} else {
 			pvpTefTask->execute();
 		}

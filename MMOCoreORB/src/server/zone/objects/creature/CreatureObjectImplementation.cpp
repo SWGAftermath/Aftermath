@@ -2908,7 +2908,7 @@ bool CreatureObjectImplementation::isAggressiveTo(CreatureObject* object) {
 		return true;
 	}
 
-	if (ghost->hasJediTef)
+	if (ghost->hasJediTef())
 		return true;
 
 	if (object->getPvpStatusBitmask() & CreatureFlag::TEF && getFaction() != object-> getFaction()){
