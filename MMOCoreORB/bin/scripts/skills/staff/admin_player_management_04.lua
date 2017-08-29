@@ -27,7 +27,8 @@ admin_player_management_04 = {
 		"getPlayerId",
 		"getStationName",
 		"removeAllowedPlayer",
-		"removeBannedPlayer"
+		"removeBannedPlayer",
+		"getJediInfo"
 	},
 	skillModifiers = {},
 	schematicsGranted = {},

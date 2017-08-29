@@ -260,6 +260,7 @@
 #include "GetFriendListCommand.h"
 #include "GetGameTimeCommand.h"
 #include "GetIgnoreListCommand.h"
+#include "GetJediInfoCommand.h"
 #include "GetMapLocationsCommand.h"
 #include "GetObjVarsCommand.h"
 #include "GetPlayerIdCommand.h"

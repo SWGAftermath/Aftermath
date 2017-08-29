@@ -1018,6 +1018,7 @@ void CommandConfigManager::registerCommands() {
 	commandFactory.registerCommand<GetFriendListCommand>(String("getFriendList").toLowerCase());
 	commandFactory.registerCommand<GetGameTimeCommand>(String("getGameTime").toLowerCase());
 	commandFactory.registerCommand<GetIgnoreListCommand>(String("getIgnoreList").toLowerCase());
+	commandFactory.registerCommand<GetJediInfoCommand>(String("getJediInfo").toLowerCase());
 	commandFactory.registerCommand<GetMapLocationsCommand>(String("getMapLocations").toLowerCase());
 	commandFactory.registerCommand<GetObjVarsCommand>(String("getObjVars").toLowerCase());
 	commandFactory.registerCommand<GetPlayerIdCommand>(String("getPlayerId").toLowerCase());
