@@ -101,14 +101,27 @@ public:
 					for (int i = 0; i < holoProfessions->size(); ++i) {
 						byte prof = holoProfessions->get(i);
 						const Badge* badge = badgeList->get(prof);
+						String doesHave = "Not Completed";
 						if (prof) {
+							if (ghost->hasBadge(prof))
+								doesHave = "Completed";
 							String stringKey = badge->getKey();
-							promptText << "@skl_n:" + stringKey << " badgeid: " << String::valueOf(prof)<<  endl;
+							promptText << "@skl_n:" + stringKey << " badgeid: " << String::valueOf(prof)<< "...  " << doesHave << endl;
 						} else {
 							promptText << "unknown profession " << String::valueOf(prof) << endl;
 						}
 					}
 				}
+				int toonAge = ghost->getCharacterAgeInDays();
+				int jediTime = ghost->getJediTime();
+				int daysLeft = 0;
+
+					jediTime = jediTime/1.8;
+					daysLeft = jediTime - toonAge;
+
+				promptText << endl << "Character Age : " << toonAge;
+				promptText << endl << "Timelock: " << jediTime;
+				promptText << endl << "Days Left to Unlock: " << daysLeft;
 
 				promptText << endl << "Visibility = " << ghost->getVisibility() << endl;
 

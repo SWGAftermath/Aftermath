@@ -204,6 +204,8 @@ class PlayerObject extends IntangibleObject {
 
 	protected unsigned int clientLastMovementStamp;
 
+	protected int jediDays;
+
 	@dereferenced
 	protected Time serverLastMovementStamp;
 
@@ -1566,6 +1568,11 @@ class PlayerObject extends IntangibleObject {
 		return hologrindProfessions;
 	}
 
+	@read
+	public int getJediTime() {
+		return jediDays;
+	}
+		
 	public void setMaximumLots(byte lots) {
 		maximumLots = lots;
 	}
