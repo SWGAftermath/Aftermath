@@ -11,6 +11,7 @@
 #include "CombatQueueCommand.h"
 #include "server/zone/objects/group/GroupObject.h"
 #include "server/zone/ZoneServer.h"
+#include "QueueCommand.h"
 
 class SquadLeaderCommand : public CombatQueueCommand {
 protected:
@@ -26,6 +27,10 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
+		ManagedReference<SceneObject*> targetObject = server->getZoneServer()->getObject(target);
+		if (!checkDistance(creature, targetObject, 128))
+			return TOOFAR;
+
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -61,9 +66,6 @@ public:
 	}
 
 	static bool isValidGroupAbilityTarget(CreatureObject* leader, CreatureObject* target, bool allowPet) {
-		ZoneServer* zoneServer = target->getZoneServer();
-		ManagedReference<SceneObject*> targetObject = zoneServer->getObject(target->getTargetID());
-		//ManagedReference<SceneObject*> leaderObject = zoneServer->getObject(leader->getTargetID());
 		if (allowPet) {
 			if (!target->isPlayerCreature() && !target->isPet()) {
 				return false;
@@ -71,10 +73,6 @@ public:
 		} else if (!target->isPlayerCreature()) {
 			return false;
 		}
-
-		if (targetObject != NULL !checkDistance(leader, targetObject, 128))
-			return false;
-
 
 		if (target == leader)
 			return true;
