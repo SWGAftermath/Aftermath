@@ -72,7 +72,7 @@ public:
 			return false;
 		}
 
-		if (targetObject != NULL && !targetObject->isInRange(leaderObject, 128))
+		if (targetObject != NULL && leaderObject != NULL && !targetObject->isInRange(leaderObject, 128))
 			return false;
 
 
@@ -97,7 +97,7 @@ public:
 		int targetStatus = targetCreo->getFactionStatus();
 
 		if (leaderFaction == 0) {
-			if (targetGhost->hasJediTef() || targetGhost->isJediAttackable()){
+			if (targetGhost != NULL && (targetGhost->hasJediTef() || targetGhost->isJediAttackable())){
 				leader->getPlayerObject()->updateLastJediAttackableTimestamp();
 				if (targetGhost->hasJediTef())
 					leader->getPlayerObject()->updateLastJediPvpCombatActionTimestamp();
@@ -106,7 +106,7 @@ public:
 				return false;
 			}
 		} else if (targetFaction != 0) {
-			if (targetGhost->hasJediTef() || targetGhost->isJediAttackable()){
+			if (targetGhost != NULL && (targetGhost->hasJediTef() || targetGhost->isJediAttackable())){
 				leader->getPlayerObject()->updateLastJediAttackableTimestamp();
 				if (targetGhost->hasJediTef())
 					leader->getPlayerObject()->updateLastJediPvpCombatActionTimestamp();
