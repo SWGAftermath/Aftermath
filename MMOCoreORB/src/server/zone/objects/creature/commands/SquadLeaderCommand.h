@@ -27,9 +27,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-		ManagedReference<SceneObject*> targetObject = server->getZoneServer()->getObject(target);
-		if (!checkDistance(creature, targetObject, 128))
-			return TOOFAR;
 
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
@@ -66,6 +63,9 @@ public:
 	}
 
 	static bool isValidGroupAbilityTarget(CreatureObject* leader, CreatureObject* target, bool allowPet) {
+		ZoneServer* zoneServer = target->getZoneServer();
+		ManagedReference<SceneObject*> targetObject = zoneServer->getObject(target->getTargetID());
+		ManagedReference<SceneObject*> leaderObject = zoneServer->getObject(leader->getTargetID());
 		if (allowPet) {
 			if (!target->isPlayerCreature() && !target->isPet()) {
 				return false;
@@ -80,6 +80,7 @@ public:
 		if (leader->getZone() != target->getZone())
 			return false;
 
+
 		CreatureObject* targetCreo = target;
 
 		if (allowPet && target->isPet())
@@ -88,6 +89,10 @@ public:
 		PlayerObject* ghost = targetCreo->getPlayerObject();
 		if (ghost == NULL)
 			return false;
+
+		if ((targetObject != NULL && leaderObject != NULL) && !targetObject->isInRange(leaderObject, 128))
+			return false;
+
 
 		uint32 leaderFaction = leader->getFaction();
 		uint32 targetFaction = target->getFaction();
