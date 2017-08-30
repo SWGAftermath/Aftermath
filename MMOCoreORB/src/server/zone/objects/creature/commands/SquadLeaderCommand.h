@@ -63,7 +63,7 @@ public:
 	}
 
 	static bool isValidGroupAbilityTarget(CreatureObject* leader, CreatureObject* target, bool allowPet) {
-		ZoneServer* zoneServer = target->getZoneServer();
+		ZoneServer* zoneServer = leader->getZoneServer();
 		ManagedReference<SceneObject*> targetObject = zoneServer->getObject(target->getTargetID());
 		ManagedReference<SceneObject*> leaderObject = zoneServer->getObject(leader->getTargetID());
 		if (allowPet) {
