@@ -107,7 +107,7 @@ public:
 			}else if (targetFaction != 0 && ghost->hasPvpTef()){
 				return false;
 			}
-		} else if (targetFaction != 0) {
+		} else {
 			if (ghost->hasJediTef() || ghost->isJediAttackable()){
 				leader->getPlayerObject()->updateLastJediAttackableTimestamp();
 				if (ghost->hasJediTef())
