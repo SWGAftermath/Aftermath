@@ -170,8 +170,8 @@ public:
 					return GENERALERROR;
 
 				ManagedReference<TangibleObject*> targetTano = targetObject.castTo<TangibleObject*>();
-
-				if (targetTano != NULL && creature->getFaction() != 0 && targetTano->getFaction() != 0 && targetTano->getFaction() != creature->getFaction() && creature->getFactionStatus() != FactionStatus::OVERT) {
+				//Comment out field faction change
+				/*if (targetTano != NULL && creature->getFaction() != 0 && targetTano->getFaction() != 0 && targetTano->getFaction() != creature->getFaction() && creature->getFactionStatus() != FactionStatus::OVERT) {
 					if (targetTano->isCreatureObject()) {
 						ManagedReference<CreatureObject*> targetCreature = targetObject.castTo<CreatureObject*>();
 
@@ -196,7 +196,7 @@ public:
 						else if ((targetTano->getPvpStatusBitmask() & CreatureFlag::OVERT))
 							ghost->doFieldFactionChange(FactionStatus::OVERT);
 					}
-				}
+				}*/
 			}
 		}
 
