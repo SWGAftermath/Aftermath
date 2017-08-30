@@ -240,9 +240,14 @@ void QueueCommand::checkForTef(CreatureObject* creature, CreatureObject* target)
 	if (target->isPlayerCreature()) {
 		PlayerObject* targetGhost = target->getPlayerObject().get();
 
-		if (!CombatManager::instance()->areInDuel(creature, target)
-				&& targetGhost != NULL && target->getFactionStatus() == FactionStatus::OVERT && targetGhost->hasPvpTef()) {
-			ghost->updateLastGcwPvpCombatActionTimestamp();
+		if (!CombatManager::instance()->areInDuel(creature, target) && targetGhost != NULL ) {
+			if (targetGhost->hasPvpTef() || target->getFactionStatus() == FactionStatus::OVERT)
+				ghost->updateLastGcwPvpCombatActionTimestamp();
+			if (targetGhost->hasJediTef() || targetGhost->isJediAttackable() || (targetGhost->isJedi() && target->getWeapon()->isJediWeapon()) ){
+				ghost->updateLastJediAttackableTimestamp();
+				if (targetGhost->hasJediTef())
+					ghost->updateLastJediPvpCombatActionTimestamp();
+			}
 		}
 	} else if (target->isPet()) {
 		ManagedReference<CreatureObject*> owner = target->getLinkedCreature().get();
