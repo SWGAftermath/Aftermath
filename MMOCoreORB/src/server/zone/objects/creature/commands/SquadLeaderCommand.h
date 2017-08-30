@@ -71,7 +71,7 @@ public:
 		if (target == leader)
 			return true;
 
-		if (leader->getZone() != target->getZone() && !target->isInRange(leader, 128))
+		if (leader->getZone() != target->getZone() && !target->isInRange(leader, 128.0f))
 			return false;
 
 		CreatureObject* targetCreo = target;
