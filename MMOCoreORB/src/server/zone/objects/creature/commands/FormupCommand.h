@@ -64,23 +64,17 @@ public:
 	}
 
 	bool doFormUp(CreatureObject* leader, GroupObject* group) const {
-		ZoneServer* zoneServer = leader->getZoneServer();
-		ManagedReference<SceneObject*> leaderObject = zoneServer->getObject(leader->getTargetID());
 		if (leader == NULL || group == NULL)
 			return false;
 
 		for (int i = 0; i < group->getGroupSize(); i++) {
 
 			ManagedReference<CreatureObject*> member = group->getGroupMember(i);
-			ManagedReference<SceneObject*> targetObject = zoneServer->getObject(member->getTargetID());
 
 			if (member == NULL || !member->isPlayerCreature())
 				continue;
 
 			if (!isValidGroupAbilityTarget(leader, member, false))
-				continue;
-
-			if ((targetObject != NULL && leaderObject != NULL) && !targetObject->isInRange(leaderObject, 128))
 				continue;
 
 			Locker clocker(member, leader);

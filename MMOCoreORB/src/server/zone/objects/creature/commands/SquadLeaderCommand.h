@@ -10,8 +10,6 @@
 
 #include "CombatQueueCommand.h"
 #include "server/zone/objects/group/GroupObject.h"
-#include "server/zone/ZoneServer.h"
-#include "QueueCommand.h"
 
 class SquadLeaderCommand : public CombatQueueCommand {
 protected:
@@ -27,7 +25,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -63,9 +60,6 @@ public:
 	}
 
 	static bool isValidGroupAbilityTarget(CreatureObject* leader, CreatureObject* target, bool allowPet) {
-		ZoneServer* zoneServer = leader->getZoneServer();
-		ManagedReference<SceneObject*> targetObject = zoneServer->getObject(target->getTargetID());
-		ManagedReference<SceneObject*> leaderObject = zoneServer->getObject(leader->getTargetID());
 		if (allowPet) {
 			if (!target->isPlayerCreature() && !target->isPet()) {
 				return false;
@@ -80,40 +74,24 @@ public:
 		if (leader->getZone() != target->getZone())
 			return false;
 
-
 		CreatureObject* targetCreo = target;
 
 		if (allowPet && target->isPet())
 			targetCreo = target->getLinkedCreature().get();
 
 		PlayerObject* ghost = targetCreo->getPlayerObject();
-		if (ghost == NULL)
+		if (ghost == NULL || ghost->hasBhTef())
 			return false;
-
-		if ((targetObject != NULL && leaderObject != NULL) && !targetObject->isInRange(leaderObject, 128))
-			return false;
-
 
 		uint32 leaderFaction = leader->getFaction();
 		uint32 targetFaction = target->getFaction();
 		int targetStatus = targetCreo->getFactionStatus();
 
 		if (leaderFaction == 0) {
-			if (ghost->hasJediTef() || ghost->isJediAttackable()){
-				leader->getPlayerObject()->updateLastJediAttackableTimestamp();
-				if (ghost->hasJediTef())
-					leader->getPlayerObject()->updateLastJediPvpCombatActionTimestamp();
-				return true;
-			}else if (targetFaction != 0 && ghost->hasPvpTef()){
+			if (targetFaction != 0 && targetStatus > FactionStatus::ONLEAVE)
 				return false;
-			}
-		} else {
-			if (ghost->hasJediTef() || ghost->isJediAttackable()){
-				leader->getPlayerObject()->updateLastJediAttackableTimestamp();
-				if (ghost->hasJediTef())
-					leader->getPlayerObject()->updateLastJediPvpCombatActionTimestamp();
-				return true;
-			}else if (leaderFaction != targetFaction && ghost->hasPvpTef())
+		} else if (targetFaction != 0) {
+			if (leaderFaction != targetFaction && targetStatus > FactionStatus::ONLEAVE)
 				return false;
 
 			if (leaderFaction == targetFaction && targetStatus > leader->getFactionStatus())
