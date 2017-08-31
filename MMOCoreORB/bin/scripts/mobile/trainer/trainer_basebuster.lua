@@ -31,7 +31,7 @@ trainer_basebuster = Creature:new {
 	},
 	lootGroups = {},
 	weapons = {},
-	conversationTemplate = "smugglerTrainerConvoTemplate",
+	conversationTemplate = "basebusterTrainerConvoTemplate",
 	attacks = {}
 }
 CreatureTemplates:addCreatureTemplate(trainer_basebuster,"trainer_basebuster")
