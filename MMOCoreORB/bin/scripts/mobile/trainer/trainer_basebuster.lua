@@ -1,4 +1,4 @@
-trainer_basebust = Creature:new {
+trainer_basebuster = Creature:new {
 	objectName = "@mob/creature_names:trainer_basebuster",
 	randomNameType = NAME_GENERIC,
 	randomNameTag = true,
