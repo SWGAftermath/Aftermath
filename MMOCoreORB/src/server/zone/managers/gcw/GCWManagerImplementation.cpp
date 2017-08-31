@@ -1079,8 +1079,8 @@ bool GCWManagerImplementation::canStartSlice(CreatureObject* creature, TangibleO
 	} else if (tano->getDistanceTo(creature) > 15) {
 		creature->sendSystemMessage("You are too far away from the terminal to continue slicing!");
 		return false;
-	} else if (!creature->hasSkill("combat_smuggler_slicing_01")) {
-		creature->sendSystemMessage("Only a smuggler with terminal slicing knowledge could expect to disable this security terminal!");
+	} else if (!creature->hasSkill("base_bust_security_hacker_01")) {
+		creature->sendSystemMessage("Only a Terminal Hacking Specialist could expect to disable this security terminal!");
 		return false;
 	}
 
@@ -1217,16 +1217,16 @@ void GCWManagerImplementation::sendDNASampleMenu(CreatureObject* creature, Build
 	if (chain == "") {
 		int length = 3;
 
-		if (creature->hasSkill("outdoors_bio_engineer_master"))
+		if (creature->hasSkill("base_bust_genetic_decrypter_01"))
 			length = 8;
-		else if (creature->hasSkill("outdoors_bio_engineer_dna_harvesting_04"))
+		/*else if (creature->hasSkill("outdoors_bio_engineer_dna_harvesting_04"))
 			length = 7;
 		else if (creature->hasSkill("outdoors_bio_engineer_dna_harvesting_03"))
 			length = 6;
 		else if (creature->hasSkill("outdoors_bio_engineer_dna_harvesting_02"))
 			length = 5;
 		else if (creature->hasSkill("outdoors_bio_engineer_dna_harvesting_01"))
-			length = 4;
+			length = 4;*/
 
 		for (int i = 0; i < length; i++) {
 			chain += dnaNucleotides.get(System::random(dnaNucleotides.size() - 1));
