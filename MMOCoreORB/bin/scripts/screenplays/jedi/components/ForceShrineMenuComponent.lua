@@ -83,18 +83,24 @@ function ForceShrineMenuComponent:recoverRobe(pPlayer)
 	end
 
 	local robeTemplate
-	if (CreatureObject(pPlayer):hasSkill("force_title_jedi_rank_03")) then
-		local councilType = JediTrials:getJediCouncil(pPlayer)
+	--if (CreatureObject(pPlayer):hasSkill("force_title_jedi_rank_03")) then
+	--	local councilType = JediTrials:getJediCouncil(pPlayer)
 
-		if (councilType == JediTrials.COUNCIL_LIGHT) then
-			robeTemplate = "object/tangible/wearables/robe/robe_jedi_light_s01.iff"
-		else
-			robeTemplate = "object/tangible/wearables/robe/robe_jedi_dark_s01.iff"
-		end
+--		if (councilType == JediTrials.COUNCIL_LIGHT) then
+--			robeTemplate = "object/tangible/wearables/robe/robe_jedi_light_s01.iff"
+--		else
+--			robeTemplate = "object/tangible/wearables/robe/robe_jedi_dark_s01.iff"
+--		end
+--	else
+--		robeTemplate = "object/tangible/wearables/robe/robe_jedi_padawan.iff"
+--	end
+	if (CreatureObject(pPlayer):hasSkill("jedi_dark_side_master_master")) then
+		robeTemplate = "object/tangible/wearables/robe/robe_jedi_dark_s01.iff"
+	elseif (CreatureObject(pPlayer):hasSkill("jedi_light_side_master_master")) then
+		robeTemplate = "object/tangible/wearables/robe/robe_jedi_light_s01.iff"
 	else
 		robeTemplate = "object/tangible/wearables/robe/robe_jedi_padawan.iff"
 	end
-
 	giveItem(pInventory, robeTemplate, -1)
 	CreatureObject(pPlayer):sendSystemMessage("@force_rank:items_recovered")
 end
