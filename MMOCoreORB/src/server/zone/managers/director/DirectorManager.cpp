@@ -632,7 +632,8 @@ void DirectorManager::reloadScreenPlays() {
 
 int DirectorManager::writeScreenPlayData(lua_State* L) {
 	if (checkArgumentCount(L, 4) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::writeScreenPlayData");
+		String err = "incorrect number of arguments passed to DirectorManager::writeScreenPlayData";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -664,7 +665,8 @@ int DirectorManager::writeScreenPlayData(lua_State* L) {
 
 int DirectorManager::createLoot(lua_State* L) {
 	if (checkArgumentCount(L, 4) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::createLoot");
+		String err = "incorrect number of arguments passed to DirectorManager::createLoot";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -685,7 +687,8 @@ int DirectorManager::createLoot(lua_State* L) {
 
 int DirectorManager::createLootSet(lua_State* L) {
 	if (checkArgumentCount(L,5) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::createLootSet");
+		String err = "incorrect number of arguments passed to DirectorManager::createLootSet";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -707,7 +710,8 @@ int DirectorManager::createLootSet(lua_State* L) {
 
 int DirectorManager::createLootFromCollection(lua_State* L) {
 	if (checkArgumentCount(L, 3) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::createLootFromCollection");
+		String err = "incorrect number of arguments passed to DirectorManager::createLootFromCollection";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -756,7 +760,8 @@ int DirectorManager::getFormattedTime(lua_State* L) {
 
 int DirectorManager::readScreenPlayData(lua_State* L) {
 	if (checkArgumentCount(L, 3) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::readScreenPlayData");
+		String err = "incorrect number of arguments passed to DirectorManager::readScreenPlayData";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -794,7 +799,8 @@ int DirectorManager::readScreenPlayData(lua_State* L) {
 
 int DirectorManager::deleteScreenPlayData(lua_State* L) {
 	if (checkArgumentCount(L, 3) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::deleteScreenPlayData");
+		String err = "incorrect number of arguments passed to DirectorManager::deleteScreenPlayData";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -824,7 +830,8 @@ int DirectorManager::deleteScreenPlayData(lua_State* L) {
 
 int DirectorManager::clearScreenPlayData(lua_State* L) {
 	if (checkArgumentCount(L, 2) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::clearScreenPlayData");
+		String err = "incorrect number of arguments passed to DirectorManager::clearScreenPlayData";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -853,7 +860,8 @@ int DirectorManager::clearScreenPlayData(lua_State* L) {
 
 int DirectorManager::registerScreenPlay(lua_State* L) {
 	if (checkArgumentCount(L, 2) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::registerScreenPlay");
+		String err = "incorrect number of arguments passed to DirectorManager::registerScreenPlay";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -872,7 +880,8 @@ int DirectorManager::registerScreenPlay(lua_State* L) {
 
 int DirectorManager::checkInt64Lua(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::checkInt64Lua");
+		String err = "incorrect number of arguments passed to DirectorManager::checkInt64Lua";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -897,7 +906,8 @@ int DirectorManager::checkInt64Lua(lua_State* L) {
 
 int DirectorManager::includeFile(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::includeFile");
+		String err = "incorrect number of arguments passed to DirectorManager::includeFile";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -921,7 +931,8 @@ int DirectorManager::includeFile(lua_State* L) {
 
 int DirectorManager::readSharedMemory(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::readSharedMemory");
+		String err = "incorrect number of arguments passed to DirectorManager::readSharedMemory";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -937,7 +948,8 @@ int DirectorManager::readSharedMemory(lua_State* L) {
 
 int DirectorManager::deleteSharedMemory(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::deleteSharedMemory");
+		String err = "incorrect number of arguments passed to DirectorManager::deleteSharedMemory";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -959,7 +971,8 @@ int DirectorManager::deleteSharedMemory(lua_State* L) {
 
 int DirectorManager::writeSharedMemory(lua_State* L) {
 	if (checkArgumentCount(L, 2) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::writeSharedMemory");
+		String err = "incorrect number of arguments passed to DirectorManager::writeSharedMemory";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -984,7 +997,8 @@ int DirectorManager::writeSharedMemory(lua_State* L) {
 
 int DirectorManager::readStringSharedMemory(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::readStringSharedMemory");
+		String err = "incorrect number of arguments passed to DirectorManager::readStringSharedMemory";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1000,7 +1014,8 @@ int DirectorManager::readStringSharedMemory(lua_State* L) {
 
 int DirectorManager::deleteStringSharedMemory(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::deleteStringSharedMemory");
+		String err = "incorrect number of arguments passed to DirectorManager::deleteStringSharedMemory";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1022,7 +1037,8 @@ int DirectorManager::deleteStringSharedMemory(lua_State* L) {
 
 int DirectorManager::writeStringSharedMemory(lua_State* L) {
 	if (checkArgumentCount(L, 2) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::writeStringSharedMemory");
+		String err = "incorrect number of arguments passed to DirectorManager::writeStringSharedMemory";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1046,7 +1062,8 @@ int DirectorManager::writeStringSharedMemory(lua_State* L) {
 int DirectorManager::createEvent(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 5 && numberOfArguments != 6) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::createEvent");
+		String err = "incorrect number of arguments passed to DirectorManager::createEvent";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1089,7 +1106,8 @@ int DirectorManager::createEvent(lua_State* L) {
 			task->setPersistentEvent(pevent.get());
 
 			if (persistentEvents.put(eventStringName.hashCode(), pevent) != NULL) {
-				instance()->error("Duplicate persistent event for " + eventStringName);
+				String err = "Duplicate persistent event for " + eventStringName;
+				printTraceError(L, err);
 			}
 		}
 
@@ -1104,7 +1122,8 @@ int DirectorManager::createEvent(lua_State* L) {
 
 int DirectorManager::createEventActualTime(lua_State* L) {
 	if (checkArgumentCount(L, 3) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::createEventActualTime");
+		String err = "incorrect number of arguments passed to DirectorManager::createEventActualTime";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1131,7 +1150,8 @@ int DirectorManager::createEventActualTime(lua_State* L) {
 
 int DirectorManager::createServerEvent(lua_State* L) {
 	if (checkArgumentCount(L, 4) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::createServerEvent");
+		String err = "incorrect number of arguments passed to DirectorManager::createServerEvent";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1144,7 +1164,8 @@ int DirectorManager::createServerEvent(lua_State* L) {
 	Reference<PersistentEvent*> pEvent = getServerEvent(eventName);
 
 	if (pEvent != NULL) {
-		instance()->error("Server event " + eventName + " already exists, exiting...");
+		String err = "Server event " + eventName + " already exists, exiting...";
+		printTraceError(L, err);
 		ERROR_CODE = GENERAL_ERROR;
 		return 0;
 	}
@@ -1163,7 +1184,8 @@ int DirectorManager::createServerEvent(lua_State* L) {
 	pevent->setScreenplayTask(task);
 
 	if (persistentEvents.put(eventName.hashCode(), pevent) != NULL) {
-		instance()->error("Persistent event with " + eventName + " already exists!");
+		String err = "Persistent event with " + eventName + " already exists!";
+		printTraceError(L, err);
 	}
 
 	task->setPersistentEvent(pevent);
@@ -1179,7 +1201,8 @@ int DirectorManager::createServerEvent(lua_State* L) {
 
 int DirectorManager::hasServerEvent(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::hasServerEvent");
+		String err = "incorrect number of arguments passed to DirectorManager::hasServerEvent";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1198,7 +1221,8 @@ int DirectorManager::hasServerEvent(lua_State* L) {
 
 int DirectorManager::rescheduleServerEvent(lua_State* L) {
 	if (checkArgumentCount(L, 2) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::rescheduleServerEvent");
+		String err = "incorrect number of arguments passed to DirectorManager::rescheduleServerEvent";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1209,14 +1233,16 @@ int DirectorManager::rescheduleServerEvent(lua_State* L) {
 	Reference<PersistentEvent*> pEvent = getServerEvent(eventName);
 
 	if (pEvent == NULL) {
-		instance()->error("Unable to find server event " + eventName + " in DirectorManager::rescheduleServerEvent");
+		String err = "Unable to find server event " + eventName + " in DirectorManager::rescheduleServerEvent";
+		printTraceError(L, err);
 		return 0;
 	}
 
 	Reference<ScreenPlayTask*> task = pEvent->getScreenplayTask().get();
 
 	if (task == NULL) {
-		instance()->error("Unable to find task for server event " + eventName + " in DirectorManager::rescheduleServerEvent");
+		String err = "Unable to find task for server event " + eventName + " in DirectorManager::rescheduleServerEvent";
+		printTraceError(L, err);
 		return 0;
 	}
 
@@ -1232,7 +1258,8 @@ int DirectorManager::rescheduleServerEvent(lua_State* L) {
 
 int DirectorManager::getServerEventTimeLeft(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getServerEventTimeLeft");
+		String err = "incorrect number of arguments passed to DirectorManager::getServerEventTimeLeft";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1258,7 +1285,8 @@ int DirectorManager::getServerEventTimeLeft(lua_State* L) {
 
 int DirectorManager::getServerEventID(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getServerEventID");
+		String err = "incorrect number of arguments passed to DirectorManager::getServerEventID";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1286,7 +1314,8 @@ Reference<PersistentEvent*> DirectorManager::getServerEvent(const String& eventN
 
 int DirectorManager::getChatMessage(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getChatMessage");
+		String err = "incorrect number of arguments passed to DirectorManager::getChatMessage";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1305,7 +1334,8 @@ int DirectorManager::getChatMessage(lua_State* L) {
 
 int DirectorManager::spatialChat(lua_State* L) {
 	if (checkArgumentCount(L, 2) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::spatialChat");
+		String err = "incorrect number of arguments passed to DirectorManager::spatialChat";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1344,7 +1374,8 @@ int DirectorManager::spatialChat(lua_State* L) {
 
 int DirectorManager::spatialMoodChat(lua_State* L) {
 	if (checkArgumentCount(L, 4) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::spatialMoodChat");
+		String err = "incorrect number of arguments passed to DirectorManager::spatialMoodChat";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1381,7 +1412,8 @@ int DirectorManager::spatialMoodChat(lua_State* L) {
 
 int DirectorManager::getSceneObject(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getSceneObject");
+		String err = "incorrect number of arguments passed to DirectorManager::getSceneObject";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1403,7 +1435,8 @@ int DirectorManager::getSceneObject(lua_State* L) {
 int DirectorManager::getRandomNumber(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 1 && numberOfArguments != 2) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getRandomNumber");
+		String err = "incorrect number of arguments passed to DirectorManager::getRandomNumber";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1425,7 +1458,8 @@ int DirectorManager::getRandomNumber(lua_State* L) {
 
 int DirectorManager::getRegion(lua_State* L) {
 	if (checkArgumentCount(L, 2) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getRegion");
+		String err = "incorrect number of arguments passed to DirectorManager::getRegion";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1456,7 +1490,8 @@ int DirectorManager::getRegion(lua_State* L) {
 
 int DirectorManager::getCreatureObject(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getCreatureObject");
+		String err = "incorrect number of arguments passed to DirectorManager::getCreatureObject";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1477,7 +1512,8 @@ int DirectorManager::getCreatureObject(lua_State* L) {
 
 int DirectorManager::getContainerObjectByTemplate(lua_State* L) {
 	if (checkArgumentCount(L, 3) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getContainerObjectByTemplate");
+		String err = "incorrect number of arguments passed to DirectorManager::getContainerObjectByTemplate";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1534,7 +1570,8 @@ int DirectorManager::getContainerObjectByTemplate(lua_State* L) {
 int DirectorManager::updateCellPermission(lua_State* L) {
 	//realObject->info("getting values",true);
 	if (checkArgumentCount(L, 3) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::updateCellPermission");
+		String err = "incorrect number of arguments passed to DirectorManager::updateCellPermission";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1579,7 +1616,8 @@ int DirectorManager::updateCellPermission(lua_State* L) {
 
 int DirectorManager::updateCellPermissionGroup(lua_State* L) {
 	if (checkArgumentCount(L, 3) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::updateCellPermissionGroup");
+		String err = "incorrect number of arguments passed to DirectorManager::updateCellPermissionGroup";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1626,7 +1664,8 @@ int DirectorManager::updateCellPermissionGroup(lua_State* L) {
 
 int DirectorManager::forcePeace(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::forcePeace");
+		String err = "incorrect number of arguments passed to DirectorManager::forcePeace";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1649,7 +1688,8 @@ int DirectorManager::forcePeace(lua_State* L) {
 
 int DirectorManager::addStartingItemsInto(lua_State* L) {
 	if (checkArgumentCount(L, 2) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::addStartingItemsInto");
+		String err = "incorrect number of arguments passed to DirectorManager::addStartingItemsInto";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1667,7 +1707,8 @@ int DirectorManager::addStartingItemsInto(lua_State* L) {
 
 int DirectorManager::addStartingWeaponsInto(lua_State* L) {
 	if (checkArgumentCount(L, 2) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::addStartingWeaponsInto");
+		String err = "incorrect number of arguments passed to DirectorManager::addStartingWeaponsInto";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1688,7 +1729,8 @@ int DirectorManager::addStartingWeaponsInto(lua_State* L) {
 int DirectorManager::giveItem(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 3 && numberOfArguments != 4) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::giveItem");
+		String err = "incorrect number of arguments passed to DirectorManager::giveItem";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1739,7 +1781,8 @@ int DirectorManager::giveItem(lua_State* L) {
 
 int DirectorManager::giveControlDevice(lua_State* L) {
 	if (checkArgumentCount(L, 5) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::giveControlDevice");
+		String err = "incorrect number of arguments passed to DirectorManager::giveControlDevice";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1844,7 +1887,8 @@ int DirectorManager::giveControlDevice(lua_State* L) {
 
 int DirectorManager::checkTooManyHirelings(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::checkTooManyHirelings");
+		String err = "incorrect number of arguments passed to DirectorManager::checkTooManyHirelings";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1880,7 +1924,8 @@ int DirectorManager::checkTooManyHirelings(lua_State* L) {
 
 int DirectorManager::setAuthorizationState(lua_State* L) {
 	if (checkArgumentCount(L, 2) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::setAuthorizationState");
+		String err = "incorrect number of arguments passed to DirectorManager::setAuthorizationState";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1909,7 +1954,8 @@ int DirectorManager::setAuthorizationState(lua_State* L) {
 int DirectorManager::spawnMobile(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 8 && numberOfArguments != 9) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::spawnMobile");
+		String err = "incorrect number of arguments passed to DirectorManager::spawnMobile";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -1959,7 +2005,8 @@ int DirectorManager::spawnMobile(lua_State* L) {
 	CreatureObject* creature = creatureManager->spawnCreature(mobile.hashCode(), 0, x, z, y, parentID);
 
 	if (creature == NULL) {
-		instance()->error("could not spawn mobile " + mobile);
+		String err = "could not spawn mobile " + mobile;
+		printTraceError(L, err);
 
 		lua_pushnil(L);
 	} else {
@@ -1989,7 +2036,8 @@ int DirectorManager::spawnMobile(lua_State* L) {
 int DirectorManager::spawnEventMobile(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 8) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::spawnEventMobile");
+		String err = "incorrect number of arguments passed to DirectorManager::spawnEventMobile";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2024,7 +2072,8 @@ int DirectorManager::spawnEventMobile(lua_State* L) {
 	CreatureObject* creature = creatureManager->spawnCreatureAsEventMob(mobile.hashCode(), level, x, z, y, parentID);
 
 	if (creature == NULL) {
-		instance()->error("could not spawn mobile " + mobile);
+		String err = "could not spawn mobile " + mobile;
+		printTraceError(L, err);
 
 		lua_pushnil(L);
 	} else {
@@ -2042,7 +2091,8 @@ int DirectorManager::spawnEventMobile(lua_State* L) {
 int DirectorManager::spawnBuilding(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 5) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::spawnBuilding");
+		String err = "incorrect number of arguments passed to DirectorManager::spawnBuilding";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2060,12 +2110,14 @@ int DirectorManager::spawnBuilding(lua_State* L) {
 	SharedStructureObjectTemplate* serverTemplate = dynamic_cast<SharedStructureObjectTemplate*>(TemplateManager::instance()->getTemplate(script.hashCode()));
 
 	if (serverTemplate == NULL) {
-		instance()->error("Unable to find template for building " + script);
+		String err = "Unable to find template for building " + script;
+		printTraceError(L, err);
 		lua_pushnil(L);
 	} else {
 		StructureObject* structure = StructureManager::instance()->placeStructure(creature, script, x, y, 0, 0);
 		if (structure == NULL) {
-			instance()->error("Unable to spawn building " + script);
+			String err = "Unable to spawn building " + script;
+			printTraceError(L, err);
 			lua_pushnil(L);
 		} else {
 			structure->_setUpdated(true);
@@ -2078,7 +2130,8 @@ int DirectorManager::spawnBuilding(lua_State* L) {
 int DirectorManager::destroyBuilding(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::destroyBuilding");
+		String err = "incorrect number of arguments passed to DirectorManager::destroyBuilding";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2107,7 +2160,8 @@ int DirectorManager::destroyBuilding(lua_State* L) {
 int DirectorManager::spawnSceneObject(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 10 && numberOfArguments != 7) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::spawnSceneObject");
+		String err = "incorrect number of arguments passed to DirectorManager::spawnSceneObject";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2187,7 +2241,8 @@ int DirectorManager::spawnSceneObject(lua_State* L) {
 
 		lua_pushlightuserdata(L, object.get());
 	} else {
-		instance()->error("could not spawn template " + script);
+		String err = "could not spawn template " + script;
+		printTraceError(L, err);
 		lua_pushnil(L);
 	}
 
@@ -2197,7 +2252,8 @@ int DirectorManager::spawnSceneObject(lua_State* L) {
 int DirectorManager::spawnActiveArea(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 7) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::spawnActiveArea");
+		String err = "incorrect number of arguments passed to DirectorManager::spawnActiveArea";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2262,7 +2318,8 @@ int DirectorManager::spawnActiveArea(lua_State* L) {
 int DirectorManager::createObserver(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 4 && numberOfArguments != 5) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::createObserver");
+		String err = "incorrect number of arguments passed to DirectorManager::createObserver";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2301,7 +2358,8 @@ int DirectorManager::createObserver(lua_State* L) {
 int DirectorManager::hasObserver(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 2) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::hasObserver");
+		String err = "incorrect number of arguments passed to DirectorManager::hasObserver";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2319,7 +2377,8 @@ int DirectorManager::hasObserver(lua_State* L) {
 int DirectorManager::dropObserver(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 2 && numberOfArguments != 4) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::dropObserver");
+		String err = "incorrect number of arguments passed to DirectorManager::dropObserver";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2529,7 +2588,8 @@ int DirectorManager::createConversationScreen(lua_State* L) {
 
 int DirectorManager::getStringId(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getStringId");
+		String err = "incorrect number of arguments passed to DirectorManager::getStringId";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2543,7 +2603,8 @@ int DirectorManager::getStringId(lua_State* L) {
 
 int DirectorManager::getRankName(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getRankName");
+		String err = "incorrect number of arguments passed to DirectorManager::getRankName";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2559,7 +2620,8 @@ int DirectorManager::getRankName(lua_State* L) {
 
 int DirectorManager::getRankCost(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getRankCost");
+		String err = "incorrect number of arguments passed to DirectorManager::getRankCost";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2573,7 +2635,8 @@ int DirectorManager::getRankCost(lua_State* L) {
 
 int DirectorManager::getRankDelegateRatioFrom(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getRankDelegateRatioFrom");
+		String err = "incorrect number of arguments passed to DirectorManager::getRankDelegateRatioFrom";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2587,7 +2650,8 @@ int DirectorManager::getRankDelegateRatioFrom(lua_State* L) {
 
 int DirectorManager::getRankDelegateRatioTo(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getRankDelegateRatioTo");
+		String err = "incorrect number of arguments passed to DirectorManager::getRankDelegateRatioTo";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2601,7 +2665,8 @@ int DirectorManager::getRankDelegateRatioTo(lua_State* L) {
 
 int DirectorManager::isHighestRank(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::isHighestRank");
+		String err = "incorrect number of arguments passed to DirectorManager::isHighestRank";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2617,7 +2682,8 @@ int DirectorManager::isHighestRank(lua_State* L) {
 
 int DirectorManager::getFactionPointsCap(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getFactionPointsCap");
+		String err = "incorrect number of arguments passed to DirectorManager::getFactionPointsCap";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2631,7 +2697,8 @@ int DirectorManager::getFactionPointsCap(lua_State* L) {
 
 int DirectorManager::getObjectTemplatePathByCRC(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getObjectTemplatePathByCRC");
+		String err = "incorrect number of arguments passed to DirectorManager::getObjectTemplatePathByCRC";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2645,7 +2712,8 @@ int DirectorManager::getObjectTemplatePathByCRC(lua_State* L) {
 
 int DirectorManager::getZoneByName(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getZoneByName");
+		String err = "incorrect number of arguments passed to DirectorManager::getZoneByName";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2665,7 +2733,8 @@ int DirectorManager::getZoneByName(lua_State* L) {
 
 int DirectorManager::isZoneEnabled(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::isZoneEnabled");
+		String err = "incorrect number of arguments passed to DirectorManager::isZoneEnabled";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2724,7 +2793,8 @@ Vector3 DirectorManager::generateSpawnPoint(String zoneName, float x, float y, f
 int DirectorManager::getSpawnPoint(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 5 && numberOfArguments != 6) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getSpawnPoint");
+		String err = "incorrect number of arguments passed to DirectorManager::getSpawnPoint";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2783,8 +2853,9 @@ int DirectorManager::getSpawnPoint(lua_State* L) {
 
 		return 1;
 	} else {
-		instance()->error("Unable to generate spawn point in DirectorManager::getSpawnPoint, x: " + String::valueOf(x) + ", y: " + String::valueOf(y) +
-				", zone: " + zoneName + ", minDist: " + String::valueOf(minimumDistance) + ", maxDist: " + String::valueOf(maximumDistance));
+		String err = "Unable to generate spawn point in DirectorManager::getSpawnPoint, x: " + String::valueOf(x) + ", y: " + String::valueOf(y) +
+				", zone: " + zoneName + ", minDist: " + String::valueOf(minimumDistance) + ", maxDist: " + String::valueOf(maximumDistance);
+		printTraceError(L, err);
 		return 0;
 	}
 }
@@ -2792,7 +2863,8 @@ int DirectorManager::getSpawnPoint(lua_State* L) {
 int DirectorManager::getSpawnArea(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 7 && numberOfArguments != 8) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getSpawnArea");
+		String err = "incorrect number of arguments passed to DirectorManager::getSpawnArea";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2824,7 +2896,8 @@ int DirectorManager::getSpawnArea(lua_State* L) {
 	zone = ServerCore::getZoneServer()->getZone(zoneName);
 
 	if (zone == NULL) {
-		instance()->error("Zone is NULL in DirectorManager::getSpawnArea using zone name: " + zoneName);
+		String err = "Zone is NULL in DirectorManager::getSpawnArea using zone name: " + zoneName;
+		printTraceError(L, err);
 		return 0;
 	}
 
@@ -2866,9 +2939,10 @@ int DirectorManager::getSpawnArea(lua_State* L) {
 
 		return 1;
 	} else {
-		instance()->error("Unable to generate spawn point in DirectorManager::getSpawnArea, x: " + String::valueOf(x) + ", y: " + String::valueOf(y) +
+		String err = "Unable to generate spawn point in DirectorManager::getSpawnArea, x: " + String::valueOf(x) + ", y: " + String::valueOf(y) +
 				", zone: " + zoneName + ", areaSize: " + String::valueOf(areaSize) + ", minDist: " + String::valueOf(minimumDistance) + ", maxDist: " +
-				String::valueOf(maximumDistance) + ", maxHeightDiff: " + String::valueOf(maximumHeightDifference));
+				String::valueOf(maximumDistance) + ", maxHeightDiff: " + String::valueOf(maximumHeightDifference);
+		printTraceError(L, err);
 		return 0;
 	}
 }
@@ -2884,7 +2958,8 @@ int DirectorManager::makeCreatureName(lua_State* L) {
 
 int DirectorManager::getGCWDiscount(lua_State* L){
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getGCWDiscount");
+		String err = "incorrect number of arguments passed to DirectorManager::getGCWDiscount";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2907,7 +2982,8 @@ int DirectorManager::getGCWDiscount(lua_State* L){
 
 int DirectorManager::getTerrainHeight(lua_State* L){
 	if (checkArgumentCount(L, 3) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getGCWDiscount");
+		String err = "incorrect number of arguments passed to DirectorManager::getGCWDiscount";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2936,7 +3012,8 @@ int DirectorManager::checkArgumentCount(lua_State* L, int args) {
 
 int DirectorManager::awardSkill(lua_State* L) {
 	if (checkArgumentCount(L, 2) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::awardSkill");
+		String err = "incorrect number of arguments passed to DirectorManager::awardSkill";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2954,7 +3031,8 @@ int DirectorManager::awardSkill(lua_State* L) {
 
 int DirectorManager::getCityRegionAt(lua_State* L) {
 	if (checkArgumentCount(L, 3) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getCityRegionAt");
+		String err = "incorrect number of arguments passed to DirectorManager::getCityRegionAt";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -2984,7 +3062,8 @@ int DirectorManager::getCityRegionAt(lua_State* L) {
 
 int DirectorManager::setDungeonTicketAttributes(lua_State* L) {
 	if (checkArgumentCount(L, 4) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::setDungeonTicketAttributes");
+		String err = "incorrect number of arguments passed to DirectorManager::setDungeonTicketAttributes";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3011,7 +3090,8 @@ int DirectorManager::setDungeonTicketAttributes(lua_State* L) {
 
 int DirectorManager::setQuestStatus(lua_State* L) {
 	if (checkArgumentCount(L, 2) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::setQuestStatus");
+		String err = "incorrect number of arguments passed to DirectorManager::setQuestStatus";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3026,7 +3106,8 @@ int DirectorManager::setQuestStatus(lua_State* L) {
 
 int DirectorManager::getQuestStatus(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getQuestStatus");
+		String err = "incorrect number of arguments passed to DirectorManager::getQuestStatus";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3045,7 +3126,8 @@ int DirectorManager::getQuestStatus(lua_State* L) {
 
 int DirectorManager::removeQuestStatus(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::removeQuestStatus");
+		String err = "incorrect number of arguments passed to DirectorManager::removeQuestStatus";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3059,7 +3141,8 @@ int DirectorManager::removeQuestStatus(lua_State* L) {
 
 int DirectorManager::getControllingFaction(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getControllingFaction");
+		String err = "incorrect number of arguments passed to DirectorManager::getControllingFaction";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3084,7 +3167,8 @@ int DirectorManager::getControllingFaction(lua_State* L) {
 
 int DirectorManager::getImperialScore(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getImperialScore");
+		String err = "incorrect number of arguments passed to DirectorManager::getImperialScore";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3109,7 +3193,8 @@ int DirectorManager::getImperialScore(lua_State* L) {
 
 int DirectorManager::getRebelScore(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getRebelScore");
+		String err = "incorrect number of arguments passed to DirectorManager::getRebelScore";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3134,7 +3219,8 @@ int DirectorManager::getRebelScore(lua_State* L) {
 
 int DirectorManager::getWinningFactionDifficultyScaling(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getWinningFactionDifficultyScaling");
+		String err = "incorrect number of arguments passed to DirectorManager::getWinningFactionDifficultyScaling";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3181,7 +3267,8 @@ int DirectorManager::playClientEffectLoc(lua_State* L) {
 
 int DirectorManager::getPlayerQuestID(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getPlayerQuestID");
+		String err = "incorrect number of arguments passed to DirectorManager::getPlayerQuestID";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3200,7 +3287,8 @@ int DirectorManager::getPlayerQuestID(lua_State* L) {
 
 int DirectorManager::getQuestInfo(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getQuestInfo");
+		String err = "incorrect number of arguments passed to DirectorManager::getQuestInfo";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3227,7 +3315,8 @@ int DirectorManager::getQuestInfo(lua_State* L) {
 
 int DirectorManager::getQuestVectorMap(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getQuestVectorMap");
+		String err = "incorrect number of arguments passed to DirectorManager::getQuestVectorMap";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3246,7 +3335,8 @@ int DirectorManager::getQuestVectorMap(lua_State* L) {
 
 int DirectorManager::createQuestVectorMap(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::createQuestVectorMap");
+		String err = "incorrect number of arguments passed to DirectorManager::createQuestVectorMap";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3265,7 +3355,8 @@ int DirectorManager::createQuestVectorMap(lua_State* L) {
 
 int DirectorManager::removeQuestVectorMap(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::removeQuestVectorMap");
+		String err = "incorrect number of arguments passed to DirectorManager::removeQuestVectorMap";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3312,7 +3403,8 @@ void DirectorManager::removeQuestVectorMap(const String& keyString) {
 int DirectorManager::createNavMesh(lua_State *L) {
 
     if (checkArgumentCount(L, 6) == 1) {
-        instance()->error("incorrect number of arguments passed to DirectorManager::createNavMesh");
+        String err = "incorrect number of arguments passed to DirectorManager::createNavMesh";
+        printTraceError(L, err);
         ERROR_CODE = INCORRECT_ARGUMENTS;
         return 0;
     }
@@ -3353,7 +3445,8 @@ int DirectorManager::createNavMesh(lua_State *L) {
 
 int DirectorManager::creatureTemplateExists(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::creatureTemplateExists");
+		String err = "incorrect number of arguments passed to DirectorManager::creatureTemplateExists";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3369,7 +3462,8 @@ int DirectorManager::creatureTemplateExists(lua_State* L) {
 
 int DirectorManager::printLuaError(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::printLuaError");
+		String err = "incorrect number of arguments passed to DirectorManager::printLuaError";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3383,7 +3477,8 @@ int DirectorManager::printLuaError(lua_State* L) {
 
 int DirectorManager::getSpawnPointInArea(lua_State* L) {
 	if (checkArgumentCount(L, 4) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getSpawnPointInArea");
+		String err = "incorrect number of arguments passed to DirectorManager::getSpawnPointInArea";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3413,14 +3508,16 @@ int DirectorManager::getSpawnPointInArea(lua_State* L) {
 		lua_rawseti(L, -2, 1);
 		return 1;
 	} else {
-		instance()->error("Unable to generate spawn point in DirectorManager::getSpawnPointInArea, x: " + String::valueOf(x) + ", y: " + String::valueOf(y) + ", zone: " + zoneName + ", radius: " + String::valueOf(radius));
+		String err = "Unable to generate spawn point in DirectorManager::getSpawnPointInArea, x: " + String::valueOf(x) + ", y: " + String::valueOf(y) + ", zone: " + zoneName + ", radius: " + String::valueOf(radius);
+		printTraceError(L, err);
 		return 0;
 	}
 }
 
 int DirectorManager::getPlayerByName(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getPlayerByName");
+		String err = "incorrect number of arguments passed to DirectorManager::getPlayerByName";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3442,7 +3539,8 @@ int DirectorManager::getPlayerByName(lua_State* L) {
 
 int DirectorManager::sendMail(lua_State* L) {
 	if (checkArgumentCount(L, 4) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::sendMail");
+		String err = "incorrect number of arguments passed to DirectorManager::sendMail";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3463,7 +3561,8 @@ int DirectorManager::sendMail(lua_State* L) {
 int DirectorManager::spawnTheaterObject(lua_State* L) {
 	int numberOfArguments = lua_gettop(L);
 	if (numberOfArguments != 5) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::spawnTheaterObject");
+		String err = "incorrect number of arguments passed to DirectorManager::spawnTheaterObject";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3515,7 +3614,8 @@ int DirectorManager::spawnTheaterObject(lua_State* L) {
 
 int DirectorManager::getSchematicItemName(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getSchematicItemName");
+		String err = "incorrect number of arguments passed to DirectorManager::getSchematicItemName";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
@@ -3535,7 +3635,8 @@ int DirectorManager::getSchematicItemName(lua_State* L) {
 
 int DirectorManager::getBadgeListByType(lua_State* L) {
 	if (checkArgumentCount(L, 1) == 1) {
-		instance()->error("incorrect number of arguments passed to DirectorManager::getBadgeListByType");
+		String err = "incorrect number of arguments passed to DirectorManager::getBadgeListByType";
+		printTraceError(L, err);
 		ERROR_CODE = INCORRECT_ARGUMENTS;
 		return 0;
 	}
