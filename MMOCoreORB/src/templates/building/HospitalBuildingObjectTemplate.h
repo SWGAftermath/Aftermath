@@ -38,19 +38,19 @@ public:
 	}
 
 	inline int getMedicalRating() {
-		return medicalRating;
+		return medicalRating * 1.5;
 	}
 
 	inline int getHealthWoundRegenRate() {
-		return healthWoundRegenRate;
+		return healthWoundRegenRate * 1.5;
 	}
 
 	inline int getActionWoundRegenRate() {
-		return actionWoundRegenRate;
+		return actionWoundRegenRate * 1.5;
 	}
 
 	inline int getMindWoundRegenRate() {
-		return mindWoundRegenRate;
+		return mindWoundRegenRate * 1.5;
 	}
 };
 

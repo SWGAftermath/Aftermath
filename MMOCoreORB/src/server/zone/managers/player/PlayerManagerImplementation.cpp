@@ -5084,6 +5084,16 @@ void PlayerManagerImplementation::enhanceCharacter(CreatureObject* player) {
 
 	bool message = true;
 
+	// Credits For Buffs
+	if (player->getCashCredits() < 1000){
+		player->sendSystemMessage("Sorry, you don't have enough cash on hand to purchase a buff.");
+		return;
+	} else if (player->getCashCredits() >= 1000){
+		// Charge player for buffs
+		player->subtractCashCredits(1000);
+
+
+
 	message = message && doEnhanceCharacter(0x98321369, player, medicalBuff, medicalDuration, BuffType::MEDICAL, 0); // medical_enhance_health
 	message = message && doEnhanceCharacter(0x815D85C5, player, medicalBuff, medicalDuration, BuffType::MEDICAL, 1); // medical_enhance_strength
 	message = message && doEnhanceCharacter(0x7F86D2C6, player, medicalBuff, medicalDuration, BuffType::MEDICAL, 2); // medical_enhance_constitution
@@ -5097,6 +5107,7 @@ void PlayerManagerImplementation::enhanceCharacter(CreatureObject* player) {
 
 	if (message && player->isPlayerCreature())
 		player->sendSystemMessage("An unknown force strengthens you for battles yet to come.");
+	}
 }
 
 void PlayerManagerImplementation::sendAdminJediList(CreatureObject* player) {

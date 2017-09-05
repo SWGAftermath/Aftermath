@@ -55,7 +55,7 @@ object_tangible_beta_beta_terminal_wound = object_tangible_beta_shared_beta_term
 
 
 	itemList = {
-			"Buff Character (4,000 Credits)", "enhance_character",
+			"Buff Character (1,000 Credits)", "enhance_character",
 			"Remove Buffs", "reset_buffs",
 			
 	}
