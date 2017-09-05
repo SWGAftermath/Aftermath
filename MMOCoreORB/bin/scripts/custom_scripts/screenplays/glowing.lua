@@ -62,11 +62,9 @@ function Glowing:badgeAwardedEventHandler(pPlayer, pPlayer2, badgeNumber)
 	end
 
 	if self:hasRequiredBadgeCount(pPlayer) and not CreatureObject(pPlayer):hasSkill("force_title_jedi_novice") then
-		if PlayerObject:getCharacterAgeInDays() > 14;
-			VillageJediManagerCommon.setJediProgressionScreenPlayState(pPlayer, VILLAGE_JEDI_PROGRESSION_GLOWING)
-			FsIntro:startPlayerOnIntro(pPlayer)
-			return 1
-		end
+		VillageJediManagerCommon.setJediProgressionScreenPlayState(pPlayer, VILLAGE_JEDI_PROGRESSION_GLOWING)
+		FsIntro:startPlayerOnIntro(pPlayer)
+		return 1
 	end
 
 	return 0
