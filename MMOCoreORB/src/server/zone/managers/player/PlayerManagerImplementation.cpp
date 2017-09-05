@@ -5085,12 +5085,12 @@ void PlayerManagerImplementation::enhanceCharacter(CreatureObject* player) {
 	bool message = true;
 
 	// Credits For Buffs
-	if (player->getCashCredits() < 1000){
+	if (player->getCashCredits() < 4000){
 		player->sendSystemMessage("Sorry, you don't have enough cash on hand to purchase a buff.");
 		return;
-	} else if (player->getCashCredits() >= 1000){
+	} else if (player->getCashCredits() >= 4000){
 		// Charge player for buffs
-		player->subtractCashCredits(1000);
+		player->subtractCashCredits(4000);
 
 
 
