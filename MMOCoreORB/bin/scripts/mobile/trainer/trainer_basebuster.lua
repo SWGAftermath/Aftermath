@@ -27,9 +27,9 @@ trainer_basebuster = Creature:new {
 	diet = HERBIVORE,
 
 	templates = {
-		"object/mobile/dressed_smuggler_trainer_02.iff"
-		"object/mobile/shared_dressed_squad_leader_trainer_02.iff"
-		"object/mobile/shared_dressed_combatmedic_trainer_human_female_01.iff"
+		"object/mobile/dressed_smuggler_trainer_02.iff",
+		"object/mobile/dressed_squad_leader_trainer_02.iff",
+		"object/mobile/dressed_combatmedic_trainer_human_female_01.iff"
 	},
 	lootGroups = {},
 	weapons = {},
