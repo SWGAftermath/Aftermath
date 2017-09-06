@@ -471,5 +471,5 @@ function CorelliaTyrenaScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "trainer_rifleman", 0,-5234,21,-2488,176,0)
 	spawnMobile(self.planet, "trainer_scout", 0,-5061.86,21,-2322.52,36,0)
 	spawnMobile(self.planet, "trainer_weaponsmith", 0,-5106,21,-2324,180,0)
-
+	spawnMobile(self.planet, "trainer_basebuster", -5121.71, 21, -2491.71, 0, -0.373935, 0, 0.927455, 0))
 end

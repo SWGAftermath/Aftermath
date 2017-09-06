@@ -176,6 +176,7 @@ function NabooDeejaPeakScreenPlay:spawnMobiles()
 	spawnMobile("naboo", "trainer_artisan", 0,4715,330,-1393,77,0)
 	spawnMobile("naboo", "trainer_politician", 0,4702,330,-1368,84,0)
 	spawnMobile("naboo", "trainer_marksman", 0,4980,360,-1425,-100,0)
+	spawnMobile("naboo", "trainer_basebuster", 4963.76, 360, -1574.88, 0, -0.389221, 0, 0.921145, 0)
 	spawnMobile("naboo", "junk_dealer", 0, 5135.46, 346.5, -1514.92, 90, 0)
 
 	--imperial 'stronghold' spawns
