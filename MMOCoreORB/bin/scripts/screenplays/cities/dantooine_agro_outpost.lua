@@ -53,5 +53,5 @@ function DantooineAgroOutpostScreenPlay:spawnMobiles()
 	pNpc = spawnMobile("dantooine", "yras_shen_jen",60,1572.26,4,-6417.06,75.0582,0)
 	self:setMoodString(pNpc, "neutral")
 	spawnMobile("dantooine", "junk_quich", 0, 1579.04, 4, -6374.52, 48, 0)
-	spawnMobile("dantooine", "trainer_basebuster", 1575.5, 4, -6367.04, 0, -0.118191, 0, 0.992991, 0)
+	spawnMobile("dantooine", "trainer_basebuster", 0, 1574.64, 4, -6365.79, 176, 0)
 end
