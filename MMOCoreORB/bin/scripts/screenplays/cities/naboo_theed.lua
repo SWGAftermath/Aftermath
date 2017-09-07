@@ -230,7 +230,7 @@ function NabooTheedScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "trainer_scout",0,-5986.5,6,4232.79,104,0)
 	spawnMobile(self.planet, "trainer_scout",0,-4796,6,4103,240,0)
 	spawnMobile(self.planet, "trainer_unarmed",0,-5649,6,4206,0,0)
-	spawnMobile(self.planet, "trainer_basebuster", -5064.97, 6, 4288.54, 0, -0.447557, 0, 0.894255, 0)
+	spawnMobile(self.planet, "trainer_basebuster",0, -5064.62, 6, 4288.22, 262, 0)
 
 	--Creatures
 	spawnMobile(self.planet, "flewt", 300, getRandomNumber(10) + -5195, 6, getRandomNumber(10) + 3988, getRandomNumber(360), 0)

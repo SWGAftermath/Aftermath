@@ -87,7 +87,7 @@ function LokNymStrongholdScreenPlay:spawnMobiles()
 	spawnMobile("lok", "trainer_combatmedic",60,-17.1,0.26,9.2,-100,2745870)
 	spawnMobile("lok", "trainer_doctor",60,22.1279,0.26,-6.11676,91,2745866)
 	spawnMobile("lok", "trainer_medic",60,-16.0068,0.26,-2.42861,117,2745870)
-	spawnMobile("lok", "trainer_basebuster", 480.178, 23, 4960.23, 0, -0.491092, 0, 0.871108, 0)
+	spawnMobile("lok", "trainer_basebuster",0, 481.265, 23, 4960.68, 219, 0)
 
 	spawnMobile("lok", "agriculturalist",60,16.74,14.26,-2.05184,56.8997,2745876)
 	pNpc = spawnMobile("lok", "agriculturalist",60,7.54821,-0.894991,-7.47564,180.006,8145378)

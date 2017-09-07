@@ -424,7 +424,7 @@ function TatooineMosEspaScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "trainer_scout",0,-2912.86,5,2106.67,174,0)
 	spawnMobile(self.planet, "trainer_unarmed",0,-2812,5,1973,180,0)
 	spawnMobile(self.planet, "trainer_weaponsmith",0,-2869,5,2146,8,0)
-	spawnMobile(self.planet, "trainer_basebuster", -2982.04, 5, 2208.91, 0, 0.899646, 0, -0.43662, 0)
+	spawnMobile(self.planet, "trainer_basebuster",0, -2981.19, 5, 2207.68, 307, 0)
 
 	--Creatures
 	spawnMobile(self.planet, "dwarf_eopie",300,-3217.87,6.7851,2010.86,329.47,0)

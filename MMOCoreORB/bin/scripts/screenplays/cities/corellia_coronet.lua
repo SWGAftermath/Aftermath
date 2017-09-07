@@ -457,7 +457,7 @@ function CorelliaCoronetScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "trainer_politician",0,-218,28,-4500,0,0)
 	spawnMobile(self.planet, "trainer_ranger",0,-505,28,-4633,180,0)
 	spawnMobile(self.planet, "trainer_scout",0,-169.45,28,-4712.58,134,0)
-	spawnMobile(self.planet, "trainer_basebuster",25.8032, 28, -4726.19, 0, 0.842799, 0, 0.538229, 0)
+	spawnMobile(self.planet, "trainer_basebuster",0, -293.483, 28, -4742.19, 178, 0)
 
 	-- Chassis dealer.
 	spawnMobile(self.planet, "chassis_dealer", 0, 0.1, 0.6, 72.9, -4, 1855672)
