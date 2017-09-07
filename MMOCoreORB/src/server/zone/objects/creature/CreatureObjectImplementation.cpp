@@ -3028,7 +3028,7 @@ bool CreatureObjectImplementation::isAttackableBy(CreatureObject* object, bool b
 	if (getGroupID() != 0 && getGroupID() == object->getGroupID())
 		return false;
 
-	if ((pvpStatusBitmask & CreatureFlag::OVERT) && (object->getPvpStatusBitmask() & CreatureFlag::OVERT) && object->getFaction() != getFaction())
+	if ((pvpStatusBitmask & CreatureFlag::OVERT) && object->getFaction() != getFaction() && object->getFaction() != 0)
 		return true;
 
 	if ((pvpStatusBitmask & CreatureFlag::TEF) && (object->getFaction() != getFaction()) && (object->getFaction() != 0) && object->getPvpStatusBitmask() & CreatureFlag::OVERT) {
