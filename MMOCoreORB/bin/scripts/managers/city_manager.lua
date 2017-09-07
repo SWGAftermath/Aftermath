@@ -58,7 +58,7 @@ TreasuryWithdrawalCooldown = 86400000
 CityVotingCycles = 1
 
 --The number of city update cyles after which to lock the mayoral voting race registration.
-CityVotingCyclesUntilLocked = .99
+CityVotingCyclesUntilLocked = 1
 
 --The amount of time in minutes before the city performs an update.
 CityUpdateInterval = 10080
