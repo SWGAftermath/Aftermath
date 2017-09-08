@@ -11,8 +11,8 @@ require("screenplays.screenplay")
 ExperienceConverter = ScreenPlay:new {
 	xpConversion = {
 		combat = {
-			{ "bountyhunter", 5 },
-			{ "combat_general", 2.5 },
+			{ "bountyhunter", 3 },
+			{ "combat_general", 3 },
 			{ "combat_meleespecialize_onehand", 20 },
 			{ "combat_meleespecialize_polearm", 20 },
 			{ "combat_meleespecialize_twohand", 20 },
@@ -41,7 +41,7 @@ ExperienceConverter = ScreenPlay:new {
 		},
 		reflex = {
 			{ "bountyhunter", 5 },
-			{ "combat_general", 2.5 },
+			{ "combat_general", 3 },
 			{ "combat_meleespecialize_onehand", 20 },
 			{ "combat_meleespecialize_polearm", 20 },
 			{ "combat_meleespecialize_twohand", 20 },
@@ -59,7 +59,7 @@ ExperienceConverter = ScreenPlay:new {
 			{ "crafting_droid_general", 4 },
 			{ "crafting_food_general", 4 },
 			{ "crafting_general", 6 },
-			{ "crafting_medicine_general", 3.5 },
+			{ "crafting_medicine_general", 4 },
 			{ "crafting_spice", 4 },
 			{ "crafting_structure_general", 20 },
 			{ "crafting_weapons_general", 4 }
