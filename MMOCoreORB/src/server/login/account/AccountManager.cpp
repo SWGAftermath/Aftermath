@@ -21,7 +21,7 @@
 AccountManager::AccountManager(LoginServer* loginserv) : Logger("AccountManager") {
 	loginServer = loginserv;
 
-	autoRegistration = true;
+	autoRegistration = false;
 	requiredVersion = "";
 	maxOnlineCharacters = 1;
 
@@ -111,7 +111,7 @@ Account* AccountManager::validateAccountCredentials(LoginClient* client, const S
 			account = createAccount(username, password, passwordStored);
 		} else {
 			if(client != NULL)
-				client->sendErrorMessage("Login Error", "Automatic registration is currently disabled. Please contact the administrators of the server in order to get an authorized account.");
+				client->sendErrorMessage("Login Error", "Automatic registration is currently disabled. Please visit the registration button on the launcher to create an account.");
 			return NULL;
 		}
 	}
