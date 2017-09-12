@@ -22,7 +22,7 @@ public:
     
 		// Skill mods.
 		skillMods.put("force_run", 1);
-		skillMods.put("slope_move", 33);
+		skillMods.put("slope_move", 66);
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {

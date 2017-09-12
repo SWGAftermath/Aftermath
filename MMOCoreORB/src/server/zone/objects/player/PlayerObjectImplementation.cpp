@@ -1318,6 +1318,12 @@ void PlayerObjectImplementation::notifyOnline() {
 			missionManager->updatePlayerBountyOnlineStatus(id, true);
 		}
 	}
+
+	//Remove FR2 from Jedi
+	ManagedReference<PlayerObject*> ghost = playerCreature->getPlayerObject();
+	if (ghost != NULL && playerCreature->hasSkill("force_title_jedi_rank_02") && ghost->hasAbility("forceRun2")){
+		SkillManager::instance()->removeAbility(ghost, "forceRun2", true);
+	}
 }
 
 void PlayerObjectImplementation::notifyOffline() {
