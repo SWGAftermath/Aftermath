@@ -55,8 +55,8 @@ object_tangible_beta_beta_terminal_xp = object_tangible_beta_shared_beta_termina
 
 
 	itemList = {
-			"[REBEL] Roll Axkva Min loot (2,000 GCW Currency)", "axkva_roll_rebel",
-			"[IMPERIAL] Roll Axkva Min loot (2,000 GCW Currency)", "axkva_roll_imperial",
+			"[REBEL] Roll Axkva Min loot (4,000 GCW Currency)", "axkva_roll_rebel",
+			"[IMPERIAL] Roll Axkva Min loot (4,000 GCW Currency)", "axkva_roll_imperial",
 			
 	}
 

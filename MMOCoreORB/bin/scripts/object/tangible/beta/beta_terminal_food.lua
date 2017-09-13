@@ -55,8 +55,8 @@ object_tangible_beta_beta_terminal_food = object_tangible_beta_shared_beta_termi
 
 
 	itemList = {
-			"[REBEL] Roll Acklay loot (2,000 GCW Currency)", "acklay_roll_rebel",
-			"[IMPERIAL] Roll Acklay loot (2,000 GCW Currency)", "acklay_roll_imperial",
+			"[REBEL] Roll Acklay loot (4,000 GCW Currency)", "acklay_roll_rebel",
+			"[IMPERIAL] Roll Acklay loot (4,000 GCW Currency)", "acklay_roll_imperial",
 			
 	}
 

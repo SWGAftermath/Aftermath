@@ -55,8 +55,8 @@ object_tangible_beta_beta_terminal_warp = object_tangible_beta_shared_beta_termi
 
 
 	itemList = {
-			"[REBEL] Roll Krayt Dragon loot (2,000 GCW Currency)", "ancient_roll_rebel",
-			"[IMPERIAL] Roll Krayt Draogon loot (2,000 GCW Currency)", "ancient_roll_imperial",
+			"[REBEL] Roll Krayt Dragon loot (4,000 GCW Currency)", "ancient_roll_rebel",
+			"[IMPERIAL] Roll Krayt Draogon loot (4,000 GCW Currency)", "ancient_roll_imperial",
 			
 	}
 
