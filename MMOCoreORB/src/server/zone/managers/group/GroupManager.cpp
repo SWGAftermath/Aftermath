@@ -151,7 +151,7 @@ void GroupManager::joinGroup(CreatureObject* player) {
 
 	Locker clocker2(group, player);
 
-	if (group->getGroupSize() >= 20) {
+	if (group->getGroupSize() >= 50) {
 		clocker.release();
 
 		player->updateGroupInviterID(0);
