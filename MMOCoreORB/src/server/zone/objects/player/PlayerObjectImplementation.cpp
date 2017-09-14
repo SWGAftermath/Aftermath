@@ -285,8 +285,11 @@ int PlayerObjectImplementation::calculateBhReward() {
 	int reward = minReward;
 
 	int skillPoints = getSpentJediSkillPoints();
+	info("Jedi Skillpoints: " + skillPoints, true);
+
 
 	reward = skillPoints * 1000;
+	info("Jedi Payout: " + reward, true);
 
 	if (reward < minReward)
 		reward = minReward;
@@ -2420,10 +2423,13 @@ int PlayerObjectImplementation::getSpentJediSkillPoints() {
 		if (jediSkill->getSkillName().indexOf("jedi") != -1){
 			if (jediSkill->getSkillName().indexOf("_padawan_") != -1){
 				jediSkillPoints += 4;
+				info("Paddy skill adding 4 total is: " + jediSkillPoints, true);
 			}else if (jediSkill->getSkillName().indexOf("_journeyman_") != -1) {
 				jediSkillPoints += 6;
+				info("Knight skill adding 6 total is: " + jediSkillPoints, true);
 			}else if (jediSkill->getSkillName().indexOf("_master_") != -1){
 				jediSkillPoints += 7;
+				info("Guardian skill adding 7 total is: " + jediSkillPoints, true);
 			}
 		}
 
