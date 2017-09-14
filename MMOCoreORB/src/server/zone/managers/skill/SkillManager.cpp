@@ -370,7 +370,7 @@ bool SkillManager::awardSkill(const String& skillName, CreatureObject* creature,
 		if (skill->getSkillName() == "force_title_jedi_rank_02") {
 			if (missionManager != NULL)
 				missionManager->addPlayerToBountyList(creature->getObjectID(), ghost->calculateBhReward());
-		} else if (skill->getSkillName().contains("force_discipline")) {
+		} else if (skill->getSkillName().contains("jedi")) {
 			if (missionManager != NULL)
 				missionManager->updatePlayerBountyReward(creature->getObjectID(), ghost->calculateBhReward());
 		} else if (skill->getSkillName().contains("squadleader")) {
