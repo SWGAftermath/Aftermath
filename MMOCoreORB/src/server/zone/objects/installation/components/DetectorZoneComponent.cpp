@@ -43,7 +43,7 @@ void DetectorZoneComponent::notifyPositionUpdate(SceneObject* sceneObject, QuadT
 		if(playerObject == NULL)
 			return;
 
-		if(tano->getFaction() != player->getFaction() && player->getFaction() != 0 ){
+		if(tano->getFaction() != player->getFaction() && player->getFaction() != 0 && !player->isDead()){
 			scannerData->updateCooldown();
 			PlayClientEffectLoc* explodeLoc = new PlayClientEffectLoc("clienteffect/survey_effect.cef", tano->getZone()->getZoneName(), tano->getPositionX(), tano->getPositionZ(), tano->getPositionY());
 			tano->broadcastMessage(explodeLoc, false);
