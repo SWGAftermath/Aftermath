@@ -221,6 +221,8 @@ int CombatManager::doCombatAction(CreatureObject* attacker, WeaponObject* weapon
 				ghost->updateLastPvpCombatActionTimestamp(shouldGcwTef, shouldBhTef, shouldJediTef);
 				ManagedReference<CreatureObject*> defenderCreature = cast<CreatureObject*>(defenderObject);
 				if (defenderCreature != NULL){
+					olocker.release();
+					Locker olocker(defenderCreature, attacker);
 					ManagedReference<PlayerObject*> defenderPlayer = defenderCreature->getPlayerObject(); 
 					if (defenderPlayer != NULL && shouldJediTef)
 						defenderPlayer->updateLastPvpCombatActionTimestamp(false, false, true);
