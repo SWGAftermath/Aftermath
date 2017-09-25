@@ -1,1 +1,1 @@
-includeFile("../custom_scripts/screenplays/glowing.lua")
+includeFile("glowing.lua")
