@@ -29,6 +29,7 @@ require("sui.custom.SuiReceiverPuzzle")
 
 -- Custom content
 includeFile("../custom_scripts/screenplays/screenplays.lua")
+includeFile("../custom_scripts/screenplays/glowing.lua")
 
 includeFile("helperfuncs.lua")
 
