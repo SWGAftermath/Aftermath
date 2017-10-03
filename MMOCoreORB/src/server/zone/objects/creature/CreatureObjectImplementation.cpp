@@ -3512,5 +3512,5 @@ CreditObject* CreatureObjectImplementation::getCreditObject() {
 		bankCredits = 0;
 	}
 
-	return creditObject;
+	return obj.castTo<CreditObject*>();
 }

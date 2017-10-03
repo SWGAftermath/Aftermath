@@ -83,6 +83,9 @@ void ServerCore::initialize() {
 
 	processConfig();
 
+	Logger::setGlobalFileLogger(configManager->getLogFile());
+	Logger::setGlobalFileLogLevel(static_cast<Logger::LogLevel>(configManager->getLogFileLevel()));
+
 	try {
 		ObjectManager* objectManager = ObjectManager::instance();
 
@@ -477,6 +480,19 @@ void ServerCore::handleCommands() {
 					System::out << "result: " << file << endl;
 				}
 
+			} else if (command == "loglevel") {
+				int level = 0;
+				try {
+					level = Integer::valueOf(arguments);
+				} catch (Exception& e) {
+					System::out << "invalid log level" << endl;
+				}
+
+				if (level >= Logger::NONE && level <= Logger::DEBUG) {
+					Logger::setGlobalFileLogLevel(static_cast<Logger::LogLevel>(level));
+
+					System::out << "log level changed to: " << level << endl;
+				}
 			} else if (command == "rev") {
 				System::out << ConfigManager::instance()->getRevision() << endl;
 			} else if (command == "broadcast") {
@@ -532,6 +548,39 @@ void ServerCore::handleCommands() {
 				DirectorManager::instance()->reloadScreenPlays();
 			} else if ( command == "clearstats" ) {
 				Core::getTaskManager()->clearWorkersTaskStats();
+#ifdef COLLECT_TASKSTATISTICS
+			} else if (command == "statsd") {
+				StringTokenizer argTokenizer(arguments);
+
+				argTokenizer.setDelimiter(" ");
+
+				String address;
+				int port = 0;
+
+				if (argTokenizer.hasMoreTokens())
+					argTokenizer.getStringToken(address);
+
+				if (argTokenizer.hasMoreTokens())
+					port = argTokenizer.getIntToken();
+
+				if (port) {
+					MetricsManager::instance()->initializeStatsDConnection(address.toCharArray(), port);
+
+					System::out << "metrics manager connection set to" << address << ":" << port << endl;
+				} else {
+					System::out << "invalid port or address" << endl;
+				}
+			} else if (command == "samplerate") {
+				try {
+					int rate = UnsignedInteger::valueOf(arguments);
+
+					Core::getTaskManager()->setStatsDTaskSampling(rate);
+
+					System::out << "statsd sampling rate changed to " << rate << endl;
+				} catch (Exception& e) {
+					System::out << "invalid statsd sampling rate" << endl;
+				}
+#endif
 			} else {
 				System::out << "unknown command (" << command << ")\n";
 			}

@@ -261,20 +261,29 @@ function FsCsBaseControl:erectShield(pTheater)
 	end
 
 	local theaterID = SceneObject(pTheater):getObjectID()
-	local shieldID = readData(theaterID .. ":shieldID")
 
-	local pActiveArea = getSceneObject(shieldID)
-
-	if (pActiveArea ~= nil) then
+	if (not self:isShieldPoweredDown(pTheater)) then
 		printLuaError("Error generating shield in FsCsBaseControl:erectShield, existing shield found.")
 		return
 	end
 
-	pActiveArea = spawnActiveArea("dathomir", "object/active_area.iff", SceneObject(pTheater):getWorldPositionX(), SceneObject(pTheater):getWorldPositionZ(), SceneObject(pTheater):getWorldPositionY(), self.shieldRadius, 0)
+	local pActiveArea = spawnActiveArea("dathomir", "object/active_area.iff", SceneObject(pTheater):getWorldPositionX(), SceneObject(pTheater):getWorldPositionZ(), SceneObject(pTheater):getWorldPositionY(), self.shieldRadius, 0)
 
 	if pActiveArea ~= nil then
 		writeData(theaterID .. ":shieldID", SceneObject(pActiveArea):getObjectID())
 		createEvent(10000, "FsCsBaseControl", "createShieldObserver", pActiveArea, "")
+		deleteData(theaterID .. ":shieldPowerDownTime")
+		deleteData(theaterID .. ":shieldPoweredDown")
+
+		local playerTable = SceneObject(pActiveArea):getPlayersInRange(self.shieldRadius)
+
+		for i = 1, #playerTable, 1 do
+			local pPlayer = playerTable[i]
+
+			if (pPlayer ~= nil) then
+				self:notifyEnteredCampShieldArea(pActiveArea, pPlayer)
+			end
+		end
 	end
 end
 
@@ -284,6 +293,15 @@ function FsCsBaseControl:createShieldObserver(pActiveArea)
 	end
 
 	createObserver(ENTEREDAREA, "FsCsBaseControl", "notifyEnteredCampShieldArea", pActiveArea)
+end
+
+function FsCsBaseControl:isShieldPoweredDown(pTheater)
+	local theaterID = SceneObject(pTheater):getObjectID()
+	local shieldID = readData(theaterID .. ":shieldID")
+
+	local pShield = getSceneObject(shieldID)
+
+	return pShield == nil or readData(theaterID .. ":shieldPoweredDown") == 1
 end
 
 function FsCsBaseControl:attemptPowerDownShield(pPlayer, campName)
@@ -313,11 +331,7 @@ function FsCsBaseControl:attemptPowerDownShield(pPlayer, campName)
 
 		if (pTheater ~= nil and SceneObject(pPlayer):isInRangeWithObject(pTheater, self.shieldRemoteRange)) then
 			if (tempCampName == campName) then
-				local shieldID = readData(theaterID .. ":shieldID")
-
-				local pShield = getSceneObject(shieldID)
-
-				if (pShield == nil) then
+				if (self:isShieldPoweredDown(pTheater)) then
 					CreatureObject(pPlayer):sendSystemMessage("@fs_quest_village:remote_shield_down_already")
 					return false
 				end
@@ -335,6 +349,9 @@ function FsCsBaseControl:attemptPowerDownShield(pPlayer, campName)
 					CreatureObject(pPlayer):sendSystemMessage("@fs_quest_village:remote_powering_down")
 				end
 
+				writeData(theaterID .. ":attackerID", SceneObject(pPlayer):getObjectID())
+				writeData(SceneObject(pPlayer):getObjectID() .. ":csTheater", theaterID)
+
 				self:powerDownShield(pTheater)
 				QuestManager.completeQuest(pPlayer, QuestManager.quests.FS_CS_INTRO)
 				QuestManager.activateQuest(pPlayer, QuestManager.quests.FS_CS_KILL5_GUARDS)
@@ -342,8 +359,6 @@ function FsCsBaseControl:attemptPowerDownShield(pPlayer, campName)
 
 				CreatureObject(pPlayer):sendSystemMessage("@fs_quest_village:fs_cs_step_intro_complete")
 
-				writeData(theaterID .. ":attackerID", SceneObject(pPlayer):getObjectID())
-				writeData(SceneObject(pPlayer):getObjectID() .. ":csTheater", theaterID)
 				return true
 			else
 				CreatureObject(pPlayer):sendSystemMessage("@fs_quest_village:shield_remote_wrong_camp")
@@ -433,11 +448,13 @@ function FsCsBaseControl:powerDownShield(pTheater)
 
 	local pShield = getSceneObject(shieldID)
 
-	if (pShield == nil) then
+	if (self:isShieldPoweredDown(pTheater)) then
 		return
 	end
 
-	SceneObject(pShield):destroyObjectFromWorld()
+	if (pShield ~= nil) then
+		SceneObject(pShield):destroyObjectFromWorld()
+	end
 
 	local door1ID = readData(theaterID .. "campDoor1")
 	local pDoor1 = getSceneObject(door1ID)
@@ -460,7 +477,8 @@ function FsCsBaseControl:powerDownShield(pTheater)
 		TangibleObject(pAntenna):clearOptionBit(INVULNERABLE)
 	end
 	local attackerID = readData(theaterID .. ":attackerID")
-
+	writeData(theaterID .. ":shieldPowerDownTime", os.time())
+	writeData(theaterID .. ":shieldPoweredDown", 1)
 	createEvent(self.shieldRebootTime, "FsCsBaseControl", "resetCamp", pTheater, attackerID)
 
 	deleteData(theaterID .. ":shouldStopSpawn")
@@ -519,15 +537,16 @@ function FsCsBaseControl:spawnDefenseWaves(pTheater)
 	createEvent(getRandomNumber(self.reinforcementWaveMin, self.reinforcementWaveMax), "FsCsBaseControl", "spawnDefenseWaves", pTheater, "")
 end
 
-function FsCsBaseControl:resetCamp(pTheater, attackerID)
+function FsCsBaseControl:resetCamp(pTheater, attackerID, override)
 	if (pTheater == nil) then
 		return
 	end
 
+	attackerID = tonumber(attackerID)
 	local theaterID = SceneObject(pTheater):getObjectID()
 	local storedAttackerID = readData(theaterID .. ":attackerID")
 
-	if (storedAttackerID ~= attackerID) then
+	if (storedAttackerID ~= attackerID and not override) then
 		return
 	end
 
@@ -535,7 +554,7 @@ function FsCsBaseControl:resetCamp(pTheater, attackerID)
 	writeData(theaterID .. ":shouldStopSpawn", 1)
 
 	deleteData(theaterID .. ":attackerID")
-	deleteData(attackerID .. ":csTheater", theaterID)
+	deleteData(attackerID .. ":csTheater")
 
 	local turret1ID = readData(theaterID .. "turret1")
 	local pTurret1 = getSceneObject(turret1ID)
