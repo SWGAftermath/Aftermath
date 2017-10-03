@@ -3058,6 +3058,8 @@ bool CreatureObjectImplementation::isHealableBy(CreatureObject* object) {
 
 	if (isPet()) {
 		auto linkedCreature = getLinkedCreature().get();
+		if (object == linkedCreature)
+			return true;
 
 		if (linkedCreature != nullptr) {
 			targetCreo = linkedCreature.get();

@@ -245,8 +245,11 @@ void QueueCommand::checkForTef(CreatureObject* creature, CreatureObject* target)
 				ghost->updateLastGcwPvpCombatActionTimestamp();
 			if (targetGhost->isJediAttackable() || (targetGhost->isJedi() && target->getWeapon()->isJediWeapon()) )
 				ghost->updateLastJediAttackableTimestamp();
-			if (targetGhost->hasJediTef())
+			if (targetGhost->hasJediTef()){
 				ghost->updateLastJediPvpCombatActionTimestamp();
+				targetGhost->updateLastJediPvpCombatActionTimestamp();
+			}
+
 			
 		}
 	} else if (target->isPet()) {
