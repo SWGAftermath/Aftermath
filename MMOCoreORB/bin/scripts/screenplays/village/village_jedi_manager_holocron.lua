@@ -15,7 +15,8 @@ function VillageJediManagerHolocron.canUseHolocron(pPlayer)
 		return false
 	end
 
-	return PlayerObject(pGhost):isJedi() and CreatureObject(pPlayer):checkCooldownRecovery(USEDHOLOCRON)
+	--return PlayerObject(pGhost):isJedi() and CreatureObject(pPlayer):checkCooldownRecovery(USEDHOLOCRON)
+	return false
 end
 
 -- Checks if the player can replenish the force or not.
