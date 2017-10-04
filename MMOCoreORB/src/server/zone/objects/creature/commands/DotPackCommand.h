@@ -183,7 +183,7 @@ public:
 			creature->sendSystemMessage(stringId);
 		}
 
-		checkForTef(creature, creatureTarget);
+		checkCmTef(creature, creatureTarget);
 	}
 
 	int hasCost(CreatureObject* creature) const {

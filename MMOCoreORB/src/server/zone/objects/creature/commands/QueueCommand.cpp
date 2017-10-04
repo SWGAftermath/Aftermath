@@ -248,9 +248,44 @@ void QueueCommand::checkForTef(CreatureObject* creature, CreatureObject* target)
 			if (targetGhost->hasJediTef()){
 				ghost->updateLastJediPvpCombatActionTimestamp();
 				targetGhost->updateLastJediPvpCombatActionTimestamp();
-			}
+			}		
+		}
+	} else if (target->isPet()) {
+		ManagedReference<CreatureObject*> owner = target->getLinkedCreature().get();
 
-			
+		if (owner != NULL && owner->isPlayerCreature()) {
+			PlayerObject* ownerGhost = owner->getPlayerObject().get();
+
+			if (!CombatManager::instance()->areInDuel(creature, owner)
+					&& ownerGhost != NULL && owner->getFactionStatus() == FactionStatus::OVERT && ownerGhost->hasPvpTef()) {
+				ghost->updateLastGcwPvpCombatActionTimestamp();
+			}
+		}
+	}
+}
+
+void QueueCommand::checkCmTef(CreatureObject* creature, CreatureObject* target) const {
+	if (!creature->isPlayerCreature() || creature == target)
+		return;
+
+	PlayerObject* ghost = creature->getPlayerObject().get();
+	if (ghost == NULL)
+		return;
+
+	if (target->isPlayerCreature()){
+		PlayerObject* targetGhost = target->getPlayerObject().get();
+
+		if (!CombatManager::instance()->areInDuel(creature, target) && targetGhost != NULL){
+			if ((targetGhost->hasPvpTef() || target->getFactionStatus() == FactionStatus::OVERT) && target->getFaction() != 0 && target->getFaction() != creature->getFaction())
+				ghost->updateLastGcwPvpCombatActionTimestamp();
+			if (targetGhost->isJediAttackable() || (targetGhost->isJedi() && target->getWeapon()->isJediWeapon())){
+				ghost->updateLastJediAttackableTimestamp();
+				targetGhost->updateLastJediPvpCombatActionTimestamp();
+			}
+			if (targetGhost->hasJediTef()){
+				ghost->updateLastJediAttackableTimestamp();
+				targetGhost->updateLastJediPvpCombatActionTimestamp();
+			}
 		}
 	} else if (target->isPet()) {
 		ManagedReference<CreatureObject*> owner = target->getLinkedCreature().get();
