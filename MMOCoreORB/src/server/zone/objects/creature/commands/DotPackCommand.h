@@ -336,7 +336,7 @@ public:
 			creatureTarget->sendSystemMessage(stringId2);
 		}
 
-		checkForTef(creature, creatureTarget);
+		checkCmTef(creature, creatureTarget);
 
 		if (dotPack->isArea()) {
 			if (creatureTarget != creature)
