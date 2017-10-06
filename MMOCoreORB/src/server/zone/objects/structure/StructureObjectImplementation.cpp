@@ -344,7 +344,7 @@ bool StructureObjectImplementation::isOwnerOf(SceneObject* obj) {
 
 	ManagedReference<PlayerObject*> ghost = (cast<CreatureObject*>( obj))->getPlayerObject();
 
-	if (ghost != NULL && ghost->isPrivileged())
+	if (ghost != NULL && ghost->isAdmin())
 		return true;
 
 	return obj->getObjectID() == ownerObjectID;
@@ -361,7 +361,7 @@ bool StructureObjectImplementation::isOwnerOf(uint64 objid) {
 
 	PlayerObject* ghost = player->getPlayerObject();
 
-	if (ghost != NULL && ghost->isPrivileged())
+	if (ghost != NULL && ghost->isAdmin())
 		return true;
 
 	return objid == ownerObjectID;
@@ -565,7 +565,7 @@ int StructureObjectImplementation::getBasePowerRate(){
 bool StructureObjectImplementation::isOnAdminList(CreatureObject* player) {
 	PlayerObject* ghost = player->getPlayerObject();
 
-	if (ghost != NULL && ghost->isPrivileged())
+	if (ghost != NULL && ghost->isAdmin())
 		return true;
 	else if (structurePermissionList.isOnPermissionList("ADMIN", player->getObjectID()))
 		return true;
@@ -620,7 +620,7 @@ bool StructureObjectImplementation::isOnBanList(CreatureObject* player) {
 bool StructureObjectImplementation::isOnHopperList(CreatureObject* player) {
 	PlayerObject* ghost = player->getPlayerObject();
 
-	if (ghost != NULL && ghost->isPrivileged())
+	if (ghost != NULL && ghost->isAdmin())
 		return true;
 	else if (structurePermissionList.isOnPermissionList("HOPPER", player->getObjectID())
 			|| structurePermissionList.isOnPermissionList("ADMIN", player->getObjectID()))
@@ -639,7 +639,7 @@ bool StructureObjectImplementation::isOnHopperList(CreatureObject* player) {
 bool StructureObjectImplementation::isOnPermissionList(const String& listName, CreatureObject* player) {
 	PlayerObject* ghost = player->getPlayerObject();
 
-	if (ghost != NULL && ghost->isPrivileged()) {
+	if (ghost != NULL && ghost->isAdmin()) {
 		if (listName == "BAN")
 			return false;
 		else
