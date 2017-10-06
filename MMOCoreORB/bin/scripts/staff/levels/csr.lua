@@ -1,5 +1,5 @@
 csr = {
-	level = 12,
+	level = 5,
 	name = "csr",
 	flag = 1,
 	tag = "Aftermath-CSR",
