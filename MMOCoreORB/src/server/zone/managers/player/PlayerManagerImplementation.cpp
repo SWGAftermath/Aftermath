@@ -1599,7 +1599,7 @@ int PlayerManagerImplementation::awardExperience(CreatureObject* player, const S
 		xpType == "music" || 
 		xpType == "dance" ||
 		xpType == "entertainer_healing"){
-			xp = playerObject->addExperience(xpType, (amount * 3));
+			xp = playerObject->addExperience(xpType, (amount * 6));
 			float speciesModifier = 1.f;
 
 			if (amount > 0)
