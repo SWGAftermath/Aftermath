@@ -2,7 +2,7 @@ corsec_super_battle_droid = Creature:new {
   objectName = "@mob/creature_names:rebel_super_battle_droid",
   socialGroup = "corsec",
   faction = "corsec",
-  level = 200,
+  level = 300,
   chanceHit = 18,
   damageMin = 1200,
   damageMax = 2300,
@@ -30,7 +30,14 @@ corsec_super_battle_droid = Creature:new {
     "object/mobile/super_battle_droid.iff",
   },
   lootGroups = {
-    
+    {
+      groups = {
+        {group = "armor_attachments", chance = 5000000},
+        {group = "clothing_attachments", chance = 5000000}
+
+      },
+      lootChance = 2500000
+    }
   },
   conversationTemplate = "",
   defaultWeapon = "object/weapon/ranged/droid/droid_droideka_ranged.iff",
