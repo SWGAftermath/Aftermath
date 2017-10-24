@@ -36,7 +36,7 @@ imperial_super_battle_droid = Creature:new {
         {group = "clothing_attachments", chance = 5000000}
 
       },
-      lootChance = 2500000
+      lootChance = 2000000
     }
   	},
 	conversationTemplate = "",
