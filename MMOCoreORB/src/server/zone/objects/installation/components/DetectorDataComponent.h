@@ -18,7 +18,7 @@ protected:
 
 public:
 	DetectorDataComponent()  {
-		maxrange = 57;
+		maxrange = 54;
 		nextScanTime = time(0);
 		this->setLoggingName("DetectorDAta");
 
