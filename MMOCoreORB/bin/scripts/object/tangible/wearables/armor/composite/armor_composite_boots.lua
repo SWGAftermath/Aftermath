@@ -101,14 +101,14 @@ object_tangible_wearables_armor_composite_armor_composite_boots = object_tangibl
 	-- LIGHT, MEDIUM, HEAVY
 	rating = LIGHT,
 
-	kinetic = 65,
-	energy = 65,
+	kinetic = 80,
+	energy = 80,
 	electricity = 80,
-	stun = 25,
-	blast = 65,
-	heat = 65,
-	cold = 65,
-	acid = 65,
+	stun = 35,
+	blast = 80,
+	heat = 80,
+	cold = 80,
+	acid = 80,
 	lightSaber = 0,
 
 	numberExperimentalProperties = {1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 2, 1},
