@@ -55,7 +55,7 @@ CitySpecializationCooldown = 604800000
 TreasuryWithdrawalCooldown = 86400000
 
 --The number of city update cycles that must pass before mayoral voting process is complete.
-CityVotingCycles = 1
+CityVotingCycles = 2
 
 --The number of city update cyles after which to lock the mayoral voting race registration.
 CityVotingCyclesUntilLocked = 1
