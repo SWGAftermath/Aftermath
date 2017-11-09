@@ -2169,6 +2169,7 @@ void PlayerObjectImplementation::schedulePvpTefRemovalTask(bool removeGcwTefNow,
 
 		if (removeJediTefNow){
 			lastJediPvpCombatActionTimestamp.updateToCurrentTime();
+			lastJediAttackableTimestamp.updateToCurrentTime();
 		}
 
 		if (pvpTefTask->isScheduled()) {
