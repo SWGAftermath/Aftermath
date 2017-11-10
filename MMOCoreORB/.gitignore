@@ -9,6 +9,7 @@ aclocal.m4
 bin/conf/rev.txt
 build/*
 src/Makefile.in
+src/Makefile.am
 src/client/Makefile.in
 src/client/aclocal.m4
 src/client/config.h.in
@@ -48,4 +49,6 @@ sql/insert_strings.sql
 build.out
 build.out.prev
 bin/screenlog*
+bin/scripts/managers/resource_manager_spawns.lua
+utils/googletest-release-1.8.0/googlemock/lib/libgtest.a
 
