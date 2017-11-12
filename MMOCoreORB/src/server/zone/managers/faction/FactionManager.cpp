@@ -53,6 +53,7 @@ void FactionManager::loadLuaConfig() {
 	lua->runFile("scripts/managers/faction_manager.lua");
 
 	LuaObject luaObject = lua->getGlobalObject("factionList");
+	globalFactionMultiplier = lua->getGlobalFloat("globalFactionMultiplier");
 
 	if (luaObject.isValidTable()) {
 		for (int i = 1; i <= luaObject.getTableSize(); ++i) {
