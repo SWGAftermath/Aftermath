@@ -105,7 +105,7 @@ void FactionManager::awardFactionStanding(CreatureObject* player, const String& 
 	if (!faction.isPlayerAllowed())
 		return;
 
-	float gain = level * faction.getAdjustFactor();
+	float gain = level * faction.getAdjustFactor() * globalFactionMultiplier;
 	float lose = gain * 2;
 
 	ghost->decreaseFactionStanding(factionName, lose);
