@@ -140,6 +140,7 @@ includeFile("dungeon/corellian_corvette/ticket_givers/corvette_yondalla_neutral_
 includeFile("dungeon/corellian_corvette/ticket_takers/ds_297.lua")
 includeFile("dungeon/corellian_corvette/ticket_takers/klaatu.lua")
 includeFile("dungeon/corellian_corvette/ticket_takers/lt_lance.lua")
+includeFile("dungeon/lok_bunker/lok_bunker.lua")
 
 
 -- Village
