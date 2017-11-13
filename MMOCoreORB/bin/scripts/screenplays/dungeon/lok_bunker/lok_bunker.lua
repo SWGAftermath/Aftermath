@@ -22,8 +22,8 @@ end
 
 function LokBunkerScreenPlay:spawnMobiles()
 --Outside
-	spawnMobile("lok", "nym_initiate_bunker", 600, 3740.4, 12.0, -3079.2, -70, 0)
-	spawnMobile("lok", "nym_initiate_bunker", 600, 3742.6, 12.1, -3072.9, -70, 0)
+	spawnMobile("lok", "nym_initiate_bunker", 600, 3765.3, 11.8283, -3072.91, 65, 0)
+	spawnMobile("lok", "nym_initiate_bunker", 600, 3766.69, 12.0934, -3077.99, 67, 0)
 --Inside
 	spawnMobile("lok", "nym_ranger_bunker", 720,  -10.6, -17.0, 75.8, 179, 9686007)
 	spawnMobile("lok", "nym_sentinel_bunker", 720, 7.7, -9.0, 28.9, 176, 9686003)

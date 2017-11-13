@@ -3,7 +3,6 @@ nym_protector_bunker = Creature:new {
 	randomNameType = NAME_GENERIC,
 	randomNameTag = true,
 	socialGroup = "nym",
-	faction = "nym",
 	level = 131,
 	chanceHit = 4.75,
 	damageMin = 770,

@@ -3,7 +3,6 @@ nym_ranger_bunker = Creature:new {
 	randomNameType = NAME_GENERIC,
 	randomNameTag = true,
 	socialGroup = "nym",
-	faction = "nym",
 	level = 81,
 	chanceHit = 0.75,
 	damageMin = 555,

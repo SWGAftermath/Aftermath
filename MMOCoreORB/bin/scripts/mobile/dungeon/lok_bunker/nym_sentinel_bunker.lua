@@ -3,7 +3,6 @@ nym_sentinel_bunker = Creature:new {
 	randomNameType = NAME_GENERIC,
 	randomNameTag = true,
 	socialGroup = "nym",
-	faction = "nym",
 	level = 88,
 	chanceHit = 0.8,
 	damageMin = 545,

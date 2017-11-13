@@ -3,7 +3,6 @@ nym_slave_bunker = Creature:new {
 	randomNameType = NAME_GENERIC,
 	randomNameTag = true,
 	socialGroup = "nym",
-	faction = "nym",
 	level = 15,
 	chanceHit = 0.31,
 	damageMin = 160,

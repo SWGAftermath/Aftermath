@@ -3,7 +3,6 @@ nym_elder_bunker = Creature:new {
 	randomNameType = NAME_GENERIC,
 	randomNameTag = true,
 	socialGroup = "nym",
-	faction = "nym",
 	level = 278,
 	chanceHit = 27.25,
 	damageMin = 1520,

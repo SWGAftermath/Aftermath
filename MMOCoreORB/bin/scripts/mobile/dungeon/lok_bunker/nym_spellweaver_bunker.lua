@@ -3,7 +3,6 @@ nym_spellweaver_bunker = Creature:new {
 	randomNameType = NAME_GENERIC,
 	randomNameTag = true,
 	socialGroup = "nym",
-	faction = "nym",
 	level = 107,
 	chanceHit = 1,
 	damageMin = 645,
