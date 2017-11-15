@@ -125,10 +125,10 @@ public:
 											Locker clocker(patientObject, creature);
 
 											if (patientObject->isPlayerCreature()) {
-												pm->enhanceCharacter(patientObject);
+												pm->enhanceCharacter(patientObject, 0);
 												creature->sendSystemMessage(patientObject->getFirstName() + " has been enhanced.");
 											} else if (patientObject->isCreature()) {
-												pm->enhanceCharacter(patientObject);
+												pm->enhanceCharacter(patientObject, 0);
 												creature->sendSystemMessage(patientObject->getDisplayedName() + " has been enhanced.");
 											}
 
@@ -146,7 +146,7 @@ public:
 						if (patient != NULL) {
 							if (buff) {
 								Locker clocker(patient, creature);
-								pm->enhanceCharacter(patient);
+								pm->enhanceCharacter(patient, 0);
 								creature->sendSystemMessage(patient->getFirstName() + " has been enhanced.");
 
 							} else {
@@ -162,15 +162,15 @@ public:
 						Locker clocker(patient, creature);
 
 						if (patient->isPlayerCreature()) {
-							pm->enhanceCharacter(patient);
+							pm->enhanceCharacter(patient, 0);
 							creature->sendSystemMessage(patient->getFirstName() + " has been enhanced.");
 						} else if (patient->isCreature()) {
-							pm->enhanceCharacter(patient);
+							pm->enhanceCharacter(patient, 0);
 							creature->sendSystemMessage(patient->getDisplayedName() + " has been enhanced.");
 						}
 
 					} else if (object == NULL) { // No target, buff self
-						pm->enhanceCharacter(creature);
+						pm->enhanceCharacter(creature, 0);
 
 					} else { // Target is not a player or pet
 						creature->sendSystemMessage("Syntax: /gmrevive [buff] [ [<name>] | [area [<range>] [imperial | rebel | neutral]] ]");

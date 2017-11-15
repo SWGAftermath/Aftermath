@@ -951,7 +951,8 @@ int LuaCreatureObject::getGroupID(lua_State* L) {
 
 int LuaCreatureObject::enhanceCharacter(lua_State* L) {
 	PlayerManager* playerManager = realObject->getZoneServer()->getPlayerManager();
-	playerManager->enhanceCharacter(realObject);
+	int type = lua_tointeger(L, -1);
+	playerManager->enhanceCharacter(realObject, type);
 
 	return 0;
 }

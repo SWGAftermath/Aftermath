@@ -46,7 +46,13 @@ class PlayerManager extends Observer implements Logger {
 
 	// Used for frog/gm buffs
 	protected int performanceBuff;
+	protected int cheapPerformanceBuff;
+	protected int expensivePerformanceBuff;
+	protected int expensivePerformanceSubBuff;
 	protected int medicalBuff;
+	protected int cheapMedicalBuff;
+	protected int expensiveMedicalBuff;
+	protected int expensiveMedicalSubBuff;
 	protected int performanceDuration;
 	protected int medicalDuration;
 
@@ -457,7 +463,7 @@ class PlayerManager extends Observer implements Logger {
 	 * @pre { player is locked }
 	 * @post { player is locked }
 	 */
-	public native void enhanceCharacter(CreatureObject player);
+	public native void enhanceCharacter(CreatureObject player, int type);
 
 	/**
 	 * Creates and adds buff to Player

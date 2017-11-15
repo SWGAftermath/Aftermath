@@ -50,8 +50,18 @@ allowSameAccountPvpRatingCredit = 0
 --Blue frog / GM buff values
 performanceBuff = 1200
 medicalBuff = 2500
-performanceDuration = 7200 -- in seconds
-medicalDuration = 7200 -- in seconds
+performanceDuration = 5400 -- in seconds
+medicalDuration = 5400 -- in seconds
+
+--Cheap Buffs
+cheapPerformanceBuff = 500
+cheapMedicalBuff = 750
+
+--Expensive Buffs
+expensivePerformanceBuff = 900
+expensivePerformanceSubBuff = 850
+expensiveMedicalBuff = 1750
+expensiveMedicalSubBuff = 2200
 
 --Sets the experience multiplier while grouped
 groupExpMultiplier = 1.2

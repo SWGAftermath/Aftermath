@@ -488,8 +488,14 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 				stringId.setTO(apron->getObjectID());
 				player->sendSystemMessage(stringId);
 
-			} else if (templatePath == "enhance_character") {
-				bluefrog->enhanceCharacter(player);
+			} else if (templatePath == "cheap_enhance_character") {
+				bluefrog->enhanceCharacter(player, 1);
+
+			} else if (templatePath == "expensive_enhance_character_mind"){
+				bluefrog->enhanceCharacter(player, 2);
+
+			} else if (templatePath == "expensive_enhance_character_body"){
+				bluefrog->enhanceCharacter(player, 3);
 
 			} else if (templatePath == "axkva_roll_rebel") {		
 				Reference<PlayerObject*> ghost = player->getSlottedObject("ghost").castTo<PlayerObject*>();		
