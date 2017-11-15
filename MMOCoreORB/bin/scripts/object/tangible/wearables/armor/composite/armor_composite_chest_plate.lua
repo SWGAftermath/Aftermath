@@ -105,7 +105,7 @@ object_tangible_wearables_armor_composite_armor_composite_chest_plate = object_t
 	-- LIGHT, MEDIUM, HEAVY
 	rating = LIGHT,
 
-	kkinetic = 80,
+	kinetic = 80,
 	energy = 80,
 	electricity = 80,
 	stun = 35,
