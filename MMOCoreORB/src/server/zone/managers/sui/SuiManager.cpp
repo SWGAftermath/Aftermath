@@ -492,10 +492,10 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 				bluefrog->enhanceCharacter(player, 1);
 
 			} else if (templatePath == "expensive_enhance_character_mind"){
-				bluefrog->enhanceCharacter(player, 2);
+				bluefrog->enhanceCharacter(player, 3);
 
 			} else if (templatePath == "expensive_enhance_character_body"){
-				bluefrog->enhanceCharacter(player, 3);
+				bluefrog->enhanceCharacter(player, 2);
 
 			} else if (templatePath == "axkva_roll_rebel") {		
 				Reference<PlayerObject*> ghost = player->getSlottedObject("ghost").castTo<PlayerObject*>();		
