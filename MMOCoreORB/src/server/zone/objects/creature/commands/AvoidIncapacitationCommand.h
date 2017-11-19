@@ -8,6 +8,13 @@
 #include "JediQueueCommand.h"
 
 class AvoidIncapacitationCommand : public JediQueueCommand {
+
+protected:
+	String skillName = "avoidIncapacitation";		// Skill Name
+	String skillNameDisplay = "Avoid Incap";		// Skill Display Name for output message
+	int delay = 45; 								//  15 second cool down timer
+
+
 public:
 
 	AvoidIncapacitationCommand(const String& name, ZoneProcessServer* server)
@@ -20,7 +27,7 @@ public:
 		// SPECIAL - For Avoid Incapacitation, which is a special case buff, if it's determined that it should only be stacked up to 6 times for a new buff object, then it'll needs a new crc from the other 5 in string-files.
 		// PLUS: There is no concrete evidence for what's stated in 'SPECIAL' sentence above, beyond the existence of 6 CRCs themselves.
 
-		if (creature->hasBuff(BuffCRC::JEDI_AVOID_INCAPACITATION)) {
+		/*if (creature->hasBuff(BuffCRC::JEDI_AVOID_INCAPACITATION)) {
 
 			int res = doCommonJediSelfChecks(creature);
 
@@ -34,14 +41,43 @@ public:
 			if (!clientEffect.isEmpty())
 				creature->playEffect(clientEffect, "");
 
-			return SUCCESS;
-		} else if (creature->hasBuff(BuffCRC::JEDI_FORCE_ABSORB_1) || creature->hasBuff(BuffCRC::JEDI_FORCE_ABSORB_2)){
+			return SUCCESS; */
+		 if (creature->hasBuff(BuffCRC::JEDI_FORCE_ABSORB_1) || creature->hasBuff(BuffCRC::JEDI_FORCE_ABSORB_2)){
 			creature->sendSystemMessage("Avoid Incapacitation cannot be used with Force Absorb");
 			return GENERALERROR;
 
+		} else if (!creature->checkCooldownRecovery(skillName)) {
+			Time* timeRemaining = creature->getCooldownTime(skillName);
+			creature->sendSystemMessage("You must wait " +  getCooldownString(timeRemaining->miliDifference() * -1)  + " to use " + skillNameDisplay + " again");
+			return GENERALERROR;
 		} else {
+			creature->updateCooldownTimer(skillName, delay * 1000);
 			return doJediSelfBuffCommand(creature);
 		}
+	}
+
+	String getCooldownString(uint32 delta) const {
+
+		int seconds = delta / 1000;
+
+		int hours = seconds / 3600;
+		seconds -= hours * 3600;
+
+		int minutes = seconds / 60;
+		seconds -= minutes * 60;
+
+		StringBuffer buffer;
+
+		if (hours > 0)
+			buffer << hours << "h ";
+
+		if (minutes > 0)
+			buffer << minutes << "m ";
+
+		if (seconds > 0)
+			buffer << seconds << "s";
+
+		return buffer.toString();
 	}
 
 };
