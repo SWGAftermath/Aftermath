@@ -10,7 +10,7 @@
 -- adjustFactor  - This factor affects the amount of faction gained/lost when killing a mobile
 
 --Sets a global faction multiplier
-globalFactionMultiplier = 2.0
+globalFactionMultiplier = 1.0
 
 factionList = {
 	{ "rebel", true, "imperial", "", 1.0 },
