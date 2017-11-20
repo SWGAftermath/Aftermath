@@ -733,7 +733,7 @@ bool InstallationObjectImplementation::isAttackableBy(CreatureObject* object) {
 		return isAttackableBy(owner);
 
 	} else if (object->isPlayerCreature() && thisFaction != 0) {
-		if (object->getFactionStatus() == 0) {
+		if (object->getFactionStatus() == 0 || otherFaction == 0) {
 			return false;
 		}
 
