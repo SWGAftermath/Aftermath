@@ -67,7 +67,7 @@ object_draft_schematic_vehicle_civilian_speeder_bike = object_draft_schematic_ve
 	ingredientTitleNames = {"vehicle_body", "structural_frame"},
 	ingredientSlotType = {0, 0},
 	resourceTypes = {"metal_nonferrous", "metal_ferrous"},
-	resourceQuantities = {1200, 4800},
+	resourceQuantities = {1600, 6400},
 	contribution = {100, 100},
 
 
