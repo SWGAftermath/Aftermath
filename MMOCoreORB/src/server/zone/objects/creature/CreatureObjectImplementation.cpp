@@ -3068,34 +3068,23 @@ bool CreatureObjectImplementation::isHealableBy(CreatureObject* object) {
 
 		if (linkedCreature != nullptr) {
 			targetCreo = linkedCreature.get();
+			//if (targetCreo->getFaction() == 0 || targetCreo->getFaction() == ghost->getFaction())
 		}
 	}
 
 	uint32 targetFactionStatus = targetCreo->getFactionStatus();
 	uint32 currentFactionStatus = object->getFactionStatus();
 	PlayerObject* playerGhost = getPlayerObject();
-	if (playerGhost == NULL)
-		return false;
-
-	if (getFaction() != object->getFaction() && ((ghost->hasPvpTef() || playerGhost->hasPvpTef() )))
-		return false;
-
-	if (currentFactionStatus == FactionStatus::OVERT && (object->getFaction() == 0 || object->getFaction() != getFaction()))
-		return false;
-
-	if (playerGhost->hasPvpTef() && (object->getFaction() == 0 || object->getFaction() != getFaction()))
-		return false;
-
-	/*if(targetCreo->isPlayerCreature()) {
-		PlayerObject* targetGhost = targetCreo->getPlayerObject();
-		if(targetGhost != NULL && targetGhost->hasBhTef())
+	if (playerGhost != NULL){
+		if (getFaction() != object->getFaction() && ((ghost->hasPvpTef() || playerGhost->hasPvpTef() )))
 			return false;
-	}*/
 
-/*	if ((playerGhost->hasPvpTef() || currentFactionStatus == FactionStatus::OVERT) && targetFactionStatus != FactionStatus::OVERT){
-			ghost->updateLastPvpCombatActionTimestamp();
-			targetCreo->broadcastPvpStatusBitmask();
-		}*/
+		if (currentFactionStatus == FactionStatus::OVERT && (object->getFaction() == 0 || object->getFaction() != getFaction()))
+			return false;
+
+		if (playerGhost->hasPvpTef() && (object->getFaction() == 0 || object->getFaction() != getFaction()))
+			return false;
+	}
 
 	return true;
 }
