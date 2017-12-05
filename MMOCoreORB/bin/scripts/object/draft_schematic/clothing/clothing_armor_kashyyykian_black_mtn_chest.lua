@@ -48,7 +48,7 @@ object_draft_schematic_clothing_clothing_armor_kashyyykian_black_mtn_chest = obj
    customObjectName = "Kashyyykian Black Mountain Chest Plate",
 
    craftingToolTab = 2, -- (See DraftSchematicObjectTemplate.h)
-   complexity = 40, 
+   complexity = 45, 
    size = 4, 
 
    xpType = "crafting_clothing_armor", 
@@ -62,12 +62,12 @@ object_draft_schematic_clothing_clothing_armor_kashyyykian_black_mtn_chest = obj
    customizationStringNames = {},
    customizationDefaults = {},
 
-   ingredientTemplateNames = {"craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n"},
-   ingredientTitleNames = {"auxilary_coverage", "body", "liner", "hardware_and_attachments", "binding_and_reinforcement", "padding", "armor", "load_bearing_harness", "reinforcement"},
-   ingredientSlotType = {0, 0, 0, 0, 0, 1, 1, 1, 0},
-   resourceTypes = {"wood_deciduous_endor", "hide_leathery", "hide_wooly_naboo", "copper", "petrochem_inert_polymer", "object/tangible/component/clothing/shared_padding_segment.iff", "object/tangible/component/armor/shared_armor_segment_kashyyykian_black_mtn.iff", "object/tangible/component/clothing/shared_synthetic_cloth.iff", "fiberplast"},
-   resourceQuantities = {80, 80, 40, 50, 50, 4, 4, 1, 20},
-   contribution = {100, 100, 100, 100, 100, 100, 100, 100, 100},
+   ingredientTemplateNames = {"craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n", "craft_clothing_ingredients_n"},
+   ingredientTitleNames = {"auxilary_coverage", "body", "liner", "hardware_and_attachments", "binding_and_reinforcement", "padding", "armor", "load_bearing_harness", "reinforcement", "bone_decoration"},
+   ingredientSlotType = {0, 0, 0, 0, 0, 1, 1, 1, 0, 0},
+   resourceTypes = {"softwood_evergreen_dathomir", "hide_leathery_lok", "hide_wooly_tatooine", "copper_mythra", "petrochem_inert_polymer", "object/tangible/component/clothing/shared_padding_segment.iff", "object/tangible/component/armor/shared_armor_segment_kashyyykian_hunting.iff", "object/tangible/component/clothing/shared_synthetic_cloth.iff", "fiberplast_naboo", "bone_mammal_dantooine"},
+   resourceQuantities = {100, 100, 80, 50, 40, 6, 4, 1, 40, 40},
+   contribution = {100, 100, 100, 100, 100, 100, 100, 100, 100, 100},
 
 
    targetTemplate = "object/tangible/wearables/armor/kashyyykian_black_mtn/armor_kashyyykian_black_mtn_chest_plate.iff",
