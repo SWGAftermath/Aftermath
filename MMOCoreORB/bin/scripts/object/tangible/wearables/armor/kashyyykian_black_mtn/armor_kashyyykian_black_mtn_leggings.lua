@@ -72,7 +72,7 @@ object_tangible_wearables_armor_kashyyykian_black_mtn_armor_kashyyykian_black_mt
 	heat = 80,
 	cold = 80,
 	acid = 80,
-	lightSaber = 0
+	lightSaber = 0,
 
 	numberExperimentalProperties = {1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1},
 	experimentalProperties = {"XX", "XX", "XX", "OQ", "SR", "OQ", "SR", "OQ", "UT", "MA", "OQ", "MA", "OQ", "MA", "OQ", "XX", "XX", "OQ", "SR", "XX"},
