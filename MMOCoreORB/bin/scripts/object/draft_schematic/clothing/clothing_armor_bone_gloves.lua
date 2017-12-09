@@ -48,7 +48,7 @@ object_draft_schematic_clothing_clothing_armor_bone_gloves = object_draft_schema
    customObjectName = "Bone Armor Gloves",
 
    craftingToolTab = 2, -- (See DraftSchematicObjectTemplate.h)
-   complexity = 12, 
+   complexity = 45, 
    size = 3, 
 
    xpType = "crafting_general", 
@@ -66,7 +66,7 @@ object_draft_schematic_clothing_clothing_armor_bone_gloves = object_draft_schema
    ingredientTitleNames = {"auxilary_coverage", "body", "liner", "hardware_and_attachments", "binding_and_reinforcement", "padding", "armor", "load_bearing_harness", "reinforcement", "auxiliary_coverage_2"},
    ingredientSlotType = {0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
    resourceTypes = {"bone_mammal_tatooine", "hide_scaley", "hide_leathery_talus", "iron_plumbum", "petrochem_inert", "hide_wooly", "object/tangible/component/armor/shared_armor_segment_bone.iff", "object/tangible/component/clothing/shared_fiberplast_panel.iff", "object/tangible/component/clothing/shared_fiberplast_panel.iff", "object/tangible/component/clothing/shared_fiberplast_panel.iff"},
-   resourceQuantities = {30, 30, 30, 25, 20, 25, 1, 1, 1, 1},
+   resourceQuantities = {25, 25, 15, 10, 10, 10, 1, 1, 1, 1},
    contribution = {100, 100, 100, 100, 100, 100, 100, 100, 100, 100},
 
 
