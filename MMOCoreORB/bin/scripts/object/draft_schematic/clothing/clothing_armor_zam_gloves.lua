@@ -48,7 +48,7 @@ object_draft_schematic_clothing_clothing_armor_zam_gloves = object_draft_schemat
    customObjectName = "Mabari Armorweave Gloves",
 
    craftingToolTab = 2, -- (See DraftSchematicObjectTemplate.h)
-   complexity = 20, 
+   complexity = 45, 
    size = 4, 
 
    xpType = "crafting_clothing_armor", 
@@ -66,7 +66,7 @@ object_draft_schematic_clothing_clothing_armor_zam_gloves = object_draft_schemat
    ingredientTitleNames = {"auxilary_coverage", "body", "liner", "hardware_and_attachments", "binding_and_reinforcement", "padding", "armor", "load_bearing_harness"},
    ingredientSlotType = {0, 0, 0, 0, 0, 0, 1, 1},
    resourceTypes = {"iron", "hide_scaley", "fiberplast_dantooine", "steel_duranium", "petrochem_inert", "fiberplast_endor", "object/tangible/component/armor/shared_armor_segment_zam.iff", "object/tangible/component/clothing/shared_synthetic_cloth.iff"},
-   resourceQuantities = {80, 80, 80, 45, 33, 25, 1, 1},
+   resourceQuantities = {75, 75, 40, 40, 30, 30, 1, 3},
    contribution = {100, 100, 100, 100, 100, 100, 100, 100},
 
 

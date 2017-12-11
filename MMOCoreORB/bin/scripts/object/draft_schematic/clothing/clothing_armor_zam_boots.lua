@@ -48,7 +48,7 @@ object_draft_schematic_clothing_clothing_armor_zam_boots = object_draft_schemati
    customObjectName = "Mabari Armorweave Boots",
 
    craftingToolTab = 2, -- (See DraftSchematicObjectTemplate.h)
-   complexity = 20, 
+   complexity = 45, 
    size = 4, 
 
    xpType = "crafting_clothing_armor", 
@@ -66,7 +66,7 @@ object_draft_schematic_clothing_clothing_armor_zam_boots = object_draft_schemati
    ingredientTitleNames = {"auxilary_coverage", "body", "liner", "hardware_and_attachments", "binding_and_reinforcement", "padding", "armor", "load_bearing_harness"},
    ingredientSlotType = {0, 0, 0, 0, 0, 0, 1, 1},
    resourceTypes = {"iron", "hide_scaley", "fiberplast_dantooine", "steel_duranium", "petrochem_inert", "fiberplast_endor", "object/tangible/component/armor/shared_armor_segment_zam.iff", "object/tangible/component/clothing/shared_synthetic_cloth.iff"},
-   resourceQuantities = {65, 65, 65, 65, 26, 40, 3, 1},
+   resourceQuantities = {50, 50, 25, 30, 20, 20, 3, 2},
    contribution = {100, 100, 100, 100, 100, 100, 100, 100},
 
 
