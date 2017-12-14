@@ -291,7 +291,7 @@ int CombatManager::doTargetCombatAction(CreatureObject* attacker, WeaponObject* 
 		damage = doTargetCombatAction(attacker, weapon, defender, data, shouldGcwTef, shouldBhTef, shouldJediTef);
 	} else {
 		int poolsToDamage = calculatePoolsToDamage(data.getPoolsToDamage());
-		if (tano != NULL && attacker != NULL && attacker->isPlayerObject() && tano->getFaction() != 0 && attacker->getFaction() != tano->getFaction()){
+		if (tano != NULL && attacker != NULL && attacker->isPlayerCreature() && tano->getFaction() != 0 && attacker->getFaction() != tano->getFaction()){
 			PlayerObject* ghost = attacker->getPlayerObject();
 			if (ghost != NULL)
 				ghost->updateLastPvpCombatActionTimestamp(true, false, false);
