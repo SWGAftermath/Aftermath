@@ -3028,6 +3028,10 @@ bool CreatureObjectImplementation::isAttackableBy(CreatureObject* object, bool b
 		return true;
 	}
 
+	if ((pvpStatusBitmask & CreatureFlag::OVERT && ghost->hasPvpTef()) && (object->getFaction() != getFaction()) && (object->getFaction() !=0) && targetGhost->hasPvpTef()){
+		return true;
+	}
+
 	if (ghost->hasJediTef() || (ghost->isJedi() && getWeapon()->isJediWeapon()) || (ghost->isJediAttackable())){
 		return true;
 	}
