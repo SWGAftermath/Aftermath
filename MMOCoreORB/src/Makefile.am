@@ -106,7 +106,8 @@ core3_TESTS = 	tests/CircularAreaShapeTest.cpp \
 			  	tests/ZoneTest.cpp \
 			  	tests/CommandLuaTest.cpp
 
-core3_IDLS =	autogen/server/zone/objects/building/TutorialBuildingObject.cpp \
+core3_IDLS =	autogen/server/zone/QuadTreeEntry.cpp \
+				autogen/server/zone/objects/building/TutorialBuildingObject.cpp \
 				autogen/server/zone/objects/creature/credits/CreditObject.cpp \
 				autogen/server/zone/objects/mission/PlayerBounty.cpp \
 				autogen/server/chat/PendingMessageList.cpp \
