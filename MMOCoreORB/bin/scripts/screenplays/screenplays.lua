@@ -33,6 +33,8 @@ includeFile("../custom_scripts/screenplays/glowing.lua")
 
 includeFile("helperfuncs.lua")
 
+includeFile("playerTriggers.lua")
+
 
 -- Theme parks
 includeFile("themepark/conversations/goru_conv_handler.lua")
