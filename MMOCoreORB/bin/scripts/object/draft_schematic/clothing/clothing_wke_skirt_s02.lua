@@ -66,7 +66,7 @@ object_draft_schematic_clothing_clothing_wke_skirt_s02 = object_draft_schematic_
    ingredientTitleNames = {"body", "binding_and_reinforcement", "hardware", "lining"},
    ingredientSlotType = {1, 0, 1, 1},
    resourceTypes = {"object/tangible/component/clothing/shared_synthetic_cloth.iff", "petrochem_inert", "object/tangible/component/clothing/shared_metal_fasteners.iff", "object/tangible/component/clothing/shared_reinforced_fiber_panels.iff"},
-   resourceQuantities = {1, 15, 1, 2},
+   resourceQuantities = {2, 15, 1, 1},
    contribution = {100, 100, 100, 100},
 
 
