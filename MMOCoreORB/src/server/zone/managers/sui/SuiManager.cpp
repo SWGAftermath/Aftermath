@@ -488,6 +488,9 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 				stringId.setTO(apron->getObjectID());
 				player->sendSystemMessage(stringId);
 
+			} else if (templatePath == "cenhance_character") {
+				bluefrog->enhanceCharacter(player, 0);
+
 			} else if (templatePath == "cheap_enhance_character") {
 				bluefrog->enhanceCharacter(player, 1);
 
