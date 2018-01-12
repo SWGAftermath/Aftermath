@@ -843,9 +843,7 @@ float CombatManager::getDefenderToughnessModifier(CreatureObject* defender, int 
 		damage *= 1.f - (jediToughness / 100.f);
 
 	if (damType == SharedWeaponObjectTemplate::LIGHTSABER && defender->isPlayerCreature() && defender->hasSkill("combat_bountyhunter_master")){
-		info("Damage before BH Reduction: " + String::valueOf(damage), true);
 		damage *= 1.f - (25.f/100.f);
-		info("Damage after BH Reduction: " + String::valueOf(damage), true);
 	}
 
 	return damage < 0 ? 0 : damage;
