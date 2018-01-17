@@ -10,6 +10,11 @@
 #include "server/zone/managers/player/creation/PlayerCreationManager.h"
 
 class RequestSetStatMigrationDataCommand : public QueueCommand {
+protected:
+	String skillName = "setStatMigration";		// Skill Name
+
+	String skillNameDisplay = "Stat Migration";		// Skill Display Name for output message
+	int delay = 10800; 								//  3 hrs
 public:
 
 	RequestSetStatMigrationDataCommand(const String& name, ZoneProcessServer* server)
@@ -82,15 +87,48 @@ public:
 			return GENERALERROR;
 		}
 
+		if (!creature->checkCooldownRecovery(skillName)){
+			Time* timeRemaining = creature->getCooldownTime(skillName);
+			creature->sendSystemMessage("You must wait " + getCooldownString(timeRemaining->miliDifference() *  -1) + " to use " + skillNameDisplay + " again");
+			return GENERALERROR;
+		}
+
 		//Player is in the tutorial zone and is allowed to migrate stats.
 		Zone* zone = creature->getZone();
 
-		if (zone != NULL && !player->isInCombat())
+		if (zone != NULL && !player->isInCombat()){
 			session->migrateStats();
+			creature->updateCooldownTimer(skillName, delay * 1000);
+		}
 
 
 		return SUCCESS;
 	}
+
+	String getCooldownString(uint32 delta) const {
+
+		int seconds = delta / 1000;
+
+		int hours = seconds / 3600;
+		seconds -= hours * 3600;
+
+		int minutes = seconds / 60;
+		seconds -= minutes * 60;
+
+		StringBuffer buffer;
+
+		if (hours > 0)
+			buffer << hours << "h ";
+
+		if (minutes > 0)
+			buffer << minutes << "m ";
+
+		if (seconds > 0)
+			buffer << seconds << "s";
+
+		return buffer.toString();
+	}
+
 
 };
 
