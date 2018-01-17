@@ -87,11 +87,11 @@ public:
 			return GENERALERROR;
 		}
 
-		if (!creature->checkCooldownRecovery(skillName)){
+		/*if (!creature->checkCooldownRecovery(skillName)){
 			Time* timeRemaining = creature->getCooldownTime(skillName);
 			creature->sendSystemMessage("You must wait " + getCooldownString(timeRemaining->miliDifference() *  -1) + " to use " + skillNameDisplay + " again");
 			return GENERALERROR;
-		}
+		}*/
 
 		if (creature->hasBuff(CreatureAttribute::MIND) || creature->hasBuff(CreatureAttribute::FOCUS) || creature->hasBuff(CreatureAttribute::WILLPOWER)){
 			creature->sendSystemMessage("You cannot migrate stats while buffed, please reset your buffs before migrating");
