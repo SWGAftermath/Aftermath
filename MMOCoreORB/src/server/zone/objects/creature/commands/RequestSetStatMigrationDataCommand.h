@@ -93,7 +93,7 @@ public:
 			return GENERALERROR;
 		}*/
 
-		if (creature->hasBuff(CreatureAttribute::MIND) || creature->hasBuff(CreatureAttribute::FOCUS) || creature->hasBuff(CreatureAttribute::WILLPOWER)){
+		if (creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::MIND)) || creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::FOCUS)) || creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::WILLPOWER))){
 			creature->sendSystemMessage("You cannot migrate stats while buffed, please reset your buffs before migrating");
 			return GENERALERROR;
 		}
