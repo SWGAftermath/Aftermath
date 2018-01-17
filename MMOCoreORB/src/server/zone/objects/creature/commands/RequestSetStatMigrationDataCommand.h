@@ -92,16 +92,11 @@ public:
 			creature->sendSystemMessage("You must wait " + getCooldownString(timeRemaining->miliDifference() *  -1) + " to use " + skillNameDisplay + " again");
 			return GENERALERROR;
 		}*/
-
+		Zone* zone = creature->getZone();
 		if (creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::MIND)) || creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::FOCUS)) || creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::WILLPOWER))){
 			creature->sendSystemMessage("You cannot migrate stats while buffed, please reset your buffs before migrating");
 			return GENERALERROR;
-		}
-
-		//Player is in the tutorial zone and is allowed to migrate stats.
-		Zone* zone = creature->getZone();
-
-		if (zone != NULL && !player->isInCombat()){
+		}else if (zone != NULL && !player->isInCombat()){
 			session->migrateStats();
 			creature->updateCooldownTimer(skillName, delay * 1000);
 		}
