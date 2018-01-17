@@ -93,6 +93,11 @@ public:
 			return GENERALERROR;
 		}
 
+		if (creature->hasBuff(CreatureAttribute::MIND) || creature->hasBuff(CreatureAttribute::FOCUS) || creature->hasBuff(CreatureAttribute::WILLPOWER)){
+			creature->sendSystemMessage("You cannot migrate stats while buffed, please reset your buffs before migrating");
+			return GENERALERROR;
+		}
+
 		//Player is in the tutorial zone and is allowed to migrate stats.
 		Zone* zone = creature->getZone();
 
