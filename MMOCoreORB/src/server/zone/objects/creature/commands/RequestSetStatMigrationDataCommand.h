@@ -93,16 +93,17 @@ public:
 			return GENERALERROR;
 		}*/
 		Zone* zone = creature->getZone();
-		if (creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::MIND)) || creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::FOCUS)) || creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::WILLPOWER))){
-			creature->sendSystemMessage("You cannot migrate stats while buffed, please reset your buffs before migrating");
-			return GENERALERROR;
-		}else if (zone != NULL && !player->isInCombat()){
+		if (zone != NULL && !player->isInCombat() && !creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::MIND)) && !creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::FOCUS)) && !creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::WILLPOWER))){
 			session->migrateStats();
 			creature->updateCooldownTimer(skillName, delay * 1000);
+			return SUCCESS;
+		}else{
+			creature->sendSystemMessage("You cannot migrate stats while buffed, please reset your buffs before migrating");
+			return GENERALERROR;	
 		}
 
 
-		return SUCCESS;
+		
 	}
 
 	String getCooldownString(uint32 delta) const {
