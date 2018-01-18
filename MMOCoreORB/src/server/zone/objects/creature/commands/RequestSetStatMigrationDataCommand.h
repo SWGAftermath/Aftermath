@@ -93,7 +93,7 @@ public:
 			return GENERALERROR;
 		}*/
 		Zone* zone = creature->getZone();
-		if (zone != NULL && !player->isInCombat() && !creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::MIND)) && !creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::FOCUS)) && !creature->hasBuff(BuffCRC::getMedicalBuff(CreatureAttribute::WILLPOWER))){
+		if (zone != NULL && !player->isInCombat() && !creature->hasBuff(BuffCRC::getMedicalBuff(6)) && !creature->hasBuff(BuffCRC::getMedicalBuff(7)) && !creature->hasBuff(BuffCRC::getMedicalBuff(8))){
 			session->migrateStats();
 			creature->updateCooldownTimer(skillName, delay * 1000);
 			return SUCCESS;
