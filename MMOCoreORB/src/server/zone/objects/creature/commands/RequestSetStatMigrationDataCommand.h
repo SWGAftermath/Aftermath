@@ -93,9 +93,12 @@ public:
 			return GENERALERROR;
 		}*/
 		Zone* zone = creature->getZone();
-		if (zone != NULL && !player->isInCombat() && !creature->hasBuff(BuffCRC::getMedicalBuff(6)) && !creature->hasBuff(BuffCRC::getMedicalBuff(7)) && !creature->hasBuff(BuffCRC::getMedicalBuff(8))){
+		uint32 focusBuffCRC = STRING_HASHCODE("performance_enhance_music_focus");
+		uint32 willBuffCRC = STRING_HASHCODE("performance_enhance_music_willpower");
+		uint32 mindBuffCRC = STRING_HASHCODE("performance_enhance_dance_mind");
+		if (zone != NULL && !player->isInCombat() && !creature->hasBuff(focusBuffCRC) && !creature->hasBuff(willBuffCRC) && !creature->hasBuff(mindBuffCRC)){
 			session->migrateStats();
-			creature->updateCooldownTimer(skillName, delay * 1000);
+			/*creature->updateCooldownTimer(skillName, delay * 1000);*/
 			return SUCCESS;
 		}else{
 			creature->sendSystemMessage("You cannot migrate stats while buffed, please reset your buffs before migrating");
