@@ -1572,14 +1572,12 @@ int CombatManager::getHitChance(TangibleObject* attacker, CreatureObject* target
 		if (def == "saber_block") {
 			if ((attacker->isPlayerCreature() && weapon->getAttackType() == SharedWeaponObjectTemplate::RANGEDATTACK) && attacker->asCreatureObject()->hasSkill("combat_bountyhunter_master")){
 				if (System::random(102) < targetCreature->getSkillMod(def)){
-					info("MBH attack Blocked", true);
 					return RICOCHET;
 				} else {
 					return HIT;
 				}
 			} else if (!attacker->isTurret() && (weapon->getAttackType() == SharedWeaponObjectTemplate::RANGEDATTACK)){
 				if (System::random(100) < targetCreature->getSkillMod(def)){
-					info("Normal attack blocked", true);
 					return RICOCHET;
 				} else {
 					return HIT;
