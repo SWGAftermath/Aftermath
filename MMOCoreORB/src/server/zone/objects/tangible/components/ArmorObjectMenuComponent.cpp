@@ -39,46 +39,37 @@ void ArmorObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, 
 			return;
 	}
 
-	String text = "Color Change";
-	menuResponse->addRadialMenuItem(81, 3, text);
+	String text = "Item Color Change";
+	menuResponse->addRadialMenuItem(80, 3, text);
+	menuResponse->addRadialMenuItemToRadialID(80, 81, 3, "Primary");
+	menuResponse->addRadialMenuItemToRadialID(80, 82, 3, "Secondary");
 	
     WearableObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player); 	
 }
 
 int ArmorObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
+	if (!sceneObject->isWearableObject())
+		return 0;
 
-	if (selectedID == 81) {
+	if (!sceneObject->isASubChildOf(player))
+		return 0;
+	
+	if (selectedID == 81 || selectedID == 82) {
 		
 		ManagedReference<SceneObject*> parent = sceneObject->getParent().get();
-	
-		if (parent == NULL)
-			return 0;
-	
-		if (parent->isPlayerCreature()) {
+		if (parent == NULL && parent->isPlayerCreature()){
 			player->sendSystemMessage("@armor_rehue:equipped");
 			return 0;
-		}	
-
-		if (parent->isCellObject()) {
-			ManagedReference<SceneObject*> obj = parent->getParent().get();
-
-			if (obj != NULL && obj->isBuildingObject()) {
-				ManagedReference<BuildingObject*> buio = cast<BuildingObject*>(obj.get());
-
-				if (!buio->isOnAdminList(player))
-					return 0;
-			}
 		}
-		else
-		{
-			if (!sceneObject->isASubChildOf(player))
-				return 0;
-		}
+
+		// Handle color change.
 
 		ZoneServer* server = player->getZoneServer();
 
 		if (server != NULL) {		
 
+		int index = selectedID == 81 ? 0 : 1;	
+		
 		// The color index.
 		String appearanceFilename = sceneObject->getObjectTemplate()->getAppearanceFilename();
 		VectorMap<String, Reference<CustomizationVariable*> > variables;
@@ -87,7 +78,7 @@ int ArmorObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, C
 		// The Sui Box.
 		ManagedReference<SuiColorBox*> cbox = new SuiColorBox(player, SuiWindowType::COLOR_ARMOR);
 		cbox->setCallback(new ColorArmorSuiCallback(server));
-		cbox->setColorPalette(variables.elementAt(1).getKey()); // First one seems to be the frame of it? Skip to 2nd.
+		cbox->setColorPalette(variables.elementAt(index).getKey()); // First one seems to be the frame of it? Skip to 2nd.
 		cbox->setUsingObject(sceneObject);
 
 		// Add to player.
