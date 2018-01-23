@@ -42,9 +42,6 @@
 
 
 object_tangible_wearables_boots_boots_s12 = object_tangible_wearables_boots_shared_boots_s12:new {
-
-	objectMenuComponent = "ArmorObjectMenuComponent",
-
 	playerRaces = { "object/creature/player/bothan_male.iff",
 				"object/creature/player/bothan_female.iff",
 				"object/creature/player/human_male.iff",
