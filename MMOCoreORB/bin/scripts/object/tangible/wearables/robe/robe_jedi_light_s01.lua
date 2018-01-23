@@ -42,6 +42,9 @@
 
 
 object_tangible_wearables_robe_robe_jedi_light_s01 = object_tangible_wearables_robe_shared_robe_jedi_light_s01:new {
+
+	objectMenuComponent = "ArmorObjectMenuComponent",
+
 	playerRaces = { "object/creature/player/bothan_male.iff",
 				"object/creature/player/bothan_female.iff",
 				"object/creature/player/human_male.iff",
