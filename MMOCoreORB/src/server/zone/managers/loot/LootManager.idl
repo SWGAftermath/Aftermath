@@ -162,6 +162,9 @@ class LootManager extends ManagedService implements Logger {
 	
 	@local
 	public native string getRandomLootableMod( unsigned int sceneObjectType );	
+
+	@local
+    public native TangibleObject createLootAttachment(LootItemTemplate templateObject, final string modName, int value);
 	
 	public native int calculateLootCredits(int level);
 
