@@ -53,3 +53,6 @@ includeFile("tangible/item/droid_customization.lua")
 includeFile("tangible/item/loot_credit_chip.lua")
 includeFile("tangible/item/lytus_family_artefact.lua")
 includeFile("tangible/item/vehicle_customization.lua")
+
+--Sea Removal Tool
+includeFile("tangible/item/sea_removal_tool.lua")
