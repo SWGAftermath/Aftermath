@@ -1,4 +1,4 @@
-object_tangible_item_shared_clothing_sea_removal_tool = object_tangible_item_shared_clothing_sea_removal_tool:new {
+object_tangible_shared_clothing_sea_removal_tool = object_tangible_shared_clothing_sea_removal_tool:new {
 	templateType = REPAIRTOOL,
 	gameObjectType = 32775,
 
@@ -13,4 +13,4 @@ object_tangible_item_shared_clothing_sea_removal_tool = object_tangible_item_sha
 	experimentalCombineType = {0, 0, 4, 1},
 }
 
-ObjectTemplates:addTemplate(object_tangible_item_shared_clothing_sea_removal_tool, "object/tangible/item/clothing_sea_removal_tool.iff")
+ObjectTemplates:addTemplate(object_tangible_shared_clothing_sea_removal_tool, "object/tangible/item/clothing_sea_removal_tool.iff")
