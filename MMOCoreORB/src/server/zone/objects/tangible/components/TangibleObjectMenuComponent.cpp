@@ -168,16 +168,6 @@ int TangibleObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject
 						for (i=0;i<mods->size();i++){//Remove skill mods from item and create tapes
 							
 							String modKey = mods->elementAt(i).getKey();
-							
-							// Convert old lightsaber accuracy and speed tapes to new unified skillmod    *** REMOVE THIS SECTION IF YOU DON'T WANT THESE CONVERTED
-							if (modKey == "onehandedlightsaber_accuracy" || modKey == "twohandedlightsaber_accuracy" || modKey == "polearmlightsaber_accuracy") {
-								modKey = "lightsaber_accuracy";
-								convertedMods = true;
-							}
-							if (modKey == "onehandedlightsaber_speed" || modKey == "twohandedlightsaber_speed" || modKey == "polearmlightsaber_speed") {
-								modKey = "lightsaber_speed";
-								convertedMods = true;
-							}
 
 							sea = lootManager->createLootAttachment(itemTemplate,modKey, mods->elementAt(i).getValue()); 
 
