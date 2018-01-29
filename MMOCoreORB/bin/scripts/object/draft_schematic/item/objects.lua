@@ -3422,7 +3422,7 @@ object_draft_schematic_item_shared_item_weapon_tool = SharedDraftSchematicObject
 
 ObjectTemplates:addClientTemplate(object_draft_schematic_item_shared_item_weapon_tool, "object/draft_schematic/item/shared_item_weapon_tool.iff")
 
-object_draft_schematic_item_shared_clothing_sea_removal_tool = SharedDraftSchematicObjectTemplate:new {
+object_draft_schematic_item_shared_item_clothing_sea_removal_tool = SharedDraftSchematicObjectTemplate:new {
 	clientTemplateFileName = "object/draft_schematic/item/shared_clothing_sea_removal_tool.iff"
 	--Data below here is deprecated and loaded from the tres, keeping for easy lookups
 --[[
@@ -3469,6 +3469,6 @@ object_draft_schematic_item_shared_clothing_sea_removal_tool = SharedDraftSchema
 ]]
 }
 
-ObjectTemplates:addClientTemplate(object_draft_schematic_item_shared_clothing_sea_removal_tool, "object/draft_schematic/item/shared_sea_removal_tool.iff")
+ObjectTemplates:addClientTemplate(object_draft_schematic_item_shared_item_clothing_sea_removal_tool, "object/draft_schematic/item/shared_clothing_sea_removal_tool.iff")
 
 
