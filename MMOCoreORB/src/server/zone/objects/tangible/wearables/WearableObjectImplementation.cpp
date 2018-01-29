@@ -12,6 +12,7 @@
 #include "server/zone/objects/draftschematic/DraftSchematic.h"
 #include "server/zone/objects/tangible/attachment/Attachment.h"
 #include "server/zone/managers/skill/SkillModManager.h"
+#include "server/zone/objects/scene/SceneObjectType.h"
 
 /**
  * Rename for clarity/convenience
@@ -82,6 +83,41 @@ void WearableObjectImplementation::fillAttributeList(AttributeListMessage* alm,
 		alm->insertAttribute("@veteran_new:antidecay_examine_title", "@veteran_new:antidecay_examine_text");
 	}
 
+}
+
+bool WearableObjectImplementation::hasSeaRemovalTool(CreatureObject* player, bool removeItem) {
+
+	uint32 crc;
+
+	if (player == NULL)
+		return 0;
+
+	ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+
+	if (inventory == NULL)
+		return false;
+
+	Locker inventoryLocker(inventory);
+
+	for (int i = 0; i < inventory->getContainerObjectsSize(); ++i) {
+		ManagedReference<SceneObject*> sceno = inventory->getContainerObject(i);
+
+		crc = sceno->getServerObjectCRC();
+		if (String::valueOf(crc) == "3905622464") { //Sea Removal Tool
+
+			if (sceno != NULL) {
+				if (removeItem) {
+					Locker locker(sceno);
+					sceno->destroyObjectFromWorld(true);
+					sceno->destroyObjectFromDatabase(true);
+				}
+
+				return true;
+			}
+		}
+	}
+
+	return 0;
 }
 
 void WearableObjectImplementation::updateCraftingValues(CraftingValues* values, bool initialUpdate) {
