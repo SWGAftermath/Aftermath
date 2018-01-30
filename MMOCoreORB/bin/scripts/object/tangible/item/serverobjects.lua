@@ -55,4 +55,4 @@ includeFile("tangible/item/lytus_family_artefact.lua")
 includeFile("tangible/item/vehicle_customization.lua")
 
 --sea tool
-includeFile("tangible/item/clothing_sea_removal_tool.lua")
+includeFile("tangible/item/sea_removal_tool.lua")
