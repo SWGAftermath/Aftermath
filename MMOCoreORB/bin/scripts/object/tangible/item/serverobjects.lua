@@ -54,5 +54,5 @@ includeFile("tangible/item/loot_credit_chip.lua")
 includeFile("tangible/item/lytus_family_artefact.lua")
 includeFile("tangible/item/vehicle_customization.lua")
 
---Sea Removal Tool
+--sea tool
 includeFile("tangible/item/clothing_sea_removal_tool.lua")
