@@ -3472,3 +3472,8 @@ object_draft_schematic_item_shared_item_clothing_sea_removal_tool = SharedDraftS
 ObjectTemplates:addClientTemplate(object_draft_schematic_item_shared_item_clothing_sea_removal_tool, "object/draft_schematic/item/shared_clothing_sea_removal_tool.iff")
 
 
+object_draft_schematic_item_shared_clothing_sea_removal_tool = SharedDraftSchematicObjectTemplate:new {
+	clientTemplateFileName = "object/draft_schematic/item/shared_clothing_sea_removal_tool.iff"
+}
+ObjectTemplates:addClientTemplate(object_draft_schematic_item_shared_clothing_sea_removal_tool, "object/draft_schematic/item/shared_clothing_sea_removal_tool.iff")
+								  

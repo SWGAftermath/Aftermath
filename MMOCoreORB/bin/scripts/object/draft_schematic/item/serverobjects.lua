@@ -118,4 +118,4 @@ includeFile("draft_schematic/item/item_twenty_sided_dice.lua")
 includeFile("draft_schematic/item/item_weapon_station.lua")
 includeFile("draft_schematic/item/item_weapon_tool.lua")
 --New Tools
-includeFile("draft_schematic/item/item_clothing_sea_removal_tool.lua")
+iincludeFile("draft_schematic/item/item_sea_removal_tool.lua")

@@ -338,59 +338,5 @@ ObjectTemplates:addClientTemplate(object_tangible_item_shared_vehicle_customizat
 
 object_tangible_shared_clothing_sea_removal_tool = SharedTangibleObjectTemplate:new {
 	clientTemplateFileName = "object/tangible/item/shared_clothing_sea_removal_tool.iff"
-	--Data below here is deprecated and loaded from the tres, keeping for easy lookups
---[[
-	appearanceFilename = "appearance/eqp_tool_droid_toolkit.apt",
-	arrangementDescriptorFilename = "",
-
-	certificationsRequired = {},
-	clearFloraRadius = 0,
-	clientDataFile = "",
-	clientGameObjectType = 32768,
-	collisionActionBlockFlags = 0,
-	collisionActionFlags = 51,
-	collisionActionPassFlags = 1,
-	collisionMaterialBlockFlags = 0,
-	collisionMaterialFlags = 1,
-	collisionMaterialPassFlags = 0,
-	containerType = 0,
-	containerVolumeLimit = 1,
-	customizationVariableMapping = {},
-
-	detailedDescription = "@item_d:vehicle_customization_kit",
-
-	gameObjectType = 32768,
-
-	locationReservationRadius = 0,
-	lookAtText = "string_id_table",
-
-	noBuildRadius = 0,
-
-	objectName = "@item_n:vehicle_customization_kit",
-	onlyVisibleInTools = 0,
-
-	paletteColorCustomizationVariables = {},
-	portalLayoutFilename = "",
-
-	rangedIntCustomizationVariables = {},
-
-	scale = 1,
-	scaleThresholdBeforeExtentTest = 0.5,
-	sendToClient = 1,
-	slotDescriptorFilename = "",
-	snapToTerrain = 1,
-	socketDestinations = {},
-	structureFootprintFileName = "",
-	surfaceType = 0,
-
-	targetable = 1,
-	totalCellNumber = 0,
-
-	useStructureFootprintOutline = 0,
-
-	clientObjectCRC = 3528062501,
-	derivedFromTemplates = {"object/object/base/shared_base_object.iff", "object/tangible/base/shared_tangible_base.iff"}
-]]
 }
-
 ObjectTemplates:addClientTemplate(object_tangible_shared_clothing_sea_removal_tool, "object/tangible/item/shared_clothing_sea_removal_tool.iff")

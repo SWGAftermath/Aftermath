@@ -1,4 +1,4 @@
-object_draft_schematic_item_sea_removal_tool = object_draft_schematic_item_shared_item_clothing_sea_removal_tool:new {
+object_draft_schematic_item_sea_removal_tool = object_draft_schematic_item_shared_clothing_sea_removal_tool:new {
 
    templateType = DRAFTSCHEMATIC,
 
