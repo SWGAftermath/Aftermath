@@ -13,4 +13,4 @@ object_tangible_shared_clothing_sea_removal_tool = object_tangible_shared_clothi
 	experimentalCombineType = {0, 0, 4, 1},
 }
 
-ObjectTemplates:addTemplate(object_tangible_shared_clothing_sea_removal_tool, "object/tangible/item/shared_clothing_sea_removal_tool.iff")
+ObjectTemplates:addTemplate(object_tangible_shared_clothing_sea_removal_tool, "object/tangible/item/clothing_sea_removal_tool.iff")
