@@ -470,17 +470,17 @@ TangibleObject* LootManagerImplementation::createLootObject(LootItemTemplate* te
 	setSockets(prototype, craftingValues);
 
 	// Update the Tano with new values
-	if(!prototype->isAttachment()){
-		prototype->updateCraftingValues(craftingValues, true);
-	}
+
+	prototype->updateCraftingValues(craftingValues, true);
+
 
 	//add some condition damage where appropriate
 	if (!maxCondition)
 		addConditionDamage(prototype, craftingValues);
 
-	if(!prototype->isAttachment()){
-		delete craftingValues;
-	}
+
+	delete craftingValues;
+
 
 	// Update object name with mod stat if is attachment
 	if(prototype->isAttachment()){
