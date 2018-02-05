@@ -350,8 +350,10 @@ void WeaponObjectImplementation::fillAttributeList(AttributeListMessage* alm, Cr
 	}
 
 	// Force Cost
-	if (getForceCost() > 0)
-		alm->insertAttribute("forcecost", (int)getForceCost());
+	if (getForceCost() > 0){
+		float roundedForceCost = floor((float)getForceCost()*100 + 0.5)/100;
+		alm->insertAttribute("forcecost", roundedForceCost);
+	}
 
 	for (int i = 0; i < getNumberOfDots(); i++) {
 
