@@ -150,7 +150,7 @@ public:
 			CreatureObject* player = cast<CreatureObject*>(creature);
 			CreatureObject* target = cast<CreatureObject*>(creatureTarget);
 
-			PlayerObject* ghost = target->getPlayerObject();
+			ManagedReference<PlayerObject*> ghost = target->getPlayerObject();
 			PlayerObject* playerGhost = player->getPlayerObject();
 
 			if ((target->getWeapon() != NULL && target->getWeapon()->isJediWeapon()) || target->hasSkill("force_title_jedi_rank_02")) {

@@ -5,6 +5,8 @@
 #include "server/zone/packets/object/ObjectMenuResponse.h"
 #include "server/zone/objects/tangible/components/HeroRingDataComponent.h"
 #include "server/zone/packets/object/PlayClientEffectObjectMessage.h"
+#include "server/zone/managers/player/PlayerManager.h"
+#include "server/zone/objects/player/PlayerObject.h"
 
 void HeroRingMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
 
@@ -70,6 +72,30 @@ int HeroRingMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Crea
 		player->healDamage(player, CreatureAttribute::MIND, 200);
 		
 		player->removeFeignedDeath();
+
+		// Jedi XP Loss
+		if ((player->getWeapon() != NULL && player->getWeapon()->isJediWeapon()) || player->hasSkill("force_title_jedi_rank_02")) {
+			CreatureObject* creature = cast<CreatureObject*>(player);
+			PlayerObject* ghost = creature->getPlayerObject();
+			int jediXpCap = ghost->getXpCap("jedi_general");
+			int xpLoss = (int)(jediXpCap * -0.08);
+			int curExp = ghost->getExperience("jedi_general");
+
+			int negXpCap = -10000000; // Cap on negative jedi experience
+
+			if ((curExp + xpLoss) < negXpCap)
+				xpLoss = negXpCap - curExp;
+
+			if (xpLoss < -2000000)
+				xpLoss = -2000000;
+			PlayerManager* playerManager = player->getZoneProcessServer()->getZoneServer()->getPlayerManager();
+			playerManager->awardExperience(player, "jedi_general", xpLoss, true);
+
+			StringIdChatParameter message("base_player","prose_revoke_xp");
+			message.setDI(xpLoss * -1);
+			message.setTO("exp_n", "jedi_general");
+			player->sendSystemMessage(message);
+		}
 
 		data->setCharges(charges - 1);
 
