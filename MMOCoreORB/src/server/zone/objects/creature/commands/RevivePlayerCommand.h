@@ -145,6 +145,21 @@ public:
 			creature->doAnimation("heal_other");
 	}
 
+	void checkJediTarget(CreatureObject* creature, CreatureObject* creatureTarget) const {
+		if (creature->isPlayerCreature()) {
+			CreatureObject* player = cast<CreatureObject*>(creature);
+			CreatureObject* target = cast<CreatureObject*>( creatureTarget);
+
+			PlayerObject* ghost = target->getPlayerObject();
+			PlayerObject* playerGhost = player->getPlayerObject();
+
+			if ((target->getWeapon() != NULL && target->getWeapon()->isJediWeapon()) || target->hasSkill("force_title_jedi_rank_02")) {
+				ghost->updateLastJediAttackableTimestamp();
+				playerGhost->updateLastJediPvpCombatActionTimestamp();
+			}
+		}
+	}
+
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
 
 		int result = doCommonMedicalCommandChecks(creature);
@@ -237,6 +252,8 @@ public:
 		doAnimations(creature, creatureTarget);
 
 		checkForTef(creature, creatureTarget);
+
+		checkJediTarget(creature, creatureTarget);
 
 		applyDebuff(creatureTarget);
 
