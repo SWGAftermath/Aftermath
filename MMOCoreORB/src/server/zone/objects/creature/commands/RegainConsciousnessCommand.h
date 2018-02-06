@@ -60,13 +60,24 @@ public:
 			creature->sendSystemMessage("Your force regeneration rate has been temporarily reduced due to your near death experience.");
 
 			// Jedi XP Loss
-			PlayerManager* playerManager = server->getZoneServer()->getPlayerManager();
-			playerManager->awardExperience(creature, "jedi_general", -50000, true);
+				int jediXpCap = playerObject->getXpCap("jedi_general");
+				int xpLoss = (int)(jediXpCap * -0.08);
+				int curExp = playerObject->getExperience("jedi_general");
 
-			StringIdChatParameter message("base_player","prose_revoke_xp");
-			message.setDI(-50000);
-			message.setTO("exp_n", "jedi_general");
-			creature->sendSystemMessage(message);
+				int negXpCap = -10000000; // Cap on negative jedi experience
+
+				if ((curExp + xpLoss) < negXpCap)
+					xpLoss = negXpCap - curExp;
+
+				if (xpLoss < -2000000)
+					xpLoss = -2000000;
+				PlayerManager* playerManager = server->getZoneServer()->getPlayerManager();
+				playerManager->awardExperience(creature, "jedi_general", xpLoss, true);
+
+				StringIdChatParameter message("base_player","prose_revoke_xp");
+				message.setDI(xpLoss * -1);
+				message.setTO("exp_n", "jedi_general");
+				creature->sendSystemMessage(message);
 
 			// Revive user by setting posture to standing.
 			
