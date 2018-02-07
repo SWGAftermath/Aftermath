@@ -579,6 +579,8 @@ void BountyMissionObjectiveImplementation::handlePlayerKilled(ManagedObject* arg
 		return;
 
 	if (owner != NULL && killer != NULL && !completedMission) {
+		String playerName = killer->getFirstName();
+		String bhName = owner->getFirstName();
 		if (owner->getObjectID() == killer->getObjectID()) {
 			//Target killed by player, complete mission.
 			ZoneServer* zoneServer = owner->getZoneServer();
@@ -590,6 +592,7 @@ void BountyMissionObjectiveImplementation::handlePlayerKilled(ManagedObject* arg
 
 					VisibilityManager::instance()->clearVisibility(target);
 					int xpLoss = mission->getRewardCredits() * -2.5;
+					StringBuffer bBroadcast;
 
 					if (xpLoss > minXpLoss)
 						xpLoss = minXpLoss;
@@ -597,6 +600,9 @@ void BountyMissionObjectiveImplementation::handlePlayerKilled(ManagedObject* arg
 						xpLoss = maxXpLoss;
 
 					owner->getZoneServer()->getPlayerManager()->awardExperience(target, "jedi_general", xpLoss, true);
+					String victimName = target->getFirstName();
+					bBroadcast << "\\#00bfff" << bhName << "\\#ffd700" << " a" << "\\#ff7f00 Bounty Hunter" << "\\#ffd700 has collected the bounty on\\#00bfff " << victimName;
+					owner->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, bBroadcast.toString());
 					StringIdChatParameter message("base_player","prose_revoke_xp");
 					message.setDI(xpLoss * -1);
 					message.setTO("exp_n", "jedi_general");
@@ -610,6 +616,9 @@ void BountyMissionObjectiveImplementation::handlePlayerKilled(ManagedObject* arg
 
 			owner->sendSystemMessage("@mission/mission_generic:failed"); // Mission failed
 			killer->sendSystemMessage("You have defeated a bounty hunter, ruining his mission against you!");
+			StringBuffer zBroadcast;
+			zBroadcast << "\\#00bfff" << playerName << "\\#ffd700" << " a" << "\\#00e604 Jedi" << "\\#ffd700 has defeated\\#00bfff " << bhName << "\\#ffd700 a" << "\\#ff7f00 Bounty Hunter";
+			killer->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, zBroadcast.toString());
 			fail();
 		}
 	}
