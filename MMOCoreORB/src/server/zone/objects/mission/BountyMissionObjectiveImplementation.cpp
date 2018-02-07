@@ -615,7 +615,7 @@ void BountyMissionObjectiveImplementation::handlePlayerKilled(ManagedObject* arg
 				(npcTarget != NULL && npcTarget->getObjectID() == killer->getObjectID())) {
 
 			owner->sendSystemMessage("@mission/mission_generic:failed"); // Mission failed
-			killer->sendSystemMessage("You have defeated a bounty hunter, ruining his mission against you!");
+			killer->sendSystemMessage("You have defeated a bounty hunter, ruining their mission against you!");
 			StringBuffer zBroadcast;
 			zBroadcast << "\\#00bfff" << playerName << "\\#ffd700" << " a" << "\\#00e604 Jedi" << "\\#ffd700 has defeated\\#00bfff " << bhName << "\\#ffd700 a" << "\\#ff7f00 Bounty Hunter";
 			killer->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, zBroadcast.toString());
