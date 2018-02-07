@@ -1131,8 +1131,8 @@ void PlayerManagerImplementation::sendPlayerToCloner(CreatureObject* player, uin
 		if ((curExp + xpLoss) < negXpCap)
 			xpLoss = negXpCap - curExp;
 
-		if (xpLoss < -1000000)
-			xpLoss = -1000000;
+		if (xpLoss < -2000000)
+			xpLoss = -2000000;
 
 
 		awardExperience(player, "jedi_general", xpLoss, true);
