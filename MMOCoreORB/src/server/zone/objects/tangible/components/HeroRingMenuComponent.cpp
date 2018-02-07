@@ -71,6 +71,7 @@ int HeroRingMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Crea
 		player->healDamage(player, CreatureAttribute::ACTION, 200);
 		player->healDamage(player, CreatureAttribute::MIND, 200);
 		
+		player->setPosture(CreaturePosture::UPRIGHT);
 		player->removeFeignedDeath();
 
 		// Jedi XP Loss
