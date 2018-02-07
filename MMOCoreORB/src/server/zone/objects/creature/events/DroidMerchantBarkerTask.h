@@ -84,7 +84,7 @@ public:
 		CloseObjectsVector* vec = (CloseObjectsVector*) droid->getCloseObjects();
 		SortedVector<QuadTreeEntry*> closeEntryObjects(200, 50);
 		if (vec != NULL) {
-			vec->safeCopyReceiversTo(closeEntryObjects, CloseObjectsVector::PLAYERTYPE);
+			vec->safeCopyTo(closeEntryObjects);
 		} else {
 #ifdef COV_DEBUG
 			droid->info("Null closeobjects vector in DroidMerchantBarkerTask::run()", true);

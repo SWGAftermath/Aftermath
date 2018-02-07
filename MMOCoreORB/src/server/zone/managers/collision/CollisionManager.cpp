@@ -372,7 +372,7 @@ float CollisionManager::getWorldFloorCollision(float x, float y, Zone* zone, boo
 void CollisionManager::getWorldFloorCollisions(float x, float y, Zone* zone, SortedVector<IntersectionResult>* result, CloseObjectsVector* closeObjectsVector) {
 	if (closeObjectsVector != NULL) {
 		Vector<QuadTreeEntry*> closeObjects(closeObjectsVector->size(), 10);
-		closeObjectsVector->safeCopyReceiversTo(closeObjects, CloseObjectsVector::COLLIDABLETYPE);
+		closeObjectsVector->safeCopyTo(closeObjects);
 
 		getWorldFloorCollisions(x, y, zone, result, closeObjects);
 	} else {
@@ -469,7 +469,7 @@ bool CollisionManager::checkLineOfSight(SceneObject* object1, SceneObject* objec
 		closeObjectsNonReference = new SortedVector<QuadTreeEntry* >();
 
 		CloseObjectsVector* vec = (CloseObjectsVector*) object1->getCloseObjects();
-		vec->safeCopyReceiversTo(*closeObjectsNonReference.get(), CloseObjectsVector::COLLIDABLETYPE);
+		vec->safeCopyTo(*closeObjectsNonReference.get());
 	}
 
 	if (object1->isCreatureObject())

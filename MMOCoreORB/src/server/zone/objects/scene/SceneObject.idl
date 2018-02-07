@@ -69,8 +69,6 @@ class SceneObject extends QuadTreeEntry implements Logger, Metrics {
 
 	protected boolean sendToClient;
 
-	protected boolean collidable;
-
 	@dereferenced
 	protected ZoneReference zone;
 
@@ -190,15 +188,6 @@ class SceneObject extends QuadTreeEntry implements Logger, Metrics {
 	 * @post { this locked }
 	 */
 	public native void notifyLoadFromDatabase();
-
-    @dirty
-    public abstract int getReceiverFlags() {
-        int flags = super.getReceiverFlags();
-        if (collidable)
-            return CloseObjectsVector.COLLIDABLETYPE | flags;
-
-        return flags;
-    }
 
 	/**
 	 * Logs an info message

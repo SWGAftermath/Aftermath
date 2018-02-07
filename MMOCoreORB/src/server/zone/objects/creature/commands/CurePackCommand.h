@@ -193,11 +193,12 @@ public:
 		if (zone == NULL)
 			return;
 
+
 		// TODO: Convert this to a CombatManager::getAreaTargets() call
 		try {
 			SortedVector<QuadTreeEntry*> closeObjects;
 			CloseObjectsVector* vec = (CloseObjectsVector*) areaCenter->getCloseObjects();
-			vec->safeCopyReceiversTo(closeObjects, CloseObjectsVector::CREOTYPE);
+			vec->safeCopyTo(closeObjects);
 
 			for (int i = 0; i < closeObjects.size(); i++) {
 				SceneObject* object = static_cast<SceneObject*>( closeObjects.get(i));

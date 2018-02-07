@@ -45,7 +45,7 @@ public:
 			CloseObjectsVector* actualCloseObjects = (CloseObjectsVector*) creature->getCloseObjects();
 
 			if (actualCloseObjects != NULL) {
-				actualCloseObjects->safeCopyReceiversTo(closeObjects, CloseObjectsVector::CREOTYPE);
+				actualCloseObjects->safeCopyTo(closeObjects);
 			} else {
 				zone->getInRangeObjects(creature->getWorldPositionX(), creature->getWorldPositionY(), ZoneServer::CLOSEOBJECTRANGE, &closeObjects, true);
 			}

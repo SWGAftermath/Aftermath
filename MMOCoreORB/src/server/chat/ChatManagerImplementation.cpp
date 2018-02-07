@@ -1088,7 +1088,7 @@ void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreat
 	SortedVector<QuadTreeEntry*> closeEntryObjects(200, 50);
 
 	if (closeObjects != NULL) {
-		closeObjects->safeCopyReceiversTo(closeEntryObjects, CloseObjectsVector::CREOTYPE);
+		closeObjects->safeCopyTo(closeEntryObjects);
 	} else {
 #ifdef COV_DEBUG
 		sourceCreature->info("Null closeobjects vector in ChatManager::broadcastChatMessage", true);

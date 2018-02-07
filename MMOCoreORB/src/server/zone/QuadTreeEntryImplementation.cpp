@@ -19,8 +19,6 @@ QuadTreeEntryImplementation::QuadTreeEntryImplementation(QuadTreeNode* n) {
 	//closeobjects.setInsertPlan(SortedVector<QuadTreeEntry*>::NO_DUPLICATE);
 
 	radius = 0.5f;
-
-	receiverFlags = 0;
 }
 
 void QuadTreeEntryImplementation::setNode(QuadTreeNode* n) {

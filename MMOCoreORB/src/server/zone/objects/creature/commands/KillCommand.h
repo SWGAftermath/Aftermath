@@ -150,7 +150,7 @@ public:
 			}
 			else {
 				CloseObjectsVector* closeVector = (CloseObjectsVector*) creature->getCloseObjects();
-				closeVector->safeCopyReceiversTo(closeObjects, CloseObjectsVector::CREOTYPE);
+				closeVector->safeCopyTo(closeObjects);
 			}
 
 			for (int i = 0; i < closeObjects.size(); i++) {

@@ -86,8 +86,6 @@
 #include "server/zone/managers/creature/SpawnObserver.h"
 #include "server/zone/managers/creature/DynamicSpawnObserver.h"
 #include "server/zone/packets/ui/CreateClientPathMessage.h"
-#include "server/zone/objects/staticobject/StaticObject.h"
-#include "server/zone/objects/building/BuildingObject.h"
 
 //#define SHOW_WALK_PATH
 //#define DEBUG
@@ -778,7 +776,7 @@ void AiAgentImplementation::doAwarenessCheck() {
 		return;
 
 	SortedVector<QuadTreeEntry*> closeObjects;
-	vec->safeCopyReceiversTo(closeObjects, CloseObjectsVector::CREOTYPE);
+	vec->safeCopyReceiversTo(closeObjects, CreatureObject::CREOCOVTYPE);
 
 	Behavior* current = behaviors.get(currentBehaviorID);
 
@@ -2017,7 +2015,8 @@ float AiAgentImplementation::getWorldZ(const Vector3& position) {
 	if (closeobjects != NULL) {
 		Vector<QuadTreeEntry*> closeObjects(closeobjects->size(), 10);
 
-		closeobjects->safeCopyReceiversTo(closeObjects, CloseObjectsVector::COLLIDABLETYPE);
+		closeobjects->safeCopyTo(closeObjects);
+
 		CollisionManager::getWorldFloorCollisions(position.getX(), position.getY(), zone, &intersections, closeObjects);
 
 		ret = zone->getPlanetManager()->findClosestWorldFloor(position.getX(), position.getY(), position.getZ(), getSwimHeight(), &intersections, NULL);
@@ -2090,7 +2089,7 @@ bool AiAgentImplementation::generatePatrol(int num, float dist) {
 		SortedVector<QuadTreeEntry*> closeObjects;
 
 		if (closeobjects != NULL) {
-			closeobjects->safeCopyReceiversTo(closeObjects, CloseObjectsVector::COLLIDABLETYPE);
+			closeobjects->safeCopyTo(closeObjects);
 		} else {
 #ifdef COV_DEBUG
 			zone->info("Null closeobjects vector in AiAgentImplementation::generatePatrol", true);
@@ -3095,7 +3094,7 @@ void AiAgentImplementation::broadcastInterrupt(int64 msg) {
 				zone->getInRangeObjects(aiAgent->getPositionX(), aiAgent->getPositionY(), ZoneServer::CLOSEOBJECTRANGE, &closeAiAgents, true);
 			} else {
 				closeAiAgents.removeAll(closeobjects->size(), 10);
-				closeobjects->safeCopyReceiversTo(closeAiAgents, CloseObjectsVector::CREOTYPE); //only creos, type 2
+				closeobjects->safeCopyReceiversTo(closeAiAgents, CreatureObject::CREOCOVTYPE); //only creos, type 2
 			}
 		} catch (Exception& e) {
 

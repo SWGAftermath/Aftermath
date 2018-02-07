@@ -2162,7 +2162,7 @@ void CombatManager::broadcastCombatSpam(TangibleObject* attacker, TangibleObject
 
 	if (vec != NULL) {
 		closeObjects.removeAll(vec->size(), 10);
-		vec->safeCopyReceiversTo(closeObjects, CloseObjectsVector::PLAYERTYPE);
+		vec->safeCopyTo(closeObjects);
 	} else {
 #ifdef COV_DEBUG
 		info("Null closeobjects vector in CombatManager::broadcastCombatSpam", true);

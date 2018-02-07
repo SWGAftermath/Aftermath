@@ -85,7 +85,7 @@ void GroupObjectImplementation::updatePvPStatusNearCreature(CreatureObject* crea
 	CloseObjectsVector* creatureCloseObjects = (CloseObjectsVector*) creature->getCloseObjects();
 	SortedVector<QuadTreeEntry*> closeObjectsVector;
 
-	creatureCloseObjects->safeCopyReceiversTo(closeObjectsVector, CloseObjectsVector::CREOTYPE);
+	creatureCloseObjects->safeCopyTo(closeObjectsVector);
 
 	for (int i = 0; i < groupMembers.size(); i++) {
 		CreatureObject* member = groupMembers.get(i).get().get();

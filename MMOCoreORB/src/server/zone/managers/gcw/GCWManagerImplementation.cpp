@@ -1616,7 +1616,7 @@ void GCWManagerImplementation::broadcastBuilding(BuildingObject* building, Strin
 		zone->getInRangeObjects(building->getPositionX(), building->getPositionY(), range, &closeObjects, true);
 	} else {
 		CloseObjectsVector* closeVector = (CloseObjectsVector*) building->getCloseObjects();
-		closeVector->safeCopyReceiversTo(closeObjects, CloseObjectsVector::PLAYERTYPE);
+		closeVector->safeCopyTo(closeObjects);
 	}
 
 	// send message to all the players in range

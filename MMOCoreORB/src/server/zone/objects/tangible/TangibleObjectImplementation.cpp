@@ -243,7 +243,7 @@ void TangibleObjectImplementation::broadcastPvpStatusBitmask() {
 
 		SortedVector<QuadTreeEntry*> closeObjects(closeobjects->size(), 10);
 
-		closeobjects->safeCopyReceiversTo(closeObjects, CloseObjectsVector::CREOTYPE);
+		closeobjects->safeCopyTo(closeObjects);
 
 		for (int i = 0; i < closeObjects.size(); ++i) {
 			SceneObject* obj = cast<SceneObject*>(closeObjects.get(i));

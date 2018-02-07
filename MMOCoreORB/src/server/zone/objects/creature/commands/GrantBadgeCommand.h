@@ -116,7 +116,7 @@ public:
 			}
 			else {
 				CloseObjectsVector* closeVector = (CloseObjectsVector*) creature->getCloseObjects();
-				closeVector->safeCopyReceiversTo(closeObjects, CloseObjectsVector::PLAYERTYPE);
+				closeVector->safeCopyTo(closeObjects);
 			}
 
 			int numGranted = 0;

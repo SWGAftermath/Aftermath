@@ -37,8 +37,6 @@ class QuadTreeEntry extends Observable {
 	protected float radius;
 
 	public native QuadTreeEntry(QuadTreeNode n = null);
-
-	protected transient int receiverFlags;
 	
 	@dirty
 	public void addInRangeObject(QuadTreeEntry obj, boolean doNotifyUpdate = true) {
@@ -231,12 +229,7 @@ class QuadTreeEntry extends Observable {
 
 	@dirty
 	public abstract int registerToCloseObjectsReceivers() {
-	    return receiverFlags;
-	}
-
-	@dirty
-	public abstract int getReceiverFlags() {
-	    return receiverFlags;
+	    return 0;
 	}
 
 	@read
