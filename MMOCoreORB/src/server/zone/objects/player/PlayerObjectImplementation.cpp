@@ -283,13 +283,13 @@ void PlayerObjectImplementation::unload() {
 
 int PlayerObjectImplementation::calculateBhReward() {
 	int minReward = 60000; // Minimum reward for a player bounty
-	int maxReward = 500000; // Maximum reward for a player bounty
+	int maxReward = 1000000; // Maximum reward for a player bounty
 
 	int reward = minReward;
 
 	int skillPoints = getSpentJediSkillPoints();
 
-	reward = skillPoints * 1000;
+	reward = skillPoints * 2000;
 
 	if (reward < minReward)
 		reward = minReward;
