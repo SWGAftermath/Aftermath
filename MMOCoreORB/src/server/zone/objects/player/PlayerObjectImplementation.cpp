@@ -1326,6 +1326,7 @@ void PlayerObjectImplementation::notifyOnline() {
 			missionManager->addPlayerToBountyList(id, calculateBhReward());
 		else {
 			missionManager->updatePlayerBountyOnlineStatus(id, true);
+			missionManager->updatePlayerBountyReward(id, calculateBhReward());
 		}
 	}
 
