@@ -102,6 +102,9 @@
 #include "server/zone/objects/player/badges/Badge.h"
 #include "server/zone/objects/building/TutorialBuildingObject.h"
 
+#include "server/zone/managers/visibility/VisibilityManager.h"
+
+
 
 PlayerManagerImplementation::PlayerManagerImplementation(ZoneServer* zoneServer, ZoneProcessServer* impl) :
 										Logger("PlayerManager") {
@@ -1140,6 +1143,7 @@ void PlayerManagerImplementation::sendPlayerToCloner(CreatureObject* player, uin
 		message.setDI(xpLoss * -1);
 		message.setTO("exp_n", "jedi_general");
 		player->sendSystemMessage(message);
+		VisibilityManager::instance()->clearVisibility(player);
 	}
 }
 
