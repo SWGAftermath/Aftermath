@@ -102,6 +102,9 @@
 #include "server/zone/objects/player/badges/Badge.h"
 #include "server/zone/objects/building/TutorialBuildingObject.h"
 
+#include "server/zone/managers/visibility/VisibilityManager.h"
+
+
 
 PlayerManagerImplementation::PlayerManagerImplementation(ZoneServer* zoneServer, ZoneProcessServer* impl) :
 										Logger("PlayerManager") {
@@ -1140,6 +1143,7 @@ void PlayerManagerImplementation::sendPlayerToCloner(CreatureObject* player, uin
 		message.setDI(xpLoss * -1);
 		message.setTO("exp_n", "jedi_general");
 		player->sendSystemMessage(message);
+		VisibilityManager::instance()->clearVisibility(player);
 	}
 }
 
@@ -2738,7 +2742,7 @@ SceneObject* PlayerManagerImplementation::getInRangeStructureWithAdminRights(Cre
 
 	CloseObjectsVector* closeObjs = (CloseObjectsVector*)creature->getCloseObjects();
 	SortedVector<QuadTreeEntry*> closeObjects;
-	closeObjs->safeCopyReceiversTo(closeObjects, CloseObjectsVector::STRUCTURETYPE);
+	closeObjs->safeCopyTo(closeObjects);
 
 	for (int i = 0; i < closeObjects.size(); ++i) {
 		ManagedReference<SceneObject*> tObj = cast<SceneObject*>( closeObjects.get(i));
