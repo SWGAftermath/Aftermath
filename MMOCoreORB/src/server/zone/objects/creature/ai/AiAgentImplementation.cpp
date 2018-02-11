@@ -1625,6 +1625,7 @@ void AiAgentImplementation::activateRecovery() {
 void AiAgentImplementation::activatePostureRecovery() {
 	if ((isProne() || isKnockedDown() || isKneeling()) && checkPostureChangeDelay()) {
 		executeObjectControllerAction(0xA8A25C79); // stand
+
 	}
 }
 
