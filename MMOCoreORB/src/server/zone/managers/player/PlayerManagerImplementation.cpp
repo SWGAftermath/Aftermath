@@ -103,7 +103,6 @@
 #include "server/zone/objects/building/TutorialBuildingObject.h"
 
 #include "server/zone/managers/visibility/VisibilityManager.h"
-#include "server/zone/managers/mission/MissionManager.h"
 
 
 
@@ -1145,10 +1144,6 @@ void PlayerManagerImplementation::sendPlayerToCloner(CreatureObject* player, uin
 		message.setTO("exp_n", "jedi_general");
 		player->sendSystemMessage(message);
 		VisibilityManager::instance()->clearVisibility(player);
-		MissionManager* missionManager = server->getMissionManager();
-		uint64 id = player->getObjectID();
-		missionManager->removePlayerFromBountyList(id);
-
 	}
 }
 
