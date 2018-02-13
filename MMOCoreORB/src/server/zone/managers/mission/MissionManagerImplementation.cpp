@@ -1907,6 +1907,21 @@ void MissionManagerImplementation::removePlayerFromBountyList(uint64 targetId) {
 	}
 }
 
+void MissionManagerImplementation::clearPlayerBountyMissions(uint64 targetId) {
+	Locker listLocker(&playerBountyListMutex);
+
+	if (playerBountyList.contains(targetId)) {
+
+		PlayerBounty* target = playerBountyList.get(targetId);
+
+		SortedVector<uint64>* bountyHunters = target->getBountyHunters();
+
+		for (int i = 0; i < bountyHunters->size(); i++) {
+			failPlayerBountyMission(bountyHunters->get(i));
+		}
+	}
+}
+
 void MissionManagerImplementation::updatePlayerBountyReward(uint64 targetId, int reward) {
 	Locker listLocker(&playerBountyListMutex);
 
