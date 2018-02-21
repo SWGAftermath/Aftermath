@@ -14,7 +14,7 @@ function seanTrenwellConvoHandler:getInitialScreen(pPlayer, pNpc, pConvTemplate)
 
 	if (BestineElection:getQuestStep(pPlayer, BestineElection.SEAN, BestineElection.SEAN_HISTORY_QUEST) == BestineElection.SEAN_HISTORY_QUEST_GAVE_TO_HUTT) then
 		return convoTemplate:getScreen("init_gave_intel_to_hutt")
-	elseif (BestineElection:hadInvFull(pPlayer, BestineElection.SEAN, BestineElection.SEAN_MAIN_QUEST)) then
+	elseif (curPhase == BestineElection.ELECTION_PHASE and BestineElection:hadInvFull(pPlayer, BestineElection.SEAN, BestineElection.SEAN_MAIN_QUEST)) then
 		return convoTemplate:getScreen("init_had_full_inventory")
 	elseif (BestineElection:getPlayerVote(pPlayer) == BestineElection.NONE and BestineElection:hasJoinedCampaign(pPlayer, BestineElection.SEAN)) then
 		return convoTemplate:getScreen("init_joined_campaign")
@@ -71,12 +71,13 @@ function seanTrenwellConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc
 		if (currentPhase == BestineElection.ELECTION_PHASE) then
 			if (BestineElection:getPlayerVote(pPlayer) == BestineElection.SEAN) then
 				clonedConversation:addOption("@conversation/sean_trenwell:s_811e4ed1", "greatly_appreciate_it") -- I voted for you in this election.
-			end
+			else
 
-			local electionWinner = BestineElection:getElectionWinner(electionNum - 1)
+				local electionWinner = BestineElection:getElectionWinner(electionNum - 1)
 
-			if (electionWinner == BestineElection.SEAN) then
-				clonedConversation:addOption("@conversation/sean_trenwell:s_3ab76f84", "efforts_going_well") -- I hear you're up for re-election. How's the campaign going?
+				if (electionWinner == BestineElection.SEAN) then
+					clonedConversation:addOption("@conversation/sean_trenwell:s_3ab76f84", "efforts_going_well") -- I hear you're up for re-election. How's the campaign going?
+				end
 			end
 		else
 			if (BestineElection:getPlayerVote(pPlayer, electionNum) == BestineElection.SEAN) then
@@ -108,6 +109,7 @@ function seanTrenwellConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc
 	elseif (screenID == "disk_inv_full") then
 		BestineElection:setInvFull(pPlayer, BestineElection.SEAN, BestineElection.SEAN_MAIN_QUEST)
 	elseif (screenID == "sensible_type") then
+		BestineElection:clearInvFull(pPlayer, BestineElection.SEAN, BestineElection.SEAN_MAIN_QUEST)
 		BestineElection:joinCampaign(pPlayer, BestineElection.SEAN)
 	elseif (screenID == "init_had_full_inventory") then
 		if (BestineElection:hasFullInventory(pPlayer)) then
@@ -182,7 +184,7 @@ function seanTrenwellConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc
 			local curID = readData(SceneObject(pPlayer):getObjectID() .. ":bestineElection:contactWaypointID")
 			PlayerObject(pGhost):removeWaypoint(curID, true)
 		end
-		
+
 		BestineElection:setQuestStep(pPlayer, BestineElection.SEAN, BestineElection.SEAN_HISTORY_QUEST, BestineElection.NONE)
 	elseif (screenID == "speak_with_secretary") then
 		BestineElection:setQuestStep(pPlayer, BestineElection.SEAN, BestineElection.SEAN_RIVAL_QUEST, BestineElection.SEAN_RIVAL_QUEST_ACCEPTED)
