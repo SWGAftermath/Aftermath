@@ -1898,7 +1898,7 @@ void MissionManagerImplementation::removePlayerFromBountyList(uint64 targetId) {
 
 		SortedVector<uint64>* bountyHunters = target->getBountyHunters();
 
-		for (int i = 0; i < bountyHunters->size(); i++) {
+		for (int i = bountyHunters->size() - 1; i >= 0; i--) {
 			failPlayerBountyMission(bountyHunters->get(i));
 		}
 
@@ -1916,8 +1916,9 @@ void MissionManagerImplementation::clearPlayerBountyMissions(uint64 targetId) {
 
 		SortedVector<uint64>* bountyHunters = target->getBountyHunters();
 
-		for (int i = 0; i < bountyHunters->size(); i++) {
-			failPlayerBountyMission(bountyHunters->get(i));
+		for (int i = bountyHunters->size() - 1; i >= 0; i--) {
+			info("Removing BH mission belonging to: " + String::valueOf(bountyHunters->get(i)), true);
+			failPlayerBountyMission(bountyHunters->get(i));	
 		}
 	}
 }
