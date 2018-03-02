@@ -403,6 +403,7 @@ schematics = {
 	{path="object/draft_schematic/clothing/clothing_robe_casual_05b.iff"},
 	{path="object/draft_schematic/clothing/clothing_robe_casual_18.iff"},
 	{path="object/draft_schematic/clothing/clothing_hat_casual_02.iff"},
+	{path="object/draft_schematic/clothing/clothing_hat_covert.iff"},
 	{path="object/draft_schematic/clothing/clothing_hat_casual_10.iff"},
 	{path="object/draft_schematic/clothing/clothing_hat_casual_12.iff"},
 	{path="object/draft_schematic/clothing/clothing_bustier_casual_01.iff"},
