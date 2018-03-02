@@ -86,6 +86,11 @@ int PlayerContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject
 						return TransferErrorCode::PLAYERUSEMASKERROR;
 					}
 				}
+				
+				if ((wearable->getMaxCondition() - wearable->getConditionDamage()) <= 0) {
+					errorDescription = "This object has been damaged to the point of uselessness.";
+						return TransferErrorCode::PLAYERUSEMASKERROR;
+				}
 			}
 		}
 
