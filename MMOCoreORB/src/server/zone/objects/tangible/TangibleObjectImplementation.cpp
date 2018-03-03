@@ -11,6 +11,7 @@
 #include "server/zone/packets/tangible/TangibleObjectDeltaMessage3.h"
 #include "server/zone/packets/tangible/TangibleObjectDeltaMessage6.h"
 #include "server/zone/packets/scene/AttributeListMessage.h"
+#include "server/zone/managers/objectcontroller/ObjectController.h"
 #include "templates/SharedTangibleObjectTemplate.h"
 #include "templates/params/creature/CreatureFlag.h"
 #include "server/zone/packets/tangible/UpdatePVPStatusMessage.h"
@@ -636,10 +637,25 @@ int TangibleObjectImplementation::inflictDamage(TangibleObject* attacker, int da
 
 	float newConditionDamage = conditionDamage + damage;
 
-	if (!destroy && newConditionDamage >= maxCondition)
+	if (!destroy && newConditionDamage >= maxCondition){
 		newConditionDamage = maxCondition - 1;
-	else if (newConditionDamage >= maxCondition)
+
+		WearableObject* wearable = cast<WearableObject*>(this);
+			if(wearable != NULL) {
+				ManagedReference<SceneObject*> playerParent = getParentRecursively(SceneObjectType::PLAYERCREATURE);
+				if (wearable->isEquipped() && playerParent != NULL){
+					SceneObject* inventory = playerParent->getSlottedObject("inventory");
+					SceneObject* parentOfWearableParent = wearable->getParent().get();
+					ZoneServer* zoneServer = server->getZoneServer();
+					ObjectController* objectController = zoneServer->getObjectController();
+					objectController->transferObject(wearable,inventory,wearable->getContainmentType(), true, true);
+				}
+					
+			}
+	} 
+	else if (newConditionDamage >= maxCondition){
 		newConditionDamage = maxCondition;
+	}
 
 	setConditionDamage(newConditionDamage, notifyClient);
 
