@@ -639,16 +639,20 @@ int TangibleObjectImplementation::inflictDamage(TangibleObject* attacker, int da
 
 	if (!destroy && newConditionDamage >= maxCondition){
 		newConditionDamage = maxCondition - 1;
+		info("condition damage is determined to bring item to 0 condition", true);
 
 		WearableObject* wearable = cast<WearableObject*>(this);
 			if(wearable != NULL) {
+				info("Wearable is not null", true);
 				ManagedReference<SceneObject*> playerParent = getParentRecursively(SceneObjectType::PLAYERCREATURE);
 				if (wearable->isEquipped() && playerParent != NULL){
+					info("wearable is equipped and player is not null", true);
 					SceneObject* inventory = playerParent->getSlottedObject("inventory");
 					SceneObject* parentOfWearableParent = wearable->getParent().get();
 					ZoneServer* zoneServer = server->getZoneServer();
 					ObjectController* objectController = zoneServer->getObjectController();
 					objectController->transferObject(wearable,inventory,wearable->getContainmentType(), true, true);
+					info("wearable should have been unequipped", true);
 				}
 					
 			}
