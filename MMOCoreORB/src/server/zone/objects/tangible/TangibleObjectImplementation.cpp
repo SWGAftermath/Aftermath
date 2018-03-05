@@ -663,7 +663,7 @@ int TangibleObjectImplementation::inflictDamage(TangibleObject* attacker, int da
 		setDisabled(true);
 		info("condition damage is determined to bring item to 0 condition", true);
 
-		WearableObject* wearable = cast<WearableObject*>(this);
+		WearableObject* wearable = cast<WearableObject*>(asTangibleObject());
 			if(wearable != NULL) {
 				info("Wearable is not null", true);
 				ManagedReference<SceneObject*> playerParent = getParentRecursively(SceneObjectType::PLAYERCREATURE);
