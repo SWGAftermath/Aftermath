@@ -644,6 +644,12 @@ int TangibleObjectImplementation::inflictDamage(TangibleObject* attacker, int da
 
 	setConditionDamage(newConditionDamage, notifyClient);
 
+	if(isWearableObject()){
+		info("A wearable object that has decayed", true);
+	} else {
+		info("Non-wearable object that has decayed", true);
+	}
+
 	if (attacker->isCreatureObject()) {
 		CreatureObject* creature = attacker->asCreatureObject();
 
