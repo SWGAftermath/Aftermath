@@ -1,1 +1,1 @@
-includeFile("aftermath/roaming_jedi_np.lua")
+includeFile("aftermath/roaming_jedi_npc.lua")
