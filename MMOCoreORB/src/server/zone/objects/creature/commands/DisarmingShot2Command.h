@@ -8,6 +8,12 @@
 #include "CombatQueueCommand.h"
 
 class DisarmingShot2Command : public CombatQueueCommand {
+
+protected:
+	String skillName = "disarmShot";		// Skill Name
+	String skillNameDisplay = "Disarm Shot";		// Skill Display Name for output message
+	int delay = 30; 								//  30 second cool down timer
+
 public:
 
 	DisarmingShot2Command(const String& name, ZoneProcessServer* server)
@@ -36,6 +42,12 @@ public:
 			return INVALIDTARGET;
 		} else if (player == NULL)
 			return GENERALERROR;
+
+		if (!creature->checkCooldownRecovery(skillName)){
+			Time* timeRemaining = creature->getCooldownTime(skillName);
+			creature->sendSystemMessage("You must wait " +  getCooldownString(timeRemaining->miliDifference() * -1)  + " to use " + skillNameDisplay + " again");
+			return GENERALERROR;
+		}
 		
 		int res = doCombatAction(creature, target);
 
@@ -47,15 +59,20 @@ public:
 			if (targetCreature != NULL) {
 				Locker clocker(targetCreature, creature);
 
-				ManagedReference<Buff*> buff = new Buff(targetCreature, getNameCRC(), 10, BuffType::OTHER);
+				ManagedReference<Buff*> buff = new Buff(targetCreature, getNameCRC(), 6, BuffType::OTHER);
 
 				Locker locker(buff);
 
-				buff->setSpeedMultiplierMod(speed);
-				buff->setAccelerationMultiplierMod(speed);
-				targetCreature->setRootedState(10);
+				buff->setSpeedMultiplierMod(0.01f);
+				buff->setAccelerationMultiplierMod(0.01f);
+				targetCreature->setSnaredState(6);
+				StringBuffer targetRootMessage;
+
+				targetRootMessage << "You have been ROOTED for 6 seconds";
+				targetCreature->sendSystemMessage(targetRootMessage.toString());
 
 				targetCreature->addBuff(buff);
+				creature->updateCooldownTimer(skillName, delay * 1000);
 
 			}
 
@@ -63,6 +80,28 @@ public:
 		return res;
 	}
 
-};
+	String getCooldownString(uint32 delta) const {
 
-#endif //DISARMINGSHOT2COMMAND_H_
+		int seconds = delta / 1000;
+
+		int hours = seconds / 3600;
+		seconds -= hours * 3600;
+
+		int minutes = seconds / 60;
+		seconds -= minutes * 60;
+
+		StringBuffer buffer;
+
+		if (hours > 0)
+			buffer << hours << "h ";
+
+		if (minutes > 0)
+			buffer << minutes << "m ";
+
+		if (seconds > 0)
+			buffer << seconds << "s";
+
+		return buffer.toString();
+	}
+
+};
