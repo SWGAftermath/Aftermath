@@ -105,3 +105,4 @@ public:
 	}
 
 };
+#endif //DISARMINGSHOT2COMMAND_H_

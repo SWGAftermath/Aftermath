@@ -292,6 +292,9 @@ class CityRegion extends ManagedObject implements Logger {
 	public native int getTimeToUpdate();
 
 	@dirty
+	public native int getTimeToVote();
+
+	@dirty
 	public int getCitizenCount() {
 		return citizenList.size();
 	}

@@ -165,6 +165,8 @@ class CityManager extends ManagedService implements Logger {
 
 	public native string getNextUpdateTimeString(CityRegion city);
 
+	public native string getNextVoteTimeString(CityRegion city);
+
 	public native void promptRegisterCity(CityRegion city, CreatureObject creature, SceneObject terminal = null);
 
 	public native void promptUnregisterCity(CityRegion city, CreatureObject creature, SceneObject terminal = null);
