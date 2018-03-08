@@ -16,7 +16,8 @@ bool EnclaveContainerComponent::checkContainerPermission(SceneObject* sceneObjec
 }
 
 bool EnclaveContainerComponent::checkBuildingPermission(SceneObject* sceneObject, CreatureObject* creature, uint16 permission) const {
-	if (permission != ContainerPermissions::WALKIN)
+	return true;
+	/*if (permission != ContainerPermissions::WALKIN)
 		return StructureContainerComponent::checkContainerPermission(sceneObject, creature, permission);
 
 	if (!creature->isPlayerCreature()) {
@@ -66,12 +67,13 @@ bool EnclaveContainerComponent::checkBuildingPermission(SceneObject* sceneObject
 
 	creature->sendSystemMessage("@pvp_rating:enclave_deny_entry"); // A strange force repels you and keeps you from entering.
 
-	return false;
+	return false;*/
 }
 
 
 bool EnclaveContainerComponent::checkCellPermission(SceneObject* sceneObject, CreatureObject* creature, uint16 permission) const {
-	if (permission != ContainerPermissions::WALKIN)
+	return true;
+	/*if (permission != ContainerPermissions::WALKIN)
 		return ContainerComponent::checkContainerPermission(sceneObject, creature, permission);
 
 	if (!creature->isPlayerCreature())
@@ -120,5 +122,5 @@ bool EnclaveContainerComponent::checkCellPermission(SceneObject* sceneObject, Cr
 		allowPermissions |= allow;
 	}
 
-	return permission & allowPermissions;
+	return permission & allowPermissions;*/
 }
