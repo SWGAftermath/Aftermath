@@ -6,8 +6,8 @@ roaming_jedi_npc = Creature:new {
 	faction = "",
 	level = 333,
 	chanceHit = 30,
-	damageMin = 4645,
-	damageMax = 7000,
+	damageMin = 4000,
+	damageMax = 6000,
 	baseXp = 45,
 	baseHAM = 2106000,
 	baseHAMmax = 2352000,
@@ -56,7 +56,7 @@ roaming_jedi_npc = Creature:new {
 	},
 	weapons = {"light_jedi_weapons"},
 	conversationTemplate = "",
-	attacks = merge(lightsabermaster,forcepowermaster)
+	attacks = merge(lightsabermaster)
 }
 
 CreatureTemplates:addCreatureTemplate(roaming_jedi_npc, "roaming_jedi_npc")
