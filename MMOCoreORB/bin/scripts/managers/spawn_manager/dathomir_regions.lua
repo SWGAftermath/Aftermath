@@ -142,6 +142,7 @@ dathomir_regions = {
 	{"worship_shrine", -6949, -3034, {1, 30}, NOSPAWNAREA + NOBUILDZONEAREA},
 	{"yumaou_risoath", 0, 0, {1, 0}, UNDEFINEDAREA},
 	{"fs_village", 5306, -4145, {1, 768}, NOSPAWNAREA + NOBUILDZONEAREA},
+	{"dath_bunker", -3005, -5677, {1, 450}, NOSPAWNAREA + NOBUILDZONEAREA},
 
 	-- Phase 3 camp spawns
 	{ "fs_cs_alpha", 5939, -2030, {1, 50}, NOSPAWNAREA + NOBUILDZONEAREA},
