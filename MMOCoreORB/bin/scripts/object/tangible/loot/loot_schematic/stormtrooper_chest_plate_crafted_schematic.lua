@@ -46,7 +46,7 @@ object_tangible_loot_loot_schematic_stormtrooper_chest_plate_crafted_schematic =
 	objectMenuComponent = "LootSchematicMenuComponent",
 	attributeListComponent = "LootSchematicAttributeListComponent",
 	requiredSkill = "crafting_armorsmith_master",
-	targetDraftSchematic = "draft_schematic/clothing/clothing_armor_stormtrooper_chest_crafted.lua",
+	targetDraftSchematic = "object/draft_schematic/clothing/clothing_armor_stormtrooper_chest_crafted.iff",
 	targetUseCount = 1
 }
 
