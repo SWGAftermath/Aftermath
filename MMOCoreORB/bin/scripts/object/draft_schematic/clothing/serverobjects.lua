@@ -551,3 +551,6 @@ includeFile("draft_schematic/clothing/clothing_wke_skirt_s01.lua")
 includeFile("draft_schematic/clothing/clothing_wke_skirt_s02.lua")
 includeFile("draft_schematic/clothing/clothing_wke_skirt_s03.lua")
 includeFile("draft_schematic/clothing/clothing_wke_skirt_s04.lua")
+
+--aftermath armors
+includeFile("draft_schematic/clothing/clothing_armor_stormtrooper_chest_crafted.lua")

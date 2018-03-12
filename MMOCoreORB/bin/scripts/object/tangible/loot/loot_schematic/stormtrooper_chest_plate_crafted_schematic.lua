@@ -41,21 +41,13 @@
 --this exception also makes it possible to release a modified version 
 
 
+object_tangible_loot_loot_schematic_stormtrooper_chest_plate_crafted_schematic = object_tangible_loot_loot_schematic_shared_stormtrooper_chest_plate_crafted_schematic:new {
+	templateType = LOOTSCHEMATIC,
+	objectMenuComponent = "LootSchematicMenuComponent",
+	attributeListComponent = "LootSchematicAttributeListComponent",
+	requiredSkill = "crafting_armorsmith_master",
+	targetDraftSchematic = "draft_schematic/clothing/clothing_armor_stormtrooper_chest_crafted.lua",
+	targetUseCount = 1
+}
 
---Children folder includes
-
--- Server Objects
-includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_bicep_l.lua")
-includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_bicep_r.lua")
-includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_boots.lua")
-includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_bracer_l.lua")
-includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_bracer_r.lua")
-includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_chest_plate.lua")
-includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_chest_plate_quest.lua")
-includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_gloves.lua")
-includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_helmet.lua")
-includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_helmet_quest.lua")
-includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_leggings.lua")
-includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_leggings_quest.lua")
-includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_utility_belt.lua")
-includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_chest_plate_crafted.lua")
+ObjectTemplates:addTemplate(object_tangible_loot_loot_schematic_stormtrooper_chest_plate_crafted_schematic, "object/tangible/loot/loot_schematic/stormtrooper_chest_plate_crafted_schematic.iff")

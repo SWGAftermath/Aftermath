@@ -4937,3 +4937,9 @@ object_tangible_loot_loot_schematic_shared_utensils_schematic = SharedTangibleOb
 }
 
 ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_utensils_schematic, "object/tangible/loot/loot_schematic/shared_utensils_schematic.iff")
+
+object_tangible_loot_loot_schematic_shared_stormtrooper_chest_plate_crafted_schematic = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/loot/loot_schematic/shared_stormtrooper_chest_plate_crafted_schematic.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_stormtrooper_chest_plate_crafted_schematic, "object/tangible/loot/loot_schematic/shared_stormtrooper_chest_plate_crafted_schematic.iff")

@@ -1813,4 +1813,6 @@ schematics = {
 	{path="object/draft_schematic/item/theme_park/alderaan/act2/dead_eye_decoder.iff"},
 	{path="object/draft_schematic/item/quest_item/fs_medic_puzzle_heal_pack.iff"},
 	{path="object/draft_schematic/item/clothing_sea_removal_tool.iff"},
+	--aftermath armors
+	{path="object/draft_schematic/clothing/clothing_armor_stormtrooper_chest_crafted.iff"},
 };

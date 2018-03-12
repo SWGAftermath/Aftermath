@@ -128,3 +128,6 @@ includeFile("tangible/loot/loot_schematic/technical_console_s02_schematic.lua")
 includeFile("tangible/loot/loot_schematic/throwpillow_schematic.lua")
 includeFile("tangible/loot/loot_schematic/tumble_blender_schematic.lua")
 includeFile("tangible/loot/loot_schematic/utensils_schematic.lua")
+
+--aftermath armors
+includeFile("tangible/loot/loot_schematic/stormtrooper_chest_plate_crafted_schematic.lua")
