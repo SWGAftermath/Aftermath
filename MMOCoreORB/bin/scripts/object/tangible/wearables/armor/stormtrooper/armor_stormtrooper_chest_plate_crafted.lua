@@ -46,7 +46,6 @@ object_tangible_wearables_armor_stormtrooper_armor_stormtrooper_chest_plate_craf
 
 	faction = "Imperial",
 
-	objectMenuComponent = "ArmorObjectMenuComponent",
 
 	playerRaces = { "object/creature/player/bothan_male.iff",
 				"object/creature/player/bothan_female.iff",
