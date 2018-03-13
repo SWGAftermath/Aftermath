@@ -44,6 +44,8 @@
 object_tangible_wearables_armor_stormtrooper_armor_stormtrooper_chest_plate_crafted = object_tangible_wearables_armor_stormtrooper_shared_armor_stormtrooper_chest_plate_crafted:new {
 	templateType = ARMOROBJECT,
 
+	faction = "Imperial",
+
 	objectMenuComponent = "ArmorObjectMenuComponent",
 
 	playerRaces = { "object/creature/player/bothan_male.iff",
