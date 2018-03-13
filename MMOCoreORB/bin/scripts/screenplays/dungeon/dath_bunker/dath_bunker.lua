@@ -23,6 +23,8 @@ end
 function DathBunkerScreenPlay:spawnMobiles()
 
 --Inside
+spawnMobile("dathomir", "commoner", 1, -3008.29, 77, -5679.2, 356, 0)
+spawnMobile("dathomir", "commoner", 1, -3008.29, 77, -5679.2, 356, 0)
 spawnMobile("dathomir", "commoner", 1, 3.52592, 0.25, -4.0734, 271, 9925416)
 spawnMobile("dathomir", "commoner", 1, 2.39479, -12, 30.545, 167, 9925418)
 spawnMobile("dathomir", "commoner", 1, -12.4357, -12, 40.7943, 181, 9925418)
