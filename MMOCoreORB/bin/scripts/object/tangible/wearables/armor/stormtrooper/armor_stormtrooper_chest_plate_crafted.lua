@@ -125,4 +125,4 @@ object_tangible_wearables_armor_stormtrooper_armor_stormtrooper_chest_plate_craf
 	experimentalCombineType = {0, 0, 4, 1, 1, 1, 1, 1, 1, 4, 4, 4, 1},
 }
 
-ObjectTemplates:addTemplate(object_tangible_wearables_armor_stormtrooper_armor_stormtrooper_chest_plate_crafted, "object/tangible/wearables/armor/stormtrooper/shared_armor_stormtrooper_chest_plate_crafted.iff")
+ObjectTemplates:addTemplate(object_tangible_wearables_armor_stormtrooper_armor_stormtrooper_chest_plate_crafted, "object/tangible/wearables/armor/stormtrooper/armor_stormtrooper_chest_plate_crafted.iff")
