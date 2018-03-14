@@ -1816,4 +1816,6 @@ schematics = {
 	--aftermath armors
 	{path="object/draft_schematic/clothing/clothing_armor_stormtrooper_chest_crafted.iff"},
 	{path="object/draft_schematic/clothing/clothing_armor_stormtrooper_helmet_crafted.iff"},
+	{path="object/draft_schematic/clothing/clothing_armor_stormtrooper_bicep_l_crafted.iff"},
+	{path="object/draft_schematic/clothing/clothing_armor_stormtrooper_bicep_r_crafted.iff"},
 };
