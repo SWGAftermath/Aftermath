@@ -554,3 +554,4 @@ includeFile("draft_schematic/clothing/clothing_wke_skirt_s04.lua")
 
 --aftermath armors
 includeFile("draft_schematic/clothing/clothing_armor_stormtrooper_chest_crafted.lua")
+includeFile("draft_schematic/clothing/clothing_armor_stormtrooper_helmet_crafted.lua")

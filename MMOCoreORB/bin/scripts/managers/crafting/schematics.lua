@@ -1815,4 +1815,5 @@ schematics = {
 	{path="object/draft_schematic/item/clothing_sea_removal_tool.iff"},
 	--aftermath armors
 	{path="object/draft_schematic/clothing/clothing_armor_stormtrooper_chest_crafted.iff"},
+	{path="object/draft_schematic/clothing/clothing_armor_stormtrooper_helmet_crafted.iff"},
 };

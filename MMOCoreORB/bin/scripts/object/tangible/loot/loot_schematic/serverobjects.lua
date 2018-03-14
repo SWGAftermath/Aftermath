@@ -131,3 +131,4 @@ includeFile("tangible/loot/loot_schematic/utensils_schematic.lua")
 
 --aftermath armors
 includeFile("tangible/loot/loot_schematic/stormtrooper_chest_plate_crafted_schematic.lua")
+includeFile("tangible/loot/loot_schematic/stormtrooper_helmet_crafted_schematic.lua")
