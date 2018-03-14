@@ -557,3 +557,5 @@ includeFile("draft_schematic/clothing/clothing_armor_stormtrooper_chest_crafted.
 includeFile("draft_schematic/clothing/clothing_armor_stormtrooper_helmet_crafted.lua")
 includeFile("draft_schematic/clothing/clothing_armor_stormtrooper_bicep_l_crafted.lua")
 includeFile("draft_schematic/clothing/clothing_armor_stormtrooper_bicep_r_crafted.lua")
+includeFile("draft_schematic/clothing/clothing_armor_stormtrooper_bracer_r_crafted.lua")
+includeFile("draft_schematic/clothing/clothing_armor_stormtrooper_bracer_l_crafted.lua")
