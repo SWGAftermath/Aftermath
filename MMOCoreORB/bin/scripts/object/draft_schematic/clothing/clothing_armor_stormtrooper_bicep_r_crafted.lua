@@ -70,7 +70,7 @@ object_draft_schematic_clothing_clothing_armor_stormtrooper_bicep_r_crafted = ob
    contribution = {100, 100, 100, 100, 100, 100, 100, 100, 100},
 
 
-   targetTemplate = "object/tangible/wearables/armor/composite/armor_stormtrooper_bicep_r_crafted.iff",
+   targetTemplate = "object/tangible/wearables/armor/stormtrooper/armor_stormtrooper_bicep_r_crafted.iff",
 
    additionalTemplates = {
              }
