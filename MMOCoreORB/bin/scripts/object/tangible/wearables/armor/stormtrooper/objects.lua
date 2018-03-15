@@ -845,3 +845,12 @@ object_tangible_wearables_armor_stormtrooper_shared_armor_stormtrooper_bracer_l_
 }
 
 ObjectTemplates:addClientTemplate(object_tangible_wearables_armor_stormtrooper_shared_armor_stormtrooper_bracer_l_crafted, "object/tangible/wearables/armor/stormtrooper/shared_armor_stormtrooper_bracer_l_crafted.iff")
+
+object_tangible_wearables_armor_stormtrooper_shared_armor_stormtrooper_boots_crafted = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/wearables/armor/stormtrooper/shared_armor_stormtrooper_boots_crafted.iff"
+	
+}
+
+ObjectTemplates:addClientTemplate(object_tangible_wearables_armor_stormtrooper_shared_armor_stormtrooper_boots_crafted, "object/tangible/wearables/armor/stormtrooper/shared_armor_stormtrooper_boots_crafted.iff")
+
+
