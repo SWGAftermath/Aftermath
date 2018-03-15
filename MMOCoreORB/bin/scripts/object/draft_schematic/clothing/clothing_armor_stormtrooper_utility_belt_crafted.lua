@@ -71,7 +71,7 @@ object_draft_schematic_clothing_clothing_armor_stormtrooper_utility_belt_crafted
 
 
 
-   targetTemplate = "object/tangible/wearables/armor/composite/armor_stormtrooper_utility_belt_crafted.iff",
+   targetTemplate = "object/tangible/wearables/armor/stormtrooper/armor_stormtrooper_utility_belt_crafted.iff",
 
    additionalTemplates = {
              }
