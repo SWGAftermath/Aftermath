@@ -139,3 +139,4 @@ includeFile("tangible/loot/loot_schematic/stormtrooper_bracer_l_crafted_schemati
 includeFile("tangible/loot/loot_schematic/stormtrooper_boots_crafted_schematic.lua")
 includeFile("tangible/loot/loot_schematic/stormtrooper_gloves_crafted_schematic.lua")
 includeFile("tangible/loot/loot_schematic/stormtrooper_utility_belt_crafted_schematic.lua")
+includeFile("tangible/loot/loot_schematic/stormtrooper_leggings_crafted_schematic.lua")

@@ -67,3 +67,4 @@ includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_bracer_r_c
 includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_boots_crafted.lua")
 includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_gloves_crafted.lua")
 includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_utility_belt_crafted.lua")
+includeFile("tangible/wearables/armor/stormtrooper/armor_stormtrooper_leggings_crafted.lua")
