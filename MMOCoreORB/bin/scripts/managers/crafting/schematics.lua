@@ -1822,4 +1822,5 @@ schematics = {
 	{path="object/draft_schematic/clothing/clothing_armor_stormtrooper_bracer_l_crafted.iff"},
 	{path="object/draft_schematic/clothing/clothing_armor_stormtrooper_boots_crafted.iff"},
 	{path="object/draft_schematic/clothing/clothing_armor_stormtrooper_gloves_crafted.iff"},
+	{path="object/draft_schematic/clothing/clothing_armor_stormtrooper_utility_belt_crafted.iff"},
 };
