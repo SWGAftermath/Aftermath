@@ -42,7 +42,7 @@ public:
 		}
 
 		if (creature->hasBuff(STRING_HASHCODE("disarmingshot2"))){
-			creature->sendSystemMessage("You are ROOTED");
+			creature->sendSystemMessage("Cannot Retreat while ROOTED");
 			return false;
 		}
 
