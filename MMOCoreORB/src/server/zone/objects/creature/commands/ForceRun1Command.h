@@ -32,6 +32,11 @@ public:
 			creature->sendSystemMessage("@jedi_spam:already_force_running"); // You are already force running.
 			return GENERALERROR;
 		}
+		// Return if Jedi is rooted
+		if (creature->hasBuff(STRING_HASHCODE("disarmingshot2"))){
+			creature->sendSystemMessage("You are ROOTED");
+			return GENERALERROR;
+		}
 		// Return if something is in error.
 		if (res != SUCCESS) {
 			return res;

@@ -41,6 +41,11 @@ public:
 			return false;
 		}
 
+		if (creature->hasBuff(STRING_HASHCODE("disarmingshot2"))){
+			creature->sendSystemMessage("You are ROOTED");
+			return false;
+		}
+
 		if (!creature->checkCooldownRecovery("retreat")) {
 			creature->sendSystemMessage("@combat_effects:burst_run_no"); //You cannot burst run right now.
 			return false;

@@ -12,7 +12,7 @@ class DisarmingShot2Command : public CombatQueueCommand {
 protected:
 	String skillName = "disarmShot";		// Skill Name
 	String skillNameDisplay = "Disarm Shot";		// Skill Display Name for output message
-	int delay = 30; 								//  30 second cool down timer
+	int delay = 36; 								//  30 second cool down timer after root expires
 
 public:
 
@@ -62,6 +62,11 @@ public:
 				ManagedReference<Buff*> buff = new Buff(targetCreature, getNameCRC(), 6, BuffType::OTHER);
 
 				Locker locker(buff);
+				if (targetCreature->hasBuff(STRING_HASHCODE("burstrun")) || targetCreature->hasBuff(STRING_HASHCODE("retreat")) || targetCreature->hasBuff(BuffCRC::JEDI_FORCE_RUN_1)) {
+					targetCreature->removeBuff(STRING_HASHCODE("burstrun"));
+					targetCreature->removeBuff(STRING_HASHCODE("retreat"));
+					targetCreature->removeBuff(BuffCRC::JEDI_FORCE_RUN_1);
+				}
 
 				buff->setSpeedMultiplierMod(0.01f);
 				buff->setAccelerationMultiplierMod(0.01f);

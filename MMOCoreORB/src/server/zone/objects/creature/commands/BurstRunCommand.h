@@ -29,6 +29,10 @@ public:
 
 		if (!playerManager->doBurstRun(creature, 0.f, 0.f))
 			return GENERALERROR;
+		if (creature->hasBuff(STRING_HASHCODE("disarmingshot2"))){
+			creature->sendSystemMessage("You are ROOTED");
+			return GENERALERROR;
+		}
 
 		return SUCCESS;
 	}
