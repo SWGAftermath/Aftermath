@@ -14,6 +14,11 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
+		// Return if Jedi is rooted
+		if (creature->hasBuff(STRING_HASHCODE("disarmingshot2"))){
+			creature->sendSystemMessage("Cannot Burst Run while ROOTED");
+			return GENERALERROR;
+		}
 
 		if (!checkStateMask(creature)) {
 			if (creature->isRidingMount()) {
@@ -29,10 +34,7 @@ public:
 
 		if (!playerManager->doBurstRun(creature, 0.f, 0.f))
 			return GENERALERROR;
-		if (creature->hasBuff(STRING_HASHCODE("disarmingshot2"))){
-			creature->sendSystemMessage("Cannot Burst Run While ROOTED");
-			return GENERALERROR;
-		}
+		
 
 		return SUCCESS;
 	}
