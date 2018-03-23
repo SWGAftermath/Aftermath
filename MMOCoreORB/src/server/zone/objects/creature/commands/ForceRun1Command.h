@@ -26,17 +26,18 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
+		// Return if Jedi is rooted
+		if (creature->isSnared()){
+			creature->sendSystemMessage("Cannot Force Run while ROOTED");
+			return GENERALERROR;
+		}
 		int res = creature->hasBuff(buffCRC) ? NOSTACKJEDIBUFF : doJediSelfBuffCommand(creature);
 
 		if (res == NOSTACKJEDIBUFF) {
 			creature->sendSystemMessage("@jedi_spam:already_force_running"); // You are already force running.
 			return GENERALERROR;
 		}
-		// Return if Jedi is rooted
-		if (creature->hasBuff(STRING_HASHCODE("disarmingshot2"))){
-			creature->sendSystemMessage("Cannot Force Run while ROOTED");
-			return GENERALERROR;
-		}
+		
 		// Return if something is in error.
 		if (res != SUCCESS) {
 			return res;

@@ -15,7 +15,7 @@ public:
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
 		// Return if Jedi is rooted
-		if (creature->hasBuff(STRING_HASHCODE("disarmingshot2"))){
+		if (creature->isSnared()){
 			creature->sendSystemMessage("Cannot Burst Run while ROOTED");
 			return GENERALERROR;
 		}
