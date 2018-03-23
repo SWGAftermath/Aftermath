@@ -35,7 +35,7 @@ public:
 		// Return if Jedi is rooted
 		if (creature->hasBuff(STRING_HASHCODE("disarmingshot2"))){
 			creature->sendSystemMessage("Cannot Force Run while ROOTED");
-			return INVALIDSTATE;
+			return GENERALERROR;
 		}
 		// Return if something is in error.
 		if (res != SUCCESS) {
