@@ -44,6 +44,8 @@
 void SceneObjectImplementation::initializeTransientMembers() {
 	ManagedObjectImplementation::initializeTransientMembers();
 
+	receiverFlags = getReceiverFlags();
+
 	// FIXME: temp hack
 	if (server == NULL)
 		server = Core::lookupObject<ZoneProcessServer>("ZoneProcessServer").get();
@@ -123,6 +125,8 @@ void SceneObjectImplementation::initializePrivateData() {
 	setLoggingName("SceneObject");
 
 	childObjects.setNoDuplicateInsertPlan();
+
+	collidable = false;
 }
 
 void SceneObjectImplementation::loadTemplateData(SharedObjectTemplate* templateData) {
@@ -149,6 +153,13 @@ void SceneObjectImplementation::loadTemplateData(SharedObjectTemplate* templateD
 	templateObject = templateData;
 
 	dataObjectComponent = ComponentManager::instance()->getDataObjectComponent(templateData->getDataObjectComponent());
+
+
+	if (!isCreatureObject() && !isLairObject() && gameObjectType != SceneObjectType::FURNITURE) {
+		if (templateData->getCollisionMaterialFlags() && templateData->getCollisionMaterialBlockFlags() && !templateData->isNavUpdatesEnabled()) {
+			collidable = true;
+		}
+	}
 }
 
 void SceneObjectImplementation::setZoneComponent(const String& name) {
