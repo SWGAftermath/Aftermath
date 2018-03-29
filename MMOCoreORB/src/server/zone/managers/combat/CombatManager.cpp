@@ -1339,7 +1339,7 @@ float CombatManager::doDroidDetonation(CreatureObject* droid, CreatureObject* de
 	}
 	if (defender->isCreatureObject()) {
 		if (defender->isPlayerCreature())
-			damage *= 0.25;
+			damage *= 0.3;
 		// pikc a pool to target
 		int pool = calculatePoolsToDamage(RANDOM);
 		// we now have damage to use lets apply it
@@ -1472,7 +1472,7 @@ float CombatManager::calculateDamage(CreatureObject* attacker, WeaponObject* wea
 
 	// PvP Damage Reduction.
 	if (attacker->isPlayerCreature() && defender->isPlayerCreature()) {
-		damage *= 0.25;
+		damage *= 0.3;
 	}
 
 	if (damage < 1) damage = 1;
