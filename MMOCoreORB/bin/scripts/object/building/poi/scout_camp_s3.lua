@@ -54,6 +54,7 @@ object_building_poi_scout_camp_s3 = object_building_poi_shared_scout_camp_s3:new
 		{"private_med_wound_health", 60},
 		{"private_med_wound_action", 60},
 		{"private_aggro_mod", 50},
+		{"private_med_battle_fatigue", 5},
 		{"private_buff_mind", 100}
 	},
 
