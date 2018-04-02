@@ -4,8 +4,8 @@ narglatch_alpha = Creature:new {
 	faction = "",
 	level = 333,
 	chanceHit = 30.0,
-	damageMin = 2270,
-	damageMax = 4250,
+	damageMin = 4270,
+	damageMax = 6250,
 	baseXp = 28549,
 	baseHAM = 610000,
 	baseHAMmax = 801000,
@@ -26,8 +26,38 @@ narglatch_alpha = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/narglatch_female_hue.iff"},
-	scale = 10,
+	scale = 9,
 	lootGroups = {
+		{
+	        groups = {
+				{group = "krayt_tissue_rare", chance = 2000000},
+				{group = "loot_schems", chance = 2500000},
+				{group = "krayt_pearls", chance = 1500000},
+				{group = "clothing_attachments", chance = 2000000},
+				{group = "armor_attachments", chance = 2000000},
+			},
+			lootChance = 10000000
+		},
+		{
+	        groups = {
+				{group = "krayt_tissue_rare", chance = 2000000},
+				{group = "loot_schems", chance = 2500000},
+				{group = "krayt_pearls", chance = 1500000},
+				{group = "clothing_attachments", chance = 2000000},
+				{group = "armor_attachments", chance = 2000000},
+			},
+			lootChance = 10000000
+		},
+		{
+	        groups = {
+				{group = "krayt_tissue_rare", chance = 2000000},
+				{group = "loot_schems", chance = 2500000},
+				{group = "krayt_pearls", chance = 1500000},
+				{group = "clothing_attachments", chance = 2000000},
+				{group = "armor_attachments", chance = 2000000},
+			},
+			lootChance = 10000000
+		},
 		{
 	        groups = {
 				{group = "krayt_tissue_rare", chance = 2000000},
