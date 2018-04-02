@@ -1,16 +1,16 @@
-narglatch_matriarch = Creature:new {
-	objectName = "@mob/creature_names:narglatch_matriarch",
+narglatch_alpha = Creature:new {
+	customName = "Narglatch Alpha",
 	socialGroup = "narglatch",
 	faction = "",
-	level = 27,
-	chanceHit = 0.36,
-	damageMin = 250,
-	damageMax = 260,
-	baseXp = 2822,
-	baseHAM = 7700,
-	baseHAMmax = 9400,
-	armor = 0,
-	resists = {130,125,15,-1,15,165,-1,-1,-1},
+	level = 333,
+	chanceHit = 30.0,
+	damageMin = 2270,
+	damageMax = 4250,
+	baseXp = 28549,
+	baseHAM = 610000,
+	baseHAMmax = 801000,
+	armor = 3,
+	resists = {195,195,195,195,165,195,195,195,175},
 	meatType = "meat_carnivore",
 	meatAmount = 65,
 	hideType = "hide_bristley",
@@ -26,14 +26,25 @@ narglatch_matriarch = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/narglatch_female_hue.iff"},
-	scale = 1.15,
-	lootGroups = {},
+	scale = 10,
+	lootGroups = {
+		{
+	        groups = {
+				{group = "krayt_tissue_rare", chance = 2000000},
+				{group = "loot_schems", chance = 2500000},
+				{group = "krayt_pearls", chance = 1500000},
+				{group = "clothing_attachments", chance = 2000000},
+				{group = "armor_attachments", chance = 2000000},
+			},
+			lootChance = 10000000
+		}
+	},
 	weapons = {},
 	conversationTemplate = "",
 	attacks = {
-		{"intimidationattack",""},
-		{"stunattack",""}
+		{"creatureareacombo","stateAccuracyBonus=100"},
+		{"creatureareaknockdown","stateAccuracyBonus=100"}
 	}
 }
 
-CreatureTemplates:addCreatureTemplate(narglatch_matriarch, "narglatch_matriarch")
+CreatureTemplates:addCreatureTemplate(narglatch_alpha, "narglatch_alpha")
