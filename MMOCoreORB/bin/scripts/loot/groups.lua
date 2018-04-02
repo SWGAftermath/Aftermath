@@ -366,3 +366,6 @@ includeFile("groups/wearables/wearables_uncommon.lua")
 
 --terminals sub-folder
 includeFile("groups/terminals/axkva_min_terminal.lua")
+
+--other aftermath groups
+includeFile("groups/aftermath/loot_schems.lua")

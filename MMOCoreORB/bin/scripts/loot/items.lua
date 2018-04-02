@@ -1184,6 +1184,8 @@ includeFile("items/named_crystals/force_color_sunriders_destiny.lua")
 includeFile("items/named_crystals/force_color_ulics_redemption.lua")
 includeFile("items/named_crystals/force_color_windus_guile.lua")
 
+-- Aftermath items
+includeFile("items/aftermath/professors_desk_schematic.lua")
 
 
 
