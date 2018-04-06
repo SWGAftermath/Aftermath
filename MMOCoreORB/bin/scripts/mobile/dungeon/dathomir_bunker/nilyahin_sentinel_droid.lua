@@ -1,5 +1,5 @@
 nilyahin_sentinel_droid = Creature:new {
-	objectName = "@mob/creature_names:nilyahin_sentinel_droid",
+	customName = "Ni'lyahin Sentinel Droid",
 	socialGroup = "nilyahin_smugglers",
 	faction = "",
 	level = 134,

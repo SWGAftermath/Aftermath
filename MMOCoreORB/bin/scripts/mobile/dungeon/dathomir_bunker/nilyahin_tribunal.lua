@@ -1,5 +1,5 @@
 nilyahin_tribunal = Creature:new {
- objectName = "@mob/creature_names:nilyahin_tribunal",
+ customName = "Ni'lyahin Tribunal",
  randomNameType = NAME_GENERIC,
 	socialGroup = "nilyahin_smugglers",
 	faction = "",

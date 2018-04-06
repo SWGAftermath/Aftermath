@@ -1,5 +1,5 @@
 nilyahin_old_guard = Creature:new {
-	objectName = "@mob/creature_names:nilyahin_old_guard",
+	customName = "Ni'lyahin Old Guard",
 	randomNameType = NAME_GENERIC,
 	randomNameTag = true,
 	socialGroup = "nilyahin_smugglers",

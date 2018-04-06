@@ -1,5 +1,5 @@
 nilyahin_bulwark_defense_droid = Creature:new {
-	objectName = "@mob/creature_names:nilyahin_bulwark_defense_droid",
+	customName = "Ni'lyahin Bulwark Defense Droid",
 	socialGroup = "nilyahin_smugglers",
 	faction = "",
 	level = 300,
