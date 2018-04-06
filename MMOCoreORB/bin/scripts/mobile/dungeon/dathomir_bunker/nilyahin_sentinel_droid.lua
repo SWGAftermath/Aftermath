@@ -30,7 +30,6 @@ nilyahin_sentinel_droid = Creature:new {
 		"object/mobile/death_watch_battle_droid.iff",
 		"object/mobile/death_watch_battle_droid_02.iff",
 		"object/mobile/death_watch_battle_droid_03.iff"},
-//Still need to edit lootGroups, weapons and attacks//
 	lootGroups = {
 		{
 			groups = {

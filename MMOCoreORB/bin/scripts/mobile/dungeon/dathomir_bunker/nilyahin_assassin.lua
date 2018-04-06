@@ -29,7 +29,6 @@ nilyahin_assassin = Creature:new {
 	scale = 1.15,
 
 	templates = {"object/mobile/dressed_black_sun_assassin.iff"},
-//Still need to edit lootGroups, weapons and attacks//
 	lootGroups = {
 		{
 			groups = {

@@ -28,7 +28,6 @@ nilyahin_tribunal = Creature:new {
 	scale = 1.15,
 
 	templates = {"object/mobile/dressed_death_watch_gold.iff"},
-//Still need to edit lootGroups, weapons and attacks//
 	lootGroups = {
 		{
 			groups = {
