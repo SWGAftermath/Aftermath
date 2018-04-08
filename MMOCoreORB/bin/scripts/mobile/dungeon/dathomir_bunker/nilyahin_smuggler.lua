@@ -40,7 +40,7 @@ nilyahin_smuggler = Creature:new {
 	},
 	weapons = {"nilyahin_smuggler"},
 	conversationTemplate = "",
-	attacks = merge(smuggler)
+	attacks = merge(oldguard)
 }
 
 CreatureTemplates:addCreatureTemplate(nilyahin_smuggler, "nilyahin_smuggler")
