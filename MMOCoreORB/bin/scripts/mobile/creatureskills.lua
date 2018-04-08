@@ -54,4 +54,13 @@ forcepowermaster = { {"forcelightningsingle2",""},{"forcelightningcone2",""},{"m
 
 -- npc force wielders use standard profession mastery with the addition of this command
 forcewielder ={ {"forcelightningsingle1",""},{"mindblast1",""},{"forcechoke",""},{"forceweaken1",""},{"forceknockdown1",""},{"forcelightningcone1",""} }
---Server Administrator NPC skill trees place below
+
+--nilyahin skills
+tribunal ={ {"fastblast",""} }
+apprentice ={ {"polearmhit2",""},{"polearmarea2",""} }
+assassin ={ {"unarmedknockdown2",""},{"unarmeddizzy1",""},{"unarmedblind1",""} }
+msmuggler ={ {"stoppingshot",""},{"pistolmeleedefense2",""} }
+mentor ={ {"flamesingle2",""},{"flamecone2",""} }
+oldguard ={ {"scattershot2",""} }
+smuggler ={ {"lowblow",""},{"lastditch",""} }
+specalist ={ {"melee1hscatterhit2",""},{"melee1hblindhit2",""} }
