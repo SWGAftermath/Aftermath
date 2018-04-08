@@ -84,4 +84,11 @@ includeFile("weapon/groups/tusken_weapons.lua")
 includeFile("weapon/groups/tutorial_bandit.lua")
 
 -- nilyahin Weapons
-includeFile("weapon/groups/nilyahin_heavy.lua")
+includeFile("weapon/groups/nilyahin_apprentice.lua")
+includeFile("weapon/groups/nilyahin_assassin.lua")
+includeFile("weapon/groups/nilyahin_master_smuggler.lua")
+includeFile("weapon/groups/nilyahin_mentor.lua")
+includeFile("weapon/groups/nilyahin_old_guard.lua")
+includeFile("weapon/groups/nilyahin_smuggler.lua")
+includeFile("weapon/groups/nilyahin_specialist.lua")
+includeFile("weapon/groups/nilyahin_tribunal.lua")
