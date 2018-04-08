@@ -63,4 +63,4 @@ msmuggler ={ {"stoppingshot",""},{"pistolmeleedefense2",""} }
 mentor ={ {"flamesingle2",""},{"flamecone2",""} }
 oldguard ={ {"scattershot2",""} }
 smuggler ={ {"lowblow",""},{"lastditch",""} }
-specalist ={ {"melee1hscatterhit2",""},{"melee1hblindhit2",""} }
+specialist ={ {"melee1hscatterhit2",""},{"melee1hblindhit2",""} }
