@@ -28,7 +28,7 @@ nilyahin_smuggler = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.15,
 
-	templates = {"object/mobile/dressed_black_sun_guard.iff"},
+	templates = {"object/mobile/dressed_nym_guard_weak_hum_m.iff"},
 	lootGroups = {
 		{
 			groups = {

@@ -27,7 +27,7 @@ nilyahin_tribunal = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.15,
 
-	templates = {"object/mobile/dressed_death_watch_gold.iff"},
+	templates = {"object/mobile/king_terak.iff"},
 	lootGroups = {
 		{
 			groups = {

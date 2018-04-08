@@ -28,7 +28,7 @@ nilyahin_apprentice = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.15,
 
-	templates = {"object/mobile/dressed_black_sun_henchman.iff"},
+	templates = {"object/mobile/dressed_mauler.iff"},
 	lootGroups = {
 		{
 			groups = {

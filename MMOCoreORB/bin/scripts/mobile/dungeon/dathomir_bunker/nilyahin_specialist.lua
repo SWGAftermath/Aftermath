@@ -28,7 +28,7 @@ nilyahin_specialist = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.15,
 
-	templates = {"object/mobile/dressed_black_sun_thug.iff"},
+	templates = {"object/mobile/dressed_rebel_first_lieutenant_human_male_01.iff"},
 	lootGroups = {
 		{
 			groups = {

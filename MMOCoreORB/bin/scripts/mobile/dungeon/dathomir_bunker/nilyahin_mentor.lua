@@ -28,7 +28,7 @@ nilyahin_mentor = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.15,
 
-	templates = {"object/mobile/dressed_death_watch_red.iff"},
+	templates = {"object/mobile/dressed_hutt_informant_quest.iff"},
 	lootGroups = {
 		{
 			groups = {

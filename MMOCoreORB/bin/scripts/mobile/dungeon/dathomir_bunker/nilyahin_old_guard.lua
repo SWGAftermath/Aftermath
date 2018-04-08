@@ -28,7 +28,7 @@ nilyahin_old_guard = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.15,
 
-	templates = {"object/mobile/dressed_death_watch_silver.iff"},
+	templates = {"object/mobile/dressed_grassland_blood_marauder.iff"},
 	lootGroups = {
 		{
 			groups = {

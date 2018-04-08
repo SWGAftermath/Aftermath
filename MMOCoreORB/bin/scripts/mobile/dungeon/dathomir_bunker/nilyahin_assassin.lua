@@ -28,7 +28,7 @@ nilyahin_assassin = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.15,
 
-	templates = {"object/mobile/dressed_black_sun_assassin.iff"},
+	templates = {"object/mobile/dressed_nym_guard_strong_nikto_m.iff"},
 	lootGroups = {
 		{
 			groups = {
