@@ -40,9 +40,9 @@ nilyahin_old_guard = Creature:new {
 			lootChance = 1500000
 		}
 	},
-	weapons = {"pirate_weapons_heavy"},
+	weapons = {"nilyahin_old_guard"},
 	conversationTemplate = "",
-	attacks = merge(bountyhuntermaster,marksmanmaster,brawlermaster,swordsmanmaster,pistoleermaster,fencermaster,pikemanmaster,riflemanmaster)
+	attacks = merge(oldguard)
 }
 
 CreatureTemplates:addCreatureTemplate(nilyahin_old_guard, "nilyahin_old_guard")

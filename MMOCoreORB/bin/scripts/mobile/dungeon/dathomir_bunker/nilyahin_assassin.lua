@@ -38,9 +38,9 @@ nilyahin_assassin = Creature:new {
 			lootChance = 1000000
 		}
 	},
-	weapons = {"battle_droid_weapons"},
+	weapons = {"nilyahin_assassin"},
 	conversationTemplate = "",
-	attacks = merge(pistoleermaster,carbineermaster,brawlermaster)
+	attacks = merge(assassin)
 }
 
 CreatureTemplates:addCreatureTemplate(nilyahin_assassin, "nilyahin_assassin")

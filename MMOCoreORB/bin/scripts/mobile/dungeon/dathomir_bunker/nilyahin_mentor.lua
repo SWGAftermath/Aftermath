@@ -38,9 +38,9 @@ nilyahin_mentor = Creature:new {
 			lootChance = 1000000
 		}
 	},
-	weapons = {"pirate_weapons_heavy"},
+	weapons = {"nilyahin_mentor"},
 	conversationTemplate = "",
-	attacks = merge(bountyhuntermaster,marksmanmaster,brawlermaster,tkamaster)
+	attacks = merge(mentor)
 }
 
 CreatureTemplates:addCreatureTemplate(nilyahin_mentor, "nilyahin_mentor")
