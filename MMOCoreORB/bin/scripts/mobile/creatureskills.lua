@@ -61,6 +61,6 @@ apprentice ={ {"polearmhit2",""},{"polearmarea2",""} }
 msmuggler ={ {"stoppingshot",""},{"pistolmeleedefense2",""} }
 mentor ={ {"flamesingle2",""},{"flamecone2",""} }
 oldguard ={ {"scattershot2",""} }
-
+specialist ={ {"melee1hscatterhit2",""},{"melee1hblindhit2",""} }
 assassin ={ {"unarmeddizzy1",""},{"unarmedstun1",""},{"unarmedblind1",""} }
 smuggler ={ {"underhandshot",""},{"eyeshot",""} }
