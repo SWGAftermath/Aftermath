@@ -58,9 +58,9 @@ forcewielder ={ {"forcelightningsingle1",""},{"mindblast1",""},{"forcechoke",""}
 --nilyahin skills
 tribunal ={ {"fastblast",""} }
 apprentice ={ {"polearmhit2",""},{"polearmarea2",""} }
-assassin ={ {"unarmedknockdown2",""},{"unarmeddizzy1",""},{"unarmedblind1",""} }
+assassin ={ {"unarmedknockdown2",""} }
 msmuggler ={ {"stoppingshot",""},{"pistolmeleedefense2",""} }
 mentor ={ {"flamesingle2",""},{"flamecone2",""} }
 oldguard ={ {"scattershot2",""} }
-smuggler ={ {"lowblow",""},{"lastditch",""} }
+smuggler ={ {"underhandshot",""},{"eyeshot",""} }
 specialist ={ {"melee1hscatterhit2",""},{"melee1hblindhit2",""} }
