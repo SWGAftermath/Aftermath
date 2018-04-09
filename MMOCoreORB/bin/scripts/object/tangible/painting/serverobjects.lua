@@ -125,3 +125,6 @@ includeFile("tangible/painting/painting_wookiee_f.lua")
 includeFile("tangible/painting/painting_wookiee_m.lua")
 includeFile("tangible/painting/painting_zabrak_f.lua")
 includeFile("tangible/painting/painting_zabrak_m.lua")
+
+-- Custom paintings
+includeFile("tangible/painting/painting_custom_painting_1.lua")
