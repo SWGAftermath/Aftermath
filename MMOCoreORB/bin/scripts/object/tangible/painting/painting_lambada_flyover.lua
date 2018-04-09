@@ -41,8 +41,8 @@
 --this exception also makes it possible to release a modified version 
 
 
-object_tangible_painting_painting_custom_painting_1 = object_tangible_painting_shared_painting_custom_painting_1:new {
+object_tangible_painting_painting_lambada_flyover = object_tangible_painting_shared_painting_lambada_flyover:new {
 
 }
 
-ObjectTemplates:addTemplate(object_tangible_painting_painting_custom_painting_1, "object/tangible/painting/custom_painting_1.iff")
+ObjectTemplates:addTemplate(object_tangible_painting_painting_lambada_flyover, "object/tangible/painting/painting_lambada_flyover.iff")

@@ -127,4 +127,4 @@ includeFile("tangible/painting/painting_zabrak_f.lua")
 includeFile("tangible/painting/painting_zabrak_m.lua")
 
 -- Custom paintings
-includeFile("tangible/painting/painting_custom_painting_1.lua")
+includeFile("tangible/painting/painting_lambada_flyover.lua")
