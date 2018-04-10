@@ -55,4 +55,4 @@ includeFile("tangible/wearables/armor/marine/armor_marine_helmet.lua")
 includeFile("tangible/wearables/armor/marine/armor_marine_leggings.lua")
 
 --crafted
-includeFile("tangible/wearables/armor/marine/armor_marine_chest_plate_crafted.lua")
+includeFile("tangible/wearables/armor/marine/armor_marine_chest_plate_rebel_crafted.lua")
