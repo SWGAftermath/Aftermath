@@ -170,6 +170,7 @@ class PlayerManager extends Observer implements Logger {
 
 	public native void setExperienceMultiplier(float globalMultiplier);
 	public native int awardExperience(CreatureObject player, final string xpType, int amount, boolean sendSystemMessage = true, float localMultiplier = 1.0f, boolean applyModifiers = true);
+	public native void gcwSkillCheck(CreatureObject player, final string skill, final string skillParent);
 
 	@local @dereferenced
 	public native SortedVector<SceneObject> getInsurableItems(CreatureObject player, boolean onlyInsurable = true);
