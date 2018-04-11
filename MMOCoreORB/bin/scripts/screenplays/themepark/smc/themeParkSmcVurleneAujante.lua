@@ -1,3 +1,5 @@
+THEME_PARK_SMC_BADGE = 145
+
 vurlene_missions =
 {
 	{
@@ -155,6 +157,7 @@ aujante_klee_missions =
 		rewards =
 		{
 			{ rewardType = "faction", faction = "mtn_clan", amount = 410 },
+			{ rewardType = "badge", badge = THEME_PARK_SMC_BADGE },
 			{ rewardType = "credits", amount = 500 }
 		}
 	}
