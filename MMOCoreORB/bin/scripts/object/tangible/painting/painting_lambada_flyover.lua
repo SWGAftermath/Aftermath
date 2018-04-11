@@ -41,18 +41,8 @@
 --this exception also makes it possible to release a modified version 
 
 
+object_tangible_painting_painting_lambada_flyover = object_tangible_painting_shared_painting_lambada_flyover:new {
 
---Children folder includes
+}
 
--- Server Objects
-includeFile("tangible/wearables/armor/marine/armor_marine_backpack.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_bicep_l.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_bicep_r.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_boots.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_chest_plate.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_chest_plate_rebel.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_helmet.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_leggings.lua")
-
---crafted
-includeFile("tangible/wearables/armor/marine/armor_marine_chest_plate_rebel_crafted.lua")
+ObjectTemplates:addTemplate(object_tangible_painting_painting_lambada_flyover, "object/tangible/painting/painting_lambada_flyover.iff")

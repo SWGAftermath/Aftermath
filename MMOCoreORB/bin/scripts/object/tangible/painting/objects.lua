@@ -4760,3 +4760,10 @@ object_tangible_painting_shared_painting_zabrak_m = SharedTangibleObjectTemplate
 }
 
 ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_zabrak_m, "object/tangible/painting/shared_painting_zabrak_m.iff")
+
+object_tangible_painting_shared_painting_lambada_flyover = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_lambada_flyover.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_lambada_flyover, "object/tangible/painting/shared_painting_lambada_flyover.iff")
