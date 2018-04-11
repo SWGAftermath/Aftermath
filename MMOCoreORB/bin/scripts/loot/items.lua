@@ -1187,5 +1187,7 @@ includeFile("items/named_crystals/force_color_windus_guile.lua")
 -- Aftermath items
 includeFile("items/aftermath/professors_desk_schematic.lua")
 
-
-
+--Dathomir Bunker
+includeFire("items/dathomir_bunker/nilyahin_rancor_tooth.lua")
+includeFire("items/dathomir_bunker/nilyahin_reinforcement_core.lua")
+includeFire("items/dathomir_bunker/nilyahin_weapon_stock.lua")

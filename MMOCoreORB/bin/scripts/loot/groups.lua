@@ -369,3 +369,7 @@ includeFile("groups/terminals/axkva_min_terminal.lua")
 
 --other aftermath groups
 includeFile("groups/aftermath/loot_schems.lua")
+
+--Dathomir Bunker
+includeFire("group/dathomir_bunker/skill_buffs.lua")
+includeFire("group/dathomir_bunker/weapon_components.lua")
