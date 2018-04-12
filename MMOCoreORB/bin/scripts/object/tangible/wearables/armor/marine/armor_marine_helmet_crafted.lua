@@ -119,4 +119,4 @@ object_tangible_wearables_armor_marine_armor_marine_helmet_crafted = object_tang
 	experimentalCombineType = {0, 0, 4, 1, 1, 1, 1, 1, 1, 4, 4, 4, 1},
 }
 
-ObjectTemplates:addTemplate(object_tangible_wearables_armor_marine_armor_marine_helmet_crafted, "object/tangible/wearables/armor/composite/armor_marine_helmet_crafted.iff")
+ObjectTemplates:addTemplate(object_tangible_wearables_armor_marine_armor_marine_helmet_crafted, "object/tangible/wearables/armor/marine/armor_marine_helmet_crafted.iff")
