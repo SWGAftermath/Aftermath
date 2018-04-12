@@ -41,23 +41,13 @@
 --this exception also makes it possible to release a modified version 
 
 
+object_tangible_loot_loot_schematic_marine_chest_plate_rebel_crafted_schematic = object_tangible_loot_loot_schematic_shared_marine_chest_plate_rebel_crafted_schematic:new {
+	templateType = LOOTSCHEMATIC,
+	objectMenuComponent = "LootSchematicMenuComponent",
+	attributeListComponent = "LootSchematicAttributeListComponent",
+	requiredSkill = "crafting_armorsmith_master",
+	targetDraftSchematic = "object/draft_schematic/clothing/clothing_armor_marine_chest_rebel_crafted.iff",
+	targetUseCount = 1
+}
 
---Children folder includes
-
--- Server Objects
-includeFile("tangible/wearables/armor/marine/armor_marine_backpack.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_bicep_l.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_bicep_r.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_boots.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_chest_plate.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_chest_plate_rebel.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_helmet.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_leggings.lua")
-
---crafted
-includeFile("tangible/wearables/armor/marine/armor_marine_chest_plate_rebel_crafted.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_boots_crafted.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_helmet_crafted.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_leggings_crafted.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_bicep_l_crafted.lua")
-includeFile("tangible/wearables/armor/marine/armor_marine_bicep_r_crafted.lua")
+ObjectTemplates:addTemplate(object_tangible_loot_loot_schematic_marine_chest_plate_crafted_schematic, "object/tangible/loot/loot_schematic/marine_chest_plate_rebel_crafted_schematic.iff")
