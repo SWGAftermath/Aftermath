@@ -50,4 +50,4 @@ object_tangible_loot_loot_schematic_marine_chest_plate_rebel_crafted_schematic =
 	targetUseCount = 10
 }
 
-ObjectTemplates:addTemplate(object_tangible_loot_loot_schematic_marine_chest_plate_crafted_schematic, "object/tangible/loot/loot_schematic/marine_chest_plate_rebel_crafted_schematic.iff")
+ObjectTemplates:addTemplate(object_tangible_loot_loot_schematic_marine_chest_plate_rebel_crafted_schematic, "object/tangible/loot/loot_schematic/marine_chest_plate_rebel_crafted_schematic.iff")
