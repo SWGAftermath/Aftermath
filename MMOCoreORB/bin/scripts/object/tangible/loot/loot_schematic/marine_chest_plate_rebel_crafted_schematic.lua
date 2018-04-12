@@ -47,7 +47,7 @@ object_tangible_loot_loot_schematic_marine_chest_plate_rebel_crafted_schematic =
 	attributeListComponent = "LootSchematicAttributeListComponent",
 	requiredSkill = "crafting_armorsmith_master",
 	targetDraftSchematic = "object/draft_schematic/clothing/clothing_armor_marine_chest_rebel_crafted.iff",
-	targetUseCount = 1
+	targetUseCount = 10
 }
 
 ObjectTemplates:addTemplate(object_tangible_loot_loot_schematic_marine_chest_plate_crafted_schematic, "object/tangible/loot/loot_schematic/marine_chest_plate_rebel_crafted_schematic.iff")
