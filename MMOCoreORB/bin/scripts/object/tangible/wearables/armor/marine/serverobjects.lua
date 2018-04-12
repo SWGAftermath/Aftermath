@@ -56,3 +56,8 @@ includeFile("tangible/wearables/armor/marine/armor_marine_leggings.lua")
 
 --crafted
 includeFile("tangible/wearables/armor/marine/armor_marine_chest_plate_rebel_crafted.lua")
+includeFile("tangible/wearables/armor/marine/armor_marine_boots_crafted.lua")
+includeFile("tangible/wearables/armor/marine/armor_marine_helmet_crafted.lua")
+includeFile("tangible/wearables/armor/marine/armor_marine_leggings_crafted.lua")
+includeFile("tangible/wearables/armor/marine/armor_marine_bicep_l_crafted.lua")
+includeFile("tangible/wearables/armor/marine/armor_marine_bicep_r_crafted.lua")
