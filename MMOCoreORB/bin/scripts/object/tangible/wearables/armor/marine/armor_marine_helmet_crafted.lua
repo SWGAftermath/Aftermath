@@ -41,11 +41,11 @@
 --this exception also makes it possible to release a modified version 
 
 
-object_tangible_wearables_armor_stormtrooper_armor_stormtrooper_helmet_crafted = object_tangible_wearables_armor_stormtrooper_shared_armor_stormtrooper_helmet_crafted:new {
+object_tangible_wearables_armor_marine_armor_marine_helmet_crafted = object_tangible_wearables_armor_marine_shared_armor_marine_helmet_crafted:new {
 
 	templateType = ARMOROBJECT,
 
-	faction = "Imperial",
+	faction = "Rebel",
 
 	playerRaces = { "object/creature/player/bothan_male.iff",
 				"object/creature/player/bothan_female.iff",
@@ -119,4 +119,4 @@ object_tangible_wearables_armor_stormtrooper_armor_stormtrooper_helmet_crafted =
 	experimentalCombineType = {0, 0, 4, 1, 1, 1, 1, 1, 1, 4, 4, 4, 1},
 }
 
-ObjectTemplates:addTemplate(object_tangible_wearables_armor_stormtrooper_armor_stormtrooper_helmet_crafted, "object/tangible/wearables/armor/stormtrooper/armor_stormtrooper_helmet_crafted.iff")
+ObjectTemplates:addTemplate(object_tangible_wearables_armor_marine_armor_marine_helmet_crafted, "object/tangible/wearables/armor/marine/armor_marine_helmet_crafted.iff")
