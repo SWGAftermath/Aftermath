@@ -41,17 +41,17 @@
 --which carries forward this exception.
 
 --Determines how often exceptional and legendary items can drop.
-yellowChance = 1000 -- 1 in 1,000
-exceptionalChance = 100000 --1 in 100,000
-legendaryChance = 1000000 --1 in 1,000,000
+yellowChance = 500 -- 1 in 1,000
+exceptionalChance = 3000 --1 in 100,000
+legendaryChance = 50000 --1 in 1,000,000
 --yellowChance = 50 --1 in 50 for testing
 --exceptionalChance = 100 --1 in 100 for testing
 --legendaryChance = 1000 --1 in 1000 for testing
 
 --Determines how much of an increase in the base stats will be applied to the object.
 yellowModifier = 1.5
-exceptionalModifier = 2.5
-legendaryModifier = 5.0
+exceptionalModifier = 2
+legendaryModifier = 3.5
 
 --The chance for random skill mods to be on looted weapons/wearables
 skillModChance = 500 -- 1 in 500

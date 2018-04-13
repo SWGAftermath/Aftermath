@@ -896,8 +896,8 @@ void EntertainingSessionImplementation::activateEntertainerBuff(CreatureObject* 
 
 		//1 minute minimum listen/watch time
 		int timeElapsed = time(0) - getEntertainerBuffStartTime(creature, performanceType);
-		if(timeElapsed < 60) {
-			creature->sendSystemMessage("You must listen or watch a performer for at least 1 minute in order to gain the entertainer buffs.");
+		if(timeElapsed < 30) {
+			creature->sendSystemMessage("You must listen or watch a performer for at least 30 seconds in order to gain the entertainer buffs.");
 			return;
 		}
 
@@ -919,8 +919,8 @@ void EntertainingSessionImplementation::activateEntertainerBuff(CreatureObject* 
 			oldBuff = cast<PerformanceBuff*>(creature->getBuff(focusBuffCRC));
 			if (oldBuff != NULL && oldBuff->getBuffStrength() > buffStrength)
 				return;
-			ManagedReference<PerformanceBuff*> focusBuff = new PerformanceBuff(creature, focusBuffCRC, buffStrength, buffDuration * 60, PerformanceBuffType::MUSIC_FOCUS);
-			ManagedReference<PerformanceBuff*> willBuff = new PerformanceBuff(creature, willBuffCRC, buffStrength, buffDuration * 60, PerformanceBuffType::MUSIC_WILLPOWER);
+			ManagedReference<PerformanceBuff*> focusBuff = new PerformanceBuff(creature, focusBuffCRC, buffStrength, buffDuration * 120, PerformanceBuffType::MUSIC_FOCUS);
+			ManagedReference<PerformanceBuff*> willBuff = new PerformanceBuff(creature, willBuffCRC, buffStrength, buffDuration * 120, PerformanceBuffType::MUSIC_WILLPOWER);
 
 			Locker locker(focusBuff);
 			creature->addBuff(focusBuff);
@@ -936,7 +936,7 @@ void EntertainingSessionImplementation::activateEntertainerBuff(CreatureObject* 
 			oldBuff = cast<PerformanceBuff*>(creature->getBuff(mindBuffCRC));
 			if (oldBuff != NULL && oldBuff->getBuffStrength() > buffStrength)
 				return;
-			ManagedReference<PerformanceBuff*> mindBuff = new PerformanceBuff(creature, mindBuffCRC, buffStrength, buffDuration * 60, PerformanceBuffType::DANCE_MIND);
+			ManagedReference<PerformanceBuff*> mindBuff = new PerformanceBuff(creature, mindBuffCRC, buffStrength, buffDuration * 120, PerformanceBuffType::DANCE_MIND);
 
 			Locker locker(mindBuff);
 			creature->addBuff(mindBuff);

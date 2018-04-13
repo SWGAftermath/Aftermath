@@ -34,10 +34,8 @@ nym_elder_bunker = Creature:new {
 			groups = {
 				{group = "junk", chance = 4500000},
 				{group = "nyms_common", chance = 1000000},
-				{group = "pistols", chance = 1000000},
-				{group = "carbines", chance = 1000000},
-				{group = "armor_attachments", chance = 1000000},
-				{group = "clothing_attachments", chance = 1000000},
+				{group = "armor_attachments", chance = 2000000},
+				{group = "clothing_attachments", chance = 2000000},
 				{group = "tailor_components", chance = 500000}
 			}
 		}

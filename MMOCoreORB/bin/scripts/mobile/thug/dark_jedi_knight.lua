@@ -33,14 +33,13 @@ dark_jedi_knight = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "power_crystals", chance = 600000},
-				{group = "named_color_crystals", chance = 2600000},
-				{group = "pistols", chance = 1300000},
-				{group = "melee_weapons", chance = 1300000},
-				{group = "armor_attachments", chance = 1700000},
-				{group = "clothing_attachments", chance = 1700000},
-				{group = "dark_jedi_common", chance = 800000}
-			}
+				{group = "power_crystals", chance = 1500000},
+				{group = "armor_attachments", chance = 2000000},
+				{group = "clothing_attachments", chance = 2000000},
+				{group = "named_color_crystals", chance = 3000000},
+				{group = "dark_jedi_common", chance = 1500000}
+			},
+			lootChance = 10000000
 		}
 	},
 	weapons = {"dark_jedi_weapons_gen3"},

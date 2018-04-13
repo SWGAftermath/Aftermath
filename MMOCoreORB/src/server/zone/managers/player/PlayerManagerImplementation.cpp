@@ -1340,8 +1340,6 @@ void PlayerManagerImplementation::disseminateExperience(TangibleObject* destruct
 					//xpAmount *= 0.2f;
 
 				//Award individual expType
-				if (xpType == "jedi_general" && playerTotal != totalDamage)
-					xpAmount *= 0.5f;
 				awardExperience(attacker, xpType, xpAmount);
 			}
 
@@ -1622,23 +1620,10 @@ int PlayerManagerImplementation::awardExperience(CreatureObject* player, const S
 	if (amount <= 0 || xpType == "jedi_general" || xpType == "gcw_currency_rebel" || xpType == "gcw_currency_imperial" ){
 		xp = playerObject->addExperience(xpType, amount);
 	} else if (xpType == "imagedesigner" ||
-		xpType == "crafting_medicine_general" ||
-		xpType == "crafting_general" ||
-		xpType == "crafting_bio_engineer_creature" ||
-		xpType == "bio_engineer_dna_harvesting" ||
-		xpType == "crafting_clothing_armor" ||
-		xpType == "crafting_weapons_general" ||
-		xpType == "crafting_food_general" || 
-		xpType == "crafting_clothing_general" || 
-		xpType == "crafting_structure_general" ||
-		xpType == "crafting_droid_general" ||
-		xpType == "crafting_spice" || 
-		xpType == "shipwright" ||
-		xpType == "bountyhunter" || 
 		xpType == "music" || 
 		xpType == "dance" ||
 		xpType == "entertainer_healing"){
-			xp = playerObject->addExperience(xpType, (amount * 5));
+			xp = playerObject->addExperience(xpType, (amount * 10));
 			float speciesModifier = 1.f;
 
 			if (amount > 0)

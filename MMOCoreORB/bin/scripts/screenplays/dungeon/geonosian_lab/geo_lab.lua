@@ -155,7 +155,7 @@ function GeonosianLabScreenPlay:spawnMobiles()
 
 	spawnMobile("yavin4", "herald_biogenic_gardo", 60, -3.8, 0.1, -3.8, 88, 1713374)
 
-	spawnMobile("yavin4", "acklay",7200,101.1,-34.3,-321.6,-136,1627823, true) --Randomized respawn
+	spawnMobile("yavin4", "acklay",3600,101.1,-34.3,-321.6,-136,1627823, true) --Randomized respawn
 	spawnMobile("yavin4", "enhanced_gaping_spider",3600,-130,-22.1,-85,-180,1627794, true) -- Randomized respawn
 
 	spawnMobile("yavin4", "imperial_observer",300,-23,-22,-116,-90,1627802)
