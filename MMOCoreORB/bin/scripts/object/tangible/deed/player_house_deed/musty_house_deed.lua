@@ -41,7 +41,7 @@
 --this exception also makes it possible to release a modified version 
 
 
-object_tangible_deed_player_deed_musty_house_deed = object_tangible_deed_player_deed_shared_musty_house_deed:new {
+object_tangible_deed_player_house_deed_musty_house_deed = object_tangible_deed_player_house_deed_shared_musty_house_deed:new {
 	templateType = STRUCTUREDEED,
 	placeStructureComponent = "PlaceStructureComponent",
 	generatedObjectTemplate = "object/building/player/musty_house.iff",
@@ -59,4 +59,4 @@ object_tangible_deed_player_deed_musty_house_deed = object_tangible_deed_player_
 	experimentalCombineType = {0, 0, 4},
 }
 
-ObjectTemplates:addTemplate(object_tangible_deed_player_deed_musty_house_deed, "object/tangible/deed/player_deed/musty_house_deed.iff")
+ObjectTemplates:addTemplate(object_tangible_deed_player_house_deed_musty_house_deed, "object/tangible/deed/player_house_deed/musty_house_deed.iff")
