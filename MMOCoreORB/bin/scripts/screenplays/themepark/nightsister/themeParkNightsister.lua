@@ -1,3 +1,4 @@
+THEME_PARK_NIGHTSISTER_BADGE = 144
 
 baritha_missions =
 	{
@@ -293,6 +294,7 @@ gethzerion_missions =
 			},
 			rewards =
 			{
+			  { rewardType = "badge", badge = THEME_PARK_NIGHTSISTER_BADGE },
 				{ rewardType = "faction", faction = "nightsister", amount = 30 },
 			}
 		}

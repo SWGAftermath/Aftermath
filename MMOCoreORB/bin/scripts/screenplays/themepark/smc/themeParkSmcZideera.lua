@@ -1,3 +1,5 @@
+THEME_PARK_SMC_BADGE = 145
+
 zideera_missions =
 	{
 		{
@@ -40,6 +42,7 @@ zideera_missions =
 			rewards =
 			{
 				{ rewardType = "faction", faction = "mtn_clan", amount = 10 },
+				{ rewardType = "badge", badge = THEME_PARK_SMC_BADGE },
 				{ rewardType = "credits", amount = 450 }
 			}
 		}

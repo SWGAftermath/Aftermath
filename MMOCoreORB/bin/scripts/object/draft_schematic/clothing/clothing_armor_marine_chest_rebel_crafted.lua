@@ -70,7 +70,7 @@ object_draft_schematic_clothing_clothing_armor_marine_chest_rebel_crafted = obje
    contribution = {100, 100, 100, 100, 100, 100, 100, 100, 100},
 
 
-   targetTemplate = "object/tangible/wearables/armor/stormtrooper/armor_marine_chest_plate_rebel_crafted.iff",
+   targetTemplate = "object/tangible/wearables/armor/marine/armor_marine_chest_plate_rebel_crafted.iff",
 
    additionalTemplates = {
              }

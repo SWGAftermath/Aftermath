@@ -1,3 +1,5 @@
+THEME_PARK_MARAUDER_BADGE = 143
+
 scholar_szingo_missions =
 	{
 		{
@@ -144,6 +146,7 @@ king_terak_missions =
 			rewards =
 			{
 				{ rewardType = "credits", amount = 575 },
+				{ rewardType = "badge", badge = THEME_PARK_MARAUDER_BADGE },
 				{ rewardType = "loot",  lootGroup = "theme_park_reward_marauder_armor_chest_plate" }
 			}
 		}
