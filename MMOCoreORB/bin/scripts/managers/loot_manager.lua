@@ -79,7 +79,6 @@ lootableArmorAttachmentStatMods = {
 	"carbine_speed",
 	"combat_bleeding_defense",
 	"counterattack",
-	"cover",
 	"dizzy_defense",
 	"dodge",
 	"droid_find_chance",
@@ -92,8 +91,6 @@ lootableArmorAttachmentStatMods = {
 	"heavy_rifle_lightning_speed",
 	"heavyweapon_accuracy",
 	"heavyweapon_speed",
-	"intimidate",
-	"intimidate_defense",
 	"keep_creature",
 	"knockdown_defense",
 	"melee_defense",
@@ -110,7 +107,6 @@ lootableArmorAttachmentStatMods = {
 	"posture_change_down_defense",
 	"posture_change_up_defense",
 	"ranged_defense",
-	"rescue",
 	"resistance_bleeding",
 	"resistance_disease",
 	"resistance_fire",
@@ -121,9 +117,7 @@ lootableArmorAttachmentStatMods = {
 	"rifle_speed",
 	"slope_move",
 	"steadyaim",
-	"stored_pets",
 	"stun_defense",
-	"take_cover",
 	"tame_aggro",
 	"tame_bonus",
 	"tame_non_aggro",
@@ -139,12 +133,12 @@ lootableArmorAttachmentStatMods = {
 	"warcry",
 	"twohandlightsaber_accuracy",
 	"onehandlightsaber_accuracy",
-	"polearmlightsaber_accuracy"
+	"polearmlightsaber_accuracy",
+	"lightsaber_experimentation"
 }
 
 lootableClothingAttachmentStatMods = {
 	"aim",
-	"alert",
 	"armor_assembly",
 	"armor_experimentation",
 	"armor_repair",
@@ -164,7 +158,6 @@ lootableClothingAttachmentStatMods = {
 	"combat_medicine_assembly",
 	"combat_medicine_experimentation",
 	"counterattack",
-	"cover",
 	"dizzy_defense",
 	"dodge",
 	"droid_assembly",
@@ -200,9 +193,6 @@ lootableClothingAttachmentStatMods = {
 	"heavy_rifle_lightning_speed",
 	"heavyweapon_accuracy",
 	"heavyweapon_speed",
-	"instrument_assembly",
-	"intimidate",
-	"intimidate_defense",
 	"keep_creature",
 	"knockdown_defense",
 	"medical_foraging",
@@ -222,7 +212,6 @@ lootableClothingAttachmentStatMods = {
 	"posture_change_down_defense",
 	"posture_change_up_defense",
 	"ranged_defense",
-	"rescue",
 	"resistance_bleeding",
 	"resistance_disease",
 	"resistance_fire",
@@ -233,13 +222,11 @@ lootableClothingAttachmentStatMods = {
 	"rifle_speed",
 	"slope_move",
 	"steadyaim",
-	"stored_pets",
 	"structure_assembly",
 	"structure_complexity",
 	"structure_experimentation",
 	"stun_defense",
 	"surveying",
-	"take_cover",
 	"tame_aggro",
 	"tame_bonus",
 	"tame_non_aggro",
@@ -258,7 +245,8 @@ lootableClothingAttachmentStatMods = {
 	"weapon_repair",
 	"twohandlightsaber_accuracy",
 	"onehandlightsaber_accuracy",
-	"polearmlightsaber_accuracy"
+	"polearmlightsaber_accuracy",
+	"lightsaber_experimentation"
 }
 
 lootableArmorStatMods = {
