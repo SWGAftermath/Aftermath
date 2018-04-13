@@ -155,6 +155,9 @@ public:
 				break;
 
 		case 32: trainerTemplatePath = "trainer_weaponsmith";
+				break;
+
+		case 33: trainerTemplatePath = "trainer_basebuster";
 
 		}
 
