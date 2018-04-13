@@ -2260,3 +2260,9 @@ object_building_player_shared_player_merchant_tent_style_03 = SharedBuildingObje
 }
 
 ObjectTemplates:addClientTemplate(object_building_player_shared_player_merchant_tent_style_03, "object/building/player/shared_player_merchant_tent_style_03.iff")
+
+--musty house
+object_building_player_shared_musty_house = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_musty_house.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_musty_house, "object/building/player/shared_musty_house.iff")
