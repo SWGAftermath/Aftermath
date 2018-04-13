@@ -115,6 +115,6 @@ function DathomirStaticSpawnsSeScreenPlay:spawnMobiles()
 	spawnMobile("dathomir", "singing_mountain_clan_guardian", 360, 5556.5, 128.8, -688.6, -85, 0)
 
 	-- Village Shuttleport
-	spawnSceneObject("dathomir", "object/building/player/city/shuttleport_corellia.iff", 5240, 78, -4087, 0, 0)
+	spawnSceneObject("dathomir", "object/building/player/city/shuttleport_naboo.iff", 5240, 78, -4087, 0, 0)
 
 end
