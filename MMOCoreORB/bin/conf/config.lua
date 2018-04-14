@@ -144,10 +144,10 @@ TrePath = "/home/swgemu/Desktop/SWGEmu"
 TreFiles = {
 	"aftermath_1.tre",
 	"aftermath_NGE.tre",
+	"aftermath_house.tre",
 	"default_patch.tre",
 	"patch_sku1_14_00.tre",
 	"patch_14_00.tre",
-	"aftermath_house.tre",
 	"patch_sku1_13_00.tre",
 	"patch_13_00.tre",
 	"patch_sku1_12_00.tre",
