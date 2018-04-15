@@ -662,4 +662,4 @@ includeFile("tests/tests.lua")
 
 --Merchants
 includeFile("merchants/house_merch.lua")
-includeFile("hondo/merchants/merchant_system.lua")
+includeFile("merchants/merchant_system.lua")
