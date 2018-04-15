@@ -919,8 +919,8 @@ void EntertainingSessionImplementation::activateEntertainerBuff(CreatureObject* 
 			oldBuff = cast<PerformanceBuff*>(creature->getBuff(focusBuffCRC));
 			if (oldBuff != NULL && oldBuff->getBuffStrength() > buffStrength)
 				return;
-			ManagedReference<PerformanceBuff*> focusBuff = new PerformanceBuff(creature, focusBuffCRC, buffStrength, buffDuration * 120, PerformanceBuffType::MUSIC_FOCUS);
-			ManagedReference<PerformanceBuff*> willBuff = new PerformanceBuff(creature, willBuffCRC, buffStrength, buffDuration * 120, PerformanceBuffType::MUSIC_WILLPOWER);
+			ManagedReference<PerformanceBuff*> focusBuff = new PerformanceBuff(creature, focusBuffCRC, buffStrength, buffDuration * 60, PerformanceBuffType::MUSIC_FOCUS);
+			ManagedReference<PerformanceBuff*> willBuff = new PerformanceBuff(creature, willBuffCRC, buffStrength, buffDuration * 60, PerformanceBuffType::MUSIC_WILLPOWER);
 
 			Locker locker(focusBuff);
 			creature->addBuff(focusBuff);
@@ -936,7 +936,7 @@ void EntertainingSessionImplementation::activateEntertainerBuff(CreatureObject* 
 			oldBuff = cast<PerformanceBuff*>(creature->getBuff(mindBuffCRC));
 			if (oldBuff != NULL && oldBuff->getBuffStrength() > buffStrength)
 				return;
-			ManagedReference<PerformanceBuff*> mindBuff = new PerformanceBuff(creature, mindBuffCRC, buffStrength, buffDuration * 120, PerformanceBuffType::DANCE_MIND);
+			ManagedReference<PerformanceBuff*> mindBuff = new PerformanceBuff(creature, mindBuffCRC, buffStrength, buffDuration * 60, PerformanceBuffType::DANCE_MIND);
 
 			Locker locker(mindBuff);
 			creature->addBuff(mindBuff);
@@ -1023,7 +1023,7 @@ void EntertainingSessionImplementation::increaseEntertainerBuff(CreatureObject* 
 
 	float buffAcceleration = 1 + ((float)entertainer->getSkillMod("accelerate_entertainer_buff") / 100.f);
 
-	addEntertainerBuffDuration(patron, performance->getType(), 2.0f * buffAcceleration);
+	addEntertainerBuffDuration(patron, performance->getType(), 4.0f * buffAcceleration);
 	addEntertainerBuffStrength(patron, performance->getType(), performance->getHealShockWound());
 
 }
