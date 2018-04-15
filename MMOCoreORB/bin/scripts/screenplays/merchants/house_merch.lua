@@ -10,7 +10,7 @@ HouseMerch = ScreenPlay:new {
 		{name="townsperson", npcStanding=-9000, priceAdjust=0}, -- Adjust price only
 	},
 	goods = {
-		{optName="Musty House", cost=10000000, itemName="Musty House", items={"object/tangible/loot/loot_schematic/musty_house_loot_schem.iff"}},
+		{optName="Mustafarian Underground Bunker Schematic", cost=10000000, itemName="Mustafarian Underground Bunker Schematic", items={"object/tangible/loot/loot_schematic/musty_house_loot_schem.iff"}},
 		{optName="Vehicle House", cost=10000000, itemName="Vehicle House", items={"object/tangible/loot/loot_schematic/vehicle_house_loot_schem.iff"}},
 	},
 }
