@@ -5034,6 +5034,12 @@ object_tangible_loot_loot_schematic_shared_marine_bicep_r_crafted_schematic = Sh
 
 ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_marine_bicep_r_crafted_schematic, "object/tangible/loot/loot_schematic/shared_marine_bicep_r_crafted_schematic.iff")
 
+--musty Schem
+object_tangible_loot_loot_schematic_shared_musty_house_loot_schem = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/loot/loot_schematic/shared_musty_house_loot_schem.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_musty_house_loot_schem, "object/tangible/loot/loot_schematic/shared_musty_house_loot_schem.iff")
+
 
 
 

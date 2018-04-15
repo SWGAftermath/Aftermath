@@ -86,3 +86,4 @@ includeFile("building/player/player_merchant_tent_style_03.lua")
 
 -- NGE Houses
 includeFile("building/player/musty_house.lua")
+includeFile("building/player/vehicle_house.lua")
