@@ -134,7 +134,8 @@ lootableArmorAttachmentStatMods = {
 	"twohandlightsaber_accuracy",
 	"onehandlightsaber_accuracy",
 	"polearmlightsaber_accuracy",
-	"lightsaber_experimentation"
+	"lightsaber_experimentation",
+	"lightsaber_assembly"
 }
 
 lootableClothingAttachmentStatMods = {
@@ -246,7 +247,8 @@ lootableClothingAttachmentStatMods = {
 	"twohandlightsaber_accuracy",
 	"onehandlightsaber_accuracy",
 	"polearmlightsaber_accuracy",
-	"lightsaber_experimentation"
+	"lightsaber_experimentation",
+	"lightsaber_assembly"
 }
 
 lootableArmorStatMods = {
