@@ -1023,7 +1023,7 @@ void EntertainingSessionImplementation::increaseEntertainerBuff(CreatureObject* 
 
 	float buffAcceleration = 1 + ((float)entertainer->getSkillMod("accelerate_entertainer_buff") / 100.f);
 
-	addEntertainerBuffDuration(patron, performance->getType(), 4.0f * buffAcceleration);
+	addEntertainerBuffDuration(patron, performance->getType(), 8.0f * buffAcceleration);
 	addEntertainerBuffStrength(patron, performance->getType(), performance->getHealShockWound());
 
 }
