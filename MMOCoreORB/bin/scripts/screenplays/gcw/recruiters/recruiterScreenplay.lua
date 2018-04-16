@@ -614,6 +614,16 @@ function recruiterScreenplay:handleGoOvert(pPlayer)
 	CreatureObject(pPlayer):setFactionStatus(2)
 end
 
+function recruiterScreenplay:handleJoinRanks(pPlayer, skillName)
+	local skillManager = LuaSkillManager()
+	skillManager:awardSkill(pPlayer, skillName)
+end
+
+function recruiterScreenplay:handleLeaveRanks(pPlayer, skillName)
+	local skillManager = LuaSkillManager()
+	skillManager.surrenderSkill(pPlayer, skillName)
+end
+
 function recruiterScreenplay:handleResign(pPlayer)
 	local pGhost = CreatureObject(pPlayer):getPlayerObject()
 

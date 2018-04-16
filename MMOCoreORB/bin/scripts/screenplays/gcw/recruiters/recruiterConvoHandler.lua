@@ -24,6 +24,7 @@ function RecruiterConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, s
 	elseif (screenID == "greet_member_start_overt" or screenID == "stay_special_forces" or screenID == "stay_overt" or screenID == "dont_resign_overt") then
 		self:updateScreenWithPromotions(pPlayer, pConvTemplate, pConvScreen, recruiterScreenplay:getRecruiterFaction(pNpc))
 		self:updateScreenWithBribe(pPlayer, pNpc, pConvTemplate, pConvScreen, recruiterScreenplay:getRecruiterFaction(pNpc))
+		self:updateScreenWithRankJoin(pPlayer, pConvTemplate, pConvScreen, recruiterScreenplay:getRecruiterFaction(pNpc))
 		if (recruiterScreenplay:getFactionFromHashCode(CreatureObject(pPlayer):getFaction()) == "rebel") then
 			clonedConversation:addOption("@conversation/faction_recruiter_rebel:s_480", "faction_purchase")
 		else
@@ -112,6 +113,17 @@ function RecruiterConvoHandler:runScreenHandlers(pConvTemplate, pPlayer, pNpc, s
 		clonedConversation:setDialogTextDI(getImperialScore(zoneName))
 		clonedConversation:setDialogTextTO(getRebelScore(zoneName))
 
+	elseif (screenID == "confirm_reb_rank_join") then
+		recruiterScreenplay:handleJoinRanks(pPlayer, "gcw_rank_light_novice")
+
+	elseif (screenID == "confirm_imp_rank_join") then
+		recruiterScreenplay:handleJoinRanks(pPlayer, "gcw_rank_dark_novice")
+
+	elseif (screenID == "confirm_reb_rank_leave") then
+		recruiterScreenplay:handleLeaveRanks(pPlayer, "gcw_rank_light_novice")
+
+	elseif (screenID == "confirm_imp_rank_leave") then
+		recruiterScreenplay:handleLeaveRanks(pPlayer, "gcw_rank_dark_novice")
 	end
 
 	return pConvScreen
@@ -200,6 +212,23 @@ function RecruiterConvoHandler:add100kBribeOption(pNpc, screen)
 	end
 end
 
+function RecruiterConvoHandler:addRankJoinOption(faction, screen)
+	if (faction == "rebel") then
+		screen:addOption("Join Rebel GCW Ranks", "confirm_reb_rank_join")
+	elseif (faction == "imperial") then
+		screen:addOption("Join Imperial GCW Ranks", "confirm_imp_rank_join")
+	end
+end
+
+function RecruiterConvoHandler:addRankLeaveOption(faction, screen)
+	if (faction == "rebel") then
+		screen:addOption("Leave Rebel GCW Ranks", "confirm_reb_rank_leave")
+	elseif (faction == "imperial") then
+		screen:addOption("Leave Imperial GCW Ranks", "confirm_imp_rank_leave")
+	end
+end
+
+
 function RecruiterConvoHandler:updateScreenWithBribe(pPlayer, pNpc, pConvTemplate, pConvScreen, faction)
 	local pGhost = CreatureObject(pPlayer):getPlayerObject()
 
@@ -238,3 +267,23 @@ function RecruiterConvoHandler:updateScreenWithPromotions(pPlayer, pConvTemplate
 
 	self:addRankReviewOption(faction, screenObject)
 end
+
+function RecruiterConvoHandler:updateScreenWithRankJoin(pPlayer, pConvTemplate, pConvScreen, faction)
+	local pGhost = CreatureObject(pPlayer):getPlayerObject()
+
+	if (pGhost == nil) then
+		return
+	end
+
+	local skillManager = LuaSkillManager()
+	local screenObject = LuaConversationScreen(pConvScreen)
+	local gcwRanked = skillManager:hasSkill(pPlayer, skillName)
+
+	if (gcwRanked == true) then
+		self:addRankJoinOption(faction, screenObject)
+		return
+	else
+		self:addRankLeaveOption(faction, screenObject)
+	end
+end
+
