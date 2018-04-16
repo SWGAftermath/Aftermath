@@ -43,7 +43,7 @@ death_watch_s_battle_droid_alt = Creature:new {
         		{group = "clothing_attachments", chance = 5000000}
 
       		},
-      		lootChance = 2000000
+      		lootChance = 4000000
     	},
 	},
 	conversationTemplate = "",

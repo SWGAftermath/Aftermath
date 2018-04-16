@@ -3,8 +3,8 @@ local QuestManager = require("managers.quest.quest_manager")
 
 FsSad2 = ScreenPlay:new {
 	--timePeriod = 24 * 60 * 60, -- 24 Hours
-	timePeriod = 6 * 60 * 60, -- 1 hour for testing
-	tasksPerPeriod = 3,
+	timePeriod = 0, -- remove gate
+	tasksPerPeriod = 8,
 	theaterTable = { FsSad2Theater1, FsSad2Theater2, FsSad2Theater3, FsSad2Theater4, FsSad2Theater5, FsSad2Theater6, FsSad2Theater7, FsSad2Theater8 }
 }
 

@@ -660,3 +660,6 @@ includeFile("record_keepers/record_keepers.lua")
 --Tests
 includeFile("tests/tests.lua")
 
+--Merchants
+includeFile("merchants/house_merch.lua")
+includeFile("merchants/merchant_system.lua")
