@@ -38,7 +38,8 @@ nightsister_protector = Creature:new {
 				{group = "clothing_attachments", chance = 2000000},
 				{group = "wearables_common", chance = 500000},
 				{group = "tailor_components", chance = 500000}
-			}
+			},
+			lootChance = 4500000
 		}
 	},
 	weapons = {"mixed_force_weapons"},
