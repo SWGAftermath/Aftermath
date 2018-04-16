@@ -35,7 +35,8 @@ janta_clan_leader = Creature:new {
 				{group = "janta_common", chance = 2500000},
 				{group = "loot_kit_parts", chance = 3000000},
 				{group = "wearables_all", chance = 500000}
-			}
+			},
+			lootChance = 3500000
 		}
 	},
 	weapons = {"primitive_weapons"},
