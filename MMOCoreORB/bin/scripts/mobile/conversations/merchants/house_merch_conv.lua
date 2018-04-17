@@ -13,10 +13,10 @@ housemerch_template = ConvoTemplate:new {
 housemerch_start = ConvoScreen:new {
   id = "start",
   leftDialog = "",
-  customDialogText = "Welcome to Aftermath's Luxury Homes Shop!",
+  customDialogText = "Hey, keep it down! I'm trying to run a business here. Wait a minute, you look like a smart individual. You interested in some top of the line housing? If you are, I got ya covered. Just don't ask where I got it from.",
   stopConversation = "false",
   options = {
-  	{"Hi, what Luxury Homes do you have in stock?", "banter1"},
+  	{"Top of the line housing? I'm going to need more information.", "banter1"},
   }
 }
 housemerch_template:addScreen(housemerch_start);
@@ -114,11 +114,11 @@ housemerch_template:addScreen(housemerch_insufficient_funds);
 housemerch_banter1 = ConvoScreen:new {
   id = "banter1",
   leftDialog = "",
-  customDialogText = "Sorry. It's pretty busy around here lately... Nice to see another member of the Lokian gang for a change. What can I do for you?",
+  customDialogText = "I'm talking housing that isn't available anywhere else...an underground bunker or a vehicle garage. you name it, I got it. This is top of the line stuff, so don't expect it to be cheap and I only take full payment up front. These are fresh blueprints straight from the factories, so you'll have to find an Architect to create them for you.",
   stopConversation = "false",
   options = {
 	{"Who? are you?", "banter2"},
-	{"I need a new Luxury Home", "shop"}
+	{"I'm interested, let me see what you have.", "shop"}
   }
 }
 housemerch_template:addScreen(housemerch_banter1);
