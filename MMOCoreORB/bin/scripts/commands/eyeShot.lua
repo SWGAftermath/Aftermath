@@ -61,6 +61,15 @@ EyeShotCommand = {
 		100, 
 		0, 
 		40 
+	  ),
+	  StateEffect( 
+		INTIMIDATE_EFFECT, 
+		{}, 
+		{}, 
+		{}, 
+		100, 
+		0, 
+		30 
 	  )
 	},
 
@@ -69,7 +78,7 @@ EyeShotCommand = {
 
 	combatSpam = "eyeshot",
 	
-	weaponType = PISTOLWEAPON,
+	weaponType = PISTOLWEAPON + CARBINEWEAPON,
 
 	range = -1
 }
