@@ -25,7 +25,7 @@ housemerch_template:addScreen(housemerch_start);
 housemerch_shop = ConvoScreen:new {
   id = "shop",
   leftDialog = "",
-  customDialogText = "Here's what I have in stock at the moment.",
+  customDialogText = "Here's what I got right now.",
   stopConversation = "false",
   options = { 
   }
