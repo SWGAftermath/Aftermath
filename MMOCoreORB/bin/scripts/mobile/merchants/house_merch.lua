@@ -1,6 +1,6 @@
 housemerch = Creature:new {
 	objectName = "@mob/creature_names:commoner",
-	customName = "Aftermath Housing",
+	customName = "A Shady Looking Dealer",
 	socialGroup = "townsperson",
 	pvpFaction = "townsperson",
 	faction = "townsperson",
@@ -27,7 +27,7 @@ housemerch = Creature:new {
 	optionsBitmask = 264, --for conversation
 	diet = HERBIVORE,
 
-	templates = {"object/mobile/dressed_criminal_pirate_human_male_01.iff"},
+	templates = {"object/mobile/dressed_assassin_mission_giver_01.iff"},
 	lootGroups = {},
 	weapons = {},
 	conversationTemplate = "housemerch_template",
