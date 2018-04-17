@@ -13,7 +13,7 @@ housemerch_template = ConvoTemplate:new {
 housemerch_start = ConvoScreen:new {
   id = "start",
   leftDialog = "",
-  customDialogText = "Hey, keep it down! I'm trying to run a business here. Wait a minute, you look like a smart individual. You interested in some top of the line housing? If you are, I got ya covered. Just don't ask where I got it from.",
+  customDialogText = "What's a guy gotta do to get a drink around here? Oh, yeah? What do ya want? Wait a minute...you look like a smart individual. You interested in some top of the line housing? If you are, I got ya covered. Just don't ask where I got it from.",
   stopConversation = "false",
   options = {
   	{"Top of the line housing? I'm going to need more information.", "banter1"},
@@ -47,7 +47,7 @@ housemerch_template:addScreen(housemerch_confirm_purchase);
 housemerch_bye = ConvoScreen:new {
   id = "bye",
   leftDialog = "",
-  customDialogText = "Thank you for the business you take care now!",
+  customDialogText = "Yeah, Yeah. You know where I am if you want more blueprints.",
   stopConversation = "true",
   options = {
   }
