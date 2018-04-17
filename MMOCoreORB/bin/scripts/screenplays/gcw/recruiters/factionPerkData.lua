@@ -18,7 +18,7 @@ rebelRewardData = {
 	weaponsArmor = {
 		armor_marine_backpack = { index=0, type=factionRewardType.armor, display="@wearables_name:armor_marine_backpack", item="object/tangible/wearables/armor/marine/armor_marine_backpack.iff",cost=1500},
 		armor_marine_bicep_l = { index=1, type=factionRewardType.armor, display="@wearables_name:armor_marine_chest_plate", item="object/tangible/loot/loot_schematic/marine_chest_plate_rebel_crafted_schematic.iff",cost=20000},
-		armor_marine_bicep_r = { index=2, type=factionRewardType.armor, display="@wearables_name:armor_marine_helmet", item="object/tangible/loot/loot_schematic/marine_helmet_crafted_schematic.iff",cost=20000},
+		armor_marine_bicep_r = { index=2, type=factionRewardType.armor, display="@craft_item_ingredients_n:armor_marine_helmet_schematic", item="object/tangible/loot/loot_schematic/marine_helmet_crafted_schematic.iff",cost=20000},
 		armor_marine_boots = { index=3, type=factionRewardType.armor, display="@wearables_name:armor_marine_boots", item="object/tangible/loot/loot_schematic/marine_boots_crafted_schematic.iff",cost=20000},
 		armor_marine_chest_plate = { index=4, type=factionRewardType.armor, display="@wearables_name:armor_marine_leggings", item="object/tangible/loot/loot_schematic/marine_leggings_crafted_schematic.iff",cost=20000},
 		armor_marine_helmet = { index=5, type=factionRewardType.armor, display="@wearables_name:armor_marine_bicep_l", item="object/tangible/loot/loot_schematic/marine_bicep_l_crafted_schematic.iff",cost=20000},
