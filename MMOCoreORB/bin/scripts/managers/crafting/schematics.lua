@@ -1833,4 +1833,5 @@ schematics = {
 	--nge houses
 	{path="object/draft_schematic/structure/musty_house_schem.iff"},
 	{path="object/draft_schematic/structure/vehicle_house_schem.iff"},
+	{path="object/draft_schematic/structure/bespin_house_schem.iff"},
 };

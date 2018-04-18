@@ -77,3 +77,4 @@ includeFile("tangible/deed/player_house_deed/tatooine_house_small_style_02_deed.
 --nge houses
 includeFile("tangible/deed/player_house_deed/musty_house_deed.lua")
 includeFile("tangible/deed/player_house_deed/vehicle_house_deed.lua")
+includeFile("tangible/deed/player_house_deed/bespin_house_deed.lua")

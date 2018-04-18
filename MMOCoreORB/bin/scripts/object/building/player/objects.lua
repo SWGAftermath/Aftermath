@@ -2273,3 +2273,9 @@ object_building_player_shared_vehicle_house = SharedBuildingObjectTemplate:new {
 }
 ObjectTemplates:addClientTemplate(object_building_player_shared_vehicle_house, "object/building/player/shared_vehicle_house.iff")
 
+--bespin house
+object_building_player_shared_bespin_house = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_bespin_house.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_bespin_house, "object/building/player/shared_bespin_house.iff")
+
