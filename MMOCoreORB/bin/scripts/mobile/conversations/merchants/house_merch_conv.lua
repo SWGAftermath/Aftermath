@@ -36,7 +36,7 @@ housemerch_template:addScreen(housemerch_shop);
 housemerch_confirm_purchase = ConvoScreen:new {
   id = "confirm_purchase",
   leftDialog = "",
-  customDialogText = "Are you sure you would like to make this purchase?",
+  customDialogText = "Are you sure this is one you want?",
   stopConversation = "false",
   options = { 
   }
