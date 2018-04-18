@@ -1704,3 +1704,9 @@ object_tangible_deed_player_house_deed_shared_vehicle_house_deed = SharedTangibl
 }
 
 ObjectTemplates:addClientTemplate(object_tangible_deed_player_house_deed_shared_vehicle_house_deed, "object/tangible/deed/player_house_deed/shared_vehicle_house_deed.iff")
+
+object_tangible_deed_player_house_deed_shared_bespin_house_deed = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/deed/player_house_deed/shared_bespin_house_deed.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_tangible_deed_player_house_deed_shared_bespin_house_deed, "object/tangible/deed/player_house_deed/shared_bespin_house_deed.iff")
