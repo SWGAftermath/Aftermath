@@ -528,7 +528,7 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 					return;		
 				}		
 				int success = System::random(100);		
-				if (success > 95) {		
+				if (success > 50) {		
 					lootManager->createLoot(inventory, "axkva_min", 302);		
 				}else{		
 					lootManager->createLoot(inventory, "axkva_min_terminal", 302);		
@@ -562,7 +562,7 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 					return;		
 				}		
 				int success = System::random(100);		
-				if (success > 95){		
+				if (success > 50){		
 					lootManager->createLoot(inventory, "axkva_min", 302);		
 				} else {		
 					lootManager->createLoot(inventory, "axkva_min_terminal", 302);		
