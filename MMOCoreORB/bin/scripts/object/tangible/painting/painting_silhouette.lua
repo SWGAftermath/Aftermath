@@ -41,7 +41,7 @@
 --this exception also makes it possible to release a modified version 
 
 
-object_tangible_painting_painting_silhouette = object_tangible_painting_shared_painting_silhouetter:new {
+object_tangible_painting_painting_silhouette = object_tangible_painting_shared_painting_silhouette:new {
 
 }
 
