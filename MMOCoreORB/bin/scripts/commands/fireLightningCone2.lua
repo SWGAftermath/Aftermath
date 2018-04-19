@@ -63,7 +63,7 @@ FireLightningCone2Command = {
 	  )
 	},
 
-	animation = "fire_lightning_rifle_single_2",
+	animation = "fire_5_special_single",
 	animType = GENERATE_INTENSITY,
 
 	combatSpam = "firelightningcone2",
@@ -73,7 +73,7 @@ FireLightningCone2Command = {
 	
 	weaponType = SPECIALHEAVYWEAPON,
 
-	range = 25
+	range = 32
 }
 
 AddCommand(FireLightningCone2Command)
