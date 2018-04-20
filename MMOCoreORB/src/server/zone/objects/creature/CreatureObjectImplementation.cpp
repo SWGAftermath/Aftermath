@@ -2395,13 +2395,15 @@ void CreatureObjectImplementation::setIntimidatedState(int durationSeconds) {
 
 		addBuff(state);
 
-		Reference<PrivateSkillMultiplierBuff*> multBuff = new PrivateSkillMultiplierBuff(asCreatureObject(), STRING_HASHCODE("private_intimidate_multiplier"), durationSeconds, BuffType::STATE);
+		if (!hasSkill("combat_bountyhunter_master")){
+			Reference<PrivateSkillMultiplierBuff*> multBuff = new PrivateSkillMultiplierBuff(asCreatureObject(), STRING_HASHCODE("private_intimidate_multiplier"), durationSeconds, BuffType::STATE);
 
-		Locker blocker(multBuff);
+			Locker blocker(multBuff);
 
-		multBuff->setSkillModifier("private_damage_divisor", 2);
+			multBuff->setSkillModifier("private_damage_divisor", 2);
 	
-		addBuff(multBuff);
+			addBuff(multBuff);
+		}
 	}
 }
 
