@@ -842,6 +842,15 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 			} else if (templatePath == "clear_dots") {
 				player->clearDots();
 
+			} else if (templatePath == "color_crystals" || templatePath == "krayt_pearls") {
+				ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+
+				if (inventory == nullptr)
+					return;
+
+				LootManager* lootManager = zserv->getLootManager();
+				lootManager->createLoot(inventory, templatePath, 300, true);
+
 			} else if (templatePath == "max_xp") {
 				ghost->maximizeExperience();
 				player->sendSystemMessage("You have maximized all xp types.");
