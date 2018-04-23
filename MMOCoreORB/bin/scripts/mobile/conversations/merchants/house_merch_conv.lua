@@ -103,7 +103,7 @@ housemerch_template:addScreen(housemerch_faction_too_low);
 housemerch_insufficient_funds = ConvoScreen:new {
   id = "insufficient_funds",
   leftDialog = "",
-  customDialogText = "This ain't a charity. Get outta here until you have some cash!.",
+  customDialogText = "This ain't a charity. Get outta here until you have some cash!",
   stopConversation = "true",
   options = { 
   }
@@ -142,7 +142,7 @@ housemerch_banter3 = ConvoScreen:new {
   customDialogText = "You'll have ta find yourself an Architect willing to make these houses. Any Architect worth his own will be all over these blueprints. This stuff is of the highest quality and never seen before.",
   stopConversation = "false",
   options = {
-	{"Is there any way I can see these houses before I purchase them, so I know what I'm buying?.", "banter4"}
+	{"Is there any way I can see these houses before I purchase them, so I know what I'm buying?", "banter4"}
   }
 }
 housemerch_template:addScreen(housemerch_banter3);
@@ -151,7 +151,7 @@ housemerch_template:addScreen(housemerch_banter3);
 housemerch_banter4 = ConvoScreen:new {
   id = "banter4",
   leftDialog = "",
-  customDialogText = "You sure like to ask a lot of questions don't ya?. There's an island out West from here, me and my associate have put up some display versions for potential customers to check out. You can find it at -2109, -4614.",
+  customDialogText = "You sure like to ask a lot of questions don't ya? There's an island out West from here, me and my associate have put up some display versions for potential customers to check out. You can find it at -2109, -4614.",
   stopConversation = "false",
   options = {
 	{"Thanks for the information, show me what you have.", "shop"}
