@@ -46,6 +46,8 @@ uint8 Badge::getTypeFromString(const String& typeString) {
 		return MASTER;
 	} else if (typeString == "events") {
 		return EVENT;
+	} else if (typeString == "master_nojedi") {
+		return MASTERNOJEDI;
 	} else if (typeString == "content") {
 		return CONTENT;
 	} else {
