@@ -13,7 +13,7 @@ housemerch_template = ConvoTemplate:new {
 housemerch_start = ConvoScreen:new {
   id = "start",
   leftDialog = "",
-  customDialogText = "What's a guy gotta do to get a drink around here? Oh, yeah? What do ya want? Wait a minute...you look like a smart individual. You interested in some top of the line housing? If you are, I got ya covered. Just don't ask where I got it from.",
+  customDialogText = "What's a guy gotta do ta get a drink around here? Oh, yeah? Whadda ya want? Wait a minute...you look like a smart individual. You interested in some top of the line housing? If you are, I got ya covered. Just don't ask where I got it from.",
   stopConversation = "false",
   options = {
   	{"Top of the line housing? I'm going to need more information.", "banter1"},
@@ -36,7 +36,7 @@ housemerch_template:addScreen(housemerch_shop);
 housemerch_confirm_purchase = ConvoScreen:new {
   id = "confirm_purchase",
   leftDialog = "",
-  customDialogText = "Are you sure this is one you want?",
+  customDialogText = "Are you sure this is one ya want?",
   stopConversation = "false",
   options = { 
   }
@@ -47,7 +47,7 @@ housemerch_template:addScreen(housemerch_confirm_purchase);
 housemerch_bye = ConvoScreen:new {
   id = "bye",
   leftDialog = "",
-  customDialogText = "Yeah, Yeah. You know where I am if you want more blueprints.",
+  customDialogText = "Yeah, Yeah. Ya know where I am if ya want more blueprints.",
   stopConversation = "true",
   options = {
   }
@@ -103,7 +103,7 @@ housemerch_template:addScreen(housemerch_faction_too_low);
 housemerch_insufficient_funds = ConvoScreen:new {
   id = "insufficient_funds",
   leftDialog = "",
-  customDialogText = "Sorry, but you do not have enough credits on hand to make this purchase.",
+  customDialogText = "This ain't a charity. Get outta here until you have some cash!.",
   stopConversation = "true",
   options = { 
   }
@@ -127,7 +127,7 @@ housemerch_template:addScreen(housemerch_banter1);
 housemerch_banter2 = ConvoScreen:new {
   id = "banter2",
   leftDialog = "",
-  customDialogText = "What do I look like to you, a book? Look, it's like I said before...these are top of the line housing blueprints not available on the public market yet.",
+  customDialogText = "What do I look like to ya, a book? Look, it's like I said before...these are top of the line housing blueprints not available on the public market yet.",
   stopConversation = "false",
   options = {
 	{"What am I supposed to do with just the blueprints?", "banter3"}
@@ -139,10 +139,10 @@ housemerch_template:addScreen(housemerch_banter2);
 housemerch_banter3 = ConvoScreen:new {
   id = "banter3",
   leftDialog = "",
-  customDialogText = "You'll have ta find yourself an Architect willing to make these houses. Any Architect worth his own will be all over these blueprints. This stuff is top quality and never seen before.",
+  customDialogText = "You'll have ta find yourself an Architect willing to make these houses. Any Architect worth his own will be all over these blueprints. This stuff is of the highest quality and never seen before.",
   stopConversation = "false",
   options = {
-	{"Thanks for the information, show me what you have.", "shop"}
+	{"Is there any way I can see these houses before I purchase them, so I know what I'm buying?.", "banter4"}
   }
 }
 housemerch_template:addScreen(housemerch_banter3);
@@ -151,10 +151,10 @@ housemerch_template:addScreen(housemerch_banter3);
 housemerch_banter4 = ConvoScreen:new {
   id = "banter4",
   leftDialog = "",
-  customDialogText = "I dunno... since we left Nym's and started our own thing here, you guys have done great with the pirating without me. I'm happy enough selling deed's for Luxury Homes",
+  customDialogText = "You sure like to ask a lot of questions don't ya?. There's an island out West from here, me and my associate have put up some display versions for potential customers to check out. You can find it at -2109, -4614.",
   stopConversation = "false",
   options = {
-	{"Alright, old man. Let's see what you've got then.", "shop"}
+	{"Thanks for the information, show me what you have.", "shop"}
   }
 }
 housemerch_template:addScreen(housemerch_banter4);
