@@ -5046,6 +5046,12 @@ object_tangible_loot_loot_schematic_shared_vehicle_house_loot_schem = SharedTang
 }
 ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_vehicle_house_loot_schem, "object/tangible/loot/loot_schematic/shared_vehicle_house_loot_schem.iff")
 
+--bespin Schem
+object_tangible_loot_loot_schematic_shared_bespin_house_loot_schem = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/loot/loot_schematic/shared_bespin_house_loot_schem.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_bespin_house_loot_schem, "object/tangible/loot/loot_schematic/shared_bespin_house_loot_schem.iff")
+
 
 
 

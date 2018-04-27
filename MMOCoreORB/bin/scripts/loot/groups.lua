@@ -369,3 +369,4 @@ includeFile("groups/terminals/axkva_min_terminal.lua")
 
 --other aftermath groups
 includeFile("groups/aftermath/loot_schems.lua")
+includeFile("groups/aftermath/am_paintings.lua")

@@ -128,3 +128,12 @@ includeFile("tangible/painting/painting_zabrak_m.lua")
 
 -- Custom paintings
 includeFile("tangible/painting/painting_lambada_flyover.lua")
+includeFile("tangible/painting/painting_emperor.lua")
+includeFile("tangible/painting/painting_bobafett.lua")
+includeFile("tangible/painting/painting_deathstar.lua")
+includeFile("tangible/painting/painting_silhouette.lua")
+includeFile("tangible/painting/painting_tfaset_1.lua")
+includeFile("tangible/painting/painting_tfaset_2.lua")
+includeFile("tangible/painting/painting_tfaset_3.lua")
+includeFile("tangible/painting/painting_tfaset_4.lua")
+includeFile("tangible/painting/painting_xwing01.lua")

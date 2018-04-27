@@ -13,10 +13,10 @@ housemerch_template = ConvoTemplate:new {
 housemerch_start = ConvoScreen:new {
   id = "start",
   leftDialog = "",
-  customDialogText = "Welcome to Aftermath's Luxury Homes Shop!",
+  customDialogText = "What's a guy gotta do ta get a drink around here? Oh, yeah? Whadda ya want? Wait a minute...you look like a smart individual. You interested in some top of the line housing? If you are, I got ya covered. Just don't ask where I got it from.",
   stopConversation = "false",
   options = {
-  	{"Hi, what Luxury Homes do you have in stock?", "banter1"},
+  	{"Top of the line housing? I'm going to need more information.", "banter1"},
   }
 }
 housemerch_template:addScreen(housemerch_start);
@@ -25,7 +25,7 @@ housemerch_template:addScreen(housemerch_start);
 housemerch_shop = ConvoScreen:new {
   id = "shop",
   leftDialog = "",
-  customDialogText = "Here's what I have in stock at the moment.",
+  customDialogText = "Here's what I got right now.",
   stopConversation = "false",
   options = { 
   }
@@ -36,7 +36,7 @@ housemerch_template:addScreen(housemerch_shop);
 housemerch_confirm_purchase = ConvoScreen:new {
   id = "confirm_purchase",
   leftDialog = "",
-  customDialogText = "Are you sure you would like to make this purchase?",
+  customDialogText = "Are you sure this is one ya want?",
   stopConversation = "false",
   options = { 
   }
@@ -47,7 +47,7 @@ housemerch_template:addScreen(housemerch_confirm_purchase);
 housemerch_bye = ConvoScreen:new {
   id = "bye",
   leftDialog = "",
-  customDialogText = "Thank you for the business you take care now!",
+  customDialogText = "Yeah, Yeah. Ya know where I am if ya want more blueprints.",
   stopConversation = "true",
   options = {
   }
@@ -58,7 +58,7 @@ housemerch_template:addScreen(housemerch_bye);
 housemerch_nope = ConvoScreen:new {
   id = "nope",
   leftDialog = "",
-  customDialogText = "Well then...",
+  customDialogText = "Pfft, stop wasting my time then.",
   stopConversation = "true",
   options = { 
   }
@@ -103,7 +103,7 @@ housemerch_template:addScreen(housemerch_faction_too_low);
 housemerch_insufficient_funds = ConvoScreen:new {
   id = "insufficient_funds",
   leftDialog = "",
-  customDialogText = "Sorry, but you do not have enough credits on hand to make this purchase.",
+  customDialogText = "This ain't a charity. Get outta here until you have some cash!",
   stopConversation = "true",
   options = { 
   }
@@ -114,11 +114,11 @@ housemerch_template:addScreen(housemerch_insufficient_funds);
 housemerch_banter1 = ConvoScreen:new {
   id = "banter1",
   leftDialog = "",
-  customDialogText = "Sorry. It's pretty busy around here lately... Nice to see another member of the Lokian gang for a change. What can I do for you?",
+  customDialogText = "I'm talking housing that isn't available anywhere else...an underground bunker or a vehicle garage. you name it, I got it. This is top of the line stuff, so don't expect it to be cheap. No funny business either, I only take cash all up front.",
   stopConversation = "false",
   options = {
-	{"Who? are you?", "banter2"},
-	{"I need a new Luxury Home", "shop"}
+	{"Is there any more information you can give me before I look at your stock?", "banter2"},
+	{"I'm interested, let me see what you have.", "shop"}
   }
 }
 housemerch_template:addScreen(housemerch_banter1);
@@ -127,10 +127,10 @@ housemerch_template:addScreen(housemerch_banter1);
 housemerch_banter2 = ConvoScreen:new {
   id = "banter2",
   leftDialog = "",
-  customDialogText = "Looking for a Luxury Home on Aftermath? You've come to the right place!",
+  customDialogText = "What do I look like to ya, a book? Look, it's like I said before...these are top of the line housing blueprints not available on the public market yet.",
   stopConversation = "false",
   options = {
-	{"Perfect! I've found the right spot", "banter3"}
+	{"What am I supposed to do with just the blueprints?", "banter3"}
   }
 }
 housemerch_template:addScreen(housemerch_banter2);
@@ -139,11 +139,10 @@ housemerch_template:addScreen(housemerch_banter2);
 housemerch_banter3 = ConvoScreen:new {
   id = "banter3",
   leftDialog = "",
-  customDialogText = "I guess that is what I am these days... Ah well, What can I do for yea ?. ",
+  customDialogText = "You'll have ta find yourself an Architect willing to make these houses. Any Architect worth his own will be all over these blueprints. This stuff is of the highest quality and never seen before.",
   stopConversation = "false",
   options = {
-	{"Want to join us on our next job?", "banter4"},
-	{"Care to show me your inventory?", "shop"}
+	{"Is there any way I can see these houses before I purchase them, so I know what I'm buying?", "banter4"}
   }
 }
 housemerch_template:addScreen(housemerch_banter3);
@@ -152,10 +151,10 @@ housemerch_template:addScreen(housemerch_banter3);
 housemerch_banter4 = ConvoScreen:new {
   id = "banter4",
   leftDialog = "",
-  customDialogText = "I dunno... since we left Nym's and started our own thing here, you guys have done great with the pirating without me. I'm happy enough selling deed's for Luxury Homes",
+  customDialogText = "You sure like to ask a lot of questions don't ya? There's an island out West from here, me and my associate have put up some display versions for potential customers to check out. You can find it at -2109, -4614.",
   stopConversation = "false",
   options = {
-	{"Alright, old man. Let's see what you've got then.", "shop"}
+	{"Thanks for the information, show me what you have.", "shop"}
   }
 }
 housemerch_template:addScreen(housemerch_banter4);

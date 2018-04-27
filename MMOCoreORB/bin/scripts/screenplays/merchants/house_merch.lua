@@ -11,14 +11,15 @@ HouseMerch = ScreenPlay:new {
 	},
 	goods = {
 		{optName="Mustafarian Underground Bunker Schematic", cost=10000000, itemName="Mustafarian Underground Bunker Schematic", items={"object/tangible/loot/loot_schematic/musty_house_loot_schem.iff"}},
-		{optName="Vehicle House", cost=10000000, itemName="Vehicle House", items={"object/tangible/loot/loot_schematic/vehicle_house_loot_schem.iff"}},
+		{optName="Vehicle Garage Schematic", cost=10000000, itemName="Vehicle Garage Schematic", items={"object/tangible/loot/loot_schematic/vehicle_house_loot_schem.iff"}},
+		{optName="Bespin Cloud House Schematic", cost=10000000, itemName="Bespin Cloud House Schematic", items={"object/tangible/loot/loot_schematic/bespin_house_loot_schem.iff"}},
 	},
 }
 
 registerScreenPlay("HouseMerch", true)
 
 function HouseMerch:start() 
-	spawnMobile("corellia", "housemerch",0,-170.497,28,-4705.39,134,0)
+	spawnMobile("corellia", "housemerch", 1, -9.0922, -0.894992, 5.66256, 88, 8105496)
 	--spawnMobile("tatooine", "housemerch", 1, -2720.3, 5.0, 2260.4, -133, 0 ) -- Mos Espa 
 	-- Load some decorations
 	--spawnSceneObject("tatooine", "object/tangible/camp/camp_pavilion_s1.iff", -2720.3, 5.0, 2260.4, 0, 0, 0, 1, 0)

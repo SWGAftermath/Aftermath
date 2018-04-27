@@ -1187,5 +1187,15 @@ includeFile("items/named_crystals/force_color_windus_guile.lua")
 -- Aftermath items
 includeFile("items/aftermath/professors_desk_schematic.lua")
 
+-- Aftermath paintings
+includeFile("items/painting/painting_bobafett.lua")
+includeFile("items/painting/painting_deathstar.lua")
+includeFile("items/painting/painting_emperor.lua")
+includeFile("items/painting/painting_silhouette.lua")
+includeFile("items/painting/painting_tfaset_1.lua")
+includeFile("items/painting/painting_tfaset_2.lua")
+includeFile("items/painting/painting_tfaset_3.lua")
+includeFile("items/painting/painting_tfaset_4.lua")
+includeFile("items/painting/painting_xwing01.lua")
 
 

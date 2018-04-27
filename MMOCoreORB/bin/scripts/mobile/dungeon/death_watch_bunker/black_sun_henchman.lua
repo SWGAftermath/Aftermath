@@ -33,11 +33,8 @@ black_sun_henchman = Creature:new {
 		{
 			groups = {
 				{group = "junk", chance = 6500000},
-				{group = "pistols", chance = 750000},
-				{group = "rifles", chance = 750000},
-				{group = "carbines", chance = 750000},
-				{group = "bounty_hunter_armor", chance = 200000},
-				{group = "jetpack_base", chance = 50000},
+				{group = "bounty_hunter_armor", chance = 1500000},
+				{group = "jetpack_base", chance = 1000000},
 				{group = "wearables_common", chance = 500000},
 				{group = "wearables_uncommon", chance = 500000}
 			}
