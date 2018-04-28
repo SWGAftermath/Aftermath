@@ -56,7 +56,7 @@ object_intangible_vehicle_shared_barc_speeder_pcd = SharedIntangibleObjectTempla
 
 ObjectTemplates:addClientTemplate(object_intangible_vehicle_shared_barc_speeder_pcd, "object/intangible/vehicle/shared_barc_speeder_pcd.iff")
 
-object_intangible_vehicle_shared_barc_speeder_pcd = SharedIntangibleObjectTemplate:new {
+object_intangible_vehicle_shared_stap_speeder_pcd = SharedIntangibleObjectTemplate:new {
 	clientTemplateFileName = "object/intangible/vehicle/shared_stap_speeder_pcd.iff"
 
 }
