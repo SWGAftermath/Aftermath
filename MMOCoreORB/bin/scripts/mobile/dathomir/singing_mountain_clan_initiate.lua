@@ -31,17 +31,13 @@ singing_mountain_clan_initiate = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "junk", chance = 1500000},
-				{group = "power_crystals", chance = 500000},
-				{group = "color_crystals", chance = 500000},
-				{group = "armor_attachments", chance = 350000},
-				{group = "clothing_attachments", chance = 350000},
-				{group = "melee_weapons", chance = 2800000},
-				{group = "rifles", chance = 1000000},
-				{group = "pistols", chance = 1000000},
-				{group = "carbines", chance = 1000000},
-				{group = "wearables_uncommon", chance = 500000},
-				{group = "tailor_components", chance = 500000}
+				{group = "junk", chance = 2000000},
+				{group = "power_crystals", chance = 2500000},
+				{group = "color_crystals", chance = 2500000},
+				{group = "armor_attachments", chance = 400000},
+				{group = "clothing_attachments", chance = 400000},
+				{group = "wearables_uncommon", chance = 1500000},
+				{group = "tailor_components", chance = 700000}
 			}
 		}
 	},
