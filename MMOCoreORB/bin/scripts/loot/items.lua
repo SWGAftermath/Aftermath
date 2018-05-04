@@ -1197,5 +1197,4 @@ includeFile("items/painting/painting_tfaset_2.lua")
 includeFile("items/painting/painting_tfaset_3.lua")
 includeFile("items/painting/painting_tfaset_4.lua")
 includeFile("items/painting/painting_xwing01.lua")
-
-
+includeFile("items/painting/painting_mtfbwy2018.lua")
