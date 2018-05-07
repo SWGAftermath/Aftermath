@@ -4830,3 +4830,11 @@ object_tangible_painting_shared_painting_xwing01 = SharedTangibleObjectTemplate:
 	}
 
 ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_xwing01, "object/tangible/painting/shared_painting_xwing01.iff")
+
+object_tangible_painting_shared_painting_mtfbwy2018 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_mtfbwy2018.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_mtfbwy2018, "object/tangible/painting/shared_painting_mtfbwy2018.iff")
+
