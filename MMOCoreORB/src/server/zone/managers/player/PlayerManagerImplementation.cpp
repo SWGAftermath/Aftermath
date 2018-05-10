@@ -5605,7 +5605,7 @@ void PlayerManagerImplementation::unlockFRSForTesting(CreatureObject* player, in
 
 	luaFrsTesting->callFunction();
 
-	SkillManager::instance()->surrenderAllSkills(player, true, false);
+	SkillManager::instance()->surrenderAllSkills(player, true, true);
 
 	skillManager->awardSkill("jedi_padawan_master", player, true, true, true);
 	skillManager->awardSkill("jedi_light_side_journeyman_master", player, true, true, true);
