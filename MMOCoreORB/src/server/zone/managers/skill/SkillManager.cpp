@@ -580,6 +580,9 @@ void SkillManager::surrenderAllSkills(CreatureObject* creature, bool notifyClien
 			if (!removeForceProgression and skill->getSkillName().contains("force_"))
 				continue;
 
+			if (skill->getSkillName().contains("admin_"))
+				continue;
+
 			removeSkillRelatedMissions(creature, skill);
 
 			creature->removeSkill(skill, notifyClient);
