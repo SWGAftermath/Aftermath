@@ -127,7 +127,8 @@ lootableArmorAttachmentStatMods = {
 	"onehandlightsaber_accuracy",
 	"polearmlightsaber_accuracy",
 	"jedi_saber_experimentation",
-	"jedi_saber_assembly"
+	"jedi_saber_assembly",
+	"absorption_poison"
 }
 
 lootableClothingAttachmentStatMods = {
@@ -231,7 +232,8 @@ lootableClothingAttachmentStatMods = {
 	"onehandlightsaber_accuracy",
 	"polearmlightsaber_accuracy",
 	"jedi_saber_experimentation",
-	"jedi_saber_assembly"
+	"jedi_saber_assembly",
+	"absorption_poison"
 }
 
 lootableArmorStatMods = {
@@ -453,7 +455,8 @@ lootableClothingStatMods = {
 	"warcry",
 	"weapon_assembly",
 	"weapon_experimentation",
-	"weapon_repair"
+	"weapon_repair",
+	"absorption_poison"
 }
 
 lootableOneHandedMeleeStatMods = {
