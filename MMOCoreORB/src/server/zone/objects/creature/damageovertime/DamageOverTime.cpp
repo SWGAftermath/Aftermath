@@ -285,7 +285,7 @@ uint32 DamageOverTime::doPoisonTick(CreatureObject* victim, CreatureObject* atta
 		absorptionMod = Math::max(0, Math::min(75, victim->getSkillMod("absorption_poison")));
 		damagePrt2 = (int)(damagePrt2 * (1.f - absorptionMod / 100.f));
 	}
-	int totalDamage = damage + damagePrt1 + damagePrt2;
+	int totalDamage = Math::min(400, damage) + damagePrt1 + damagePrt2;
 	if (attr < totalDamage) {
 		//System::out << "setting strength to " << attr -1 << endl;
 		damage = attr - 1;
