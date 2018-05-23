@@ -266,8 +266,13 @@ uint32 DamageOverTime::doPoisonTick(CreatureObject* victim, CreatureObject* atta
 	
 
 	int damage = (int)(strength);
+	int damagePrt0;
 	int damagePrt1 = 0;
 	int damagePrt2 = 0;
+	if (damage < 400)
+		damagePrt0 = damage;
+	else
+		damagePrt0 = 400;
 	if (damage > 400)
 		damagePrt1 = damage - 400;
 	if (damage > 1000)
@@ -285,7 +290,7 @@ uint32 DamageOverTime::doPoisonTick(CreatureObject* victim, CreatureObject* atta
 		absorptionMod = Math::max(0, Math::min(75, victim->getSkillMod("absorption_poison")));
 		damagePrt2 = (int)(damagePrt2 * (1.f - absorptionMod / 100.f));
 	}
-	int totalDamage = Math::min(400, damage) + damagePrt1 + damagePrt2;
+	int totalDamage = damagePrt0 + damagePrt1 + damagePrt2;
 	if (attr < totalDamage) {
 		//System::out << "setting strength to " << attr -1 << endl;
 		damage = attr - 1;
