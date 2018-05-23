@@ -74,6 +74,9 @@ public:
 			creature->doCombatAnimation(targetCreature, animCRC, 0x1, 0xFF);
 			CombatManager::instance()->broadcastCombatSpam(creature, targetCreature, NULL, forceTransfer, "cbt_spam", combatSpam, 0);
 
+			//Jedi Attackable
+			playerGhost->updateLastJediAttackableTimestamp();
+
 			return SUCCESS;
 		}
 
