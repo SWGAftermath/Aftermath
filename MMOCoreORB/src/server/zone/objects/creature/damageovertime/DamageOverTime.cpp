@@ -320,8 +320,11 @@ uint32 DamageOverTime::doDiseaseTick(CreatureObject* victim, CreatureObject* att
 	if (victim->isIncapacitated() && victim->isFeigningDeath() == false)
 		return 0;
 
-	int absorptionMod = Math::max(0, Math::min(50, victim->getSkillMod("absorption_disease")));
-
+	//int absorptionMod = Math::max(0, Math::min(50, victim->getSkillMod("absorption_disease")));
+	int absorptionMod = 0;
+	if (strength > 400 && victim->isPlayerCreature())
+		absorptionMod = 75;
+	
 	// absorption reduces the strength of a dot by the given %.
 	// make sure that the CM dots modify the strength
 	int damage = (int)(strength * (1.f - absorptionMod / 100.f) * (1.f + victim->getShockWounds() / 100.0f));
