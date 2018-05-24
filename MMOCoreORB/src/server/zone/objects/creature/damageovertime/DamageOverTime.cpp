@@ -283,11 +283,11 @@ uint32 DamageOverTime::doPoisonTick(CreatureObject* victim, CreatureObject* atta
 
 	// absorption reduces the strength of a dot by the given %.
 	if (damagePrt1 > 0){
-		absorptionMod = Math::max(0, Math::min(50, victim->getSkillMod("absorption_poison")));
+		absorptionMod = Math::max(0, Math::min(25, victim->getSkillMod("absorption_poison"))) + 25;
 		damagePrt1 = (int)(damagePrt1 * (1.f - absorptionMod / 100.f));
 	}
 	if (damagePrt2 > 0){
-		absorptionMod = Math::max(0, Math::min(75, victim->getSkillMod("absorption_poison")));
+		absorptionMod = Math::max(0, Math::min(50, victim->getSkillMod("absorption_poison"))) + 25;
 		damagePrt2 = (int)(damagePrt2 * (1.f - absorptionMod / 100.f));
 	}
 	int totalDamage = damagePrt0 + damagePrt1 + damagePrt2;
