@@ -275,8 +275,10 @@ uint32 DamageOverTime::doPoisonTick(CreatureObject* victim, CreatureObject* atta
 		damagePrt0 = 400;
 	if (damage > 400)
 		damagePrt1 = damage - 400;
-	if (damage > 1000)
-		damagePrt2 = damage - 1000; 
+	if (damage > 1000){
+		damagePrt2 = damage - 1000;
+		damagePrt1 = 600;
+	} 
 	//int totalDamage = damage;
 	//int tempDamage = 0;
 
