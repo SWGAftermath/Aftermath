@@ -1335,6 +1335,7 @@ void PlayerObjectImplementation::notifyOnline() {
 	if (ghost != NULL && playerCreature->hasSkill("force_title_jedi_rank_02") && ghost->hasAbility("forceRun2")){
 		SkillManager::instance()->removeAbility(ghost, "forceRun2", true);
 	}
+	playerCreature->schedulePersonalEnemyFlagTasks();
 }
 
 void PlayerObjectImplementation::notifyOffline() {
