@@ -1622,7 +1622,8 @@ int PlayerManagerImplementation::awardExperience(CreatureObject* player, const S
 	} else if (xpType == "imagedesigner" ||
 		xpType == "music" || 
 		xpType == "dance" ||
-		xpType == "entertainer_healing"){
+		xpType == "entertainer_healing" ||
+		xpType == "bio_engineer_dna_harvesting"){
 			xp = playerObject->addExperience(xpType, (amount * 10));
 			float speciesModifier = 1.f;
 
