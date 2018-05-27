@@ -12,6 +12,7 @@
 #include "server/zone/managers/player/PlayerManager.h"
 #include "server/chat/ChatManager.h"
 #include "server/zone/objects/group/GroupObject.h"
+#include "server/zone/objects/player/FactionStatus.h"
 
 FactionManager::FactionManager() {
 	setLoggingName("FactionManager");
@@ -188,7 +189,7 @@ void FactionManager::awardPvpFactionPoints(TangibleObject* killer, CreatureObjec
 					Reference<CreatureObject*> groupMember = group->getGroupMember(x);
 					if (groupMember == killerCreature)
 						continue;
-					if (groupMember->isRebel() && groupMember->isInRange(killerCreature, 128.0f))
+					if (groupMember->isRebel() && groupMember->isInRange(killerCreature, 128.0f) && (groupMember->getPlayerObject()->hasPvpTef() || groupMember->getPlayerObject()->hasJediTef() || groupMember->getFactionStatus() == FactionStatus::OVERT))
 						players.add(groupMember);
 				}
 			} else {
@@ -204,6 +205,8 @@ void FactionManager::awardPvpFactionPoints(TangibleObject* killer, CreatureObjec
 			}
 
 			int dividedKill = 5000 / players.size();
+			if (players.size() == 1)
+				dividedKill = 2500;
 			for (int i = 0; i < players.size(); i++){
 				ManagedReference<CreatureObject*> player = players.get(i);
 				ManagedReference<PlayerManager*> groupPlayerManager = player->getZoneServer()->getPlayerManager();
@@ -232,7 +235,7 @@ void FactionManager::awardPvpFactionPoints(TangibleObject* killer, CreatureObjec
 					Reference<CreatureObject*> groupMember = group->getGroupMember(x);
 					if (groupMember == killerCreature)
 						continue;
-					if (groupMember->isImperial() && groupMember->isInRange(killerCreature, 128.0f))
+					if (groupMember->isImperial() && groupMember->isInRange(killerCreature, 128.0f) && (groupMember->getPlayerObject()->hasPvpTef() || groupMember->getPlayerObject()->hasJediTef() || groupMember->getFactionStatus() == FactionStatus::OVERT))
 						players.add(groupMember);
 				}
 			} else {
@@ -248,6 +251,8 @@ void FactionManager::awardPvpFactionPoints(TangibleObject* killer, CreatureObjec
 			}
 
 			int dividedKill = 5000 / players.size();
+			if (players.size() == 1)
+				dividedKill = 2500;
 			for (int i = 0; i < players.size(); i++){
 				ManagedReference<CreatureObject*> player = players.get(i);
 				ManagedReference<PlayerManager*> groupPlayerManager = player->getZoneServer()->getPlayerManager();
