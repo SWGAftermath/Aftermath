@@ -51,8 +51,8 @@ object_tangible_food_crafted_dessert_pyollian_cake = object_tangible_food_crafte
 	effectType = 3, -- Event Based Buff
 	eventTypes = {CRAFTINGASSEMBLY},
 
-	fillingMin = 18,
-	fillingMax = 9,
+	fillingMin = 3,
+	fillingMax = 1,
 	flavorMin = 1,
 	flavorMax = 1,
 	nutritionMin = 5,
