@@ -103,7 +103,11 @@ public:
 		}
 	}
 
-	void unsetBadge(Badge* badge) {
+	void unsetBadge(const uint badgeid) {
+			const Badge* badge = BadgeList::instance()->get(badgeid);
+			unsetBadge(badge);
+	}
+	void unsetBadge(const Badge* badge) {
 		if (badge == NULL) return;
 		Locker locker(this);
 
