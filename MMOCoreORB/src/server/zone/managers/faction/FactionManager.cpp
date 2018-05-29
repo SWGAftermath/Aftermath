@@ -187,8 +187,8 @@ void FactionManager::awardPvpFactionPoints(TangibleObject* killer, CreatureObjec
 				playerCount = group->getNumberOfPlayerMembers();
 				for (int x=0; x< group->getGroupSize(); x++){
 					Reference<CreatureObject*> groupMember = group->getGroupMember(x);
-					if (groupMember == killerCreature)
-						continue;
+					//if (groupMember == killerCreature)
+					//	continue;
 					if (groupMember->isRebel() && groupMember->isInRange(killerCreature, 128.0f) && (groupMember->getPlayerObject()->hasPvpTef() || groupMember->getPlayerObject()->hasJediTef() || groupMember->getFactionStatus() == FactionStatus::OVERT))
 						players.add(groupMember);
 				}
@@ -233,8 +233,8 @@ void FactionManager::awardPvpFactionPoints(TangibleObject* killer, CreatureObjec
 				playerCount = group->getNumberOfPlayerMembers();
 				for (int x=0; x< group->getGroupSize(); x++){
 					Reference<CreatureObject*> groupMember = group->getGroupMember(x);
-					if (groupMember == killerCreature)
-						continue;
+					//if (groupMember == killerCreature)
+					//	continue;
 					if (groupMember->isImperial() && groupMember->isInRange(killerCreature, 128.0f) && (groupMember->getPlayerObject()->hasPvpTef() || groupMember->getPlayerObject()->hasJediTef() || groupMember->getFactionStatus() == FactionStatus::OVERT))
 						players.add(groupMember);
 				}
