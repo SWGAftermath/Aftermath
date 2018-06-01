@@ -389,6 +389,7 @@
 #include "server/zone/objects/creature/commands/KillPlayerCommand.h"
 #include "server/zone/objects/creature/commands/KipUpShotCommand.h"
 #include "server/zone/objects/creature/commands/KneelCommand.h"
+#include "server/zone/objects/creature/commands/KnifeJabCommand.h"
 #include "server/zone/objects/creature/commands/KnockdownAttackCommand.h"
 #include "server/zone/objects/creature/commands/KnockdownFireCommand.h"
 #include "server/zone/objects/creature/commands/LagCommand.h"
@@ -800,6 +801,7 @@ void CommandConfigManager::registerCommands2() {
 	commandFactory.registerCommand<KillPlayerCommand>(String("killPlayer").toLowerCase());
 	commandFactory.registerCommand<KipUpShotCommand>(String("kipUpShot").toLowerCase());
 	commandFactory.registerCommand<KneelCommand>(String("kneel").toLowerCase());
+	commandFactory.registerCommand<KnifeJabCommand>(String("knifeJab").toLowerCase());
 	commandFactory.registerCommand<KnockdownAttackCommand>(String("knockdownAttack").toLowerCase());
 	commandFactory.registerCommand<KnockdownFireCommand>(String("knockdownFire").toLowerCase());
 	commandFactory.registerCommand<LagCommand>(String("lag").toLowerCase());
