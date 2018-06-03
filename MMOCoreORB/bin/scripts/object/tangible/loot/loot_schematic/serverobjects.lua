@@ -151,3 +151,6 @@ includeFile("tangible/loot/loot_schematic/marine_leggings_crafted_schematic.lua"
 includeFile("tangible/loot/loot_schematic/musty_house_loot_schem.lua")
 includeFile("tangible/loot/loot_schematic/vehicle_house_loot_schem.lua")
 includeFile("tangible/loot/loot_schematic/bespin_house_loot_schem.lua")
+
+--lightsaber
+includeFile("tangible/loot/loot_schematic/lightsaber_pike_s1_gen4_schematic.lua")
