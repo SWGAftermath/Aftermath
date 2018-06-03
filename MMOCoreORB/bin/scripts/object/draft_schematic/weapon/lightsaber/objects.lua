@@ -873,3 +873,9 @@ object_draft_schematic_weapon_lightsaber_shared_lightsaber_two_hand_gen5 = Share
 }
 
 ObjectTemplates:addClientTemplate(object_draft_schematic_weapon_lightsaber_shared_lightsaber_two_hand_gen5, "object/draft_schematic/weapon/lightsaber/shared_lightsaber_two_hand_gen5.iff")
+
+object_draft_schematic_weapon_lightsaber_shared_lightsaber_pike_s1_gen4 = SharedDraftSchematicObjectTemplate:new {
+	clientTemplateFileName = "object/draft_schematic/weapon/lightsaber/shared_lightsaber_pike_s1_gen4.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_draft_schematic_weapon_lightsaber_shared_lightsaber_pike_s1_gen4, "object/draft_schematic/weapon/lightsaber/shared_lightsaber_pike_s1_gen4.iff")

@@ -1,4 +1,4 @@
---Copyright (C) 2010 <SWGEmu>
+ike_s1-Copyright (C) 2010 <SWGEmu>
 
 
 --This File is part of Core3.
@@ -41,25 +41,41 @@
 --this exception also makes it possible to release a modified version 
 
 
+object_draft_schematic_weapon_lightsaber_lightsaber_pike_s1_gen4 = object_draft_schematic_weapon_lightsaber_shared_lightsaber_pike_s1_gen4:new {
 
---Children folder includes
+   templateType = DRAFTSCHEMATIC,
 
--- Server Objects
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_one_hand_gen1.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_one_hand_gen2.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_one_hand_gen3.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_one_hand_gen4.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_one_hand_gen5.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_polearm_gen1.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_polearm_gen2.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_polearm_gen3.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_polearm_gen4.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_polearm_gen5.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_refined_crystal_pack.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_training.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_two_hand_gen1.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_two_hand_gen2.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_two_hand_gen3.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_two_hand_gen4.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_two_hand_gen5.lua")
-includeFile("draft_schematic/weapon/lightsaber/lightsaber_pike_s1_gen4.lua")
+   customObjectName = "Pike Fourth Generation Lightsaber",
+
+   craftingToolTab = 2048, -- (See DraftSchematicObjectTemplate.h)
+   complexity = 19, 
+   size = 1, 
+
+   xpType = "jedi_general", 
+   xp = 0, 
+
+   assemblySkill = "jedi_saber_assembly", 
+   experimentingSkill = "jedi_saber_experimentation", 
+   customizationSkill = "jedi_customization", 
+   factoryCrateSize = 0,   
+
+   customizationOptions = {},
+   customizationStringNames = {},
+   customizationDefaults = {},
+
+   ingredientTemplateNames = {"craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n"},
+   ingredientTitleNames = {"emitter_shroud", "primary_crystal", "activator", "handgrip", "focusing_crystals", "power_field_insulator", "energizers"},
+   ingredientSlotType = {0, 1, 0, 0, 1, 0, 0},
+   resourceTypes = {"steel_duralloy", "object/tangible/component/weapon/lightsaber/shared_lightsaber_refined_crystal_pack.iff", "aluminum_titanium", "petrochem_inert_polymer", "object/tangible/component/weapon/lightsaber/shared_lightsaber_refined_crystal_pack.iff", "gas_inert_culsion", "copper_polysteel"},
+   resourceQuantities = {40, 1, 30, 46, 1, 58, 58},
+   contribution = {100, 100, 100, 100, 100, 100, 100},
+
+
+   targetTemplate = "object/weapon/melee/polearm/crafted_saber/sword_lightsaber_pike_s1_gen4.iff",
+
+   additionalTemplates = {
+              "object/weapon/melee/polearm/crafted_saber/shared_sword_lightsaber_pike_s1_gen4.iff",
+             }
+
+}
+ObjectTemplates:addTemplate(object_draft_schematic_weapon_lightsaber_lightsaber_pike_s1_gen4, "object/draft_schematic/weapon/lightsaber/lightsaber_pike_s1_gen4.iff")
