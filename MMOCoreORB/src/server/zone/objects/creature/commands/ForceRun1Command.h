@@ -28,7 +28,7 @@ public:
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
 		// Return if Jedi is rooted
 		if (creature->isSnared()){
-			creature->sendSystemMessage("Cannot Force Run while ROOTED");
+			creature->sendSystemMessage("Something is preventing you from using the force to run.");
 			return GENERALERROR;
 		}
 		int res = creature->hasBuff(buffCRC) ? NOSTACKJEDIBUFF : doJediSelfBuffCommand(creature);
