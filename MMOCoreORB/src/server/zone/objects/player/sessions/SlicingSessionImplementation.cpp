@@ -515,7 +515,7 @@ void SlicingSessionImplementation::handleWeaponSlice() {
 
 	switch (sliceSkill) {
 	case 5:
-		min += 5;
+		min += 10;
 		max += 5;
 	case 4:
 		min += 5;
@@ -623,7 +623,7 @@ void SlicingSessionImplementation::handleArmorSlice() {
 
 	switch (sliceSkill) {
 	case 5:
-		min += (sliceType == 0) ? 6 : 5;
+		min += (sliceType == 0) ? 15 : 10;
 		max += 5;
 	case 4:
 		min += (sliceType == 0) ? 0 : 10;
