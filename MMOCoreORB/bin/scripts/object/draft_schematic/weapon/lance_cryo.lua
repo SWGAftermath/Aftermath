@@ -41,22 +41,39 @@
 --this exception also makes it possible to release a modified version 
 
 
+object_draft_schematic_weapon_lance_cryo = object_draft_schematic_weapon_shared_lance_cryo:new {
 
---Children folder includes
-includeFile("weapon/melee/polearm/base/serverobjects.lua")
-includeFile("weapon/melee/polearm/crafted_saber/serverobjects.lua")
+   templateType = DRAFTSCHEMATIC,
 
--- Server Objects
-includeFile("weapon/melee/polearm/lance_controllerfp.lua")
-includeFile("weapon/melee/polearm/lance_controllerfp_nightsister.lua")
-includeFile("weapon/melee/polearm/lance_lightsaber_01.lua")
-includeFile("weapon/melee/polearm/lance_lightsaber_02.lua")
-includeFile("weapon/melee/polearm/lance_nightsister.lua")
-includeFile("weapon/melee/polearm/lance_nightsister_npc_version.lua")
-includeFile("weapon/melee/polearm/lance_staff_janta.lua")
-includeFile("weapon/melee/polearm/lance_staff_metal.lua")
-includeFile("weapon/melee/polearm/lance_staff_wood_s1.lua")
-includeFile("weapon/melee/polearm/lance_staff_wood_s2.lua")
-includeFile("weapon/melee/polearm/lance_vibrolance.lua")
-includeFile("weapon/melee/polearm/polearm_vibro_axe.lua")
-includeFile("weapon/melee/polearm/lance_cryo.lua")
+   customObjectName = "Cryo Lance",
+
+   craftingToolTab = 1, -- (See DraftSchematicObjectTemplate.h)
+   complexity = 30, 
+   size = 4, 
+
+   xpType = "crafting_weapons_general", 
+   xp = 130, 
+
+   assemblySkill = "weapon_assembly", 
+   experimentingSkill = "weapon_experimentation", 
+   customizationSkill = "weapon_customization", 
+
+   customizationOptions = {},
+   customizationStringNames = {},
+   customizationDefaults = {},
+
+   ingredientTemplateNames = {"craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n"},
+   ingredientTitleNames = {"lance_shaft", "vibro_unit_and_power_cell_brackets", "grip", "reinforcement_core"},
+   ingredientSlotType = {0, 0, 0, 1},
+   resourceTypes = {"steel_ditanium", "copper_polysteel", "metal", "object/tangible/component/weapon/shared_reinforcement_core.iff"},
+   resourceQuantities = {38, 17, 6, 1},
+   contribution = {100, 100, 100, 100},
+
+
+   targetTemplate = "object/weapon/melee/polearm/lance_cryo.iff",
+
+   additionalTemplates = {
+             }
+
+}
+ObjectTemplates:addTemplate(object_draft_schematic_weapon_lance_cryp, "object/draft_schematic/weapon/lance_cryo.iff")
