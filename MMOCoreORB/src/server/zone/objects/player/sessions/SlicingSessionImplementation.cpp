@@ -623,7 +623,7 @@ void SlicingSessionImplementation::handleArmorSlice() {
 
 	switch (sliceSkill) {
 	case 5:
-		min += (sliceType == 0) ? 15 : 10;
+		min += (sliceType == 0) ? 16 : 15;
 		max += 5;
 	case 4:
 		min += (sliceType == 0) ? 0 : 10;
