@@ -154,3 +154,6 @@ includeFile("tangible/loot/loot_schematic/bespin_house_loot_schem.lua")
 
 --lightsaber
 includeFile("tangible/loot/loot_schematic/lightsaber_pike_s1_gen4_schematic.lua")
+
+--new weapons
+includeFile("tangible/loot/loot_schematic/carbine_geo_schematic.lua")

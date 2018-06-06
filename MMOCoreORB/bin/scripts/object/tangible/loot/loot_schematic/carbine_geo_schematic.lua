@@ -41,22 +41,13 @@
 --this exception also makes it possible to release a modified version 
 
 
+object_tangible_loot_loot_schematic_carbine_geo_schematic = object_tangible_loot_loot_schematic_shared_carbine_geo_schematic:new {
+	templateType = LOOTSCHEMATIC,
+	objectMenuComponent = "LootSchematicMenuComponent",
+	attributeListComponent = "LootSchematicAttributeListComponent",
+	requiredSkill = "crafting_weaponsmith_master",
+	targetDraftSchematic = "object/draft_schematic/weapon/carbine_geo.iff",
+	targetUseCount = 1
+}
 
---Children folder includes
-includeFile("weapon/ranged/carbine/base/serverobjects.lua")
-
--- Server Objects
-includeFile("weapon/ranged/carbine/carbine_cdef.lua")
-includeFile("weapon/ranged/carbine/carbine_cdef_corsec.lua")
-includeFile("weapon/ranged/carbine/carbine_dh17.lua")
-includeFile("weapon/ranged/carbine/carbine_dh17_black.lua")
-includeFile("weapon/ranged/carbine/carbine_dh17_snubnose.lua")
-includeFile("weapon/ranged/carbine/carbine_dxr6.lua")
-includeFile("weapon/ranged/carbine/carbine_e11.lua")
-includeFile("weapon/ranged/carbine/carbine_e11_quest.lua")
-includeFile("weapon/ranged/carbine/carbine_e11_victor_quest.lua")
-includeFile("weapon/ranged/carbine/carbine_ee3.lua")
-includeFile("weapon/ranged/carbine/carbine_elite.lua")
-includeFile("weapon/ranged/carbine/carbine_laser.lua")
-includeFile("weapon/ranged/carbine/carbine_nym_slugthrower.lua")
-includeFile("weapon/ranged/carbine/carbine_geo.lua")
+ObjectTemplates:addTemplate(object_tangible_loot_loot_schematic_carbine_geo_schematic, "object/tangible/loot/loot_schematic/carbine_geo_schematic.iff")

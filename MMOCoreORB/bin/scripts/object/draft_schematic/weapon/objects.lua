@@ -4113,3 +4113,9 @@ object_draft_schematic_weapon_shared_lance_cryo = SharedDraftSchematicObjectTemp
 }
 
 ObjectTemplates:addClientTemplate(object_draft_schematic_weapon_shared_lance_cryo, "object/draft_schematic/weapon/shared_lance_cryo.iff")
+
+object_draft_schematic_weapon_shared_carbine_geo = SharedDraftSchematicObjectTemplate:new {
+	clientTemplateFileName = "object/draft_schematic/weapon/shared_carbine_geo.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_draft_schematic_weapon_shared_carbine_geo, "object/draft_schematic/weapon/shared_carbine_geo.iff")
