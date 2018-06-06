@@ -46,7 +46,7 @@ object_tangible_loot_loot_schematic_lightsaber_pike_s1_gen4_schematic = object_t
 	objectMenuComponent = "LootSchematicMenuComponent",
 	attributeListComponent = "LootSchematicAttributeListComponent",
 	requiredSkill = "crafting_armorsmith_master",
-	targetDraftSchematic = "object/draft_schematic/weappon/lightsaber/lightsaber_pike_s1_gen4.iff",
+	targetDraftSchematic = "object/draft_schematic/weapon/lightsaber/lightsaber_pike_s1_gen4.iff",
 	targetUseCount = 1
 }
 
