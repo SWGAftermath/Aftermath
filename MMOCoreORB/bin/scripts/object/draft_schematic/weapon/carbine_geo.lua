@@ -41,22 +41,40 @@
 --this exception also makes it possible to release a modified version 
 
 
+object_draft_schematic_weapon_carbine_geo = object_draft_schematic_weapon_shared_carbine_geo:new {
 
---Children folder includes
-includeFile("weapon/ranged/carbine/base/serverobjects.lua")
+   templateType = DRAFTSCHEMATIC,
 
--- Server Objects
-includeFile("weapon/ranged/carbine/carbine_cdef.lua")
-includeFile("weapon/ranged/carbine/carbine_cdef_corsec.lua")
-includeFile("weapon/ranged/carbine/carbine_dh17.lua")
-includeFile("weapon/ranged/carbine/carbine_dh17_black.lua")
-includeFile("weapon/ranged/carbine/carbine_dh17_snubnose.lua")
-includeFile("weapon/ranged/carbine/carbine_dxr6.lua")
-includeFile("weapon/ranged/carbine/carbine_e11.lua")
-includeFile("weapon/ranged/carbine/carbine_e11_quest.lua")
-includeFile("weapon/ranged/carbine/carbine_e11_victor_quest.lua")
-includeFile("weapon/ranged/carbine/carbine_ee3.lua")
-includeFile("weapon/ranged/carbine/carbine_elite.lua")
-includeFile("weapon/ranged/carbine/carbine_laser.lua")
-includeFile("weapon/ranged/carbine/carbine_nym_slugthrower.lua")
-includeFile("weapon/ranged/carbine/carbine_geo.lua")
+   customObjectName = "Geonosian Carbine",
+
+   craftingToolTab = 1, -- (See DraftSchematicObjectTemplate.h)
+   complexity = 25, 
+   size = 1, 
+
+   xpType = "crafting_weapons_general", 
+   xp = 200, 
+
+   assemblySkill = "weapon_assembly", 
+   experimentingSkill = "weapon_experimentation", 
+   customizationSkill = "weapon_customization", 
+
+   customizationOptions = {},
+   customizationStringNames = {},
+   customizationDefaults = {},
+
+   ingredientTemplateNames = {"craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n"},
+   ingredientTitleNames = {"frame_assembly", "receiver_assembly", "grip_assembly", "powerhandler", "barrel", "scope", "stock", "power_supply"},
+   ingredientSlotType = {0, 0, 0, 1, 1, 3, 3, 3, 3},
+   resourceTypes = {"aluminum_titanium", "copper_platinite", "metal", "object/tangible/component/weapon/shared_blaster_power_handler.iff", "object/tangible/component/weapon/shared_blaster_rifle_barrel.iff", "object/tangible/component/weapon/shared_scope_weapon.iff", "object/tangible/component/weapon/shared_stock.iff", "object/tangible/component/weapon/shared_geonosian_power_cube_base.iff"},
+   resourceQuantities = {65, 25, 10, 5, 1, 1, 1, 1},
+   contribution = {100, 100, 100, 100, 100, 100, 100, 100},
+   ingredientAppearance = {"", "", "", "", "", "scope", "stock", ""},
+
+
+   targetTemplate = "object/weapon/ranged/carbine/carbine_geo.iff",
+
+   additionalTemplates = {
+             }
+
+}
+ObjectTemplates:addTemplate(object_draft_schematic_weapon_rifle_disrupter_geo, "object/draft_schematic/weapon/rifle_disrupter_geo.iff")

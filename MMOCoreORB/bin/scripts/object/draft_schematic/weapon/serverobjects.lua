@@ -131,3 +131,6 @@ includeFile("draft_schematic/weapon/sword_curved.lua")
 includeFile("draft_schematic/weapon/sword_ryyk_blade.lua")
 includeFile("draft_schematic/weapon/turbo_laser.lua")
 includeFile("draft_schematic/weapon/lance_cryo.lua")
+
+--new weapons
+includeFile("draft_schematic/weapon/carbine_geo.lua")
