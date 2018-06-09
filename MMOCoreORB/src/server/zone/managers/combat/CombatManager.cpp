@@ -1339,7 +1339,7 @@ float CombatManager::doDroidDetonation(CreatureObject* droid, CreatureObject* de
 	}
 	if (defender->isCreatureObject()) {
 		if (defender->isPlayerCreature())
-			damage *= 0.3;
+			damage *= 0.25;
 		// pikc a pool to target
 		int pool = calculatePoolsToDamage(RANDOM);
 		// we now have damage to use lets apply it
@@ -1472,7 +1472,7 @@ float CombatManager::calculateDamage(CreatureObject* attacker, WeaponObject* wea
 
 	// PvP Damage Reduction.
 	if (attacker->isPlayerCreature() && defender->isPlayerCreature()) {
-		damage *= 0.3;
+		damage *= 0.25;
 	}
 
 	if (damage < 1) damage = 1;
@@ -1571,7 +1571,7 @@ int CombatManager::getHitChance(TangibleObject* attacker, CreatureObject* target
 		// saber block is special because it's just a % chance to block based on the skillmod
 		if (def == "saber_block") {
 			if ((attacker->isPlayerCreature() && weapon->getAttackType() == SharedWeaponObjectTemplate::RANGEDATTACK) && attacker->asCreatureObject()->hasSkill("combat_bountyhunter_master")){
-				if (System::random(102) < targetCreature->getSkillMod(def)){
+				if (System::random(105) < targetCreature->getSkillMod(def)){
 					return RICOCHET;
 				} else {
 					return HIT;
@@ -1634,7 +1634,7 @@ float CombatManager::calculateWeaponAttackSpeed(CreatureObject* attacker, Weapon
 	float attackSpeed = (1.0f - ((float) speedMod / 100.0f)) * skillSpeedRatio * weapon->getAttackSpeed();
 
 	if (jediSpeed > 0)
-		attackSpeed = attackSpeed * jediSpeed;
+		attackSpeed = attackSpeed - (attackSpeed * jediSpeed);
 
 	return Math::max(attackSpeed, 1.0f);
 }

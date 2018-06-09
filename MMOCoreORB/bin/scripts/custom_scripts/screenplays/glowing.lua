@@ -7,7 +7,7 @@ Glowing = ScreenPlay:new {
 		{ type = "exploration_dangerous", amount = 4 },
 		{ type = "exploration_easy", amount = 25 },
 		{ type = "master", amount = 6 },
-		{ type = "content", amount = 5 },
+		{ type = "content", amount = 3 },
 	}
 }
 

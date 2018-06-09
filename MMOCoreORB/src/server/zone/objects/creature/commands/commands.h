@@ -371,6 +371,7 @@
 #include "KillPlayerCommand.h"
 #include "KipUpShotCommand.h"
 #include "KneelCommand.h"
+#include "KnifeJabCommand.h"
 #include "KnockdownAttackCommand.h"
 #include "KnockdownFireCommand.h"
 #include "LagCommand.h"

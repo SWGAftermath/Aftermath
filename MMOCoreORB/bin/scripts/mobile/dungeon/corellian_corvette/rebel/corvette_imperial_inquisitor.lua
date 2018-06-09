@@ -31,15 +31,11 @@ corvette_imperial_inquisitor = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "color_crystals", chance = 100000},
+				{group = "color_crystals", chance = 600000},
 				{group = "junk", chance = 6650000},
-				{group = "rifles", chance = 550000},
-				{group = "pistols", chance = 550000},
-				{group = "melee_weapons", chance = 550000},
-				{group = "carbines", chance = 550000},
-				{group = "clothing_attachments", chance = 25000},
-				{group = "armor_attachments", chance = 25000},
-				{group = "wearables_all", chance = 1000000}
+				{group = "clothing_attachments", chance = 575000},
+				{group = "armor_attachments", chance = 575000},
+				{group = "wearables_all", chance = 1600000}
 			}
 		}
 	},

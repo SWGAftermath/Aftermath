@@ -4107,3 +4107,15 @@ object_draft_schematic_weapon_shared_turbo_laser = SharedDraftSchematicObjectTem
 }
 
 ObjectTemplates:addClientTemplate(object_draft_schematic_weapon_shared_turbo_laser, "object/draft_schematic/weapon/shared_turbo_laser.iff")
+
+object_draft_schematic_weapon_shared_lance_cryo = SharedDraftSchematicObjectTemplate:new {
+	clientTemplateFileName = "object/draft_schematic/weapon/shared_lance_cryo.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_draft_schematic_weapon_shared_lance_cryo, "object/draft_schematic/weapon/shared_lance_cryo.iff")
+
+object_draft_schematic_weapon_shared_carbine_geo = SharedDraftSchematicObjectTemplate:new {
+	clientTemplateFileName = "object/draft_schematic/weapon/shared_carbine_geo.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_draft_schematic_weapon_shared_carbine_geo, "object/draft_schematic/weapon/shared_carbine_geo.iff")

@@ -59,7 +59,7 @@ object_tangible_food_crafted_dish_cho_nor_hoola = object_tangible_food_crafted_s
 	quantityMin = 6,
 	quantityMax = 10,
 
-	modifiers = { "poison_disease_resist", 0 },
+	modifiers = { "poison_disease_resist", 0, "absorption_poison", 0 },
 
 	buffName = "food.poison_disease_resist",
 	buffCRC = 0,

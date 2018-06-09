@@ -369,6 +369,22 @@ includeFile("groups/terminals/axkva_min_terminal.lua")
 
 --other aftermath groups
 includeFile("groups/aftermath/loot_schems.lua")
+includeFile("groups/aftermath/am_paintings.lua")
+includeFile("groups/aftermath/mtfbwy.lua")
+includeFile("groups/aftermath/exclusive1.lua")
+includeFile("groups/aftermath/exclusive2.lua")
+includeFile("groups/aftermath/exclusive3.lua")
+includeFile("groups/aftermath/exclusive4.lua")
+includeFile("groups/aftermath/exclusive5.lua")
+includeFile("groups/aftermath/exclusive6.lua")
+includeFile("groups/aftermath/exclusive7.lua")
+includeFile("groups/aftermath/exclusive8.lua")
+includeFile("groups/aftermath/exclusive9.lua")
+includeFile("groups/aftermath/exclusive10.lua")
+includeFile("groups/aftermath/exclusive11.lua")
+includeFile("groups/aftermath/exclusive12.lua")
+includeFile("groups/aftermath/exclusive13.lua")
+includeFile("groups/aftermath/exclusive14.lua")
 
 --Dathomir Bunker
 includeFire("group/dathomir_bunker/skill_buffs.lua")

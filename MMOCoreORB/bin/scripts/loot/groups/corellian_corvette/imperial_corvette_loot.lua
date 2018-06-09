@@ -12,9 +12,8 @@ imperial_corvette_loot = {
 		{itemTemplate = "rifle_lightning", weight = 800000},
 		{itemTemplate = "berserker_schematic", weight = 500000},
 		{itemTemplate = "corvette_rifle_barrel", weight = 500000},
-		{itemTemplate = "veh_power_plant_av21", weight = 500000},
+		{itemTemplate = "veh_power_plant_av21", weight = 2000000},
 		{itemTemplate = "spice_crash_n_burn", weight = 1500000},
-		{itemTemplate = "spice_giggledust", weight = 1500000},
 		{itemTemplate = "bantha_doll", weight = 1500000},
 
 	}

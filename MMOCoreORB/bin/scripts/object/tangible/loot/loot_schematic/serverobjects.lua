@@ -146,3 +146,14 @@ includeFile("tangible/loot/loot_schematic/marine_bicep_l_crafted_schematic.lua")
 includeFile("tangible/loot/loot_schematic/marine_bicep_r_crafted_schematic.lua")
 includeFile("tangible/loot/loot_schematic/marine_boots_crafted_schematic.lua")
 includeFile("tangible/loot/loot_schematic/marine_leggings_crafted_schematic.lua")
+
+--nge houses
+includeFile("tangible/loot/loot_schematic/musty_house_loot_schem.lua")
+includeFile("tangible/loot/loot_schematic/vehicle_house_loot_schem.lua")
+includeFile("tangible/loot/loot_schematic/bespin_house_loot_schem.lua")
+
+--lightsaber
+includeFile("tangible/loot/loot_schematic/lightsaber_polearm_s1_pike_gen4_schematic.lua")
+
+--new weapons
+includeFile("tangible/loot/loot_schematic/carbine_geo_schematic.lua")

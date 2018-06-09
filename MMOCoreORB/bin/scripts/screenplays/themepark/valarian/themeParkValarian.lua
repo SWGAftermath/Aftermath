@@ -1,3 +1,5 @@
+THEME_PARK_VALARIAN_BADGE = 146
+
 kavas_missions =
 	{
 		{
@@ -318,6 +320,7 @@ lady_valarian_missions =
 			{
 				{ rewardType = "credits", amount = 14000 },
 				{ rewardType = "faction", faction = "valarian", amount = 300 },
+				{ rewardType = "badge", badge = THEME_PARK_VALARIAN_BADGE },
 				{ rewardType = "loot",  lootGroup = "task_reward_valarian_dagger" }
 			}
 		},

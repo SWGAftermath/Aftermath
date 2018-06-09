@@ -100,3 +100,8 @@ includeFile("draft_schematic/structure/naboo_house_player_medium.lua")
 includeFile("draft_schematic/structure/naboo_house_player_small.lua")
 includeFile("draft_schematic/structure/naboo_house_player_small_style_02.lua")
 includeFile("draft_schematic/structure/tatooine_house_guild_hall_style_02.lua")
+
+--nge houses
+includeFile("draft_schematic/structure/musty_house_schem.lua")
+includeFile("draft_schematic/structure/vehicle_house_schem.lua")
+includeFile("draft_schematic/structure/bespin_house_schem.lua")

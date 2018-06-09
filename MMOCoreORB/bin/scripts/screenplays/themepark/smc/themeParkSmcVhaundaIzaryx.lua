@@ -1,3 +1,5 @@
+THEME_PARK_SMC_BADGE = 145
+
 vhaunda_missions =
 {
 	{
@@ -91,6 +93,7 @@ izaryx_missions =
 		rewards =
 		{
 			{ rewardType = "faction", faction = "mtn_clan", amount = 10 },
+			{ rewardType = "badge", badge = THEME_PARK_SMC_BADGE },
 			{ rewardType = "credits", amount = 850 }
 		}
 	}

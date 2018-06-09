@@ -4767,3 +4767,172 @@ object_tangible_painting_shared_painting_lambada_flyover = SharedTangibleObjectT
 	}
 
 ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_lambada_flyover, "object/tangible/painting/shared_painting_lambada_flyover.iff")
+
+object_tangible_painting_shared_painting_emperor = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_emperor.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_emperor, "object/tangible/painting/shared_painting_emperor.iff")
+
+object_tangible_painting_shared_painting_bobafett = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_bobafett.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_bobafett, "object/tangible/painting/shared_painting_bobafett.iff")
+
+object_tangible_painting_shared_painting_deathstar = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_deathstar.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_deathstar, "object/tangible/painting/shared_painting_deathstar.iff")
+
+object_tangible_painting_shared_painting_silhouette = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_silhouette.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_silhouette, "object/tangible/painting/shared_painting_silhouette.iff")
+
+object_tangible_painting_shared_painting_tfaset_1 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_tfaset_1.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_tfaset_1, "object/tangible/painting/shared_painting_tfaset_1.iff")
+
+object_tangible_painting_shared_painting_tfaset_2 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_tfaset_2.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_tfaset_2, "object/tangible/painting/shared_painting_tfaset_2.iff")
+
+object_tangible_painting_shared_painting_tfaset_3 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_tfaset_3.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_tfaset_3, "object/tangible/painting/shared_painting_tfaset_3.iff")
+
+object_tangible_painting_shared_painting_tfaset_4 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_tfaset_4.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_tfaset_4, "object/tangible/painting/shared_painting_tfaset_4.iff")
+
+object_tangible_painting_shared_painting_xwing01 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_xwing01.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_xwing01, "object/tangible/painting/shared_painting_xwing01.iff")
+
+object_tangible_painting_shared_painting_mtfbwy2018 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_mtfbwy2018.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_mtfbwy2018, "object/tangible/painting/shared_painting_mtfbwy2018.iff")
+
+object_tangible_painting_shared_painting_exclusive1 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_exclusive1.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_exclusive1, "object/tangible/painting/shared_painting_exclusive1.iff")
+
+object_tangible_painting_shared_painting_exclusive2 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_exclusive2.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_exclusive2, "object/tangible/painting/shared_painting_exclusive2.iff")
+
+object_tangible_painting_shared_painting_exclusive3 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_exclusive3.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_exclusive3, "object/tangible/painting/shared_painting_exclusive3.iff")
+
+object_tangible_painting_shared_painting_exclusive4 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_exclusive4.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_exclusive4, "object/tangible/painting/shared_painting_exclusive4.iff")
+
+object_tangible_painting_shared_painting_exclusive5 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_exclusive5.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_exclusive5, "object/tangible/painting/shared_painting_exclusive5.iff")
+
+object_tangible_painting_shared_painting_exclusive6 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_exclusive6.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_exclusive6, "object/tangible/painting/shared_painting_exclusive6.iff")
+
+object_tangible_painting_shared_painting_exclusive7 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_exclusive7.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_exclusive7, "object/tangible/painting/shared_painting_exclusive7.iff")
+
+object_tangible_painting_shared_painting_exclusive8 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_exclusive8.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_exclusive8, "object/tangible/painting/shared_painting_exclusive8.iff")
+
+object_tangible_painting_shared_painting_exclusive9 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_exclusive9.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_exclusive9, "object/tangible/painting/shared_painting_exclusive9.iff")
+
+object_tangible_painting_shared_painting_exclusive10 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_exclusive10.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_exclusive10, "object/tangible/painting/shared_painting_exclusive10.iff")
+
+object_tangible_painting_shared_painting_exclusive11 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_exclusive11.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_exclusive11, "object/tangible/painting/shared_painting_exclusive11.iff")
+
+object_tangible_painting_shared_painting_exclusive12 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_exclusive12.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_exclusive12, "object/tangible/painting/shared_painting_exclusive12.iff")
+
+object_tangible_painting_shared_painting_exclusive13 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_exclusive13.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_exclusive13, "object/tangible/painting/shared_painting_exclusive13.iff")
+
+object_tangible_painting_shared_painting_exclusive14 = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/painting/shared_painting_exclusive14.iff"
+
+	}
+
+ObjectTemplates:addClientTemplate(object_tangible_painting_shared_painting_exclusive14, "object/tangible/painting/shared_painting_exclusive14.iff")
+

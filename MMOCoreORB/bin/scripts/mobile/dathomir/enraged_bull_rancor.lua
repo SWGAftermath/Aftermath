@@ -30,10 +30,9 @@ enraged_bull_rancor = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "rancor_common", chance = 4000000},
-				{group = "armor_all", chance = 2000000},
-				{group = "weapons_all", chance = 2500000},
-				{group = "wearables_all", chance = 1500000}
+				{group = "rancor_common", chance = 5000000},
+				{group = "armor_all", chance = 1000000},
+				{group = "wearables_all", chance = 4000000}
 			},
 			lootChance = 2780000
 		}

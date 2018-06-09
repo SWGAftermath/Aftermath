@@ -991,16 +991,16 @@ void LootManagerImplementation::addRandomDots(TangibleObject* object, LootItemTe
 			else
 				str = strMax;
 
-			if (excMod == 1.0 && (yellowChance == 0 || System::random(yellowChance) == 0)) {
+			/*if (excMod == 1.0 && (yellowChance == 0 || System::random(yellowChance) == 0)) {
 				str *= yellowModifier;
-			}
+			}*/
 
 			if (dotType == 1)
 				str = str * 2;
 			else if (dotType == 3)
 				str = str * 1.5;
 
-			weapon->addDotStrength(str * excMod);
+			weapon->addDotStrength(str);
 
 			int durMin = randomDotDuration.elementAt(0);
 			int durMax = randomDotDuration.elementAt(1);
@@ -1011,16 +1011,16 @@ void LootManagerImplementation::addRandomDots(TangibleObject* object, LootItemTe
 			else
 				dur = durMax;
 
-			if (excMod == 1.0 && (yellowChance == 0 || System::random(yellowChance) == 0)) {
+			/*if (excMod == 1.0 && (yellowChance == 0 || System::random(yellowChance) == 0)) {
 				dur *= yellowModifier;
-			}
+			}*/
 
 			if (dotType == 2)
 				dur = dur * 5;
 			else if (dotType == 3)
 				dur = dur * 1.5;
 
-			weapon->addDotDuration(dur * excMod);
+			weapon->addDotDuration(dur);
 
 			int potMin = randomDotPotency.elementAt(0);
 			int potMax = randomDotPotency.elementAt(1);
@@ -1031,11 +1031,11 @@ void LootManagerImplementation::addRandomDots(TangibleObject* object, LootItemTe
 			else
 				pot = potMax;
 
-			if (excMod == 1.0 && (yellowChance == 0 || System::random(yellowChance) == 0)) {
+			/*if (excMod == 1.0 && (yellowChance == 0 || System::random(yellowChance) == 0)) {
 				pot *= yellowModifier;
-			}
+			}*/
 
-			weapon->addDotPotency(pot * excMod);
+			weapon->addDotPotency(pot);
 
 			int useMin = randomDotUses.elementAt(0);
 			int useMax = randomDotUses.elementAt(1);
@@ -1046,11 +1046,11 @@ void LootManagerImplementation::addRandomDots(TangibleObject* object, LootItemTe
 			else
 				use = useMax;
 
-			if (excMod == 1.0 && (yellowChance == 0 || System::random(yellowChance) == 0)) {
+			/*if (excMod == 1.0 && (yellowChance == 0 || System::random(yellowChance) == 0)) {
 				use *= yellowModifier;
-			}
+			}*/
 
-			weapon->addDotUses(use * excMod);
+			weapon->addDotUses(use);
 		}
 
 		weapon->addMagicBit(false);

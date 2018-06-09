@@ -77,6 +77,7 @@ public:
 		suiTrainerType->addMenuItem("@city/city:st_tailor", 30);
 		suiTrainerType->addMenuItem("@city/city:st_unarmed", 31);
 		suiTrainerType->addMenuItem("@city/city:st_weaponsmith", 32);
+		suiTrainerType->addMenuItem("@city/city:st_basebuster", 33);
 
 		ghost->addSuiBox(suiTrainerType);
 		creature->sendMessage(suiTrainerType->generateMessage());

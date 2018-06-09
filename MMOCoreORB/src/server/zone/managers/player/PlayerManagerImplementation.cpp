@@ -871,6 +871,7 @@ void PlayerManagerImplementation::sendActivateCloneRequest(CreatureObject* playe
 	uint64 preDesignatedFacilityOid = ghost->getCloningFacility();
 	ManagedReference<SceneObject*> preDesignatedFacility = server->getObject(preDesignatedFacilityOid);
 	String predesignatedName = "None";
+	String locationName = "None";
 
 	//Get the name of the pre-designated facility
 	if (preDesignatedFacility != NULL) {
@@ -954,6 +955,8 @@ void PlayerManagerImplementation::sendActivateCloneRequest(CreatureObject* playe
 		if (cbot == NULL)
 			continue;
 
+
+
 		if (cbot->getFacilityType() == CloningBuildingObjectTemplate::JEDI_ONLY && player->hasSkill("force_title_jedi_rank_01")) {
 			String name = "Force Shrine (" + String::valueOf((int)loc->getWorldPositionX()) + ", " + String::valueOf((int)loc->getWorldPositionY()) + ")";
 			cloneMenu->addMenuItem(name, loc->getObjectID());
@@ -965,6 +968,14 @@ void PlayerManagerImplementation::sendActivateCloneRequest(CreatureObject* playe
 				String name = "Jedi Enclave (" + String::valueOf((int)loc->getWorldPositionX()) + ", " + String::valueOf((int)loc->getWorldPositionY()) + ")";
 				cloneMenu->addMenuItem(name, loc->getObjectID());
 			}
+		} else if (cbot->getFacilityType() != CloningBuildingObjectTemplate::JEDI_ONLY){
+			String name = "None";
+			ManagedReference<CityRegion*> cr2 = loc->getCityRegion().get();
+			if (cr2 != NULL)
+				name = cr2->getRegionDisplayedName();
+			else
+				name = loc->getDisplayedName();
+			cloneMenu->addMenuItem(name, loc->getObjectID());
 		}
 	}
 
@@ -1340,8 +1351,6 @@ void PlayerManagerImplementation::disseminateExperience(TangibleObject* destruct
 					//xpAmount *= 0.2f;
 
 				//Award individual expType
-				if (xpType == "jedi_general" && playerTotal != totalDamage)
-					xpAmount *= 0.5f;
 				awardExperience(attacker, xpType, xpAmount);
 			}
 
@@ -1622,23 +1631,11 @@ int PlayerManagerImplementation::awardExperience(CreatureObject* player, const S
 	if (amount <= 0 || xpType == "jedi_general" || xpType == "gcw_currency_rebel" || xpType == "gcw_currency_imperial" ){
 		xp = playerObject->addExperience(xpType, amount);
 	} else if (xpType == "imagedesigner" ||
-		xpType == "crafting_medicine_general" ||
-		xpType == "crafting_general" ||
-		xpType == "crafting_bio_engineer_creature" ||
-		xpType == "bio_engineer_dna_harvesting" ||
-		xpType == "crafting_clothing_armor" ||
-		xpType == "crafting_weapons_general" ||
-		xpType == "crafting_food_general" || 
-		xpType == "crafting_clothing_general" || 
-		xpType == "crafting_structure_general" ||
-		xpType == "crafting_droid_general" ||
-		xpType == "crafting_spice" || 
-		xpType == "shipwright" ||
-		xpType == "bountyhunter" || 
 		xpType == "music" || 
 		xpType == "dance" ||
-		xpType == "entertainer_healing"){
-			xp = playerObject->addExperience(xpType, (amount * 5));
+		xpType == "entertainer_healing" ||
+		xpType == "bio_engineer_dna_harvesting"){
+			xp = playerObject->addExperience(xpType, (amount * 10));
 			float speciesModifier = 1.f;
 
 			if (amount > 0)
@@ -2288,11 +2285,7 @@ int PlayerManagerImplementation::healEnhance(CreatureObject* enhancer, CreatureO
 void PlayerManagerImplementation::stopListen(CreatureObject* creature, uint64 entid, bool doSendPackets, bool forced, bool doLock, bool outOfRange) {
 	Locker locker(creature);
 
-	ManagedReference<SceneObject*> object = server->getObject(entid);
 	uint64 listenID = creature->getListenID();
-
-	if (object == NULL)
-		return;
 
 	// If the player selected "Stop listening" by using a radial menu created on a
 	// musician other than the one that they are currently listening to then change
@@ -2300,6 +2293,11 @@ void PlayerManagerImplementation::stopListen(CreatureObject* creature, uint64 en
 	if (entid != listenID && listenID != 0 && creature->isListening()) {
 		entid = listenID;
 	}
+
+	ManagedReference<SceneObject*> object = server->getObject(entid);
+
+	if (object == NULL)
+		return;
 
 	if(object->isDroidObject()) {
 		creature->setMood(creature->getMoodID());
@@ -3414,7 +3412,7 @@ String PlayerManagerImplementation::banAccount(PlayerObject* admin, Account* acc
 	account->setBanReason(reason);
 	account->setBanExpires(System::getMiliTime() + seconds*1000);
 	account->setBanAdmin(admin->getAccountID());
-	
+
 	try {
 
 		Reference<CharacterList*> characters = account->getCharacterList();

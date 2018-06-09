@@ -31,7 +31,7 @@ alert_droideka = Creature:new {
 			groups = {
 				{group = "geonosian_cubes", chance = 10000000}
 			},
-			lootChance = 1800000
+			lootChance = 5800000
 	    }	
 	},
 	defaultAttack = "attack",

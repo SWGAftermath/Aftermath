@@ -33,14 +33,13 @@ nym_ranger_bunker = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "junk", chance = 5900000},
-				{group = "nyms_common", chance = 1000000},
-				{group = "pistols", chance = 1000000},
-				{group = "armor_attachments", chance = 300000},
-				{group = "clothing_attachments", chance = 300000},
-				{group = "carbines", chance = 1000000},
+				{group = "junk", chance = 3900000},
+				{group = "nyms_common", chance = 2000000},
+				{group = "armor_attachments", chance = 1800000},
+				{group = "clothing_attachments", chance = 1800000},
 				{group = "tailor_components", chance = 500000}
-			}
+			},
+			lootChance = 4500000
 		}
 	},
 	weapons = {"mixed_force_weapons"},

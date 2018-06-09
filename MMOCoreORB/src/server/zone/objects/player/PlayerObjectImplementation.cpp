@@ -1949,6 +1949,9 @@ void PlayerObjectImplementation::maximizeExperience() {
 	VectorMap<String, int>* xpCapList = getXpTypeCapList();
 
 	for (int i = 0; i < xpCapList->size(); ++i) {
+		if (xpCapList->elementAt(i).getKey() == "force_rank_xp")
+			continue;
+
 		addExperience(xpCapList->elementAt(i).getKey(), xpCapList->elementAt(i).getValue(), true);
 	}
 }
