@@ -385,3 +385,7 @@ includeFile("groups/aftermath/exclusive11.lua")
 includeFile("groups/aftermath/exclusive12.lua")
 includeFile("groups/aftermath/exclusive13.lua")
 includeFile("groups/aftermath/exclusive14.lua")
+
+--Dathomir Bunker
+includeFire("group/dathomir_bunker/skill_buffs.lua")
+includeFire("group/dathomir_bunker/weapon_components.lua")

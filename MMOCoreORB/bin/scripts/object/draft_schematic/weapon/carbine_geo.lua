@@ -45,7 +45,7 @@ object_draft_schematic_weapon_carbine_geo = object_draft_schematic_weapon_shared
 
    templateType = DRAFTSCHEMATIC,
 
-   customObjectName = "Geonosian Carbine",
+   customObjectName = "Kalranoos Carbine",
 
    craftingToolTab = 1, -- (See DraftSchematicObjectTemplate.h)
    complexity = 25, 
@@ -77,4 +77,4 @@ object_draft_schematic_weapon_carbine_geo = object_draft_schematic_weapon_shared
              }
 
 }
-ObjectTemplates:addTemplate(object_draft_schematic_weapon_rifle_disrupter_geo, "object/draft_schematic/weapon/rifle_disrupter_geo.iff")
+ObjectTemplates:addTemplate(object_draft_schematic_weapon_carbine_geo, "object/draft_schematic/weapon/carbine_geo.iff")
