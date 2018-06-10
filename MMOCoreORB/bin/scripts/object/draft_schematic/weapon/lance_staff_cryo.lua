@@ -41,41 +41,39 @@
 --this exception also makes it possible to release a modified version 
 
 
-object_draft_schematic_weapon_lightsaber_lightsaber_polearm_s1_pike_gen4 = object_draft_schematic_weapon_lightsaber_shared_lightsaber_polearm_s1_pike_gen4:new {
+object_draft_schematic_weapon_lance_staff_cryo = object_draft_schematic_weapon_shared_lance_staff_cryo:new {
 
    templateType = DRAFTSCHEMATIC,
 
-   customObjectName = "Pike Fourth Generation Lightsaber",
+   customObjectName = "Cryo Lance",
 
-   craftingToolTab = 2048, -- (See DraftSchematicObjectTemplate.h)
-   complexity = 19, 
-   size = 1, 
+   craftingToolTab = 1, -- (See DraftSchematicObjectTemplate.h)
+   complexity = 30, 
+   size = 4, 
 
-   xpType = "jedi_general", 
-   xp = 0, 
+   xpType = "crafting_weapons_general", 
+   xp = 130, 
 
-   assemblySkill = "jedi_saber_assembly", 
-   experimentingSkill = "jedi_saber_experimentation", 
-   customizationSkill = "jedi_customization", 
-   factoryCrateSize = 0,   
+   assemblySkill = "weapon_assembly", 
+   experimentingSkill = "weapon_experimentation", 
+   customizationSkill = "weapon_customization", 
 
    customizationOptions = {},
    customizationStringNames = {},
    customizationDefaults = {},
 
-   ingredientTemplateNames = {"craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n"},
-   ingredientTitleNames = {"emitter_shroud", "primary_crystal", "activator", "handgrip", "focusing_crystals", "power_field_insulator", "energizers"},
-   ingredientSlotType = {0, 1, 0, 0, 1, 0, 0},
-   resourceTypes = {"steel_duralloy", "object/tangible/component/weapon/lightsaber/shared_lightsaber_refined_crystal_pack.iff", "aluminum_titanium", "petrochem_inert_polymer", "object/tangible/component/weapon/lightsaber/shared_lightsaber_refined_crystal_pack.iff", "gas_inert_culsion", "copper_polysteel"},
-   resourceQuantities = {40, 1, 30, 46, 1, 58, 58},
-   contribution = {100, 100, 100, 100, 100, 100, 100},
+   ingredientTemplateNames = {"craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n"},
+   ingredientTitleNames = {"lance_shaft", "vibro_unit_and_power_cell_brackets", "grip", "reinforcement_core"},
+   ingredientSlotType = {0, 0, 0, 1},
+   resourceTypes = {"steel_ditanium", "copper_polysteel", "metal", "object/tangible/component/weapon/shared_reinforcement_core.iff"},
+   resourceQuantities = {38, 17, 6, 1},
+   contribution = {100, 100, 100, 100},
 
 
-   targetTemplate = "object/weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_s1_pike_gen4.iff",
+   targetTemplate = "object/weapon/melee/polearm/lance_staff_cryo.iff",
 
    additionalTemplates = {
-              "object/weapon/melee/polearm/crafted_saber/shared_sword_lightsaber_polearm_s1_pike_gen4.iff",
              }
 
 }
-ObjectTemplates:addTemplate(object_draft_schematic_weapon_lightsaber_lightsaber_polearm_s1_pike_gen4, "object/draft_schematic/weapon/lightsaber/lightsaber_polearm_s1_pike_gen4.iff")
+ObjectTemplates:addTemplate(object_draft_schematic_weapon_lance_staff_cryo, "object/draft_schematic/weapon/lance_staff_cryo.iff")
