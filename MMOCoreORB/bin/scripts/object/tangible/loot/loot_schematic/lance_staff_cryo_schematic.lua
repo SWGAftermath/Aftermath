@@ -41,23 +41,13 @@
 --this exception also makes it possible to release a modified version 
 
 
+object_tangible_loot_loot_schematic_lance_staff_cryo_schematic = object_tangible_loot_loot_schematic_shared_lance_staff_cryo_schematic:new {
+	templateType = LOOTSCHEMATIC,
+	objectMenuComponent = "LootSchematicMenuComponent",
+	attributeListComponent = "LootSchematicAttributeListComponent",
+	requiredSkill = "crafting_weaponsmith_master",
+	targetDraftSchematic = "object/draft_schematic/weapon/lance_staff_cryo.iff",
+	targetUseCount = 1,
+}
 
---Children folder includes
-
--- Server Objects
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_gen1.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_gen2.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_gen3.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_gen4.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_gen5.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_s1.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_s1_gen1.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_s1_gen2.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_s1_gen3.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_s1_gen4.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_s2.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_s2_gen1.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_s2_gen2.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_s2_gen3.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_s2_gen4.lua")
-includeFile("weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_s1.lua")
+ObjectTemplates:addTemplate(object_tangible_loot_loot_schematic_lance_staff_cryo_schematic, "object/tangible/loot/loot_schematic/lance_staff_cryo_schematic.iff")

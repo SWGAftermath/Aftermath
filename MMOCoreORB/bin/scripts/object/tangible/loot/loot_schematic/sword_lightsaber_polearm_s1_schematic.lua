@@ -41,39 +41,13 @@
 --this exception also makes it possible to release a modified version 
 
 
-object_draft_schematic_weapon_lance_cryo = object_draft_schematic_weapon_shared_lance_cryo:new {
-
-   templateType = DRAFTSCHEMATIC,
-
-   customObjectName = "Cryo Lance",
-
-   craftingToolTab = 1, -- (See DraftSchematicObjectTemplate.h)
-   complexity = 30, 
-   size = 4, 
-
-   xpType = "crafting_weapons_general", 
-   xp = 130, 
-
-   assemblySkill = "weapon_assembly", 
-   experimentingSkill = "weapon_experimentation", 
-   customizationSkill = "weapon_customization", 
-
-   customizationOptions = {},
-   customizationStringNames = {},
-   customizationDefaults = {},
-
-   ingredientTemplateNames = {"craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n", "craft_weapon_ingredients_n"},
-   ingredientTitleNames = {"lance_shaft", "vibro_unit_and_power_cell_brackets", "grip", "reinforcement_core"},
-   ingredientSlotType = {0, 0, 0, 1},
-   resourceTypes = {"steel_ditanium", "copper_polysteel", "metal", "object/tangible/component/weapon/shared_reinforcement_core.iff"},
-   resourceQuantities = {38, 17, 6, 1},
-   contribution = {100, 100, 100, 100},
-
-
-   targetTemplate = "object/weapon/melee/polearm/lance_cryo.iff",
-
-   additionalTemplates = {
-             }
-
+object_tangible_loot_loot_schematic_sword_lightsaber_polearm_s1_schematic = object_tangible_loot_loot_schematic_shared_sword_lightsaber_polearm_s1_schematic:new {
+	templateType = LOOTSCHEMATIC,
+	objectMenuComponent = "LootSchematicMenuComponent",
+	attributeListComponent = "LootSchematicAttributeListComponent",
+	requiredSkill = "crafting_armorsmith_master",
+	targetDraftSchematic = "object/draft_schematic/weapon/lightsaber/sword_lightsaber_polearm_s1.iff",
+	targetUseCount = 1
 }
-ObjectTemplates:addTemplate(object_draft_schematic_weapon_lance_cryo, "object/draft_schematic/weapon/lance_cryo.iff")
+
+ObjectTemplates:addTemplate(object_tangible_loot_loot_schematic_sword_lightsaber_polearm_s1_schematic, "object/tangible/loot/loot_schematic/sword_lightsaber_polearm_s1_schematic.iff")

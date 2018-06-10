@@ -1214,6 +1214,6 @@ includeFile("items/painting/painting_exclusive13.lua")
 includeFile("items/painting/painting_exclusive14.lua")
 
 --Dathomir Bunker
-includeFire("items/dathomir_bunker/nilyahin_rancor_tooth.lua")
-includeFire("items/dathomir_bunker/nilyahin_reinforcement_core.lua")
-includeFire("items/dathomir_bunker/nilyahin_weapon_stock.lua")
+includeFile("items/dathomir_bunker/nilyahin_rancor_tooth.lua")
+includeFile("items/dathomir_bunker/nilyahin_reinforcement_core.lua")
+includeFile("items/dathomir_bunker/nilyahin_weapon_stock.lua")

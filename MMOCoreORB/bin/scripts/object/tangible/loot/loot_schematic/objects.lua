@@ -5053,16 +5053,22 @@ object_tangible_loot_loot_schematic_shared_bespin_house_loot_schem = SharedTangi
 ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_bespin_house_loot_schem, "object/tangible/loot/loot_schematic/shared_bespin_house_loot_schem.iff")
 
 --Lightsaber Pike
-object_tangible_loot_loot_schematic_shared_lightsaber_polearm_s1_pike_gen4_schematic = SharedTangibleObjectTemplate:new {
-	clientTemplateFileName = "object/tangible/loot/loot_schematic/shared_lightsaber_polearm_s1_pike_gen4_schematic.iff"
+object_tangible_loot_loot_schematic_shared_sword_lightsaber_polearm_s1_schematic = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/loot/loot_schematic/shared_sword_lightsaber_polearm_s1_schematic.iff"
 }
-ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_lightsaber_polearm_s1_pike_gen4_schematic, "object/tangible/loot/loot_schematic/shared_lightsaber_polearm_s1_pike_gen4_schematic.iff")
+ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_sword_lightsaber_polearm_s1_schematic, "object/tangible/loot/loot_schematic/shared_sword_lightsaber_polearm_s1_schematic.iff")
 
 --new weapons
 object_tangible_loot_loot_schematic_shared_carbine_geo_schematic = SharedTangibleObjectTemplate:new {
 	clientTemplateFileName = "object/tangible/loot/loot_schematic/shared_carbine_geo_schematic.iff"
 }
 ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_carbine_geo_schematic, "object/tangible/loot/loot_schematic/shared_carbine_geo_schematic.iff")
+
+object_tangible_loot_loot_schematic_shared_lance_staff_cryo_schematic = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/loot/loot_schematic/shared_lance_staff_cryo_schematic.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_lance_staff_cryo_schematic, "object/tangible/loot/loot_schematic/shared_lance_staff_cryo_schematic.iff")
 
 
 
