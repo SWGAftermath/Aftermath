@@ -41,8 +41,8 @@
 --which carries forward this exception.
 --true = 1, false = 0
 
-KnifeJabCommand = {
-        name = "knifejab",
+HobbleStrikeCommand = {
+        name = "hobblestrike",
 
 	damageMultiplier = 2.0,
 	speedMultiplier = 1.5,
@@ -54,12 +54,12 @@ KnifeJabCommand = {
 
 	animation = "lower_posture_unarmed_1", 
 
-	combatSpam = "knifejab",
+	combatSpam = "hobblestrike",
 
 	weaponType = MELEEWEAPON,
 
 	range = 32
 }
 
-AddCommand(DisarmingShot2Command)
+AddCommand(HobbleStrikeCommand)
 
