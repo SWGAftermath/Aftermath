@@ -362,6 +362,7 @@
 #include "server/zone/objects/creature/commands/HealthShot1Command.h"
 #include "server/zone/objects/creature/commands/HealthShot2Command.h"
 #include "server/zone/objects/creature/commands/HealWoundCommand.h"
+#include "server/zone/objects/creature/commands/HobbleStrikeCommand.h"
 #include "server/zone/objects/creature/commands/HoloEmoteCommand.h"
 #include "server/zone/objects/creature/commands/ImagedesignCommand.h"
 #include "server/zone/objects/creature/commands/InitializeComponentCommand.h"
@@ -389,7 +390,6 @@
 #include "server/zone/objects/creature/commands/KillPlayerCommand.h"
 #include "server/zone/objects/creature/commands/KipUpShotCommand.h"
 #include "server/zone/objects/creature/commands/KneelCommand.h"
-#include "server/zone/objects/creature/commands/KnifeJabCommand.h"
 #include "server/zone/objects/creature/commands/KnockdownAttackCommand.h"
 #include "server/zone/objects/creature/commands/KnockdownFireCommand.h"
 #include "server/zone/objects/creature/commands/LagCommand.h"
@@ -768,6 +768,7 @@ void CommandConfigManager::registerCommands2() {
 	commandFactory.registerCommand<HealthShot1Command>(String("healthShot1").toLowerCase());
 	commandFactory.registerCommand<HealthShot2Command>(String("healthShot2").toLowerCase());
 	commandFactory.registerCommand<HealWoundCommand>(String("healWound").toLowerCase());
+	commandFactory.registerCommand<HobbleStrikeCommand>(String("hobbleStrike").toLowerCase());
 	commandFactory.registerCommand<HoloEmoteCommand>(String("holoEmote").toLowerCase());
 	commandFactory.registerCommand<ImagedesignCommand>(String("imagedesign").toLowerCase());
 	commandFactory.registerCommand<InitializeComponentCommand>(String("initializeComponent").toLowerCase());
@@ -801,7 +802,6 @@ void CommandConfigManager::registerCommands2() {
 	commandFactory.registerCommand<KillPlayerCommand>(String("killPlayer").toLowerCase());
 	commandFactory.registerCommand<KipUpShotCommand>(String("kipUpShot").toLowerCase());
 	commandFactory.registerCommand<KneelCommand>(String("kneel").toLowerCase());
-	commandFactory.registerCommand<KnifeJabCommand>(String("knifeJab").toLowerCase());
 	commandFactory.registerCommand<KnockdownAttackCommand>(String("knockdownAttack").toLowerCase());
 	commandFactory.registerCommand<KnockdownFireCommand>(String("knockdownFire").toLowerCase());
 	commandFactory.registerCommand<LagCommand>(String("lag").toLowerCase());

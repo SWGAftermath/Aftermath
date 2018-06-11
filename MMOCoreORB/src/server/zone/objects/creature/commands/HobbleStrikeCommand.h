@@ -2,23 +2,23 @@
 				Copyright <SWGEmu>
 		See file COPYING for copying conditions.*/
 
-#ifndef KNIFEJABCOMMAND_H_
-#define KNIFEJABCOMMAND_H_
+#ifndef HOBBLESTRIKECOMMAND_H_
+#define HOBBLESTRIKECOMMAND_H_
 
 #include "CombatQueueCommand.h"
 
-class KnifeJabCommand : public CombatQueueCommand {
+class HobbleStrikeCommand : public CombatQueueCommand {
 
 protected:
-	String skillName = "knifeJab";		        // Skill Name
-	String tarSkillName = "tarKnifeJab";
-	String skillNameDisplay = "Knife Jab";		// Skill Display Name for output message
+	String skillName = "hobblestrike";		        // Skill Name
+	String tarSkillName = "tarHobbleStrike";
+	String skillNameDisplay = "Hobble Strike";		// Skill Display Name for output message
 	int delay = 30; 							//  30 second cool down timer after root expires
 	int tarDelay = 20;
 
 public:
 
-	KnifeJabCommand(const String& name, ZoneProcessServer* server)
+	HobbleStrikeCommand(const String& name, ZoneProcessServer* server)
 		: CombatQueueCommand(name, server) {
 	}
 
@@ -116,4 +116,4 @@ public:
 
 };
 
-#endif //KNIFEJABCOMMAND_H_
+#endif //HOBBLESTRIKECOMMAND_H_
