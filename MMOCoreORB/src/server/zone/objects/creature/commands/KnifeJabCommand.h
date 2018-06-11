@@ -11,8 +11,10 @@ class KnifeJabCommand : public CombatQueueCommand {
 
 protected:
 	String skillName = "knifeJab";		        // Skill Name
+	String tarSkillName = "tarKnifeJab";
 	String skillNameDisplay = "Knife Jab";		// Skill Display Name for output message
 	int delay = 30; 							//  30 second cool down timer after root expires
+	int tarDelay = 20;
 
 public:
 
@@ -49,6 +51,12 @@ public:
 			return GENERALERROR;
 		}
 
+		if (!targetCreature->checkCooldownRecovery(tarSkillName)){
+			Time* timeRemaining = targetCreature->getCooldownTime(tarSkillName);
+			creature->sendSystemMessage("You cannot use " + skillNameDisplay + " on target for " + getCooldownString(timeRemaining->miliDifference() * -1));
+			return GENERALERROR;
+		}
+
 		int res = doCombatAction(creature, target);
 
 		if (res == SUCCESS) {
@@ -74,6 +82,7 @@ public:
 
 				targetCreature->addBuff(buff);
 				creature->updateCooldownTimer(skillName, delay * 1000);
+				targetCreature->updateCooldownTimer(tarSkillName, tarDelay * 1000);
 
 			}
 

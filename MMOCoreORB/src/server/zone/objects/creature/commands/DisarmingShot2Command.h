@@ -11,8 +11,10 @@ class DisarmingShot2Command : public CombatQueueCommand {
 
 protected:
 	String skillName = "disarmShot";		// Skill Name
+	String tarSkillName = "targetDisarm";
 	String skillNameDisplay = "Disarm Shot";		// Skill Display Name for output message
 	int delay = 36; 								//  30 second cool down timer after root expires
+	int tarDelay = 20;
 
 public:
 
@@ -46,6 +48,12 @@ public:
 		if (!creature->checkCooldownRecovery(skillName)){
 			Time* timeRemaining = creature->getCooldownTime(skillName);
 			creature->sendSystemMessage("You must wait " +  getCooldownString(timeRemaining->miliDifference() * -1)  + " to use " + skillNameDisplay + " again");
+			return GENERALERROR;
+		}
+
+		if (!targetCreature->checkCooldownRecovery(tarSkillName)){
+			Time* timeRemaining = targetCreature->getCooldownTime(tarSkillName);
+			creature->sendSystemMessage("You cannot use " + skillNameDisplay + " on target for " + getCooldownString(timeRemaining->miliDifference() * -1));
 			return GENERALERROR;
 		}
 		
