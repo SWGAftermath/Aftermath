@@ -3641,6 +3641,9 @@ void CreatureObjectImplementation::schedulePersonalEnemyFlagTasks() {
 		uint64 expireTime = personalEnemyFlags.get(i);
 		uint64 enemyID = personalEnemyFlags.getKey(i);
 
+		if (expireTime == 0)
+			continue;
+
 		if (expireTime <= curTime) {
 			personalEnemyFlags.drop(enemyID);
 		} else {
