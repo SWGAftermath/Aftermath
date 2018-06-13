@@ -1570,13 +1570,13 @@ int CombatManager::getHitChance(TangibleObject* attacker, CreatureObject* target
 
 		// saber block is special because it's just a % chance to block based on the skillmod
 		if (def == "saber_block") {
-			if ((attacker->isPlayerCreature() && weapon->getAttackType() == SharedWeaponObjectTemplate::RANGEDATTACK) && attacker->asCreatureObject()->hasSkill("combat_bountyhunter_master")){
+			if ((attacker->isPlayerCreature() && weapon->getAttackType() == SharedWeaponObjectTemplate::RANGEDATTACK) && attacker->asCreatureObject()->hasSkill("combat_bountyhunter_master") && !(weapon->isThrownWeapon() || weapon->isSpecialHeavyWeapon())){
 				if (System::random(105) < targetCreature->getSkillMod(def)){
 					return RICOCHET;
 				} else {
 					return HIT;
 				}
-			} else if (!attacker->isTurret() && (weapon->getAttackType() == SharedWeaponObjectTemplate::RANGEDATTACK)){
+			} else if (!(attacker->isTurret() || weapon->isThrownWeapon()) && ((weapon->isHeavyWeapon() || weapon->isSpecialHeavyWeapon() || (weapon->getAttackType() == SharedWeaponObjectTemplate::RANGEDATTACK)))){
 				if (System::random(100) < targetCreature->getSkillMod(def)){
 					return RICOCHET;
 				} else {
