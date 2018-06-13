@@ -326,7 +326,7 @@ bool SkillManager::awardSkill(const String& skillName, CreatureObject* creature,
 
 
 		// Update Force Power Max.
-		ghost->setForcePowerMax(creature->getSkillMod("jedi_force_power_max"), true);
+		ghost->recalculateForcePower();
 
 		ManagedReference<PlayerManager*> playerManager = creature->getZoneServer()->getPlayerManager();
 
@@ -499,7 +499,7 @@ bool SkillManager::surrenderSkill(const String& skillName, CreatureObject* creat
 		}
 
 		/// Update Force Power Max
-		ghost->setForcePowerMax(creature->getSkillMod("jedi_force_power_max"), true);
+		ghost->recalculateForcePower();
 
 		SkillList* list = creature->getSkillList();
 
@@ -618,7 +618,7 @@ void SkillManager::surrenderAllSkills(CreatureObject* creature, bool notifyClien
 		updateXpLimits(ghost);
 
 		/// update force
-		ghost->setForcePowerMax(creature->getSkillMod("jedi_force_power_max"), true);
+		ghost->recalculateForcePower();
 	}
 
 	ManagedReference<PlayerManager*> playerManager = creature->getZoneServer()->getPlayerManager();
