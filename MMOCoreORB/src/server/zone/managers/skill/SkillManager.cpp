@@ -416,7 +416,7 @@ void SkillManager::removeSkillRelatedMissions(CreatureObject* creature, Skill* s
 	}
 }
 
-bool SkillManager::surrenderSkill(const String& skillName, CreatureObject* creature, bool notifyClient) {
+bool SkillManager::surrenderSkill(const String& skillName, CreatureObject* creature, bool notifyClient, bool checkFrs) {
 	Skill* skill = skillMap.get(skillName.hashCode());
 
 	if (skill == NULL)
@@ -494,7 +494,7 @@ bool SkillManager::surrenderSkill(const String& skillName, CreatureObject* creat
 
 		FrsManager* frsManager = creature->getZoneServer()->getFrsManager();
 
-		if (frsManager->isFrsEnabled()) {
+		if (checkFrs && frsManager->isFrsEnabled()) {
 			frsManager->handleSkillRevoked(creature, skillName);
 		}
 
