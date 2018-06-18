@@ -5465,10 +5465,12 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		if (highDamageAmount == 0 || entry->getTotalDamage() > highDamageAmount) {
 			highDamageAmount = entry->getTotalDamage();
 			highDamageAttacker = attacker;
+			info("player is high damage attacker", true);
 		}
 
 		if (ghost->hasOnKillerList(attacker->getObjectID())) {
 			String stringFile;
+			info("ghost has attacker on killer list", true);
 
 			if (attacker->getSpecies() == CreatureObject::TRANDOSHAN)
 				stringFile = "rating_throttle_trandoshan_winner";
