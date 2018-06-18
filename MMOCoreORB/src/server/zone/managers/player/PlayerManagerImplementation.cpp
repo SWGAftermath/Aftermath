@@ -5562,6 +5562,7 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		StringBuffer attInsertQuery;
 		String attName = attacker->getFirstName();
 		Database::escapeString(attName);
+		info("attacker query is about to get executed",true);
 		attCheckQuery << "SELECT * from pvprating where firstname = '" << attName <<"'";
 		Reference<ResultSet*> result = ServerDatabase::instance()->executeQuery(attCheckQuery.toString());
 		if (result == NULL){
@@ -5603,6 +5604,7 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		StringBuffer defInsertQuery;
 		String defName = player->getFirstName();
 		Database::escapeString(defName);
+		info("defender items about to get inserted", true);
 		defCheckQuery << "SELECT * from pvprating where firstname = '" << defName << "'";
 		Reference<ResultSet*> result = ServerDatabase::instance()->executeQuery(defCheckQuery.toString());
 		if (result == NULL){
