@@ -895,6 +895,7 @@ void PlayerManagerImplementation::killPlayer(TangibleObject* attacker, CreatureO
 		Core::getTaskManager()->executeTask([=] () {
 			if (playerRef != NULL) {
 				Locker locker(playerRef);
+				info("playerRef is not null, should be able to enter rating update", true);
 				doPvpDeathRatingUpdate(playerRef, copyThreatMap);
 			}
 		}, "PvpDeathRatingUpdateLambda");
@@ -5415,6 +5416,7 @@ void PlayerManagerImplementation::sendAdminList(CreatureObject* player) {
 
 void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player, ThreatMap* threatMap) {
 	PlayerObject* ghost = player->getPlayerObject();
+	info("in death rating function", true);
 
 	if (ghost == NULL)
 		return;
@@ -5432,6 +5434,7 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 	int frsXpAdjustment = 0;
 
 	for (int i = 0; i < threatMap->size(); ++i) {
+		info("in threatmap", true)
 		ThreatMapEntry* entry = &threatMap->elementAt(i).getValue();
 		CreatureObject* attacker = threatMap->elementAt(i).getKey();
 
