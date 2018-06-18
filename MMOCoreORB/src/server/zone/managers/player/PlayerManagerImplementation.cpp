@@ -5438,8 +5438,10 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		if (entry == NULL || attacker == NULL || attacker == player || !attacker->isPlayerCreature())
 			continue;
 
-		if (!player->isAttackableBy(attacker, true))
+		if (!player->isAttackableBy(attacker, true)){
+			info("player is not attackable by attacker", true);
 			continue;
+		}
 
 		PlayerObject* attackerGhost = attacker->getPlayerObject();
 
