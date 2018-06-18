@@ -5434,7 +5434,7 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 	int frsXpAdjustment = 0;
 
 	for (int i = 0; i < threatMap->size(); ++i) {
-		info("in threatmap", true)
+		info("in threatmap", true);
 		ThreatMapEntry* entry = &threatMap->elementAt(i).getValue();
 		CreatureObject* attacker = threatMap->elementAt(i).getKey();
 
