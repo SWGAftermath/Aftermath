@@ -867,6 +867,10 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 			} else if (templatePath == "unlock_jedi_initiate") {
 				bluefrog->grantJediInitiate(player);
 
+			} else if (templatePath == "unlock_jedi_master") {
+				PlayerManager* pman = zserv->getPlayerManager();
+				pman->grantJediMaster(player);
+
 			} else {
 				if (templatePath.length() > 0) {
 					SkillManager::instance()->awardSkill(templatePath, player, true, true, true);
