@@ -5438,27 +5438,39 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		ThreatMapEntry* entry = &threatMap->elementAt(i).getValue();
 		CreatureObject* attacker = threatMap->elementAt(i).getKey();
 
-		if (entry == NULL || attacker == NULL || attacker == player || !attacker->isPlayerCreature())
+		if (entry == NULL || attacker == NULL || attacker == player || !attacker->isPlayerCreature()){
+			info("entry, attacker is null, the same or not a player creature", true);
 			continue;
+		}
 
-		if (!player->isAttackableBy(attacker, true))
+		if (!player->isAttackableBy(attacker, true)){
+			info("player is not attackable by attacker", true);
 			continue;
+		}
 
 		PlayerObject* attackerGhost = attacker->getPlayerObject();
 
-		if (attackerGhost == NULL)
+		if (attackerGhost == NULL){
+			info("attacker ghost is null", true);
 			continue;
+		}
 
 		Locker crossLock(attacker, player);
 
-		if (!allowSameAccountPvpRatingCredit && ghost->getAccountID() == attackerGhost->getAccountID())
+		if (!allowSameAccountPvpRatingCredit && ghost->getAccountID() == attackerGhost->getAccountID()){
+			info("attacker is on the same account", true);
 			continue;
+		}
 
-		if (entry->getTotalDamage() <= 0)
+		if (entry->getTotalDamage() <= 0){
+			info("attacker is doing <= 0 damage", true);
 			continue;
+		}
 
-		if (player->getDistanceTo(attacker) > 80.f)
+		if (player->getDistanceTo(attacker) > 80.f){
+			info("attacker is too far", true);
 			continue;
+		}
 
 		int curAttackerRating = attackerGhost->getPvpRating();
 
@@ -5489,6 +5501,7 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 
 		if (defenderPvpRating <= PlayerObject::PVP_RATING_FLOOR) {
 			String stringFile;
+			info("defender pvp rating at or bellow floor", true);
 			if (attacker->getSpecies() == CreatureObject::TRANDOSHAN)
 				stringFile = "rating_floor_trandoshan_winner";
 			else
