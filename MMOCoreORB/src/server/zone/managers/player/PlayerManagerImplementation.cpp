@@ -5557,7 +5557,7 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		StringBuffer attInsertQuery;
 		String attName = attacker->getFirstName();
 		Database::escapeString(attName);
-		attCheckQuery << "SELECT * from pvprating where firstname = " << attName;
+		attCheckQuery << "SELECT * from pvprating where firstname = '" << attName <<"'";
 		Reference<ResultSet*> result = ServerDatabase::instance()->executeQuery(attCheckQuery.toString());
 		if (result == NULL){
 			attInsertQuery << "INSERT INTO pvprating (firstname, rating, update_time) VALUES ('" << attName <<"', " << newRating << ", NOW());";
@@ -5598,7 +5598,7 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		StringBuffer defInsertQuery;
 		String defName = player->getFirstName();
 		Database::escapeString(defName);
-		defCheckQuery << "SELECT * from pvprating where firstname = " << defName;
+		defCheckQuery << "SELECT * from pvprating where firstname = '" << defName << "'";
 		Reference<ResultSet*> result = ServerDatabase::instance()->executeQuery(defCheckQuery.toString());
 		if (result == NULL){
 			defInsertQuery << "INSERT INTO pvprating (firstname, rating, update_time) VALUES ('" << defName <<"', " << defenderPvpRating << ", NOW());";
