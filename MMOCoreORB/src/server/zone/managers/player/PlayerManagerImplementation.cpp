@@ -5553,6 +5553,22 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		toAttacker.setStringId("pvp_rating", stringFile);
 		toAttacker.setTT(player->getFirstName());
 		toAttacker.setDI(newRating);
+		StringBuffer attCheckQuery;
+		StringBuffer attInsertQuery;
+		String attName = attacker->getFirstName();
+		Database::escapeString(attName);
+		attCheckQuery << "SELECT * from pvprating where firstname = " << attName;
+		Reference<ResultSet*> result = ServerDatabase::instance()->executeQuery(attCheckQuery.toString());
+		if (result == NULL){
+			attInsertQuery << "INSERT INTO pvprating (firstname, rating, update_time) VALUES ('" << attName <<"', " << newRating << ", NOW());";
+		}else{
+			attInsertQuery << "UPDATE pvprating set rating = " << newRating << ", update_time = NOW());" << " WHERE firstname = '" << attName << "'";
+		}
+		try {
+				ServerDatabase::instance()->executeStatement(attInsertQuery);
+		} catch (DatabaseException& e) {
+				error(e.getMessage());
+		}
 
 		attacker->sendSystemMessage(toAttacker);
 	}
@@ -5577,6 +5593,24 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		toVictim.setStringId("pvp_rating", stringFile);
 		toVictim.setTT(highDamageAttacker->getFirstName());
 		toVictim.setDI(defenderPvpRating);
+
+		StringBuffer defCheckQuery;
+		StringBuffer defInsertQuery;
+		String defName = player->getFirstName();
+		Database::escapeString(defName);
+		defCheckQuery << "SELECT * from pvprating where firstname = " << defName;
+		Reference<ResultSet*> result = ServerDatabase::instance()->executeQuery(defCheckQuery.toString());
+		if (result == NULL){
+			defInsertQuery << "INSERT INTO pvprating (firstname, rating, update_time) VALUES ('" << defName <<"', " << defenderPvpRating << ", NOW());";
+		}else{
+			defInsertQuery << "UPDATE pvprating set rating = " << defenderPvpRating << ", update_time = NOW());" << " WHERE firstname = '" << defName << "'";
+		}
+		try {
+				ServerDatabase::instance()->executeStatement(defInsertQuery);
+		} catch (DatabaseException& e) {
+				error(e.getMessage());
+		}
+
 
 		player->sendSystemMessage(toVictim);
 	} else if (victimRatingTotalDelta != 0) {
