@@ -1520,6 +1520,7 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 			"Jedi",
 			{
 				"Unlock Jedi Initiate", "unlock_jedi_initiate",
+				"Unlock Jedi Master", "unlock_jedi_master",
 				"Unlock FRS Light Side", "frs_light_side",
 				"Unlock FRS Dark Side", "frs_dark_side"
 			},
