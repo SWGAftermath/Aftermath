@@ -222,7 +222,7 @@ void FactionManager::awardPvpFactionPoints(TangibleObject* killer, CreatureObjec
 			ghost->decreaseFactionStanding("rebel", 45);
 
 			killedGhost->decreaseFactionStanding("rebel", 45);
-			playerManager->awardExperience(killerCreature, "gcw_currency_imperial", 2000);
+			playerManager->awardExperience(killerCreature, "gcw_currency_imperial", 1000);
 			zBroadcast << "\\#FF9933 Rebel " << "\\#00e604" << playerName << " \\#e60000 was slain in the GCW by " << "\\#7133FF Imperial "<< "\\#00cc99" << killerName;
 			ghost->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, zBroadcast.toString());
 			group = killerCreature->getGroup();
