@@ -296,7 +296,7 @@ class PlayerObject extends IntangibleObject {
 	public static final int LOADING = 6;
 
 	public static final int PVP_RATING_FLOOR = 500;
-	public static final unsigned long PVP_RESET_TIME = 3000; // 3 seconds for testing
+	public static final unsigned long PVP_RESET_TIME = 300000; // 5 minutes
 
 	public PlayerObject() {
 		characterBitmask = 0;
