@@ -372,7 +372,8 @@ uint32 DamageOverTime::doForceChokeTick(CreatureObject* victim, CreatureObject* 
 	Reference<CreatureObject*> victimRef = victim;
 	auto attribute = this->attribute;
 	auto strength = this->strength;
-	strength = strength * 4;
+	if (attacker->isPlayerCreature())
+		strength = strength * 8;
 
 	Core::getTaskManager()->executeTask([victimRef, attackerRef, attribute, strength] () {
 		Locker locker(victimRef);
