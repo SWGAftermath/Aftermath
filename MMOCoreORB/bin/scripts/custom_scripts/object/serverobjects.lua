@@ -1,2 +1,4 @@
-includeFile("../custom_scripts/object/weapon/melee/polearm/lance_staff_cryo.lua")
-includeFile("../custom_scripts/object/weapon/ranged/carbine/carbine_geo.lua")
+
+includeFile("../custom_scripts/object/weapon/serverobjects.lua")
+includeFile("../custom_scripts/object/draft_schematic/serverobjects.lua")
+includeFile("../custom_scripts/object/tangible/serverobjects.lua")
