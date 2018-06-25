@@ -1,0 +1,1 @@
+includeFile("../custom_scripts/object/weapon/ranged/carbine/carbine_geo.lua")
