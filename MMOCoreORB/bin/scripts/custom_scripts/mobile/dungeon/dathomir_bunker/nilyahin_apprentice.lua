@@ -4,7 +4,7 @@ nilyahin_apprentice = Creature:new {
 	randomNameTag = true,
 	socialGroup = "nilyahin_smugglers",
 	faction = "",
-	level = 76,
+	level = 86,
 	chanceHit = 0.75,
 	damageMin = 520,
 	damageMax = 750,
@@ -32,11 +32,14 @@ nilyahin_apprentice = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "death_watch_bunker_commoners", chance = 9900000},
-				{group = "blacksun_rare", chance = 100000}
+				{group = "geonosian_cubes", chance = 4000000},
+				{group = "blacksun_rare", chance = 500000},
+				{group = "tfa_paintings", chance = 500000},
+				{group = "weapon_components", chance = 1500000},
+				{group = "skill_buffs", chance = 3500000}
 			},
-			lootChance = 1000000
-		}
+			lootChance = 6000000
+		},
 	},
 	weapons = {"nilyahin_apprentice"},
 	conversationTemplate = "",

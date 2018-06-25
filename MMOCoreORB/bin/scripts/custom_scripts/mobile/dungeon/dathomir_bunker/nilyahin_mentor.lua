@@ -32,10 +32,12 @@ nilyahin_mentor = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "death_watch_bunker_commoners", chance = 6000000},
-				{group = "death_watch_bunker_lieutenants", chance = 4000000}
+				{group = "blacksun_rare", chance = 500000},
+				{group = "tfa_paintings", chance = 500000},
+				{group = "weapon_components", chance = 3500000},
+				{group = "skill_buffs", chance = 3500000}
 			},
-			lootChance = 1000000
+			lootChance = 6000000
 		}
 	},
 	weapons = {"nilyahin_mentor"},

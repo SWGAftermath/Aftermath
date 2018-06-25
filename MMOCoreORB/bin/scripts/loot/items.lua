@@ -1186,6 +1186,7 @@ includeFile("items/named_crystals/force_color_windus_guile.lua")
 
 -- Aftermath items
 includeFile("items/aftermath/professors_desk_schematic.lua")
+includeFile("items/dathomir_bunker/nil_lance_staff_cryo_schematic.lua")
 
 -- Aftermath paintings
 includeFile("items/painting/painting_bobafett.lua")
@@ -1212,8 +1213,3 @@ includeFile("items/painting/painting_exclusive11.lua")
 includeFile("items/painting/painting_exclusive12.lua")
 includeFile("items/painting/painting_exclusive13.lua")
 includeFile("items/painting/painting_exclusive14.lua")
-
---Dathomir Bunker
-includeFile("items/dathomir_bunker/nilyahin_rancor_tooth.lua")
-includeFile("items/dathomir_bunker/nilyahin_reinforcement_core.lua")
-includeFile("items/dathomir_bunker/nilyahin_weapon_stock.lua")
