@@ -1,0 +1,1 @@
+includeFile("../custom_scripts/mobile/dungeon/dathomir_bunker/serverobjects.lua")
