@@ -8,6 +8,8 @@
 #include "ForcePowersQueueCommand.h"
 
 class ForceChokeCommand : public ForcePowersQueueCommand {
+protected:
+	String tarSkillName = "forcechoke";		// Skill Name
 public:
 
 	ForceChokeCommand(const String& name, ZoneProcessServer* server)
@@ -32,9 +34,40 @@ public:
 		if (targetObject == NULL || !targetObject->isCreatureObject()) {
 			return INVALIDTARGET;
 		}
+		CreatureObject* targetCreature = dynamic_cast<CreatureObject*>(targetObject.get());
+
+		if (!targetCreature->checkCooldownRecovery(tarSkillName)){
+			Time* timeRemaining = targetCreature->getCooldownTime(tarSkillName);
+			creature->sendSystemMessage("Target is already afflicted with Force Choke for another " + getCooldownString(timeRemaining->miliDifference() * -1) + " seconds");
+			return GENERALERROR;
+		}
 
 		return doCombatAction(creature, target);
 
+	}
+
+	String getCooldownString(uint32 delta) const {
+
+		int seconds = delta / 1000;
+
+		int hours = seconds / 3600;
+		seconds -= hours * 3600;
+
+		int minutes = seconds / 60;
+		seconds -= minutes * 60;
+
+		StringBuffer buffer;
+
+		if (hours > 0)
+			buffer << hours << "h ";
+
+		if (minutes > 0)
+			buffer << minutes << "m ";
+
+		if (seconds > 0)
+			buffer << seconds << "s";
+
+		return buffer.toString();
 	}
 
 };

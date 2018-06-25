@@ -155,7 +155,7 @@ uint32 DamageOverTime::initDot(CreatureObject* victim, CreatureObject* attacker)
 		break;
 	case CommandEffect::FORCECHOKE:
 		nextTick.addMiliTime(6000);
-		strength = (float)(strength * 0.01f) + (strength * (System::random(100) * 0.01f));
+		strength = (float)(strength * 0.01f) + (strength * ((System::random(50) + 50) * 0.01f));
 		victim->showFlyText("combat_effects", "choke", 0xFF, 0, 0);
 
 		break;
@@ -373,7 +373,7 @@ uint32 DamageOverTime::doForceChokeTick(CreatureObject* victim, CreatureObject* 
 	auto attribute = this->attribute;
 	auto strength = this->strength;
 	if (attacker->isPlayerCreature())
-		strength = strength * 8;
+		strength = strength * 4;
 
 	Core::getTaskManager()->executeTask([victimRef, attackerRef, attribute, strength] () {
 		Locker locker(victimRef);
