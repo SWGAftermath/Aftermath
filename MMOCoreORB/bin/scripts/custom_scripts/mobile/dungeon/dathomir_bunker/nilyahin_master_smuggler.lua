@@ -4,7 +4,7 @@ nilyahin_master_smuggler = Creature:new {
 	randomNameTag = true,
 	socialGroup = "nilyahin_smugglers",
 	faction = "",
-	level = 152,
+	level = 148,
 	chanceHit = 8.5,
 	damageMin = 895,
 	damageMax = 1500,
@@ -34,9 +34,10 @@ nilyahin_master_smuggler = Creature:new {
 			groups = {
 				{group = "dath_schems", chance = 3000000},
 				{group = "blacksun_rare", chance = 500000},
-				{group = "tfa_paintings", chance = 1000000},
+				{group = "tfa_paintings", chance = 100000},
 				{group = "weapon_components", chance = 2000000},
-				{group = "skill_buffs", chance = 3500000}
+				{group = "skill_buffs", chance = 3500000},
+				{group = "junk", chance = 1000000}
 			},
 			lootChance = 6000000
 		}

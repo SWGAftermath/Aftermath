@@ -33,10 +33,10 @@ nilyahin_mentor = Creature:new {
 		{
 			groups = {
 				{group = "blacksun_rare", chance = 500000},
-				{group = "tfa_paintings", chance = 500000},
+				{group = "tfa_paintings", chance = 100000},
 				{group = "weapon_components", chance = 3500000},
-				{group = "dath_schems", chance = 2000000},
-				{group = "skill_buffs", chance = 3500000}
+				{group = "dath_schems", chance = 2200000},
+				{group = "skill_buffs", chance = 3700000}
 			},
 			lootChance = 6000000
 		}

@@ -4,7 +4,7 @@ nilyahin_old_guard = Creature:new {
 	randomNameTag = true,
 	socialGroup = "nilyahin_smugglers",
 	faction = "",
-	level = 178,
+	level = 144,
 	chanceHit = 12.25,
 	damageMin = 1020,
 	damageMax = 1750,
@@ -33,9 +33,11 @@ nilyahin_old_guard = Creature:new {
 		{
 			groups = {
 				{group = "blacksun_rare", chance = 1500000},
-				{group = "tfa_paintings", chance = 2000000},
-				{group = "dath_schems", chance = 3000000},
-				{group = "skill_buffs", chance = 3500000}
+				{group = "tfa_paintings", chance = 100000},
+				{group = "dath_schems", chance = 3200000},
+				{group = "skill_buffs", chance = 3700000},
+				{group = "junk", chance = 1500000}
+
 			},
 			lootChance = 6000000
 		}

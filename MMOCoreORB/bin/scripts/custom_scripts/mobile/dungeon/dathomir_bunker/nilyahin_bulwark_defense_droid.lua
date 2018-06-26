@@ -35,8 +35,10 @@ nilyahin_bulwark_defense_droid = Creature:new {
 			groups = {
 				{group = "dath_schems", chance = 4000000},
 				{group = "blacksun_rare", chance = 500000},
-				{group = "tfa_paintings", chance = 1000000},
-				{group = "skill_buffs", chance = 4500000}
+				{group = "tfa_paintings", chance = 100000},
+				{group = "skill_buffs", chance = 4500000},
+				{group = "junk", chance = 900000}
+			},
 			},
 			lootChance = 6000000
 		},

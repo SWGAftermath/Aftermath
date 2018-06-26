@@ -8,4 +8,3 @@ includeFile("../custom_scripts/mobile/dungeon/dathomir_bunker/nilyahin_sentinel_
 includeFile("../custom_scripts/mobile/dungeon/dathomir_bunker/nilyahin_smuggler.lua")
 includeFile("../custom_scripts/mobile/dungeon/dathomir_bunker/nilyahin_specialist.lua")
 includeFile("../custom_scripts/mobile/dungeon/dathomir_bunker/nilyahin_tribunal.lua")
-includeFile("../custom_scripts/mobile/dungeon/dathomir_bunker/nilyahin_guild_leader.lua")

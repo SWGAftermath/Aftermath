@@ -3,7 +3,7 @@ nilyahin_tribunal = Creature:new {
  randomNameType = NAME_GENERIC,
 	socialGroup = "nilyahin_smugglers",
 	faction = "",
-	level = 300,
+	level = 157,
 	chanceHit = 19,
 	damageMin = 1245,
 	damageMax = 2200,
@@ -32,9 +32,11 @@ nilyahin_tribunal = Creature:new {
 		{
 			groups = {
 				{group = "blacksun_rare", chance = 1500000},
-				{group = "tfa_paintings", chance = 2000000},
+				{group = "tfa_paintings", chance = 100000},
 				{group = "dath_schems", chance = 3000000},
-				{group = "skill_buffs", chance = 3500000}
+				{group = "skill_buffs", chance = 3500000},
+				{group = "weapon_components", chance = 1000000},
+				{group = "junk", chance = 900000}
 			},
 			lootChance = 6000000
 		}
