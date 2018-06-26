@@ -37,7 +37,7 @@ nilyahin_master_smuggler = Creature:new {
 				{group = "tfa_paintings", chance = 100000},
 				{group = "weapon_components", chance = 2000000},
 				{group = "skill_buffs", chance = 3500000},
-				{group = "junk", chance = 1000000}
+				{group = "junk", chance = 900000}
 			},
 			lootChance = 6000000
 		}

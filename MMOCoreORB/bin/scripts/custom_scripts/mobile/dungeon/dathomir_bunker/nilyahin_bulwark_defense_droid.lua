@@ -39,7 +39,6 @@ nilyahin_bulwark_defense_droid = Creature:new {
 				{group = "skill_buffs", chance = 4500000},
 				{group = "junk", chance = 900000}
 			},
-			},
 			lootChance = 6000000
 		},
 		{
