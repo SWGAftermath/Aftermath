@@ -31,16 +31,12 @@ nilyahin_tribunal = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "death_watch_bunker_overlord_shared", chance =  10000000}
+				{group = "blacksun_rare", chance = 1500000},
+				{group = "tfa_paintings", chance = 2000000},
+				{group = "dath_schems", chance = 3000000},
+				{group = "skill_buffs", chance = 3500000}
 			},
-			lootChance = 10000000
-		},
-		{
-			groups = {
-				{group = "death_watch_bunker_overlord_shared", chance =  500000},
-				{group = "death_watch_bunker_overlord_quest", chance  = 9500000}
-			},
-			lootChance = 5000000
+			lootChance = 6000000
 		}
 	},
 	weapons = {"nilyahin_tribunal"},

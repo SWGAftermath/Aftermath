@@ -1,16 +1,16 @@
-nilyahin_mentor = Creature:new {
-	customName = "Ni'lyahin Mentor",
+nilyahin_guild_leader = Creature:new {
+	customName = "Ni'lyahin Guild Leader",
 	randomNameType = NAME_GENERIC,
 	randomNameTag = true,
 	socialGroup = "nilyahin_smugglers",
 	faction = "",
-	level = 121,
-	chanceHit = 4,
-	damageMin = 745,
-	damageMax = 1200,
-	baseXp = 11390,
-	baseHAM = 50000,
-	baseHAMmax = 50000,
+	level = 157,
+	chanceHit = 12.25,
+	damageMin = 1020,
+	damageMax = 1750,
+	baseXp = 16794,
+	baseHAM = 120000,
+	baseHAMmax = 120000,
 	armor = 2,
 	resists = {80,95,80,80,75,75,40,80,185},
 	meatType = "",
@@ -28,7 +28,7 @@ nilyahin_mentor = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.15,
 
-	templates = {"object/mobile/dressed_hutt_informant_quest.iff"},
+	templates = {"object/mobile/dressed_grassland_blood_marauder.iff"},
 	lootGroups = {
 		{
 			groups = {
@@ -38,12 +38,12 @@ nilyahin_mentor = Creature:new {
 				{group = "dath_schems", chance = 2000000},
 				{group = "skill_buffs", chance = 3500000}
 			},
-			lootChance = 6000000
+			lootChance = 10000000
 		}
 	},
-	weapons = {"nilyahin_mentor"},
+	weapons = {"nilyahin_old_guard"},
 	conversationTemplate = "",
-	attacks = merge(mentor)
+	attacks = merge(oldguard)
 }
 
-CreatureTemplates:addCreatureTemplate(nilyahin_mentor, "nilyahin_mentor")
+CreatureTemplates:addCreatureTemplate(nilyahin_guild_leader, "nilyahin_guild_leader")
