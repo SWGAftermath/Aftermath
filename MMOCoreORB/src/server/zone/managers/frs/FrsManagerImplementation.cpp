@@ -2983,7 +2983,7 @@ void FrsManagerImplementation::performArenaMaintenance() {
 }
 
 bool FrsManagerImplementation::handleDarkCouncilIncap(CreatureObject* killer, CreatureObject* victim) {
-	if (killer == nullptr || victim == nullptr)
+	if (killer == nullptr || victim == nullptr || !frsEnabled)
 		return false;
 
 	uint64 killerID = killer->getObjectID();
