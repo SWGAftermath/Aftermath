@@ -5,12 +5,12 @@ nilyahin_apprentice = Creature:new {
 	socialGroup = "nilyahin_smugglers",
 	faction = "",
 	level = 86,
-	chanceHit = 0.75,
-	damageMin = 520,
-	damageMax = 750,
+	chanceHit = 0.85,
+	damageMin = 570,
+	damageMax = 850,
 	baseXp = 7207,
-	baseHAM = 15000,
-	baseHAMmax = 15000,
+	baseHAM = 13000,
+	baseHAMmax = 16000,
 	armor = 1,
 	resists = {40,95,80,80,75,75,80,80,185},
 	meatType = "",
@@ -41,9 +41,9 @@ nilyahin_apprentice = Creature:new {
 			lootChance = 6000000
 		},
 	},
-	weapons = {"nilyahin_apprentice"},
+	weapons = {"pirate_weapons_heavy"},
 	conversationTemplate = "",
-	attacks = merge(apprentice)
+	attacks = merge(bountyhuntermaster,marksmanmaster,brawlermaster)
 }
 
 CreatureTemplates:addCreatureTemplate(nilyahin_apprentice, "nilyahin_apprentice")

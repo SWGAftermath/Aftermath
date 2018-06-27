@@ -9,8 +9,8 @@ nilyahin_assassin = Creature:new {
 	damageMin = 670,
 	damageMax = 1050,
 	baseXp = 10081,
-	baseHAM = 40000,
-	baseHAMmax = 40000,
+	baseHAM = 29000,
+	baseHAMmax = 36000,
 	armor = 2,
 	resists = {40,95,80,80,75,75,80,80,185},
 	meatType = "",
@@ -41,9 +41,9 @@ nilyahin_assassin = Creature:new {
 			lootChance = 6000000
 		}
 	},
-	weapons = {"nilyahin_assassin"},
+	weapons = {"pirate_weapons_heavy"},
 	conversationTemplate = "",
-	attacks = merge(unarmednil)
+	attacks = merge(bountyhuntermaster,marksmanmaster,brawlermaster,swordsmanmaster,pistoleermaster)
 }
 
 CreatureTemplates:addCreatureTemplate(nilyahin_assassin, "nilyahin_assassin")

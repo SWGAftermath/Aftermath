@@ -11,7 +11,7 @@ nilyahin_smuggler = Creature:new {
 	baseXp = 9057,
 	baseHAM = 22000,
 	baseHAMmax = 22000,
-	armor = 2,
+	armor = 1,
 	resists = {80,95,40,80,75,75,80,80,185},
 	meatType = "",
 	meatAmount = 0,
@@ -42,9 +42,9 @@ nilyahin_smuggler = Creature:new {
 			lootChance = 6000000
 		}
 	},
-	weapons = {"nilyahin_smuggler"},
+	weapons = {"pirate_weapons_heavy"},
 	conversationTemplate = "",
-	attacks = merge(rangednil)
+	attacks = merge(bountyhuntermaster,marksmanmaster,brawlermaster)
 }
 
 CreatureTemplates:addCreatureTemplate(nilyahin_smuggler, "nilyahin_smuggler")

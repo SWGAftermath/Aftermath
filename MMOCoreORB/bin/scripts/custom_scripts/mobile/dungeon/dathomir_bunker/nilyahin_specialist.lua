@@ -11,7 +11,7 @@ nilyahin_specialist = Creature:new {
 	baseXp = 8130,
 	baseHAM = 15000,
 	baseHAMmax = 15000,
-	armor = 2,
+	armor = 1,
 	resists = {80,95,40,80,75,75,80,80,185},
 	meatType = "",
 	meatAmount = 0,
@@ -42,9 +42,9 @@ nilyahin_specialist = Creature:new {
 			lootChance = 6000000
 		}
 	},
-	weapons = {"nilyahin_specialist"},
+	weapons = {"pirate_weapons_heavy"},
 	conversationTemplate = "",
-	attacks = merge(specialist)
+	attacks = merge(bountyhuntermaster,marksmanmaster,brawlermaster)
 }
 
 CreatureTemplates:addCreatureTemplate(nilyahin_specialist, "nilyahin_specialist")
