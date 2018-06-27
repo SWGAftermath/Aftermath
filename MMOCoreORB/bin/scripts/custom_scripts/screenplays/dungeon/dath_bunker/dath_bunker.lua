@@ -79,6 +79,5 @@ spawnMobile("dathomir", "nilyahin_smuggler", 600, -56.1909, -20, 14.4642, 356, 9
 spawnMobile("dathomir", "nilyahin_specialist", 600, -59.9898, -20, 9.00517, 293, 9925422)
 spawnMobile("dathomir", "nilyahin_old_guard", 600, -74.7649, -20, 85.7018, 147, 9925424)
 spawnMobile("dathomir", "nilyahin_bulwark_defense_droid", 600, -48.6707, -20, 79.9259, 230, 9925424)
-spawnMobile("dathomir", "nilyahin_assassin", 600, -27.3613, -20, 113.119, 358, 9925436)
 spawnMobile("dathomir", "nilyahin_tribunal", 2400, -27.4558, -20, 115.901, 178, 9925436)
 end
