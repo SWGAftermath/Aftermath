@@ -52,7 +52,7 @@ spawnMobile("dathomir", "nilyahin_old_guard", 600, -22.1878, -20, -2.47607, 82, 
 spawnMobile("dathomir", "nilyahin_bulwark_defense_droid", 600, -15.9878, -20, 1.60224, 82, 9925433)
 spawnMobile("dathomir", "nilyahin_apprentice", 600, -15.9579, -20, 3.75461, 96, 9925433)
 spawnMobile("dathomir", "nilyahin_smuggler", 600, -30.294, -20, 30.4626, 183, 9925435)
-spawnMobile("dathomir", "nilyahin_assassin", 600, -30.3665, -20, 84.201, 180, 9925435)
+spawnMobile("dathomir", "nilyahin_bulwark_defense_droid", 600, -30.3665, -20, 84.201, 180, 9925435)
 spawnMobile("dathomir", "nilyahin_mentor", 600, -7.8678, -20, 102.217, 247, 9925436)
 spawnMobile("dathomir", "nilyahin_master_smuggler", 600, -22.3889, -20, 103.871, 356, 9925436)
 spawnMobile("dathomir", "nilyahin_apprentice", 600, -14.5696, -20, 84.6276, 0, 9925438)
