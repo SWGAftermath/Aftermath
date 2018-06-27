@@ -3,7 +3,7 @@
 nilyahin_reinforcement_core = {
 	minimumLevel = 0,
 	maximumLevel = -1,
-	customObjectName = "",
+	customObjectName = "Ni'lyahin Honed Advanced Reinforcement Core",
 	directObjectTemplate = "object/tangible/component/weapon/reinforcement_core_advanced.iff",
 	craftingValues = {
 		{"mindamage",21,63,0},

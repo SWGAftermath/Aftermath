@@ -3,7 +3,7 @@
 nilyahin_rancor_tooth = {
 	minimumLevel = 0,
 	maximumLevel = -1,
-	customObjectName = "Nilyahin Modified Rancor Tooth",
+	customObjectName = "Ni'lyahin Modified Rancor Tooth",
 	directObjectTemplate = "object/tangible/component/weapon/rancor_tooth.iff",
 	craftingValues = {
 		{"mindamage",4,160,0},

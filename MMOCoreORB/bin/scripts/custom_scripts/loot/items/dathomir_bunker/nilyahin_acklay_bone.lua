@@ -3,7 +3,7 @@
 nilyahin_acklay_bone = {
 	minimumLevel = 0,
 	maximumLevel = -1,
-	customObjectName = "Nilyahin Stolen Acklay Bone",
+	customObjectName = "Ni'lyahin Stolen Acklay Bone",
 	directObjectTemplate = "object/tangible/component/weapon/acklay_bone_reinforcement_core.iff",
 	craftingValues = {
 		{"mindamage",100,225,0},
