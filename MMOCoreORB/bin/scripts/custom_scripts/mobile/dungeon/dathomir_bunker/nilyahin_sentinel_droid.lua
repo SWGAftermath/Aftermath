@@ -33,9 +33,14 @@ nilyahin_sentinel_droid = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "death_watch_bunker_commoners", chance = 10000000}
+				{group = "blacksun_rare", chance = 500000},
+				{group = "tfa_paintings", chance = 100000},
+				{group = "weapon_components", chance = 2000000},
+				{group = "dath_schems", chance = 1700000},
+				{group = "skill_buffs", chance = 3700000},
+				{group = "geonosian_cubes", chance = 2000000},
 			},
-			lootChance = 500000
+			lootChance = 6000000
 		}
 	},
 	weapons = {"battle_droid_weapons"},

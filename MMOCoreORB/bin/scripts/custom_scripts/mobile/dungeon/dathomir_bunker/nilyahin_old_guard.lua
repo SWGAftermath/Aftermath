@@ -32,10 +32,11 @@ nilyahin_old_guard = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "blacksun_rare", chance = 1500000},
+				{group = "blacksun_rare", chance = 500000},
 				{group = "tfa_paintings", chance = 100000},
-				{group = "dath_schems", chance = 3200000},
+				{group = "dath_schems", chance = 2000000},
 				{group = "skill_buffs", chance = 3700000},
+				{group = "weapon_components", chance = 2200000},
 				{group = "junk", chance = 1500000}
 
 			},

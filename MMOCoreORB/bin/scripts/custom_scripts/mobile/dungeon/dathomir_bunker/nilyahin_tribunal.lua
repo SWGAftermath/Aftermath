@@ -33,10 +33,10 @@ nilyahin_tribunal = Creature:new {
 			groups = {
 				{group = "blacksun_rare", chance = 1500000},
 				{group = "tfa_paintings", chance = 100000},
-				{group = "dath_schems", chance = 3000000},
-				{group = "skill_buffs", chance = 3500000},
-				{group = "weapon_components", chance = 1000000},
-				{group = "junk", chance = 900000}
+				{group = "dath_schems", chance = 3500000},
+				{group = "skill_buffs", chance = 1500000},
+				{group = "weapon_components", chance = 3000000},
+				{group = "junk", chance = 400000}
 			},
 			lootChance = 6000000
 		}
