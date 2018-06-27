@@ -80,7 +80,7 @@ object_weapon_melee_polearm_lance_vibrolance = object_weapon_melee_polearm_share
 	xpType = "combat_meleespecialize_polearm",
 
 	-- See http://www.ocdsoft.com/files/certifications.xls
-	certificationsRequired = { "cert_lance_cryo" },
+	certificationsRequired = { "cert_lance_vibrolance" },
 	-- See http://www.ocdsoft.com/files/accuracy.xls
 	creatureAccuracyModifiers = { "polearm_accuracy" },
 
