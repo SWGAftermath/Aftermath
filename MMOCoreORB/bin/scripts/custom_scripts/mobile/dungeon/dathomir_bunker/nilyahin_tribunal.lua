@@ -41,9 +41,9 @@ nilyahin_tribunal = Creature:new {
 			lootChance = 6000000
 		}
 	},
-	weapons = {"nilyahin_tribunal"},
+	weapons = {"dark_trooper_weapons"},
 	conversationTemplate = "",
-	attacks = merge(tribunal)
+	attacks = merge(riflemanmaster,fencermaster,marksmanmaster,brawlermaster)
 }
 
 CreatureTemplates:addCreatureTemplate(nilyahin_tribunal, "nilyahin_tribunal")
