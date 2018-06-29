@@ -7,8 +7,8 @@ weapon_components = {
 	lootItems = {
 		{itemTemplate = "nilyahin_rancor_tooth", weight = 4000000},
 		{itemTemplate = "nilyahin_reinforcement_core", weight = 3000000},
-		{itemTemplate = "nilyahin_acklay_bone", weight = 1500000},
-		{itemTemplate = "nilyahin_lesser_acklay_bone", weight = 1500000},
+		{itemTemplate = "nilyahin_acklay_bone", weight = 1000000},
+		{itemTemplate = "nilyahin_lesser_acklay_bone", weight = 2000000},
 	}
 }
 
