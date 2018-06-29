@@ -9,7 +9,8 @@
 
 class ForceChokeCommand : public ForcePowersQueueCommand {
 protected:
-	String tarSkillName = "forcechoke";		// Skill Name
+	String tarSkillName = "forcechoke"; // Skill Name
+	int tarDelay = 31;
 public:
 
 	ForceChokeCommand(const String& name, ZoneProcessServer* server)
@@ -41,8 +42,13 @@ public:
 			creature->sendSystemMessage("Target is already afflicted with Force Choke for another " + getCooldownString(timeRemaining->miliDifference() * -1) + " seconds");
 			return GENERALERROR;
 		}
+		int res = doCombatAction(creature, target);
 
-		return doCombatAction(creature, target);
+		if (res == SUCCESS) 
+			targetCreature->updateCooldownTimer(tarSkillName, tarDelay * 1000);
+
+		return res;
+
 
 	}
 
