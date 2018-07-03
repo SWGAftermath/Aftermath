@@ -68,7 +68,7 @@ class CityRegion extends ManagedObject implements Logger {
 	protected CitizenList bannedList;
 
 	@dereferenced
-	protected transient SortedVector<unsigned long> completeStructureList;
+	protected SortedVector<unsigned long> completeStructureList;
 
 	@dereferenced
 	protected transient Mutex structureListMutex;
