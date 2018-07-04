@@ -86,6 +86,7 @@ public:
 
 				targetCreature->addBuff(buff);
 				creature->updateCooldownTimer(skillName, delay * 1000);
+				targetCreature->updateCooldownTimer(tarSkillName, tarDelay * 1000);
 
 			}
 
