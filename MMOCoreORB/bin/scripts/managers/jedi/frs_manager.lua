@@ -1,4 +1,4 @@
-frsEnabled = 0
+frsEnabled = 1
 
 -- Object ID of Enclave buildings
 lightEnclaveID = 8525417
@@ -11,6 +11,7 @@ maintenanceInterval = 1200000 -- 20 mins
 
 --requestDemotionDuration = 604800000 -- 7 days
 --voteChallengeDuration = 604800000 -- 7 days
+
 requestDemotionDuration = 1200000 -- 20 mins
 voteChallengeDuration = 1200000 -- 20 mins
 

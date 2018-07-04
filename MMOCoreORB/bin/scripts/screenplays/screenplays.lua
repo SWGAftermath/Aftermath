@@ -32,7 +32,6 @@ includeFile("../custom_scripts/screenplays/screenplays.lua")
 --includeFile("../custom_scripts/screenplays/glowing.lua")
 
 includeFile("helperfuncs.lua")
-
 includeFile("playerTriggers.lua")
 
 

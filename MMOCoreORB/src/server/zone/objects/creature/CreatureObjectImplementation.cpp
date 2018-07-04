@@ -3063,7 +3063,7 @@ bool CreatureObjectImplementation::isHealableBy(CreatureObject* object) {
 
 	PlayerObject* ghost = object->getPlayerObject(); // ghost is the healer
 
-	if (ghost == NULL)
+	if (ghost == nullptr)
 		return false;
 	//Comment out BH TEF check for healing
 	//if (ghost->hasBhTef())
