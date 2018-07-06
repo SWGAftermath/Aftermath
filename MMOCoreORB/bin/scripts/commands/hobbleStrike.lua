@@ -58,7 +58,7 @@ HobbleStrikeCommand = {
 
 	weaponType = MELEEWEAPON,
 
-	range = 32
+	range = 20
 }
 
 AddCommand(HobbleStrikeCommand)
