@@ -197,6 +197,8 @@ class PlayerObject extends IntangibleObject {
 	protected int skillPoints; //TODO: This could be encapsulated in the skill list.
 
 	protected int pvpRating;
+
+	protected int ratingReset;
 	
 	@dereferenced
 	protected Time lastPvpRatingUpdate; // Timestamp of when last time player received a pvp rating change
@@ -331,6 +333,8 @@ class PlayerObject extends IntangibleObject {
 		jediState = 0;
 
 		pvpRating = 1200;
+
+		ratingReset = 0;
 
 		trainerZoneName = "";
 
@@ -1898,5 +1902,14 @@ class PlayerObject extends IntangibleObject {
 			rating = PVP_RATING_FLOOR;
 
 		pvpRating = rating;
+	}
+
+	@read
+	public int getRatingReset() {
+		return ratingReset;
+	}
+
+	public void setRatingReset(int reset){
+		ratingReset = reset;
 	}
 }

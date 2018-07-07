@@ -1335,6 +1335,11 @@ void PlayerObjectImplementation::notifyOnline() {
 	if (ghost != NULL && playerCreature->hasSkill("force_title_jedi_rank_02") && ghost->hasAbility("forceRun2")){
 		SkillManager::instance()->removeAbility(ghost, "forceRun2", true);
 	}
+
+	if (ghost != NULL && ghost->getRatingReset() != 1){
+		ghost->setPvpRating(1200);
+		ghost->setRatingReset(1);
+	}
 	playerCreature->schedulePersonalEnemyFlagTasks();
 }
 
