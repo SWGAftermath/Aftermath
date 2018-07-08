@@ -44,13 +44,43 @@
 Saber2hHit3Command = {
         name = "saber2hhit3",
 
-	damageMultiplier = 2.5,
-	speedMultiplier = 2.5,
+	damageMultiplier = 5.5,
+	speedMultiplier = 4.0,
 	healthCostMultiplier = 0,
 	actionCostMultiplier = 0,
 	mindCostMultiplier = 0,
 	forceCostMultiplier = 2.0,
 	visMod = 25,
+
+	stateEffects = {
+	   StateEffect( 
+		BLIND_EFFECT, 
+		{}, 
+		{ "blind_defense", "resistance_states" }, 
+		{ "jedi_state_defense" }, 
+		85, 
+		0, 
+		60 
+	  ),
+	  StateEffect( 
+		DIZZY_EFFECT, 
+		{}, 
+		{ "dizzy_defense", "resistance_states" }, 
+		{ "jedi_state_defense" }, 
+		85, 
+		0, 
+		30 
+	  ),
+	  StateEffect( 
+		STUN_EFFECT, 
+		{}, 
+		{ "stun_defense", "resistance_states" }, 
+		{ "jedi_state_defense" }, 
+		85, 
+		0, 
+		60 
+	  )
+	},
 
 	animation = "showoff_3", 
 	animType = GENERATE_INTENSITY,
