@@ -44,7 +44,7 @@
 Saber2hPhantomCommand = {
         name = "saber2hphantom",
 
-	damageMultiplier = 4.5,
+	damageMultiplier = 4.0,
 	speedMultiplier = 4.0,
 	healthCostMultiplier = 0,
 	actionCostMultiplier = 0,
