@@ -33,7 +33,7 @@ public:
 
 			if (res != SUCCESS)
 				return res;
-
+blockingCRCs 
 			creature->renewBuff(buffCRC, duration, true);
 
 			doForceCost(creature);
@@ -51,8 +51,14 @@ public:
 			creature->sendSystemMessage("You must wait " +  getCooldownString(timeRemaining->miliDifference() * -1)  + " to use " + skillNameDisplay + " again");
 			return GENERALERROR;
 		} else {
-			creature->updateCooldownTimer(skillName, delay * 1000);
-			return doJediSelfBuffCommand(creature);
+			int res = doCommonJediSelfChecks(creature);
+			if (res != SUCCESS){
+				return res;
+			}else{
+				creature->updateCooldownTimer(skillName, delay * 1000);
+				return res;
+			}
+			
 		}
 	}
 
