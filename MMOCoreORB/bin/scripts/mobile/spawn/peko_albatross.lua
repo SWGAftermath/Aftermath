@@ -7,7 +7,7 @@ peko_albatross = {
 			minDifficulty = 155,
 			maxDifficulty = 155,
 			numberToSpawn = 0,
-			weighting = 1,
+			weighting = 5,
 			size = 25
 		}
 	}

@@ -799,7 +799,7 @@ yavin4_world = {
 			minDifficulty = 83,
 			maxDifficulty = 87,
 			numberToSpawn = 0,
-			weighting = 3,
+			weighting = 6,
 			size = 25
 		},
 		{
