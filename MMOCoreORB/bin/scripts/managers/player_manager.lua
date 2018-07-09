@@ -88,6 +88,7 @@ veteranRewards = {
 
 		-- 30 Day Rewards
 		--{templateFile = "object/tangible/veteran_reward/harvester.iff", milestone=90, oneTime=true, description="@veteran_new:poweredharvester"},
+		{templateFile = "object/tangible/veteran_reward/resource.iff", milestone=30, oneTime=true, description="@veteran_new:resourcecrate"},
 		{templateFile = "object/tangible/veteran_reward/data_terminal_s1.iff", milestone=30, oneTime=false, description="@veteran_new:dataterminal1"},
 		{templateFile = "object/tangible/veteran_reward/data_terminal_s2.iff", milestone=30, oneTime=false, description="@veteran_new:dataterminal2"},
 		{templateFile = "object/tangible/veteran_reward/data_terminal_s3.iff", milestone=30, oneTime=false, description="@veteran_new:dataterminal3"},
@@ -97,7 +98,6 @@ veteranRewards = {
 
 		-- 180 Day Rewards
 		--{templateFile = "object/tangible/veteran_reward/resource.iff", milestone=180, oneTime=true, description="@veteran_new:resourcecrate"},
-		{templateFile = "object/tangible/veteran_reward/resource.iff", milestone=60, oneTime=true, description="@veteran_new:resourcecrate"},
 		{templateFile = "object/tangible/veteran_reward/frn_couch_falcon_corner_s01.iff", milestone=60, oneTime=false, description="@veteran_new:falconcouch"},
 		{templateFile = "object/tangible/veteran_reward/frn_couch_falcon_section_s01.iff", milestone=60, oneTime=false, description="@veteran_new:falconchair"},
 		{templateFile = "object/tangible/veteran_reward/frn_vet_tie_fighter_toy.iff", milestone=60, oneTime=false, description="@veteran_new:mini_tiefighter"},
