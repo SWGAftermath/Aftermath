@@ -841,6 +841,12 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 
 			} else if (templatePath == "clear_dots") {
 				player->clearDots();
+			} else if (templatePath == "frs_light_side") {
+				PlayerManager* pman = zserv->getPlayerManager();
+				pman->unlockFRSForTesting(player, 1);
+			} else if (templatePath == "frs_dark_side") {
+				PlayerManager* pman = zserv->getPlayerManager();
+				pman->unlockFRSForTesting(player, 2);
 
 			} else if (templatePath == "color_crystals" || templatePath == "krayt_pearls") {
 				ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
@@ -860,6 +866,10 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 
 			} else if (templatePath == "unlock_jedi_initiate") {
 				bluefrog->grantJediInitiate(player);
+
+			} else if (templatePath == "unlock_jedi_master") {
+				PlayerManager* pman = zserv->getPlayerManager();
+				pman->grantJediMaster(player);
 
 			} else {
 				if (templatePath.length() > 0) {

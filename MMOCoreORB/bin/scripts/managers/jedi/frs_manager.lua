@@ -1,16 +1,19 @@
-frsEnabled = 0
+frsEnabled = 1
 
 -- Object ID of Enclave buildings
 lightEnclaveID = 8525417
 darkEnclaveID = 3435626
 
-petitionInterval = 86400000 -- 1 day
-votingInterval = 86400000 -- 1 day
-acceptanceInterval = 86400000 -- 1 day
-maintenanceInterval = 86400000 -- 1 day
+petitionInterval = 1200000 -- 20 mins
+votingInterval = 1200000 -- 20 mins
+acceptanceInterval = 1200000 -- 20 mins
+maintenanceInterval = 1200000 -- 20 mins
 
-requestDemotionDuration = 604800000 -- 7 days
-voteChallengeDuration = 604800000 -- 7 days
+--requestDemotionDuration = 604800000 -- 7 days
+--voteChallengeDuration = 604800000 -- 7 days
+
+requestDemotionDuration = 1200000 -- 20 mins
+voteChallengeDuration = 1200000 -- 20 mins
 
 arenaOpenInterval = 5400000 -- 90 mins
 arenaClosedInterval = 108000000 -- 30 hours
@@ -18,70 +21,68 @@ arenaChallengeDuration = 3600000 -- 60 mins
 
 -- Costs are in FRS experience
 baseMaintCost = 100
-requestDemotionCost = 2500
-voteChallengeCost = 2000
+requestDemotionCost = 2000
+voteChallengeCost = 1000
 
 maxPetitioners = 11
 maxChallenges = 20
 missedVotePenalty = 100 -- FRS XP
 
-darkFrsSkills = {}
-lightFrsSkills = {}
-
--- { rank, skillName, requiredExperience, playerCap }
+-- { rank, skillName, requiredExperience, playerCap, robe }
 lightRankingData = {
-	--{ 0, "force_rank_light_novice", 0, -1 },
-	--{ 1, "force_rank_light_rank_01", 10000, 10 },
-	--{ 2, "force_rank_light_rank_02", 20000, 10 },
-	--{ 3, "force_rank_light_rank_03", 30000, 10 },
-	--{ 4, "force_rank_light_rank_04", 40000, 10 },
-	--{ 5, "force_rank_light_rank_05", 60000, 9 },
-	--{ 6, "force_rank_light_rank_06", 80000, 9 },
-	--{ 7, "force_rank_light_rank_07", 100000, 9 },
-	--{ 8, "force_rank_light_rank_08", 150000, 8 },
-	--{ 9, "force_rank_light_rank_09", 200000, 8 },
-	--{ 10, "force_rank_light_rank_10", 300000, 11 },
-	--{ 11, "force_rank_light_master", 500000, 1 },
+	--{ 0, "force_rank_light_novice", 0, -1, "object/tangible/wearables/robe/robe_jedi_light_s01.iff" },
+	--{ 1, "force_rank_light_rank_01", 5000, 10, "object/tangible/wearables/robe/robe_jedi_light_s02.iff" },
+	--{ 2, "force_rank_light_rank_02", 15000, 10, "object/tangible/wearables/robe/robe_jedi_light_s02.iff" },
+	--{ 3, "force_rank_light_rank_03", 25000, 10, "object/tangible/wearables/robe/robe_jedi_light_s02.iff" },
+	--{ 4, "force_rank_light_rank_04", 35000, 10, "object/tangible/wearables/robe/robe_jedi_light_s02.iff" },
+	--{ 5, "force_rank_light_rank_05", 50000, 9, "object/tangible/wearables/robe/robe_jedi_light_s03.iff"},
+	--{ 6, "force_rank_light_rank_06", 70000, 9, "object/tangible/wearables/robe/robe_jedi_light_s03.iff" },
+	--{ 7, "force_rank_light_rank_07", 90000, 9, "object/tangible/wearables/robe/robe_jedi_light_s03.iff" },
+	--{ 8, "force_rank_light_rank_08", 130000, 8, "object/tangible/wearables/robe/robe_jedi_light_s04.iff" },
+	--{ 9, "force_rank_light_rank_09", 180000, 8, "object/tangible/wearables/robe/robe_jedi_light_s04.iff" },
+	--{ 10, "force_rank_light_rank_10", 250000, 11, "object/tangible/wearables/robe/robe_jedi_light_s05.iff" },
+	--{ 11, "force_rank_light_master", 400000, 1, "object/tangible/wearables/robe/robe_jedi_light_s05.iff" },
 
-	{ 0, "force_rank_light_novice", 0, -1 },
-	{ 1, "force_rank_light_rank_01", 10000, 3 },
-	{ 2, "force_rank_light_rank_02", 20000, 3 },
-	{ 3, "force_rank_light_rank_03", 30000, 3 },
-	{ 4, "force_rank_light_rank_04", 40000, 2 },
-	{ 5, "force_rank_light_rank_05", 60000, 2 },
-	{ 6, "force_rank_light_rank_06", 80000, 2 },
-	{ 7, "force_rank_light_rank_07", 100000, 2 },
-	{ 8, "force_rank_light_rank_08", 150000, 2 },
-	{ 9, "force_rank_light_rank_09", 200000, 2 },
-	{ 10, "force_rank_light_rank_10", 300000, 2 },
-	{ 11, "force_rank_light_master", 500000, 1 },
+	{ 0, "force_rank_light_novice", 0, -1, "object/tangible/wearables/robe/robe_jedi_light_s01.iff" },
+	{ 1, "force_rank_light_rank_01", 5000, 10, "object/tangible/wearables/robe/robe_jedi_light_s02.iff" },
+	{ 2, "force_rank_light_rank_02", 15000, 3, "object/tangible/wearables/robe/robe_jedi_light_s02.iff" },
+	{ 3, "force_rank_light_rank_03", 25000, 3, "object/tangible/wearables/robe/robe_jedi_light_s02.iff" },
+	{ 4, "force_rank_light_rank_04", 35000, 2, "object/tangible/wearables/robe/robe_jedi_light_s02.iff" },
+	{ 5, "force_rank_light_rank_05", 50000, 2, "object/tangible/wearables/robe/robe_jedi_light_s03.iff" },
+	{ 6, "force_rank_light_rank_06", 70000, 2, "object/tangible/wearables/robe/robe_jedi_light_s03.iff" },
+	{ 7, "force_rank_light_rank_07", 90000, 2, "object/tangible/wearables/robe/robe_jedi_light_s03.iff" },
+	{ 8, "force_rank_light_rank_08", 130000, 2, "object/tangible/wearables/robe/robe_jedi_light_s04.iff" },
+	{ 9, "force_rank_light_rank_09", 180000, 2, "object/tangible/wearables/robe/robe_jedi_light_s04.iff" },
+	{ 10, "force_rank_light_rank_10", 250000, 2, "object/tangible/wearables/robe/robe_jedi_light_s05.iff" },
+	{ 11, "force_rank_light_master", 400000, 1, "object/tangible/wearables/robe/robe_jedi_light_s05.iff" },
 }
 
 darkRankingData = {
-	--{ 0, "force_rank_dark_novice", 0, -1 },
-	--{ 1, "force_rank_dark_rank_01", 10000, 10 },
-	--{ 2, "force_rank_dark_rank_02", 20000, 10 },
-	--{ 3, "force_rank_dark_rank_03", 30000, 10 },
-	--{ 4, "force_rank_dark_rank_04", 40000, 10 },
-	--{ 5, "force_rank_dark_rank_05", 60000, 9 },
-	--{ 6, "force_rank_dark_rank_06", 80000, 9 },
-	--{ 7, "force_rank_dark_rank_07", 100000, 9 },
-	--{ 8, "force_rank_dark_rank_08", 150000, 8 },
-	--{ 9, "force_rank_dark_rank_09", 200000, 8 },
-	--{ 10, "force_rank_dark_rank_10", 300000, 11 },
-	--{ 11, "force_rank_dark_master", 500000, 1 },
-	{ 0, "force_rank_dark_novice", 0, -1 },
-	{ 1, "force_rank_dark_rank_01", 10000, 3 },
-	{ 2, "force_rank_dark_rank_02", 20000, 3 },
-	{ 3, "force_rank_dark_rank_03", 30000, 3 },
-	{ 4, "force_rank_dark_rank_04", 40000, 2 },
-	{ 5, "force_rank_dark_rank_05", 60000, 2 },
-	{ 6, "force_rank_dark_rank_06", 80000, 2 },
-	{ 7, "force_rank_dark_rank_07", 100000, 2 },
-	{ 8, "force_rank_dark_rank_08", 150000, 2 },
-	{ 9, "force_rank_dark_rank_09", 200000, 2 },
-	{ 10, "force_rank_dark_rank_10", 300000, 2 },
-	{ 11, "force_rank_dark_master", 500000, 1 },
+	--{ 0, "force_rank_dark_novice", 0, -1, "object/tangible/wearables/robe/robe_jedi_dark_s01.iff" },
+	--{ 1, "force_rank_dark_rank_01", 5000, 10, "object/tangible/wearables/robe/robe_jedi_dark_s02.iff" },
+	--{ 2, "force_rank_dark_rank_02", 15000, 10, "object/tangible/wearables/robe/robe_jedi_dark_s02.iff" },
+	--{ 3, "force_rank_dark_rank_03", 25000, 10, "object/tangible/wearables/robe/robe_jedi_dark_s02.iff" },
+	--{ 4, "force_rank_dark_rank_04", 35000, 10, "object/tangible/wearables/robe/robe_jedi_dark_s02.iff" },
+	--{ 5, "force_rank_dark_rank_05", 50000, 9, "object/tangible/wearables/robe/robe_jedi_dark_s03.iff" },
+	--{ 6, "force_rank_dark_rank_06", 70000, 9, "object/tangible/wearables/robe/robe_jedi_dark_s03.iff" },
+	--{ 7, "force_rank_dark_rank_07", 90000, 9, "object/tangible/wearables/robe/robe_jedi_dark_s03.iff" },
+	--{ 8, "force_rank_dark_rank_08", 130000, 8, "object/tangible/wearables/robe/robe_jedi_dark_s04.iff" },
+	--{ 9, "force_rank_dark_rank_09", 180000, 8, "object/tangible/wearables/robe/robe_jedi_dark_s04.iff" },
+	--{ 10, "force_rank_dark_rank_10", 250000, 11, "object/tangible/wearables/robe/robe_jedi_dark_s05.iff" },
+	--{ 11, "force_rank_dark_master", 400000, 1, "object/tangible/wearables/robe/robe_jedi_dark_s05.iff" },
+
+	{ 0, "force_rank_dark_novice", 0, -1, "object/tangible/wearables/robe/robe_jedi_dark_s01.iff" },
+	{ 1, "force_rank_dark_rank_01", 5000, 10, "object/tangible/wearables/robe/robe_jedi_dark_s02.iff" },
+	{ 2, "force_rank_dark_rank_02", 15000, 3, "object/tangible/wearables/robe/robe_jedi_dark_s02.iff" },
+	{ 3, "force_rank_dark_rank_03", 25000, 3, "object/tangible/wearables/robe/robe_jedi_dark_s02.iff" },
+	{ 4, "force_rank_dark_rank_04", 35000, 2, "object/tangible/wearables/robe/robe_jedi_dark_s02.iff" },
+	{ 5, "force_rank_dark_rank_05", 50000, 2, "object/tangible/wearables/robe/robe_jedi_dark_s03.iff" },
+	{ 6, "force_rank_dark_rank_06", 70000, 2, "object/tangible/wearables/robe/robe_jedi_dark_s03.iff" },
+	{ 7, "force_rank_dark_rank_07", 90000, 2, "object/tangible/wearables/robe/robe_jedi_dark_s03.iff" },
+	{ 8, "force_rank_dark_rank_08", 130000, 2, "object/tangible/wearables/robe/robe_jedi_dark_s04.iff" },
+	{ 9, "force_rank_dark_rank_09", 180000, 2, "object/tangible/wearables/robe/robe_jedi_dark_s04.iff" },
+	{ 10, "force_rank_dark_rank_10", 250000, 2, "object/tangible/wearables/robe/robe_jedi_dark_s05.iff" },
+	{ 11, "force_rank_dark_master", 400000, 1, "object/tangible/wearables/robe/robe_jedi_dark_s05.iff" },
 }
 
 enclaveRoomRequirements = {

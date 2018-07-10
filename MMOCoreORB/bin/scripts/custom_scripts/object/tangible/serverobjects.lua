@@ -1,0 +1,1 @@
+includeFile("../custom_scripts/object/tangible/loot/serverobjects.lua")

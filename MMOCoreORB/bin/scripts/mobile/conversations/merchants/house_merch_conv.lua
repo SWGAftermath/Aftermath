@@ -151,7 +151,7 @@ housemerch_template:addScreen(housemerch_banter3);
 housemerch_banter4 = ConvoScreen:new {
   id = "banter4",
   leftDialog = "",
-  customDialogText = "You sure like to ask a lot of questions don't ya? There's an island out West from here, me and my associate have put up some display versions for potential customers to check out. You can find it at -2109, -4614.",
+  customDialogText = "You sure like to ask a lot of questions don't ya? There's a small area on the planet Naboo north-east of Theed, me and my associate have put up some display versions for potential customers to check out. You can find it at -3832, 5125.",
   stopConversation = "false",
   options = {
 	{"Thanks for the information, show me what you have.", "shop"}

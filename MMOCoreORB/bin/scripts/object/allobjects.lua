@@ -836,3 +836,8 @@ includeFile("weapon/ranged/objects.lua")
 includeFile("weapon/trap/objects.lua")
 includeFile("weapon/objects.lua")
 
+--custom objects
+includeFile("../custom_scripts/object/weapon/melee/polearm/objects.lua")
+includeFile("../custom_scripts/object/weapon/ranged/carbine/objects.lua")
+includeFile("../custom_scripts/object/draft_schematic/weapon/objects.lua")
+includeFile("../custom_scripts/object/tangible/loot/loot_schematic/objects.lua")

@@ -155,7 +155,7 @@ uint32 DamageOverTime::initDot(CreatureObject* victim, CreatureObject* attacker)
 		break;
 	case CommandEffect::FORCECHOKE:
 		nextTick.addMiliTime(6000);
-		strength = (float)(strength * 0.01f) + (strength * (System::random(100) * 0.01f));
+		strength = (float)(strength * 0.01f) + (strength * ((System::random(50) + 50) * 0.01f));
 		victim->showFlyText("combat_effects", "choke", 0xFF, 0, 0);
 
 		break;
@@ -261,11 +261,39 @@ uint32 DamageOverTime::doPoisonTick(CreatureObject* victim, CreatureObject* atta
 		return 0;
 
 	uint32 attr = victim->getHAM(attribute);
+
 	int absorptionMod = Math::max(0, Math::min(50, victim->getSkillMod("absorption_poison")));
+	
+
+	int damage = (int)(strength);
+	int damagePrt0;
+	int damagePrt1 = 0;
+	int damagePrt2 = 0;
+	if (damage < 400)
+		damagePrt0 = damage;
+	else
+		damagePrt0 = 400;
+	if (damage > 400)
+		damagePrt1 = damage - 400;
+	if (damage > 1000){
+		damagePrt2 = damage - 1000;
+		damagePrt1 = 600;
+	} 
+	//int totalDamage = damage;
+	//int tempDamage = 0;
+
 
 	// absorption reduces the strength of a dot by the given %.
-	int damage = (int)(strength * (1.f - absorptionMod / 100.f));
-	if (attr < damage) {
+	if (damagePrt1 > 0){
+		absorptionMod = Math::max(0, Math::min(25, victim->getSkillMod("absorption_poison"))) + 25;
+		damagePrt1 = (int)(damagePrt1 * (1.f - absorptionMod / 100.f));
+	}
+	if (damagePrt2 > 0){
+		absorptionMod = Math::max(0, Math::min(50, victim->getSkillMod("absorption_poison"))) + 25;
+		damagePrt2 = (int)(damagePrt2 * (1.f - absorptionMod / 100.f));
+	}
+	int totalDamage = damagePrt0 + damagePrt1 + damagePrt2;
+	if (attr < totalDamage) {
 		//System::out << "setting strength to " << attr -1 << endl;
 		damage = attr - 1;
 	}
@@ -274,19 +302,19 @@ uint32 DamageOverTime::doPoisonTick(CreatureObject* victim, CreatureObject* atta
 	Reference<CreatureObject*> victimRef = victim;
 	auto attribute = this->attribute;
 
-	Core::getTaskManager()->executeTask([victimRef, attackerRef, attribute, damage] () {
+	Core::getTaskManager()->executeTask([victimRef, attackerRef, attribute, totalDamage] () {
 		Locker locker(victimRef);
 
 		Locker crossLocker(attackerRef, victimRef);
 
-		victimRef->inflictDamage(attackerRef, attribute, damage, false);
+		victimRef->inflictDamage(attackerRef, attribute, totalDamage, false);
 		if (victimRef->hasAttackDelay())
 			victimRef->removeAttackDelay();
 
 		victimRef->playEffect("clienteffect/dot_poisoned.cef","");
 	}, "PoisonTickLambda");
 
-	return damage;
+	return totalDamage;
 }
 
 uint32 DamageOverTime::doDiseaseTick(CreatureObject* victim, CreatureObject* attacker) {
@@ -294,8 +322,11 @@ uint32 DamageOverTime::doDiseaseTick(CreatureObject* victim, CreatureObject* att
 	if (victim->isIncapacitated() && victim->isFeigningDeath() == false)
 		return 0;
 
-	int absorptionMod = Math::max(0, Math::min(50, victim->getSkillMod("absorption_disease")));
-
+	//int absorptionMod = Math::max(0, Math::min(50, victim->getSkillMod("absorption_disease")));
+	int absorptionMod = 0;
+	if (strength > 400 && victim->isPlayerCreature())
+		absorptionMod = 75;
+	
 	// absorption reduces the strength of a dot by the given %.
 	// make sure that the CM dots modify the strength
 	int damage = (int)(strength * (1.f - absorptionMod / 100.f) * (1.f + victim->getShockWounds() / 100.0f));
@@ -341,6 +372,8 @@ uint32 DamageOverTime::doForceChokeTick(CreatureObject* victim, CreatureObject* 
 	Reference<CreatureObject*> victimRef = victim;
 	auto attribute = this->attribute;
 	auto strength = this->strength;
+	if (attacker->isPlayerCreature())
+		strength = strength * 3;
 
 	Core::getTaskManager()->executeTask([victimRef, attackerRef, attribute, strength] () {
 		Locker locker(victimRef);

@@ -1,6 +1,7 @@
 #include "EnclaveContainerComponent.h"
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/player/PlayerObject.h"
+#include "server/zone/objects/creature/ai/AiAgent.h"
 #include "server/zone/objects/player/variables/FrsData.h"
 #include "server/zone/objects/intangible/PetControlDevice.h"
 #include "server/zone/objects/intangible/tasks/PetControlDeviceStoreObjectTask.h"
@@ -16,34 +17,34 @@ bool EnclaveContainerComponent::checkContainerPermission(SceneObject* sceneObjec
 }
 
 bool EnclaveContainerComponent::checkBuildingPermission(SceneObject* sceneObject, CreatureObject* creature, uint16 permission) const {
-	return true;
-	/*if (permission != ContainerPermissions::WALKIN)
+	if (permission != ContainerPermissions::WALKIN)
 		return StructureContainerComponent::checkContainerPermission(sceneObject, creature, permission);
-
-	if (!creature->isPlayerCreature()) {
-		if (creature->isPet()) {
-			ManagedReference<CreatureObject*> owner = creature->getLinkedCreature().get();
-
-			if (owner != NULL) {
-				ManagedReference<PetControlDevice*> petControlDevice = creature->getControlDevice().get().castTo<PetControlDevice*>();
-
-				if (petControlDevice == NULL)
-					return false;
-
-				Reference<PetControlDeviceStoreObjectTask*> task = new PetControlDeviceStoreObjectTask(petControlDevice, owner, true);
-				task->execute();
-
-				owner->sendSystemMessage("@pvp_rating:enclave_deny_pet_entry"); // As you are not permitted to bring any pets or hirelings into the enclave. They have been returned to your data pad for you.
-			}
-		}
-
-		return false;
-	}
 
 	PlayerObject* ghost = creature->getPlayerObject();
 
-	if (ghost == NULL)
+	if (ghost == nullptr)
 		return false;
+
+	bool storedPet = false;
+
+	for (int i = 0; i < ghost->getActivePetsSize(); ++i) {
+		ManagedReference<AiAgent*> object = ghost->getActivePet(i);
+
+		if (object != nullptr) {
+			ManagedReference<PetControlDevice*> pcd = object->getControlDevice().get().castTo<PetControlDevice*>();
+
+			if (pcd == nullptr)
+				continue;
+
+			Reference<PetControlDeviceStoreObjectTask*> task = new PetControlDeviceStoreObjectTask(pcd, creature, true);
+			task->execute();
+
+			storedPet = true;
+		}
+	}
+
+	if (storedPet)
+		creature->sendSystemMessage("@pvp_rating:enclave_deny_pet_entry"); // As you are not permitted to bring any pets or hirelings into the enclave. They have been returned to your data pad for you.
 
 	if (ghost->hasGodMode())
 		return true;
@@ -59,7 +60,7 @@ bool EnclaveContainerComponent::checkBuildingPermission(SceneObject* sceneObject
 
 	FrsData* frsData = ghost->getFrsData();
 
-	if (frsData == NULL)
+	if (frsData == nullptr)
 		return false;
 
 	if (frsData->getCouncilType() == enclaveType)
@@ -67,13 +68,12 @@ bool EnclaveContainerComponent::checkBuildingPermission(SceneObject* sceneObject
 
 	creature->sendSystemMessage("@pvp_rating:enclave_deny_entry"); // A strange force repels you and keeps you from entering.
 
-	return false;*/
+	return false;
 }
 
 
 bool EnclaveContainerComponent::checkCellPermission(SceneObject* sceneObject, CreatureObject* creature, uint16 permission) const {
-	return true;
-	/*if (permission != ContainerPermissions::WALKIN)
+	if (permission != ContainerPermissions::WALKIN)
 		return ContainerComponent::checkContainerPermission(sceneObject, creature, permission);
 
 	if (!creature->isPlayerCreature())
@@ -122,5 +122,20 @@ bool EnclaveContainerComponent::checkCellPermission(SceneObject* sceneObject, Cr
 		allowPermissions |= allow;
 	}
 
-	return permission & allowPermissions;*/
+	return permission & allowPermissions;
+}
+
+int EnclaveContainerComponent::notifyObjectRemoved(SceneObject* sceneObject, SceneObject* object, SceneObject* destination) const {
+	CreatureObject* creo = object->asCreatureObject();
+
+	if (creo == nullptr || sceneObject->getObjectID() != FrsManager::ARENA_CELL)
+		return ContainerComponent::notifyObjectRemoved(sceneObject, object, destination);
+
+	FrsManager* frsMan = creo->getZoneServer()->getFrsManager();
+
+	if (frsMan->isPlayerFightingInArena(creo->getObjectID())) {
+		frsMan->handleLeftArena(creo);
+	}
+
+	return ContainerComponent::notifyObjectRemoved(sceneObject, object, destination);
 }

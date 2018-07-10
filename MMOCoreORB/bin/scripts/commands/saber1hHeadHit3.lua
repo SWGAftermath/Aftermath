@@ -44,7 +44,7 @@
 Saber1hHeadHit3Command = {
         name = "saber1hheadhit3",
 
-	damageMultiplier = 2.25,
+	damageMultiplier = 2.15,
 	speedMultiplier = 2.25,
 	healthCostMultiplier = 0,
 	actionCostMultiplier = 0,
@@ -71,7 +71,7 @@ Saber1hHeadHit3Command = {
 	  )
 	},
 
-	weaponType = ONEHANDJEDIWEAPON,
+	weaponType = JEDIWEAPON,
 
 	range = -1
 }

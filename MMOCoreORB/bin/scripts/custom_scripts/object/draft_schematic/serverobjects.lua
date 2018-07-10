@@ -1,0 +1,1 @@
+includeFile("../custom_scripts/object/draft_schematic/weapon/serverobjects.lua")

@@ -12,7 +12,7 @@ nightsister_elder = Creature:new {
 	baseHAM = 321000,
 	baseHAMmax = 392000,
 	armor = 3,
-	resists = {200,25,25,200,200,200,200,200,-1},
+	resists = {75,25,25,200,200,200,200,200,-1},
 	meatType = "",
 	meatAmount = 0,
 	hideType = "",
@@ -32,8 +32,7 @@ nightsister_elder = Creature:new {
 		{
 			groups = {
 				{group = "power_crystals", chance = 2000000},
-				{group = "nightsister_common", chance = 2000000},
-				{group = "junk", chance = 2000000},
+				{group = "nightsister_common", chance = 4000000},
 				{group = "armor_attachments", chance = 1500000},
 				{group = "clothing_attachments", chance = 1500000},
 				{group = "wearables_scarce", chance = 1000000}

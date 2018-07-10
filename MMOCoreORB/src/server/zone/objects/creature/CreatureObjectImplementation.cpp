@@ -2888,6 +2888,9 @@ bool CreatureObjectImplementation::isAggressiveTo(CreatureObject* object) {
 	if (ghost->isOnLoadScreen())
 		return false;
 
+	if (hasPersonalEnemyFlag(object) && object->hasPersonalEnemyFlag(asCreatureObject()))
+		return true;
+
 	if (ConfigManager::instance()->getPvpMode() && isPlayerCreature())
 		return true;
 
@@ -3012,6 +3015,9 @@ bool CreatureObjectImplementation::isAttackableBy(CreatureObject* object, bool b
 	if (ghost == nullptr || targetGhost == nullptr)
 		return false;
 
+	if (hasPersonalEnemyFlag(object) && object->hasPersonalEnemyFlag(asCreatureObject()))
+		return true;
+
 	bool areInDuel = (ghost->requestedDuelTo(object) && targetGhost->requestedDuelTo(asCreatureObject()));
 
 	if (areInDuel)
@@ -3057,7 +3063,7 @@ bool CreatureObjectImplementation::isHealableBy(CreatureObject* object) {
 
 	PlayerObject* ghost = object->getPlayerObject(); // ghost is the healer
 
-	if (ghost == NULL)
+	if (ghost == nullptr)
 		return false;
 	//Comment out BH TEF check for healing
 	//if (ghost->hasBhTef())
@@ -3564,6 +3570,95 @@ void CreatureObjectImplementation::updateCOV() {
 				if (o->getCloseObjects() != nullptr)
 					o->removeInRangeObject(creature);
 			}
+		}
+	}
+}
+
+void CreatureObjectImplementation::addPersonalEnemyFlag(CreatureObject* enemy, uint64 duration) {
+	uint64 expireTime = duration;
+
+	if (duration > 0) {
+		Time currentTime;
+		expireTime += currentTime.getMiliTime();
+
+		ManagedReference<CreatureObject*> creo = _this.getReferenceUnsafeStaticCast();
+		ManagedReference<CreatureObject*> strongEnemy = enemy->asCreatureObject();
+
+		Core::getTaskManager()->scheduleTask([creo, strongEnemy] {
+			Locker locker(creo);
+			creo->removePersonalEnemyFlag(strongEnemy);
+		}, "PersonalEnemyFlagExpiration", duration);
+	}
+
+	personalEnemyFlags.put(enemy->getObjectID(), expireTime);
+	sendPvpStatusTo(enemy);
+}
+
+void CreatureObjectImplementation::removePersonalEnemyFlag(CreatureObject* enemy) {
+	uint64 enemyID = enemy->getObjectID();
+
+	if (!personalEnemyFlags.drop(enemyID))
+		return;
+
+	sendPvpStatusTo(enemy);
+}
+
+void CreatureObjectImplementation::removePersonalEnemyFlag(uint64 enemyID) {
+	if (!personalEnemyFlags.drop(enemyID))
+		return;
+
+	ZoneServer* zoneServer = server->getZoneServer();
+	ManagedReference<CreatureObject*> enemy = zoneServer->getObject(enemyID).castTo<CreatureObject*>();
+
+	if (enemy != NULL)
+		sendPvpStatusTo(enemy);
+}
+
+bool CreatureObjectImplementation::hasPersonalEnemyFlag(CreatureObject* enemy) {
+	uint64 enemyOID = enemy->getObjectID();
+
+	if (!personalEnemyFlags.contains(enemyOID))
+		return false;
+
+	uint64 expireTime = personalEnemyFlags.get(enemyOID);
+
+	if (expireTime == 0)
+		return true;
+
+	Time currentTime;
+
+	return currentTime.getMiliTime() < expireTime;
+}
+
+void CreatureObjectImplementation::schedulePersonalEnemyFlagTasks() {
+	if (personalEnemyFlags.size() <= 0)
+		return;
+
+	Time currentTime;
+	uint64 curTime = currentTime.getMiliTime();
+
+	for (int i = personalEnemyFlags.size() - 1; i >= 0; i--) {
+		uint64 expireTime = personalEnemyFlags.get(i);
+		uint64 enemyID = personalEnemyFlags.getKey(i);
+
+		if (expireTime == 0)
+			continue;
+
+		if (expireTime <= curTime) {
+			personalEnemyFlags.drop(enemyID);
+		} else {
+			uint64 timeDiff = expireTime - curTime;
+
+			ManagedReference<CreatureObject*> creo = _this.getReferenceUnsafeStaticCast();
+
+			Core::getTaskManager()->scheduleTask([creo, enemyID, expireTime] {
+				Locker locker(creo);
+
+				if (creo->getPersonalEnemyFlagTime(enemyID) != expireTime)
+					return;
+
+				creo->removePersonalEnemyFlag(enemyID);
+			}, "PersonalEnemyFlagExpiration", timeDiff);
 		}
 	}
 }

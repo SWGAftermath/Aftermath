@@ -28,11 +28,10 @@ require("sui.custom.SuiRadiationSensor")
 require("sui.custom.SuiReceiverPuzzle")
 
 -- Custom content
---includeFile("../custom_scripts/screenplays/screenplays.lua")
-includeFile("../custom_scripts/screenplays/glowing.lua")
+includeFile("../custom_scripts/screenplays/screenplays.lua")
+--includeFile("../custom_scripts/screenplays/glowing.lua")
 
 includeFile("helperfuncs.lua")
-
 includeFile("playerTriggers.lua")
 
 
@@ -150,7 +149,6 @@ includeFile("dungeon/corellian_corvette/ticket_takers/ds_297.lua")
 includeFile("dungeon/corellian_corvette/ticket_takers/klaatu.lua")
 includeFile("dungeon/corellian_corvette/ticket_takers/lt_lance.lua")
 includeFile("dungeon/lok_bunker/lok_bunker.lua")
-includeFile("dungeon/dath_bunker/dath_bunker.lua")
 
 
 -- Village

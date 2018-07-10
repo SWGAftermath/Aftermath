@@ -581,6 +581,7 @@ void BountyMissionObjectiveImplementation::handlePlayerKilled(ManagedObject* arg
 	if (owner != NULL && killer != NULL && !completedMission) {
 		String playerName = killer->getFirstName();
 		String bhName = owner->getFirstName();
+		String winner;
 		if (owner->getObjectID() == killer->getObjectID()) {
 			//Target killed by player, complete mission.
 			ZoneServer* zoneServer = owner->getZoneServer();
@@ -603,10 +604,16 @@ void BountyMissionObjectiveImplementation::handlePlayerKilled(ManagedObject* arg
 					String victimName = target->getFirstName();
 					bBroadcast << "\\#00bfff" << bhName << "\\#ffd700" << " a" << "\\#ff7f00 Bounty Hunter" << "\\#ffd700 has collected the bounty on\\#00bfff " << victimName;
 					owner->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, bBroadcast.toString());
+					winner = "BH";
 					StringIdChatParameter message("base_player","prose_revoke_xp");
 					message.setDI(xpLoss * -1);
 					message.setTO("exp_n", "jedi_general");
 					target->sendSystemMessage(message);
+					StringBuffer bhKillQuery;
+					Database::escapeString(bhName);
+					Database::escapeString(victimName);
+					bhKillQuery << "INSERT INTO bh_kills(bh, opponent, reward, winner) VALUES ('" << bhName <<"','" << victimName << "'," << mission->getRewardCredits() << ", '" << winner << "');";
+					ServerDatabase::instance()->executeStatement(bhKillQuery);
 				}
 			}
 
@@ -616,9 +623,15 @@ void BountyMissionObjectiveImplementation::handlePlayerKilled(ManagedObject* arg
 
 			owner->sendSystemMessage("@mission/mission_generic:failed"); // Mission failed
 			killer->sendSystemMessage("You have defeated a bounty hunter, ruining their mission against you!");
+			winner = "BH Target";
 			StringBuffer zBroadcast;
 			zBroadcast << "\\#00bfff" << playerName << "\\#ffd700" << " a" << "\\#00e604 Jedi" << "\\#ffd700 has defeated\\#00bfff " << bhName << "\\#ffd700 a" << "\\#ff7f00 Bounty Hunter";
 			killer->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, zBroadcast.toString());
+			StringBuffer bhKillQuery;
+			Database::escapeString(bhName);
+			Database::escapeString(playerName);
+			bhKillQuery << "INSERT INTO bh_kills(bh, opponent, reward, winner) VALUES ('" << bhName <<"','" << playerName << "'," << mission->getRewardCredits() << ", '" << winner << "');";
+			ServerDatabase::instance()->executeStatement(bhKillQuery);
 			fail();
 		}
 	}

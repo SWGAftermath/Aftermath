@@ -89,6 +89,7 @@
 
 #include "server/zone/managers/stringid/StringIdManager.h"
 #include "server/zone/objects/creature/buffs/PowerBoostBuff.h"
+#include "server/zone/objects/creature/buffs/ForceWeakenDebuff.h"
 #include "server/zone/objects/creature/ai/Creature.h"
 #include "server/zone/objects/creature/ai/NonPlayerCreatureObject.h"
 #include "server/zone/objects/creature/events/DespawnCreatureTask.h"
@@ -104,6 +105,7 @@
 
 #include "server/zone/managers/visibility/VisibilityManager.h"
 #include "server/zone/managers/mission/MissionManager.h"
+#include "server/zone/managers/frs/FrsManager.h"
 
 
 
@@ -757,14 +759,47 @@ int PlayerManagerImplementation::notifyDestruction(TangibleObject* destructor, T
 
 		playerCreature->sendSystemMessage(toVictim);
 
+		if (destructor->isPlayerCreature()) {
+			ManagedReference<CreatureObject*> destructorCreature = destructor->asCreatureObject();
 
-		if(destructor->isPlayerCreature()) {
-			StringIdChatParameter toKiller;
+			PlayerObject* attackerGhost = destructorCreature->getPlayerObject();
+			PlayerObject* victimGhost = playerCreature->getPlayerObject();
 
-			toKiller.setStringId("base_player", "prose_target_incap");
-			toKiller.setTT(playerCreature->getDisplayedName());
+			if (attackerGhost != NULL && victimGhost != NULL) {
+				FrsData* attackerData = attackerGhost->getFrsData();
+				int attackerCouncil = attackerData->getCouncilType();
 
-			destructor->asCreatureObject()->sendSystemMessage(toKiller);
+				FrsData* victimData = victimGhost->getFrsData();
+				int victimCouncil = victimData->getCouncilType();
+
+				ManagedReference<FrsManager*> strongMan = playerCreature->getZoneServer()->getFrsManager();
+				ManagedReference<CreatureObject*> strongRef = playerCreature->asCreatureObject();
+
+				if (attackerCouncil == FrsManager::COUNCIL_DARK && victimCouncil == FrsManager::COUNCIL_DARK) {
+					Core::getTaskManager()->executeTask([strongRef, destructorCreature, attackerCouncil, victimCouncil, strongMan] () {
+						bool isFrsBattle = false;
+
+						if (attackerCouncil == FrsManager::COUNCIL_DARK && victimCouncil == FrsManager::COUNCIL_DARK)
+							isFrsBattle = strongMan->handleDarkCouncilIncap(destructorCreature, strongRef);
+
+						if (!isFrsBattle) {
+							StringIdChatParameter toKiller;
+
+							toKiller.setStringId("base_player", "prose_target_incap");
+							toKiller.setTT(strongRef->getDisplayedName());
+
+							destructorCreature->sendSystemMessage(toKiller);
+						}
+					}, "PvPFRSIncapTask");
+				} else {
+					StringIdChatParameter toKiller;
+
+					toKiller.setStringId("base_player", "prose_target_incap");
+					toKiller.setTT(playerCreature->getDisplayedName());
+
+					destructorCreature->sendSystemMessage(toKiller);
+				}
+			}
 		}
 	}
 
@@ -801,6 +836,7 @@ void PlayerManagerImplementation::killPlayer(TangibleObject* attacker, CreatureO
 		}
 	}
 
+	ThreatMap* threatMap = player->getThreatMap();
 
 	if (attacker->getFaction() != 0) {
 		if (attacker->isPlayerCreature() || attacker->isPet()) {
@@ -819,12 +855,34 @@ void PlayerManagerImplementation::killPlayer(TangibleObject* attacker, CreatureO
 					FactionManager::instance()->awardPvpFactionPoints(attackerCreature, player);
 				}
 			}
+
+			PlayerObject* attackerGhost = attackerCreature->getPlayerObject();
+			PlayerObject* victimGhost = player->getPlayerObject();
+
+			if (attackerGhost != NULL && victimGhost != NULL) {
+				FrsData* attackerData = attackerGhost->getFrsData();
+				int attackerCouncil = attackerData->getCouncilType();
+
+				FrsData* victimData = victimGhost->getFrsData();
+				int victimCouncil = victimData->getCouncilType();
+
+				if (attackerCouncil == FrsManager::COUNCIL_DARK && victimCouncil == FrsManager::COUNCIL_DARK) {
+					ManagedReference<FrsManager*> strongMan = player->getZoneServer()->getFrsManager();
+					ManagedReference<CreatureObject*> attackerStrongRef = attackerCreature->asCreatureObject();
+					ManagedReference<CreatureObject*> playerStrongRef = player->asCreatureObject();
+
+					Reference<ThreatMap*> copyThreatMap = new ThreatMap(*threatMap);
+
+					Core::getTaskManager()->executeTask([attackerStrongRef, playerStrongRef, strongMan, copyThreatMap] () {
+						if (!strongMan->handleDarkCouncilDeath(attackerStrongRef, playerStrongRef))
+							strongMan->handleSuddenDeathLoss(playerStrongRef, copyThreatMap);
+					}, "PvPFRSKillTask");
+				}
+			}
 		}
 	}
 
 	CombatManager::instance()->freeDuelList(player, false);
-
-	ThreatMap* threatMap = player->getThreatMap();
 
 	if (attacker->isPlayerCreature()) {
 		ManagedReference<CreatureObject*> playerRef = player->asCreatureObject();
@@ -871,6 +929,7 @@ void PlayerManagerImplementation::sendActivateCloneRequest(CreatureObject* playe
 	uint64 preDesignatedFacilityOid = ghost->getCloningFacility();
 	ManagedReference<SceneObject*> preDesignatedFacility = server->getObject(preDesignatedFacilityOid);
 	String predesignatedName = "None";
+	String locationName = "None";
 
 	//Get the name of the pre-designated facility
 	if (preDesignatedFacility != NULL) {
@@ -954,6 +1013,8 @@ void PlayerManagerImplementation::sendActivateCloneRequest(CreatureObject* playe
 		if (cbot == NULL)
 			continue;
 
+
+
 		if (cbot->getFacilityType() == CloningBuildingObjectTemplate::JEDI_ONLY && player->hasSkill("force_title_jedi_rank_01")) {
 			String name = "Force Shrine (" + String::valueOf((int)loc->getWorldPositionX()) + ", " + String::valueOf((int)loc->getWorldPositionY()) + ")";
 			cloneMenu->addMenuItem(name, loc->getObjectID());
@@ -965,6 +1026,14 @@ void PlayerManagerImplementation::sendActivateCloneRequest(CreatureObject* playe
 				String name = "Jedi Enclave (" + String::valueOf((int)loc->getWorldPositionX()) + ", " + String::valueOf((int)loc->getWorldPositionY()) + ")";
 				cloneMenu->addMenuItem(name, loc->getObjectID());
 			}
+		} else if (cbot->getFacilityType() != CloningBuildingObjectTemplate::JEDI_ONLY){
+			String name = "None";
+			ManagedReference<CityRegion*> cr2 = loc->getCityRegion().get();
+			if (cr2 != NULL)
+				name = cr2->getRegionDisplayedName();
+			else
+				name = loc->getDisplayedName();
+			cloneMenu->addMenuItem(name, loc->getObjectID());
 		}
 	}
 
@@ -1622,7 +1691,8 @@ int PlayerManagerImplementation::awardExperience(CreatureObject* player, const S
 	} else if (xpType == "imagedesigner" ||
 		xpType == "music" || 
 		xpType == "dance" ||
-		xpType == "entertainer_healing"){
+		xpType == "entertainer_healing" ||
+		xpType == "bio_engineer_dna_harvesting"){
 			xp = playerObject->addExperience(xpType, (amount * 10));
 			float speciesModifier = 1.f;
 
@@ -1638,7 +1708,6 @@ int PlayerManagerImplementation::awardExperience(CreatureObject* player, const S
 		else
 			xp = playerObject->addExperience(xpType, (int)amount);
 	}
-
 	player->notifyObservers(ObserverEventType::XPAWARDED, player, xp);
 
 	if (sendSystemMessage) {
@@ -2385,11 +2454,7 @@ int PlayerManagerImplementation::healEnhance(CreatureObject* enhancer, CreatureO
 void PlayerManagerImplementation::stopListen(CreatureObject* creature, uint64 entid, bool doSendPackets, bool forced, bool doLock, bool outOfRange) {
 	Locker locker(creature);
 
-	ManagedReference<SceneObject*> object = server->getObject(entid);
 	uint64 listenID = creature->getListenID();
-
-	if (object == NULL)
-		return;
 
 	// If the player selected "Stop listening" by using a radial menu created on a
 	// musician other than the one that they are currently listening to then change
@@ -2397,6 +2462,11 @@ void PlayerManagerImplementation::stopListen(CreatureObject* creature, uint64 en
 	if (entid != listenID && listenID != 0 && creature->isListening()) {
 		entid = listenID;
 	}
+
+	ManagedReference<SceneObject*> object = server->getObject(entid);
+
+	if (object == NULL)
+		return;
 
 	if(object->isDroidObject()) {
 		creature->setMood(creature->getMoodID());
@@ -3511,7 +3581,7 @@ String PlayerManagerImplementation::banAccount(PlayerObject* admin, Account* acc
 	account->setBanReason(reason);
 	account->setBanExpires(System::getMiliTime() + seconds*1000);
 	account->setBanAdmin(admin->getAccountID());
-	
+
 	try {
 
 		Reference<CharacterList*> characters = account->getCharacterList();
@@ -3802,6 +3872,7 @@ void PlayerManagerImplementation::fixHAM(CreatureObject* player) {
 		attributeValues.setAllowOverwriteInsertPlan();
 
 		ManagedReference<Buff*> powerBoost;
+		ManagedReference<Buff*> forceWeaken;
 
 		//check buffs
 		for (int i = 0; i < buffs->getBuffListSize(); ++i) {
@@ -3811,6 +3882,13 @@ void PlayerManagerImplementation::fixHAM(CreatureObject* player) {
 
 			if (power != NULL) {
 				powerBoost = power;
+				continue;
+			}
+
+			ForceWeakenDebuff* debuff = dynamic_cast<ForceWeakenDebuff*>(buff.get());
+
+			if (debuff != NULL) {
+				forceWeaken = debuff;
 				continue;
 			}
 
@@ -3828,6 +3906,12 @@ void PlayerManagerImplementation::fixHAM(CreatureObject* player) {
 			Locker buffLocker(powerBoost);
 
 			player->removeBuff(powerBoost);
+		}
+
+		if (forceWeaken != NULL) {
+			Locker buffLocker(forceWeaken);
+
+			player->removeBuff(forceWeaken);
 		}
 
 		int encumbranceType = -1;
@@ -5480,13 +5564,20 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		if (entry == NULL || attacker == NULL || attacker == player || !attacker->isPlayerCreature())
 			continue;
 
-		if (!player->isAttackableBy(attacker, true))
+		/*if (!player->isAttackableBy(attacker, true)){
+			info("player is not attackable by attacker", true);
+			continue;
+		}*/
+		//remove the attackable check and add in a group check. Not sure if this is enough to prevent incorrect increases.
+		if (player->getGroupID() != 0 && player->getGroupID() == attacker->getGroupID())
 			continue;
 
 		PlayerObject* attackerGhost = attacker->getPlayerObject();
 
 		if (attackerGhost == NULL)
 			continue;
+
+		Locker crossLock(attacker, player);
 
 		if (!allowSameAccountPvpRatingCredit && ghost->getAccountID() == attackerGhost->getAccountID())
 			continue;
@@ -5577,8 +5668,6 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		victimRatingTotalDelta += victimRatingDelta;
 		int newRating = curAttackerRating + attackerRatingDelta;
 
-		Locker crossLock(attacker, player);
-
 		attackerGhost->setPvpRating(newRating);
 
 		crossLock.release();
@@ -5666,4 +5755,121 @@ float PlayerManagerImplementation::getSpeciesXpModifier(const String& species, c
 		return 1.f;
 
 	return (100.f + bonus) / 100.f;
+}
+
+void PlayerManagerImplementation::unlockFRSForTesting(CreatureObject* player, int councilType) {
+	PlayerObject* ghost = player->getPlayerObject();
+
+	if (ghost == nullptr)
+		return;
+
+	SkillManager* skillManager = SkillManager::instance();
+
+	int glowyBadgeIds[] = { 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 38, 39, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 105, 106, 107, 108, 112, 113, 114, 115, 116, 117, 118, 119, 120, 129, 130, 131, 132, 134, 135, 136, 137, 138, 143, 144, 145, 146 };
+
+	for (int i = 0; i < 30; i++) {
+		ghost->awardBadge(glowyBadgeIds[i]);
+	}
+
+	SkillManager::instance()->surrenderAllSkills(player, true, false);
+
+	Lua* lua = DirectorManager::instance()->getLuaInstance();
+
+	Reference<LuaFunction*> luaFrsTesting = lua->createFunction("FsIntro", "completeVillageIntroFrog", 0);
+	*luaFrsTesting << player;
+
+	luaFrsTesting->callFunction();
+
+	String branches[] = {
+			"force_sensitive_combat_prowess_ranged_accuracy",
+			"force_sensitive_combat_prowess_ranged_speed",
+			"force_sensitive_combat_prowess_melee_accuracy",
+			"force_sensitive_combat_prowess_melee_speed",
+			"force_sensitive_enhanced_reflexes_ranged_defense",
+			"force_sensitive_enhanced_reflexes_melee_defense"
+		};
+
+	for (int i = 0; i < 6; i++) {
+		String branch = branches[i];
+		player->setScreenPlayState("VillageUnlockScreenPlay:" + branch, 2);
+		skillManager->awardSkill(branch + "_04", player, true, true, true);
+	}
+
+	luaFrsTesting = lua->createFunction("FsOutro", "completeVillageOutroFrog", 0);
+	*luaFrsTesting << player;
+
+	luaFrsTesting->callFunction();
+
+	luaFrsTesting = lua->createFunction("JediTrials", "completePadawanForTesting", 0);
+	*luaFrsTesting << player;
+
+	luaFrsTesting->callFunction();
+
+	SkillManager::instance()->surrenderAllSkills(player, true, true);
+
+	skillManager->awardSkill("jedi_padawan_master", player, true, true, true);
+	skillManager->awardSkill("jedi_light_side_journeyman_master", player, true, true, true);
+	skillManager->awardSkill("jedi_light_side_master_master", player, true, true, true);
+
+	luaFrsTesting = lua->createFunction("JediTrials", "completeKnightForTesting", 0);
+	*luaFrsTesting << player;
+	*luaFrsTesting << councilType;
+
+	luaFrsTesting->callFunction();
+}
+
+void PlayerManagerImplementation::grantJediMaster(CreatureObject* player){
+	PlayerObject* ghost = player->getPlayerObject();
+
+	if (ghost == nullptr)
+		return;
+
+	SkillManager* skillManager = SkillManager::instance();
+
+	int glowyBadgeIds[] = { 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 38, 39, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 105, 106, 107, 108, 112, 113, 114, 115, 116, 117, 118, 119, 120, 129, 130, 131, 132, 134, 135, 136, 137, 138, 143, 144, 145, 146 };
+
+	for (int i = 0; i < 30; i++) {
+		ghost->awardBadge(glowyBadgeIds[i]);
+	}
+
+	SkillManager::instance()->surrenderAllSkills(player, true, false);
+
+	Lua* lua = DirectorManager::instance()->getLuaInstance();
+
+	Reference<LuaFunction*> luaFrsTesting = lua->createFunction("FsIntro", "completeVillageIntroFrog", 0);
+	*luaFrsTesting << player;
+
+	luaFrsTesting->callFunction();
+
+	String branches[] = {
+			"force_sensitive_combat_prowess_ranged_accuracy",
+			"force_sensitive_combat_prowess_ranged_speed",
+			"force_sensitive_combat_prowess_melee_accuracy",
+			"force_sensitive_combat_prowess_melee_speed",
+			"force_sensitive_enhanced_reflexes_ranged_defense",
+			"force_sensitive_enhanced_reflexes_melee_defense"
+		};
+
+	for (int i = 0; i < 6; i++) {
+		String branch = branches[i];
+		player->setScreenPlayState("VillageUnlockScreenPlay:" + branch, 2);
+		skillManager->awardSkill(branch + "_04", player, true, true, true);
+	}
+
+	luaFrsTesting = lua->createFunction("FsOutro", "completeVillageOutroFrog", 0);
+	*luaFrsTesting << player;
+
+	luaFrsTesting->callFunction();
+
+	luaFrsTesting = lua->createFunction("JediTrials", "completePadawanForTesting", 0);
+	*luaFrsTesting << player;
+
+	luaFrsTesting->callFunction();
+
+	SkillManager::instance()->surrenderAllSkills(player, true, true);
+
+	skillManager->awardSkill("jedi_padawan_master", player, true, true, true);
+	skillManager->awardSkill("jedi_light_side_journeyman_master", player, true, true, true);
+	skillManager->awardSkill("jedi_light_side_master_master", player, true, true, true);
+
 }

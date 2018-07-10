@@ -2231,6 +2231,7 @@ int DirectorManager::spawnSceneObject(lua_State* L) {
 		}
 
 		if (cellParent != NULL) {
+			cellParent->broadcastObject(object, true);
 			cellParent->transferObject(object, -1, true);
 		} else {
 			zone->transferObject(object, -1, true);
