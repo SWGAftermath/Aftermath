@@ -56,7 +56,7 @@ blockingCRCs
 				return res;
 			}else{
 				creature->updateCooldownTimer(skillName, delay * 1000);
-				return SUCCESS;
+				return res;
 			}
 			
 		}
