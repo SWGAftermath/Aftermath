@@ -51,7 +51,7 @@ blockingCRCs
 			creature->sendSystemMessage("You must wait " +  getCooldownString(timeRemaining->miliDifference() * -1)  + " to use " + skillNameDisplay + " again");
 			return GENERALERROR;
 		} else {
-			int res = doCommonJediSelfChecks(creature);
+			int res = doJediSelfBuffCommand(creature);
 			if (res != SUCCESS){
 				return res;
 			}else{
