@@ -73,6 +73,7 @@ rebelRewardData = {
 		frn_coffee_table = { type=factionRewardType.furniture, display="@frn_n:frn_coffee_table", item="object/tangible/furniture/technical/coffee_table_s01.iff", cost=1200},
 		frn_couch = { type=factionRewardType.furniture, display="@frn_n:frn_couch", item="object/tangible/furniture/technical/couch_s01.iff", cost=1200},
 		frn_end_table = { type=factionRewardType.furniture, display="@frn_n:frn_end_table", item="object/tangible/furniture/technical/end_table_s01.iff", cost=1000},
+		frn_vet_rug_rebel = { type=factionRewardType.furniture, display="@frn_n:vet_rug_rebel", item="object/tangible/veteran_reward/frn_vet_rug_rebel.iff", cost=5000},
 	},
 
 	hirelingList = {
@@ -189,6 +190,7 @@ imperialRewardData = {
 		frn_coffee_table = { type=factionRewardType.furniture, display="@frn_n:frn_coffee_table", item="object/tangible/furniture/technical/coffee_table_s01.iff", cost=700},
 		frn_couch = { type=factionRewardType.furniture, display="@frn_n:frn_couch", item="object/tangible/furniture/technical/couch_s01.iff", cost=1050},
 		frn_end_table = { type=factionRewardType.furniture, display="@frn_n:frn_end_table", item="object/tangible/furniture/technical/end_table_s01.iff", cost=700},
+		frn_vet_rug_imperial = { type=factionRewardType.furniture, display="@frn_n:vet_rug_imperial", item="object/tangible/veteran_reward/frn_vet_rug_imperial.iff", cost=5000},
 	},
 
 	hirelingList = {
