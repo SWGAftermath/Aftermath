@@ -188,8 +188,8 @@ void FactionManager::awardPvpFactionPoints(TangibleObject* killer, CreatureObjec
 			Database::escapeString(killerName);
 			int killerRating = ghost->getPvpRating();
 			int playerRating = killedGhost->getPvpRating();
-			String winner = "reb";
-			gcwKillQuery << "INSERT INTO gcw_kills(rebel, reb_rating, imperial, imp_rating, winner) VALUES ('" << killerName <<"','" << killerRating << "'," << playerName << ", '" << playerRating << ", '" << winner << "');";
+			String winner = "Rebel";
+			gcwKillQuery << "INSERT INTO gcw_kills(killer, killer_rating, victim, victim_rating, winner) VALUES ('" << killerName <<"','" << killerRating << "'," << playerName << ", '" << playerRating << ", '" << winner << "');";
 			ServerDatabase::instance()->executeStatement(gcwKillQuery);
 			if (group != NULL){
 				//Locker lockerGroup(group, _this.getReferenceUnsafeStaticCast());
@@ -242,8 +242,8 @@ void FactionManager::awardPvpFactionPoints(TangibleObject* killer, CreatureObjec
 			Database::escapeString(killerName);
 			int killerRating = ghost->getPvpRating();
 			int playerRating = killedGhost->getPvpRating();
-			String winner = "imp";
-			gcwKillQuery << "INSERT INTO gcw_kills(rebel, reb_rating, imperial, imp_rating, winner) VALUES ('" << playerName <<"','" << playerRating << "'," << killerName << ", '" << killerRating << ", '" << winner << "');";
+			String winner = "Imperial";
+			gcwKillQuery << "INSERT INTO gcw_kills(killer, killer_rating, victim, victim_rating, winner) VALUES ('" << killerName <<"','" << killerRating << "'," << playerName << ", '" << playerRating << ", '" << winner << "');";
 			ServerDatabase::instance()->executeStatement(gcwKillQuery);
 			if (group != NULL){
 				//Locker lockerGroup(group, _this.getReferenceUnsafeStaticCast());
