@@ -71,6 +71,9 @@ public:
 					creature->getZone()->transferObject(blueFrog, -1, true);
 
 				info("blue frog created", true);
+
+				ObjectController* controller = creature->getZoneServer()->getObjectController();
+				controller->logAdminCommand(creature, this, target, arguments);
 			}
 		} else {// TODO STOP DELETE HERE
 			creature->setPosture(CreaturePosture::PRONE);
