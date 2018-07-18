@@ -58,7 +58,7 @@ Saber2hHit3Command = {
 		{}, 
 		{ "blind_defense", "resistance_states" }, 
 		{ "jedi_state_defense" }, 
-		85, 
+		75, 
 		0, 
 		60 
 	  ),
@@ -67,7 +67,7 @@ Saber2hHit3Command = {
 		{}, 
 		{ "dizzy_defense", "resistance_states" }, 
 		{ "jedi_state_defense" }, 
-		85, 
+		75, 
 		0, 
 		30 
 	  ),
@@ -76,7 +76,7 @@ Saber2hHit3Command = {
 		{}, 
 		{ "stun_defense", "resistance_states" }, 
 		{ "jedi_state_defense" }, 
-		85, 
+		76, 
 		0, 
 		60 
 	  )

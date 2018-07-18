@@ -58,7 +58,7 @@ SaberPolearmHit3Command = {
 		{}, 
 		{ "blind_defense", "resistance_states" }, 
 		{ "jedi_state_defense" }, 
-		85, 
+		75, 
 		0, 
 		60 
 	  ),
@@ -67,7 +67,7 @@ SaberPolearmHit3Command = {
 		{}, 
 		{ "dizzy_defense", "resistance_states" }, 
 		{ "jedi_state_defense" }, 
-		85, 
+		75, 
 		0, 
 		30 
 	  ),
@@ -76,7 +76,7 @@ SaberPolearmHit3Command = {
 		{}, 
 		{ "stun_defense", "resistance_states" }, 
 		{ "jedi_state_defense" }, 
-		85, 
+		76, 
 		0, 
 		60 
 	  )
