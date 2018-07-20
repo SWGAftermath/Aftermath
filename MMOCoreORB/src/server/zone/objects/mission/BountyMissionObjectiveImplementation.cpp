@@ -23,6 +23,10 @@
 #include "server/zone/objects/mission/bountyhunter/events/BountyHunterTargetTask.h"
 #include "server/zone/managers/visibility/VisibilityManager.h"
 
+#include "server/zone/objects/player/sui/messagebox/SuiMessageBox.h"
+#include "server/zone/objects/player/sui/callbacks/BountyHuntSuiCallback.h"
+#include "server/zone/objects/player/sui/inputbox/SuiInputBox.h"
+
 void BountyMissionObjectiveImplementation::setNpcTemplateToSpawn(SharedObjectTemplate* sp) {
 	npcTemplateToSpawn = sp;
 }
@@ -615,13 +619,13 @@ void BountyMissionObjectiveImplementation::handlePlayerKilled(ManagedObject* arg
 					Database::escapeString(victimName);
 					bhKillQuery << "INSERT INTO bh_kills(bh, opponent, reward, winner) VALUES ('" << bhName <<"','" << victimName << "'," << mission->getRewardCredits() << ", '" << winner << "');";
 					ServerDatabase::instance()->executeStatement(bhKillQuery);
-					TnagibleObject* attacker = owner->asTangibleObject();
+					TangibleObject* attacker = owner->asTangibleObject();
 					ManagedReference<SuiMessageBox*> box = new SuiMessageBox(target, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
 					box->setPromptTitle("You have been slain...");
 					box->setPromptText("Would you like to pay 50,000 credits to place a bounty on your killers head?");
 					box->setCancelButton(true, "@no");
 					box->setOkButton(true, "@yes");
-					box->setUsingObject(owner);
+					box->setUsingObject(attacker);
 					box->setCallback(new BountyHuntSuiCallback(target->getZoneServer()));
 					target->getPlayerObject()->addSuiBox(box);
 					target->sendMessage(box->generateMessage());
