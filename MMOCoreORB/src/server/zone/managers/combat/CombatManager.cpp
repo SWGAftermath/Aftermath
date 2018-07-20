@@ -1503,8 +1503,14 @@ float CombatManager::calculateDamage(CreatureObject* attacker, WeaponObject* wea
 	if (!data.isForceAttack() && weapon->getAttackType() == SharedWeaponObjectTemplate::MELEEATTACK)
 		damage *= 1.25;
 
-	if (defender->isKnockedDown())
+	if (defender->isKnockedDown()) {
 		damage *= 1.5f;
+	} else if (data.isForceAttack() && data.getCommandName().hashCode() == STRING_HASHCODE("forcechoke")) {
+		if  (defender->isProne())
+			damage *= 1.5f;
+		else if (defender->isKneeling())
+			damage *= 1.25f;
+	}
 
 	// Toughness reduction
 	if (data.isForceAttack())
@@ -1845,19 +1851,21 @@ void CombatManager::applyStates(CreatureObject* creature, CreatureObject* target
 				failed = true;
 
 			// no reason to apply jedi defenses if primary defense was successful
-			// and only perform second roll if the character is a Jedi
+			// and only perform extra rolls if the character is a Jedi
 			if (!failed && targetCreature->isPlayerCreature() && targetCreature->getPlayerObject()->isJedi()) {
-				targetDefense = 0.f;
 				const Vector<String>& jediMods = effect.getDefenderJediStateDefenseModifiers();
-				// second chance for jedi, roll against their special defense "jedi_state_defense"
-				for (int j = 0; j < jediMods.size(); j++)
-					targetDefense += targetCreature->getSkillMod(jediMods.get(j));
+				// second chance for jedi, roll against their special defenses jedi_state_defense & resistance_states
+				for (int j = 0; j < jediMods.size(); j++) {
+					targetDefense = targetCreature->getSkillMod(jediMods.get(j));
 
-				targetDefense /= 1.5;
-				targetDefense += playerLevel;
+					targetDefense /= 1.5;
+					targetDefense += playerLevel;
 
-				if (System::random(100) > accuracyMod - targetDefense)
-					failed = true;
+					if (System::random(100) > accuracyMod - targetDefense) {
+						failed = true;
+						break;
+					}
+				}
 			}
 		}
 

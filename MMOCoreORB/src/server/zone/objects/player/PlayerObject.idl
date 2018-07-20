@@ -155,6 +155,7 @@ class PlayerObject extends IntangibleObject {
 	protected unsigned long declaredResidence;
 
 	protected unsigned long cloningFacility;
+	protected boolean isPlayerCloning;
 
 	@dereferenced
 	protected SortedVector<unsigned long> persistentMessages;
@@ -322,6 +323,7 @@ class PlayerObject extends IntangibleObject {
 		declaredResidence = 0;
 
 		cloningFacility = 0;
+		isPlayerCloning = false;
 
 		skillPoints = 0;
 
@@ -1911,5 +1913,13 @@ class PlayerObject extends IntangibleObject {
 
 	public void setRatingReset(int reset){
 		ratingReset = reset;
+	}
+	
+	public boolean isCloning() {
+		return isPlayerCloning;
+	}
+	
+	public void setCloning(boolean val) {
+		isPlayerCloning = val;
 	}
 }
