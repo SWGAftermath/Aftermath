@@ -592,6 +592,7 @@ void BountyMissionObjectiveImplementation::handlePlayerKilled(ManagedObject* arg
 					int maxXpLoss = -1000000;
 
 					VisibilityManager::instance()->clearVisibility(target);
+					target->setScreenPlayState("deathBounty", 0);
 					int xpLoss = mission->getRewardCredits() * -2.5;
 					StringBuffer bBroadcast;
 
