@@ -7,6 +7,7 @@
 #include "server/zone/managers/visibility/VisibilityManager.h"
 #include "server/zone/objects/player/sui/callbacks/BountyHuntSuiCallback.h"
 #include "server/zone/objects/player/sui/inputbox/SuiInputBox.h"
+#include "server/zone/managers/mission/MissionManager.h"
 
 class BountyHuntSuiCallback : public SuiCallback {
 
@@ -44,6 +45,10 @@ void run(CreatureObject* creature, SuiBox* suiBox, uint32 eventIndex, Vector<Uni
 				creature->playEffect("clienteffect/holoemote_haunted.cef", "head");
 				creature->sendSystemMessage("Bounty has been successfully placed!");
 				VisibilityManager::instance()->increaseVisibility(player, 8000); // Max vis
+				PlayerObject* ghost = player->getPlayerObject();
+				MissionManager* missionManager = ghost->getZoneServer()->getMissionManager();
+				missionManager->addPlayerToBountyList(creature->getObjectID(), ghost->calculateBhReward());
+
 			}
 			else creature->sendSystemMessage("You have insufficient funds!");
 		} catch(Exception& e) { }
