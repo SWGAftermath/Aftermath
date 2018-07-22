@@ -289,10 +289,10 @@ int PlayerObjectImplementation::calculateBhReward() {
 
 	int skillPoints = getSpentJediSkillPoints();
 	ManagedReference<CreatureObject*> creature = dynamic_cast<CreatureObject*>(parent.get().get());
-	int playerBounty = creature->getScreenPlayState("deathBounty") * 100000;
-	reward += playerBounty;
 
 	reward = skillPoints * 2000;
+	int playerBounty = creature->getScreenPlayState("deathBounty") * 100000;
+	reward += playerBounty;
 
 	if (reward < minReward)
 		reward = minReward;
