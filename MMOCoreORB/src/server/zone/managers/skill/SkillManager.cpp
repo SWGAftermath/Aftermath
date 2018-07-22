@@ -368,6 +368,11 @@ bool SkillManager::awardSkill(const String& skillName, CreatureObject* creature,
 
 		MissionManager* missionManager = creature->getZoneServer()->getMissionManager();
 
+		if (skill->getSkillName() == "combat_bountyhunter_investigation_03"){
+			if (missionManager != NULL)
+				missionManager->addPlayerToBountyList(creature->getObjectID(), ghost->calculateBhReward());
+		}
+
 		if (skill->getSkillName() == "force_title_jedi_rank_02") {
 			if (missionManager != NULL)
 				missionManager->addPlayerToBountyList(creature->getObjectID(), ghost->calculateBhReward());
@@ -522,6 +527,11 @@ bool SkillManager::surrenderSkill(const String& skillName, CreatureObject* creat
 		}
 
 		MissionManager* missionManager = creature->getZoneServer()->getMissionManager();
+
+		if (skill->getSkillName() == "combat_bountyhunter_investigation_03"){
+			if (missionManager != NULL)
+				missionManager->removePlayerFromBountyList(creature->getObjectID());
+		}
 
 		if (skill->getSkillName() == "force_title_jedi_rank_02") {
 			if (missionManager != NULL)
