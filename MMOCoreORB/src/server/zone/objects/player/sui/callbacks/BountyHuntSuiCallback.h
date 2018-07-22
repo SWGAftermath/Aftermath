@@ -45,9 +45,6 @@ void run(CreatureObject* creature, SuiBox* suiBox, uint32 eventIndex, Vector<Uni
 				creature->playEffect("clienteffect/holoemote_haunted.cef", "head");
 				creature->sendSystemMessage("Bounty has been successfully placed!");
 				VisibilityManager::instance()->increaseVisibility(player, 8000); // Max vis
-				PlayerObject* ghost = player->getPlayerObject();
-				MissionManager* missionManager = ghost->getZoneServer()->getMissionManager();
-				missionManager->addPlayerToBountyList(creature->getObjectID(), ghost->calculateBhReward());
 
 			}
 			else creature->sendSystemMessage("You have insufficient funds!");
