@@ -61,7 +61,7 @@ rebelRewardData = {
 	},
 
 	furnitureList = {
-		"tech_armoire", "tech_bookcase", "frn_cabinet", "tech_chair", "tech_chest", "frn_coffee_table", "frn_couch", "frn_end_table"
+		"tech_armoire", "tech_bookcase", "frn_cabinet", "tech_chair", "tech_chest", "frn_coffee_table", "frn_couch", "frn_end_table", "frn_vet_rug_rebel"
 	},
 
 	furniture = {
@@ -173,7 +173,7 @@ imperialRewardData = {
 
 	furnitureList = {
 		"data_terminal_s1", "data_terminal_s2", "data_terminal_s3", "data_terminal_s4", "frn_table", "tech_armoire", "tech_bookcase", "frn_cabinet", "tech_chair",
-		"tech_chest", "frn_coffee_table", "frn_couch", "frn_end_table"
+		"tech_chest", "frn_coffee_table", "frn_couch", "frn_end_table", "frn_vet_rug_imperial"
 	},
 
 	furniture = {
