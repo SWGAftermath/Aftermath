@@ -189,7 +189,7 @@ void FactionManager::awardPvpFactionPoints(TangibleObject* killer, CreatureObjec
 			int killerRating = ghost->getPvpRating();
 			int playerRating = killedGhost->getPvpRating();
 			String winner = "Rebel";
-			gcwKillQuery << "INSERT INTO gcw_kills(killer, killer_rating, victim, victim_rating, winner) VALUES ('" << killerName <<"','" << killerRating << "'," << playerName << ", '" << playerRating << ", '" << winner << "');";
+			gcwKillQuery << "INSERT INTO gcw_kills(killer, killer_rating, victim, victim_rating, winner) VALUES ('" << killerName <<"'," << killerRating << ", '" << playerName << "'," << playerRating << ", '" << winner << "');";
 			ServerDatabase::instance()->executeStatement(gcwKillQuery);
 			if (group != NULL){
 				//Locker lockerGroup(group, _this.getReferenceUnsafeStaticCast());
