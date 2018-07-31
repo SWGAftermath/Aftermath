@@ -76,10 +76,12 @@ public:
 				controller->logAdminCommand(creature, this, target, arguments);
 			}
 		} else {// TODO STOP DELETE HERE
-			creature->setPosture(CreaturePosture::PRONE);
-
-			if (creature->isDizzied() && System::random(100) < 85)
+			if (creature->isDizzied() && System::random(100) < 85) {
 				creature->queueDizzyFallEvent();
+			} else {
+				creature->setPosture(CreaturePosture::PRONE);
+			}
+
 		}// TODO DELETE THIS LINE
 
 		return SUCCESS;

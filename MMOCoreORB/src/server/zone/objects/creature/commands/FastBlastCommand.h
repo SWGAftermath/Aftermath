@@ -24,7 +24,7 @@ public:
 
 			//UnicodeString args = "healthDamageMultiplier=0.33f;actionDamageMultiplier=0.33f;mindDamageMultiplier=0.33f;";
 
-			return doCombatAction(creature, target, args);
+			return doCombatAction(creature, target);
 		}
 
 	};
