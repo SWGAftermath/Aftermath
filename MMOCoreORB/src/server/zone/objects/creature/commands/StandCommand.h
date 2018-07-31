@@ -17,18 +17,20 @@ public:
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
 
+
 		if (!checkStateMask(creature)) {
 			return INVALIDSTATE;
 		}
 
 		if (!checkInvalidLocomotions(creature)) {
-			if (creature->isFeigningDeath() && !creature->hasIncapTimer()) {
+			if(creature->isFeigningDeath() && !creature->hasIncapTimer()) {
 				creature->removeFeignedDeath();
 				creature->setPosture(CreaturePosture::KNOCKEDDOWN, false, true);
 				//Allow us to pass the state/locomotion checks below, but still enter dizzy/KD checks
 			} else {
 				return INVALIDLOCOMOTION;
 			}
+
 		}
 
 		if (creature->hasAttackDelay())
@@ -43,7 +45,6 @@ public:
 			} else {
 				creature->setPosture(CreaturePosture::UPRIGHT);
 			}
-
 		}
 
 		return SUCCESS;
