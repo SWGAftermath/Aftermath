@@ -4,29 +4,31 @@ frsEnabled = 1
 lightEnclaveID = 8525417
 darkEnclaveID = 3435626
 
-petitionInterval = 1200000 -- 20 mins
-votingInterval = 1200000 -- 20 mins
-acceptanceInterval = 1200000 -- 20 mins
-maintenanceInterval = 1200000 -- 20 mins
+petitionInterval = 86400000 -- 1 day
+votingInterval = 86400000 -- 1 day
+acceptanceInterval = 86400000 -- 1 day
+maintenanceInterval = 86400000 -- 1 day
 
 --requestDemotionDuration = 604800000 -- 7 days
 --voteChallengeDuration = 604800000 -- 7 days
-
-requestDemotionDuration = 1200000 -- 20 mins
-voteChallengeDuration = 1200000 -- 20 mins
+requestDemotionDuration = 86400000 -- 1 days
+voteChallengeDuration = 86400000 -- 1 days
 
 arenaOpenInterval = 5400000 -- 90 mins
-arenaClosedInterval = 108000000 -- 30 hours
+--arenaClosedInterval = 108000000 -- 30 hours
 arenaChallengeDuration = 3600000 -- 60 mins
+--arenaChallengeCooldown = 90000000 -- 25 hours
+arenaClosedInterval = 10800000 -- 3 hours for testing
+arenaChallengeCooldown = 7200000 -- 2 hours for testing
 
 -- Costs are in FRS experience
-baseMaintCost = 100
+baseMaintCost = 50
 requestDemotionCost = 2000
 voteChallengeCost = 1000
 
 maxPetitioners = 11
 maxChallenges = 20
-missedVotePenalty = 100 -- FRS XP
+missedVotePenalty = 50 -- FRS XP
 
 -- { rank, skillName, requiredExperience, playerCap, robe }
 lightRankingData = {
@@ -125,9 +127,9 @@ enclaveRoomRequirements = {
 -- Key references the player's target
 -- Ex: Rank 5 loses to BH, see "bh_lose" key and 6th integer value in same row
 frsExperienceValues = {
-	{ "nonjedi_win", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ "nonjedi_win", 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500 },
 	{ "nonjedi_lose", 1000, 1250, 1759, 2250, 3000, 3750, 4750, 5500, 6750, 7750, 8750, 10000 },
-	{ "bh_win", 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500 },
+	{ "bh_win", 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000 },
 	{ "bh_lose", 1000, 1250, 1759, 2250, 3000, 3750, 4750, 5500, 6750, 7750, 8750, 10000 },
 	{ "padawan_win", 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200 },
 	{ "padawan_lose", 500, 650, 1000, 1250, 1750, 2250, 2750, 2350, 4000, 4500, 5000, 6000 },
