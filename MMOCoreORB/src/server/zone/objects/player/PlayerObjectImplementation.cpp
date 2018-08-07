@@ -1336,7 +1336,7 @@ void PlayerObjectImplementation::notifyOnline() {
 
 	//Remove FR2 from Jedi
 	ManagedReference<PlayerObject*> ghost = playerCreature->getPlayerObject();
-	if (ghost != NULL && playerCreature->hasSkill("force_title_jedi_rank_02") && ghost->hasAbility("forceRun2")){
+	if (ghost != NULL && playerCreature->hasSkill("force_title_jedi_rank_02") && ghost->hasAbility("forceRun2") && !(playerCreature->hasSkill("frs_post9_light_enhancer_04") || playerCreature->hasSkill("frs_post9_dark_enhancer_04"))){
 		SkillManager::instance()->removeAbility(ghost, "forceRun2", true);
 	}
 
