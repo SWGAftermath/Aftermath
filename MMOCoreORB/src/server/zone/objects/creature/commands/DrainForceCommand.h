@@ -67,6 +67,14 @@ public:
 				return GENERALERROR;
 
 			int maxDrain = minDamage; //Value set in command lua.
+			int forceEnh = 0;
+			if(playerGhost->getJediState() == 4) {
+				forceEnh = creature->getSkillMod("force_enhancement_light");
+			} else if (playerGhost->getJediState() == 8) {
+				forceEnh = creature->getSkillMod("force_enhancement_dark");
+			}
+
+			maxDrain = maxDrain + (forceEnh * 7.5);
 
 			int targetForce = targetGhost->getForcePower();
 			if (targetForce <= 0) {
