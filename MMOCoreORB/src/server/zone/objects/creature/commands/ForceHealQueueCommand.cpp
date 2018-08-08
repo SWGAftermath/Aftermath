@@ -100,10 +100,11 @@ int ForceHealQueueCommand::runCommand(CreatureObject* creature, CreatureObject* 
 				int curHam = targetCreature->getHAM(attrib);
 				int maxHam = targetCreature->getMaxHAM(attrib) - targetCreature->getWounds(attrib);
 				int amtToHeal = maxHam - curHam;
-				healAmount += healAmount * ((100 - forceHeal) / 100);
 
-				if (healAmount > 0 && amtToHeal > healAmount)
+				if (healAmount > 0 && amtToHeal > healAmount){
 					amtToHeal = healAmount;
+					amtToHeal += amtToHeal * ((100 - forceHeal) / 100);
+				}
 
 				totalCost += amtToHeal * forceCostMultiplier;
 				totalCost *= (100 - forceHeal) / 100;
