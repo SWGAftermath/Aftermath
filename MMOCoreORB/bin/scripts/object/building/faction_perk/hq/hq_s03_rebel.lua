@@ -108,7 +108,7 @@ object_building_faction_perk_hq_hq_s03_rebel = object_building_faction_perk_hq_s
 		{ mobile = "fbase_rebel_sharpshooter_hard", x = 2.5, z = 0, y = 50, cellid = -1, respawn=360, containmentType = -1, heading=0},
 		{ mobile = "fbase_rebel_corporal_hard", x = -2.5, z = 0, y = 50, cellid = -1, respawn=360, containmentType = -1, heading=0},
 
-		{ mobile = "fbase_rebel_sharpshooter_hard", x = -28, z = 0, y = 0, cellid = -1, respawn=360, containmentType = -1, heading=0},
+		{ mobile = "at_xt", x = -28, z = 0, y = 0, cellid = -1, respawn=360, containmentType = -1, heading=0},
 		{ mobile = "fbase_rebel_sharpshooter_hard", x = -33, z = 0, y = 0, cellid = -1, respawn=360, containmentType = -1, heading=0},
 		{ mobile = "fbase_rebel_sergeant_hard", x = -30.5, z = 0, y = 2.5, cellid = -1, respawn=360, containmentType = -1, heading=0},
 		{ mobile = "fbase_rebel_command_security_guard_hard", x = -28, z = 0, y = 5, cellid = -1, respawn=360, containmentType = -1, heading=0},
@@ -140,7 +140,7 @@ object_building_faction_perk_hq_hq_s03_rebel = object_building_faction_perk_hq_s
 		{ mobile = "fbase_rebel_sergeant_hard", x = -1.85, z = -20.75, y = 5.1, cellid = 9, respawn=300, containmentType = -1, heading=4.71},
 		{ mobile = "fbase_rebel_corporal_hard", x = 4.6, z = -20.75, y = 5.1, cellid = 9, respawn=300, containmentType = -1, heading=1.57},
 
-		{ mobile = "at_xt", x = -1, z = -20.75, y = 16, cellid = 10, containmentType = -1, respawn=360, heading=1.57},
+		{ mobile = "fbase_rebel_sharpshooter_hard", x = -1, z = -20.75, y = 16, cellid = 10, containmentType = -1, respawn=360, heading=1.57},
 		{ mobile = "fbase_rebel_recruit_hard", x = -3.5, z = -20.75, y = 23, cellid = 10, containmentType = -1, respawn=300, heading=1.57},
 		{ mobile = "fbase_rebel_corporal_hard", x = 5, z = -20.75, y = 16, cellid = 10, containmentType = -1, respawn=300, heading=4.71},
 		{ mobile = "fbase_rebel_sharpshooter_hard", x = 6.5, z = -20.75, y = 23, cellid = 10, containmentType = -1, respawn=300, heading=4.71},

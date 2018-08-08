@@ -97,7 +97,7 @@ object_building_faction_perk_hq_hq_s04_rebel = object_building_faction_perk_hq_s
 		{ mobile="fbase_rebel_heavy_trooper_hard", x=5, z=0, y=20, cellid=-1, respawn=360, containmentType=-1, heading=0},
 		{ mobile="fbase_rebel_heavy_trooper_hard", x=-5, z=0, y=20, cellid=-1, respawn=360, containmentType=-1, heading=0},
 
-		{ mobile="fbase_at_xt", x=15, z=0, y=15, cellid=-1, respawn=720, containmentType=-1, heading=0},
+		{ mobile="fbase_rebel_soldier_hard", x=15, z=0, y=15, cellid=-1, respawn=720, containmentType=-1, heading=0},
 		{ mobile="fbase_rebel_soldier_hard", x=15, z=0, y=11, cellid=-1, respawn=360, containmentType=-1, heading=3.14},
 
 		{ mobile="fbase_rebel_commando_hard", x=30, z=0, y=2, cellid=-1, respawn=360, containmentType=-1, heading=0},
@@ -139,7 +139,7 @@ object_building_faction_perk_hq_hq_s04_rebel = object_building_faction_perk_hq_s
 
 		{ mobile="fbase_rebel_grenadier_hard", x=4.75, z=-6.75, y=5.2, cellid=4, respawn=300, containmentType=-1, heading=4.71},
 
-		{ mobile="fbase_rebel_soldier_hard", x=3.5, z=-6.75, y=-3, cellid=5, respawn=300, containmentType=-1, heading=0},
+		{ mobile="fbase_at_xt", x=3.5, z=-6.75, y=-3, cellid=5, respawn=300, containmentType=-1, heading=0},
 		{ mobile="fbase_rebel_heavy_trooper_hard", x=5, z=-6.75, y=-3, cellid=5, respawn=300, containmentType=-1, heading=0},
 		{ mobile="fbase_rebel_commando_hard", x=7, z=-6.75, y=-1, cellid=5, respawn=300, containmentType=-1, heading=1.57},
 		{ mobile="fbase_rebel_heavy_trooper_hard", x=1.75, z=-6.75, y=-1, cellid=5, respawn=300, containmentType=-1, heading=4.71},
