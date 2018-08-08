@@ -100,6 +100,7 @@ int ForceHealQueueCommand::runCommand(CreatureObject* creature, CreatureObject* 
 				int curHam = targetCreature->getHAM(attrib);
 				int maxHam = targetCreature->getMaxHAM(attrib) - targetCreature->getWounds(attrib);
 				int amtToHeal = maxHam - curHam;
+				healAmount += healAmount * ((100 - forceHeal) / 100);
 
 				if (healAmount > 0 && amtToHeal > healAmount)
 					amtToHeal = healAmount;
@@ -125,6 +126,7 @@ int ForceHealQueueCommand::runCommand(CreatureObject* creature, CreatureObject* 
 	// Battle fatigue
 	if (totalCost < currentForce && healBattleFatigue != 0) {
 		int battleFatigue = targetCreature->getShockWounds();
+		
 
 		if (healBattleFatigue > 0 && battleFatigue > healBattleFatigue)
 			battleFatigue = healBattleFatigue;
