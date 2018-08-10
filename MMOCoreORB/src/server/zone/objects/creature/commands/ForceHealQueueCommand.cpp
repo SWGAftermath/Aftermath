@@ -103,7 +103,7 @@ int ForceHealQueueCommand::runCommand(CreatureObject* creature, CreatureObject* 
 
 				if (healAmount > 0 && amtToHeal > healAmount){
 					amtToHeal = healAmount;
-					amtToHeal += amtToHeal * ((100 - forceHeal) / 100);
+					amtToHeal *= (100 - forceHeal) / 100;
 				}
 
 				totalCost += amtToHeal * forceCostMultiplier;
