@@ -1401,6 +1401,7 @@ schematics = {
 	{path="object/draft_schematic/weapon/lightsaber/lightsaber_polearm_gen3.iff"},
 	{path="object/draft_schematic/weapon/lightsaber/lightsaber_polearm_gen4.iff"},
 	{path="object/draft_schematic/weapon/lightsaber/lightsaber_one_hand_gen4.iff"},
+	{path="object/draft_schematic/weapon/lightsaber/lightsaber_one_hand_gen5.iff"},
 	{path="object/draft_schematic/weapon/lightsaber/lightsaber_two_hand_gen4.iff"},
 	{path="object/draft_schematic/structure/city/bank_corellia.iff"},
 	{path="object/draft_schematic/structure/city/bank_naboo.iff"},
