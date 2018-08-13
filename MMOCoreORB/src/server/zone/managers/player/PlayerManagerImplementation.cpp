@@ -5455,14 +5455,6 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		if (entry == NULL || attacker == NULL || attacker == player || !attacker->isPlayerCreature())
 			continue;
 
-		/*if (!player->isAttackableBy(attacker, true)){
-			info("player is not attackable by attacker", true);
-			continue;
-		}*/
-		//remove the attackable check and add in a group check. Not sure if this is enough to prevent incorrect increases.
-		if (player->getGroupID() != 0 && player->getGroupID() == attacker->getGroupID())
-			continue;
-
 		PlayerObject* attackerGhost = attacker->getPlayerObject();
 
 		if (attackerGhost == NULL)
@@ -5476,7 +5468,7 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		if (entry->getTotalDamage() <= 0)
 			continue;
 
-		if (player->getDistanceTo(attacker) > 80.f)
+		if (player->getDistanceTo(attacker) > 128.f)
 			continue;
 
 		int curAttackerRating = attackerGhost->getPvpRating();
