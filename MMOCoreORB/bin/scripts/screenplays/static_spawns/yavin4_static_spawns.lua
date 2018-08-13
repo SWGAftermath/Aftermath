@@ -61,12 +61,13 @@ function Yavin4StaticSpawnsScreenPlay:spawnMobiles()
 
 	--LJ Shuttle
 	spawnSceneObject("yavin4", "object/building/player/city/shuttleport_corellia.iff", -5656, 98, 4925, 0, 0)
-	spawnMobile("yavin4", "light_jedi_sentinel", 1, 5053.79, 67.9311, 434.323, 177, 0)
-	spawnMobile("yavin4", "light_jedi_sentinel", 1, 5068.99, 67.4718, 434.442, 177, 0) 
+	spawnMobile("yavin4", "light_jedi_sentinel", 1, -5646.54, 100.005, 4948.13, 180, 0)
+	spawnMobile("yavin4", "light_jedi_sentinel", 1, -5662.64, 98.8252, 4946.8, 167, 0)
+	
 	--DJ Shuttle
 	spawnSceneObject("yavin4", "object/building/player/city/shuttleport_corellia.iff", 5061, 67, 412, 0, 0)
-	spawnMobile("yavin4", "dark_jedi_sentinel", 1, -5646.54, 100.005, 4948.13, 180, 0)
-	spawnMobile("yavin4", "dark_jedi_sentinel", 1, -5662.64, 98.8252, 4946.8, 167, 0)
+	spawnMobile("yavin4", "dark_jedi_sentinel", 1, 5053.79, 67.9311, 434.323, 177, 0)
+	spawnMobile("yavin4", "dark_jedi_sentinel", 1, 5068.99, 67.4718, 434.442, 177, 0) 
 end
 
 function Yavin4StaticSpawnsScreenPlay:setupSentinel(pSentinel)

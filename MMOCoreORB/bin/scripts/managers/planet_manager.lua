@@ -589,7 +589,7 @@ yavin4 = {
 		{name = "Yavin IV Mining Outpost", x = -267.23914, z = 35, y = 4896.3013, interplanetaryTravelAllowed = 1, incomingTravelAllowed = 1},
 		{name = "Yavin IV Imperial Outpost", x = 4054.1, z = 37, y = -6216.9, interplanetaryTravelAllowed = 1, incomingTravelAllowed = 0},
 		{name = "Light Jedi Shuttleport", x = -5656, z = 108, y = 4925, interplanetaryTravelAllowed = 0, incomingTravelAllowed = 1},
-		{name = "Dark Jedi Shuttleport", x = 5061, z = 77, y = 412, interplanetaryTravelAllowed = 0, incomingTravelAllowed = 1}
+		{name = "Dark Jedi Shuttleport", x = 5060, z = 77, y = 426, interplanetaryTravelAllowed = 0, incomingTravelAllowed = 1}
 	},
 
 	badgeAreas = {
