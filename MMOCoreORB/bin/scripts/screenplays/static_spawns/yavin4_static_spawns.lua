@@ -58,6 +58,12 @@ function Yavin4StaticSpawnsScreenPlay:spawnMobiles()
 	-- Imp base camp outside Massassi Temple POI
 	spawnMobile("yavin4", "stormtrooper", 360, -3196.7, 69.6, -3139.5, -100, 0)
 	spawnMobile("yavin4", "stormtrooper", 360, -3195.8, 69.8, -3130.7, -104, 0)
+
+	--LJ Shuttle
+	spawnSceneObject("yavin4", "object/building/player/city/shuttleport_corellia.iff", -5656, 98, 4925, 0, 0)
+
+	--DJ Shuttle
+	spawnSceneObject("yavin4", "object/building/player/city/shuttleport_corellia.iff", 5061, 67, 412, 0, 0)
 end
 
 function Yavin4StaticSpawnsScreenPlay:setupSentinel(pSentinel)
