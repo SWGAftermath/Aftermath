@@ -13,7 +13,7 @@ class ForceRun2Command : public JediQueueCommand {
 protected:
 	String skillName = "forceRun2";		// Skill Name
 	String skillNameDisplay = "ForceRun 2";		// Skill Display Name for output message
-	int delay = 60; 								//  60 second cool down timer
+	int delay = 45; 								//  45 second cool down timer
 
 public:
 
