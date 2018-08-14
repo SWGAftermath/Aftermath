@@ -120,4 +120,4 @@ object_weapon_melee_sword_crafted_saber_sword_lightsaber_one_handed_gen5 = objec
 	woundsRatio = 45,
 }
 
-ObjectTemplates:addTemplate(object_weapon_melee_sword_crafted_saber_sword_lightsaber_one_handed_gen5, "object/weapon/melee/sword/crafted_saber/sword_lightsaber_one_handed_gen4.iff")
+ObjectTemplates:addTemplate(object_weapon_melee_sword_crafted_saber_sword_lightsaber_one_handed_gen5, "object/weapon/melee/sword/crafted_saber/sword_lightsaber_one_handed_gen5.iff")
