@@ -80,7 +80,7 @@ object_weapon_melee_sword_crafted_saber_sword_lightsaber_one_handed_s1_gen5 = ob
 	xpType = "jedi_general",
 	
 	-- See http://www.ocdsoft.com/files/certifications.xls
-	certificationsRequired = { "cert_onehandlightsaber_gen4" },
+	certificationsRequired = { "cert_onehandlightsaber_gen5" },
 	-- See http://www.ocdsoft.com/files/accuracy.xls
 	creatureAccuracyModifiers = { "onehandlightsaber_accuracy" },
 
@@ -135,4 +135,4 @@ object_weapon_melee_sword_crafted_saber_sword_lightsaber_one_handed_s1_gen5 = ob
 	experimentalCombineType = {0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
 }
 
-ObjectTemplates:addTemplate(object_weapon_melee_sword_crafted_saber_sword_lightsaber_one_handed_s1_gen5, "object/weapon/melee/sword/crafted_saber/sword_lightsaber_one_handed_s1_gen5.iff")
+ObjectTemplates:addTemplate(object_weapon_melee_sword_crafted_saber_sword_lightsaber_one_handed_s1_gen5, "object/weapon/melee/sword/crafted_saber/sword_lightsaber_one_handed_s1_gen4.iff")
