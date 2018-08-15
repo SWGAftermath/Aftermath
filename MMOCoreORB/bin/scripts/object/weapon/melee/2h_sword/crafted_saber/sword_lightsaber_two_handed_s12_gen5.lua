@@ -41,7 +41,7 @@
 --this exception also makes it possible to release a modified version 
 
 
-object_weapon_melee_2h_sword_crafted_saber_sword_lightsaber_two_handed_gen5 = object_weapon_melee_2h_sword_crafted_saber_shared_sword_lightsaber_two_handed_gen5:new {
+object_weapon_melee_2h_sword_crafted_saber_sword_lightsaber_two_handed_s12_gen5 = object_weapon_melee_2h_sword_crafted_saber_shared_sword_lightsaber_two_handed_s12_gen5:new {
 
 	playerRaces = { "object/creature/player/bothan_male.iff",
 				"object/creature/player/bothan_female.iff",
@@ -64,7 +64,7 @@ object_weapon_melee_2h_sword_crafted_saber_sword_lightsaber_two_handed_gen5 = ob
 				"object/creature/player/zabrak_male.iff",
 				"object/creature/player/zabrak_female.iff" },
 
-	-- RANGEDATTACK, MELEEATTACK, FORCEATTACK, TRAPATTACK, GRENADEATTACK, HEAVYACIDBEAMATTACK,
+	-- RANGEDATTACK, MELEEATTACK, FORCEATTACK, TRAPATTACK, GRENADEATTACK, HEAVYACIDBEAMATTACK, 
 	-- HEAVYLIGHTNINGBEAMATTACK, HEAVYPARTICLEBEAMATTACK, HEAVYROCKETLAUNCHERATTACK, HEAVYLAUNCHERATTACK
 	attackType = MELEEATTACK,
 
@@ -78,7 +78,7 @@ object_weapon_melee_2h_sword_crafted_saber_sword_lightsaber_two_handed_gen5 = ob
 	-- combat_meleespecialize_unarmed, combat_meleespecialize_twohand, combat_meleespecialize_polearm, combat_meleespecialize_onehand, combat_general,
 	-- jedi_general, combat_meleespecialize_polearmlightsaber, combat_meleespecialize_onehandlightsaber
 	xpType = "jedi_general",
-
+	
 	-- See http://www.ocdsoft.com/files/certifications.xls
 	certificationsRequired = { "cert_twohandlightsaber_gen5" },
 	-- See http://www.ocdsoft.com/files/accuracy.xls
@@ -122,7 +122,7 @@ object_weapon_melee_2h_sword_crafted_saber_sword_lightsaber_two_handed_gen5 = ob
 	defenderToughnessModifiers = { "lightsaber_toughness" },
 			
 	noTrade = 1,
-	
+		
 	childObjects = {
 		{templateFile = "object/tangible/inventory/lightsaber_inventory_4.iff", x = 0, z = 0, y = 0, ox = 0, oy = 0, oz = 0, ow = 0, cellid = -1, containmentType = 4}
 	},
@@ -138,4 +138,4 @@ object_weapon_melee_2h_sword_crafted_saber_sword_lightsaber_two_handed_gen5 = ob
 	experimentalCombineType = {0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
 }
 
-ObjectTemplates:addTemplate(object_weapon_melee_2h_sword_crafted_saber_sword_lightsaber_two_handed_gen5, "object/weapon/melee/2h_sword/crafted_saber/sword_lightsaber_two_handed_gen5.iff")
+ObjectTemplates:addTemplate(object_weapon_melee_2h_sword_crafted_saber_sword_lightsaber_two_handed_s12_gen5, "object/weapon/melee/2h_sword/crafted_saber/sword_lightsaber_two_handed_s12_gen5.iff")
