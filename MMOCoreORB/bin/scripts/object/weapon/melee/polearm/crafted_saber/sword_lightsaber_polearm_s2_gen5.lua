@@ -41,7 +41,7 @@
 --this exception also makes it possible to release a modified version 
 
 
-object_weapon_melee_polearm_crafted_saber_sword_lightsaber_polearm_s2_gen4 = object_weapon_melee_polearm_crafted_saber_shared_sword_lightsaber_polearm_s2_gen4:new {
+object_weapon_melee_polearm_crafted_saber_sword_lightsaber_polearm_s2_gen5 = object_weapon_melee_polearm_crafted_saber_shared_sword_lightsaber_polearm_s2_gen5:new {
 
 	playerRaces = { "object/creature/player/bothan_male.iff",
 				"object/creature/player/bothan_female.iff",
@@ -80,7 +80,7 @@ object_weapon_melee_polearm_crafted_saber_sword_lightsaber_polearm_s2_gen4 = obj
 	xpType = "jedi_general",
 	
 	-- See http://www.ocdsoft.com/files/certifications.xls
-	certificationsRequired = { "cert_polearmlightsaber_gen4" },
+	certificationsRequired = { "cert_polearmlightsaber_gen5" },
 	-- See http://www.ocdsoft.com/files/accuracy.xls
 	creatureAccuracyModifiers = { "polearmlightsaber_accuracy" },
 
@@ -138,4 +138,4 @@ object_weapon_melee_polearm_crafted_saber_sword_lightsaber_polearm_s2_gen4 = obj
 	experimentalCombineType = {0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
 }
 
-ObjectTemplates:addTemplate(object_weapon_melee_polearm_crafted_saber_sword_lightsaber_polearm_s2_gen4, "object/weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_s2_gen4.iff")
+ObjectTemplates:addTemplate(object_weapon_melee_polearm_crafted_saber_sword_lightsaber_polearm_s2_gen5, "object/weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_s2_gen5.iff")
