@@ -31,21 +31,21 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-		int res = creature->hasBuff(buffCRC) ? NOSTACKJEDIBUFF : doJediSelfBuffCommand(creature);
-
-		if (res == NOSTACKJEDIBUFF) {
-			creature->sendSystemMessage("@jedi_spam:already_force_running"); // You are already force running.
-			return GENERALERROR;
-		}
-
-		if (res != SUCCESS) {
-			return res;
-		}
 
 		if (!creature->checkCooldownRecovery(skillName)) {
 			Time* timeRemaining = creature->getCooldownTime(skillName);
 			creature->sendSystemMessage("You must wait " +  getCooldownString(timeRemaining->miliDifference() * -1)  + " to use " + skillNameDisplay + " again");
 			return GENERALERROR;
+        }
+        
+        if (creature->hasBuff(BuffCRC::JEDI_FORCE_RUN_1)) {
+        	creature->removeBuff(BuffCRC::JEDI_FORCE_RUN_1);
+        }
+
+        int res = doJediSelfBuffCommand(creature);
+
+        if (res != SUCCESS) {
+        	return res;
         }
 
 		// need to apply the damage reduction in a separate buff so that the multiplication and division applies right
