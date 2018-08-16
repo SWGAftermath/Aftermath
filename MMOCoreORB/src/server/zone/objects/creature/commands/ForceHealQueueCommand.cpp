@@ -54,6 +54,7 @@ int ForceHealQueueCommand::runCommand(CreatureObject* creature, CreatureObject* 
 	int totalCost = forceCost;
 	bool healPerformed = false;
 	int forceHeal = 0;
+	int healAmountFinal = 0;
 	if(playerObject->getJediState() == 4) {
 		forceHeal = creature->getSkillMod("force_healing_light");
 	} else if (playerObject->getJediState() == 8) {
@@ -100,10 +101,13 @@ int ForceHealQueueCommand::runCommand(CreatureObject* creature, CreatureObject* 
 				int curHam = targetCreature->getHAM(attrib);
 				int maxHam = targetCreature->getMaxHAM(attrib) - targetCreature->getWounds(attrib);
 				int amtToHeal = maxHam - curHam;
-				healAmount += (healAmount * (forceHeal / 100));
+				if (forceHeal != 0)
+					healAmountFinal += (healAmount * (forceHeal / 100));
+				else
+					healAmountFinal = healAmount;
 
-				if (healAmount > 0 && amtToHeal > healAmount){
-					amtToHeal = healAmount;
+				if (healAmountFinal > 0 && amtToHeal > healAmountFinal){
+					amtToHeal = healAmountFinal;
 				}
 
 				totalCost += amtToHeal * forceCostMultiplier;
