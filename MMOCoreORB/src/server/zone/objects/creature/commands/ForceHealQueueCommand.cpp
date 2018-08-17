@@ -101,17 +101,23 @@ int ForceHealQueueCommand::runCommand(CreatureObject* creature, CreatureObject* 
 				int curHam = targetCreature->getHAM(attrib);
 				int maxHam = targetCreature->getMaxHAM(attrib) - targetCreature->getWounds(attrib);
 				int amtToHeal = maxHam - curHam;
-				if (forceHeal > 0)
+				info("Amount before FRS: " + String::valueOf(healAmount), true);
+				if (forceHeal > 0){
 					healAmountFinal = healAmount + (healAmount * (forceHeal / 100));
-				else
+					info("Amount after FRS: " + String::valueOf(healAmountFinal), true);
+				}
+				else{
 					healAmountFinal = healAmount;
+				}
 
 				if (healAmountFinal > 0 && amtToHeal > healAmountFinal){
 					amtToHeal = healAmountFinal;
 				}
 
 				totalCost += amtToHeal * forceCostMultiplier;
+				info("Force cost Prior to frs: " + String::valueOf(totalCost), true);
 				totalCost *= (100 - forceHeal) / 100;
+				info("Force cost After to frs: " + String::valueOf(totalCost), true);
 
 				if (totalCost > currentForce) {
 					int forceDiff = totalCost - currentForce;
