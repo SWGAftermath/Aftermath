@@ -102,7 +102,7 @@ int ForceHealQueueCommand::runCommand(CreatureObject* creature, CreatureObject* 
 				int maxHam = targetCreature->getMaxHAM(attrib) - targetCreature->getWounds(attrib);
 				int amtToHeal = maxHam - curHam;
 				if (forceHeal > 0){
-					info("Jedi is in FRS and has a forceHeal value of: " + String::valueOf(forceHeal), true);
+					info("Jedi is in FRS and has a forceHeal value greater than 0 ", true);
 					healAmountFinal = healAmount + (healAmount * (forceHeal / 100));
 				}else{
 					healAmountFinal = healAmount;
