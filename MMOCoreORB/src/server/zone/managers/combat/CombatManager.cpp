@@ -966,7 +966,7 @@ float CombatManager::applyDamageModifiers(CreatureObject* attacker, WeaponObject
 
 	int damageDivisor = attacker->getSkillMod("private_damage_divisor");
 
-	if (data.isForceAttack() && attacker->hasSkill("frs_post9_dark_powers_04"))
+	if (data.isForceAttack() && (attacker->hasSkill("frs_post9_dark_powers_04") || attacker->hasSkill("frs_post9_light_powers_04")))
 		damageDivisor = 0;
 
 	if (damageDivisor != 0)
