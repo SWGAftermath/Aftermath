@@ -640,7 +640,7 @@ void BountyMissionObjectiveImplementation::handlePlayerKilled(ManagedObject* arg
 			killer->sendSystemMessage("You have defeated a bounty hunter, ruining their mission against you!");
 			winner = "BH Target";
 			StringBuffer zBroadcast;
-			zBroadcast << "\\#00bfff" << playerName << "\\#ffd700" << " a" << "\\#00e604 Jedi" << "\\#ffd700 has defeated\\#00bfff " << bhName << "\\#ffd700 a" << "\\#ff7f00 Bounty Hunter";
+			zBroadcast << "\\#00bfff" << playerName << "\\#ffd700" << "\\#ffd700 has defeated\\#00bfff " << bhName << "\\#ffd700 a" << "\\#ff7f00 Bounty Hunter";
 			killer->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, zBroadcast.toString());
 			StringBuffer bhKillQuery;
 			Database::escapeString(bhName);
