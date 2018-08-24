@@ -24,7 +24,6 @@ admin_jedi_management_01 = {
 		"gmForceRank",
 		"gmFsVillage",
 		"gmJediState",
-		"gmForceFRS",
 		"grantPadawanTrialsEligibility",
 		"overridePadawanTrialsEligibility",
 		"resetJedi"
