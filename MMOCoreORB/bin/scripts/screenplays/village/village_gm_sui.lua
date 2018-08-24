@@ -151,22 +151,23 @@ function VillageGmSui:completeKnightLight(pPlayer)
 
 	local targetID = CreatureObject(pPlayer):getTargetID()
 
-	local pTarget = getSceneObject(targetID)
+	local pTarget = getCreatureObject(targetID)
+	local pGhost = CreatureObject(pTarget):getPlayerObject()
 
-	if (pTarget == nil or not SceneObject(pTarget):isPlayerCreature()) then
+	if (pTarget == nil or not CreatureObject(pTarget):isPlayerCreature()) then
 		CreatureObject(pPlayer):sendSystemMessage("Invalid target, must be a valid player.")
 		VillageGmSui:showMainPage(pPlayer)
 		return
 	end
 
-	JediTrials:resetTrialData(pPlayer, "knight")
-	writeScreenPlayData(pPlayer, "KnightTrials", "startedTrials", 1)
-	writeScreenPlayData(pPlayer, "JediTrials", "JediCouncil", 1)
-	JediTrials:setTrialsCompleted(pPlayer, #knightTrialQuests)
-	JediTrials:unlockJediKnight(pPlayer)
+	JediTrials:resetTrialData(pGhost, "knight")
+	writeScreenPlayData(pGhost, "KnightTrials", "startedTrials", 1)
+	writeScreenPlayData(pGhost, "JediTrials", "JediCouncil", 1)
+	JediTrials:setTrialsCompleted(pGhost, #knightTrialQuests)
+	JediTrials:unlockJediKnight(pGhost)
 
 
-	CreatureObject(pPlayer):sendSystemMessage("Success!")
+	CreatureObject(pPlayer):sendSystemMessage("Success! Light FRS regranted")
 end
 
 function VillageGmSui:completeKnightDark(pPlayer)
@@ -176,22 +177,23 @@ function VillageGmSui:completeKnightDark(pPlayer)
 
 	local targetID = CreatureObject(pPlayer):getTargetID()
 
-	local pTarget = getSceneObject(targetID)
+	local pTarget = getCreatureObject(targetID)
+	local pGhost = CreatureObject(pTarget):getPlayerObject()
 
-	if (pTarget == nil or not SceneObject(pTarget):isPlayerCreature()) then
+	if (pTarget == nil or not CreatureObject(pTarget):isPlayerCreature()) then
 		CreatureObject(pPlayer):sendSystemMessage("Invalid target, must be a valid player.")
 		VillageGmSui:showMainPage(pPlayer)
 		return
 	end
 
-	JediTrials:resetTrialData(pPlayer, "knight")
-	writeScreenPlayData(pPlayer, "KnightTrials", "startedTrials", 1)
-	writeScreenPlayData(pPlayer, "JediTrials", "JediCouncil", 2)
-	JediTrials:setTrialsCompleted(pPlayer, #knightTrialQuests)
-	JediTrials:unlockJediKnight(pPlayer)
+	JediTrials:resetTrialData(pGhost, "knight")
+	writeScreenPlayData(pGhost, "KnightTrials", "startedTrials", 1)
+	writeScreenPlayData(pGhost, "JediTrials", "JediCouncil", 2)
+	JediTrials:setTrialsCompleted(pGhost, #knightTrialQuests)
+	JediTrials:unlockJediKnight(pGhost)
 
 
-	CreatureObject(pPlayer):sendSystemMessage("Success!")
+	CreatureObject(pPlayer):sendSystemMessage("Success! Dark FRS regranted")
 end
 
 
