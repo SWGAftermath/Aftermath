@@ -273,6 +273,7 @@
 #include "GiveMaintenanceToVendorCommand.h"
 #include "GivevendormaintCommand.h"
 #include "GmForceCommandCommand.h"
+#include "GmForceFrsCommand.h"
 #include "GmCreateClassResourceCommand.h"
 #include "GmCreateSpecificResourceCommand.h"
 #include "GmForceRankCommand.h"
