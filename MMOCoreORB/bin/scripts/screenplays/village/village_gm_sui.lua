@@ -30,8 +30,8 @@ function VillageGmSui:showMainPage(pPlayer)
 	sui.add("Lookup player by name", "playerLookupByName")
 	sui.add("Lookup player by oid", "playerLookupByOID")
 	sui.add("List players in village", "listOnlineVillagePlayers")
-	sui.add("Regrant FRS Light", "completeKnightLight")
-	sui.add("Regrant FRS Dark", "completeKnightDark")
+	sui.add("Regrant FRS Light by target", "completeKnightLight")
+	sui.add("Regrant FRS Dark by target", "completeKnightDark")
 
 	if (curPhase == 3) then
 		sui.add("Manage CounterStrike Bases", "manageCounterStrikeBases")
