@@ -946,7 +946,7 @@ bool FrsManagerImplementation::isValidFrsBattle(CreatureObject* attacker, Creatu
 	return true;
 }
 
-int FrsManagerImplementation::calculatePvpExperienceChange(CreatureObject* attacker, CreatureObject* victim, float contribution, bool isVictim) {
+int FrsManagerImplementation::calculatePvpExperienceChange(CreatureObject* attacker, CreatureObject* victim, float contribution, int groupSize, bool isVictim) {
 	PlayerObject* attackerGhost = attacker->getPlayerObject();
 	PlayerObject* victimGhost = victim->getPlayerObject();
 
@@ -982,7 +982,7 @@ int FrsManagerImplementation::calculatePvpExperienceChange(CreatureObject* attac
 	int xpChange = getBaseExperienceGain(playerGhost, opponentGhost, !isVictim);
 
 	if (xpChange != 0) {
-		xpChange = (int)((float)xpChange * contribution);
+		xpChange = (int)((float)xpChange / groupSize);
 
 		// Adjust xp value depending on pvp rating
 		// A lower rated victim will lose less experience, a higher rated victim will lose more experience
@@ -3167,8 +3167,8 @@ bool FrsManagerImplementation::handleDarkCouncilDeath(CreatureObject* killer, Cr
 	managerData->removeArenaFighter(challengerID);
 	managerData->removeArenaFighter(accepterID);
 
-	int killerXp = calculatePvpExperienceChange(killer, victim, 1.0f, false);
-	int victimXp = calculatePvpExperienceChange(killer, victim, 1.0f, true);
+	int killerXp = calculatePvpExperienceChange(killer, victim, 1.0f, 1, false);
+	int victimXp = calculatePvpExperienceChange(killer, victim, 1.0f, 1, true);
 
 	ManagedReference<FrsManager*> strongMan = _this.getReferenceUnsafeStaticCast();
 	ManagedReference<CreatureObject*> strongKiller = killer->asCreatureObject();

@@ -193,7 +193,7 @@ class FrsManager extends ManagedService implements Logger {
 	
 	@arg1preLocked
 	@arg2preLocked
-	public native int calculatePvpExperienceChange(CreatureObject attacker, CreatureObject victim, float contribution, boolean isVictim);
+	public native int calculatePvpExperienceChange(CreatureObject attacker, CreatureObject victim, float contribution, int groupSize, boolean isVictim);
 	public native int getBaseExperienceGain(PlayerObject playerGhost, PlayerObject opponentGhost, boolean playerWon);
 	
 	@arg1preLocked
