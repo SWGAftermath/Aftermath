@@ -5452,10 +5452,11 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 	for (int i = 0; i < threatMap->size(); ++i) {
 		ThreatMapEntry* entry = &threatMap->elementAt(i).getValue();
 		CreatureObject* attacker = threatMap->elementAt(i).getKey();
+		Locker crossLock(attacker, player);
 		if (frsManager != NULL && frsManager->isFrsEnabled() && frsManager->isValidFrsBattle(attacker, player))
 			totalFrsMembers++;
+		crossLock.release();
 	}
-
 	for (int i = 0; i < threatMap->size(); ++i) {
 		ThreatMapEntry* entry = &threatMap->elementAt(i).getValue();
 		CreatureObject* attacker = threatMap->elementAt(i).getKey();
