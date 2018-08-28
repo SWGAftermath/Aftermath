@@ -838,6 +838,43 @@ void PlayerManagerImplementation::killPlayer(TangibleObject* attacker, CreatureO
 
 	ThreatMap* threatMap = player->getThreatMap();
 
+	if (attacker->isPlayerCreature() || attacker->isPet()){
+		CreatureObject* attackerCreature = attacker->asCreatureObject();
+		if (attackerCreature->isPet()) {
+				CreatureObject* owner = attackerCreature->getLinkedCreature().get();
+
+				if (owner != NULL && owner->isPlayerCreature()) {
+					attackerCreature = owner;
+				}
+		}
+
+		if (attackerCreature->isPlayerCreature()) {
+				if (!CombatManager::instance()->areInDuel(attackerCreature, player)) {
+					String playerName = player->getFirstName();
+					String killerName = attackerCreature->getFirstName();
+					StringBuffer zBroadcast;
+					String killerFaction, playerFaction;
+					if (attacker->isRebel())
+						killerFaction = "\\#FF9933 Rebel";
+					else if (attacker->isImperial())
+						killerFaction = "\\#7133FF Imperial";
+					else
+						killerFaction = "\\#a3a011 Civilian";
+
+					if (player->isRebel())
+						playerFaction = "\\#FF9933 Rebel";
+					else if (player->isImperial())
+						playerFaction = "\\#7133FF Imperial";
+					else
+						playerFaction = "\\#a3a011 Civilian";
+
+					zBroadcast << playerFaction <<"\\#00e604 " << playerName << " \\#e60000 was slain in the GCW by " << killerFaction << "\\#00cc99 " << killerName;
+					ghost->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, zBroadcast.toString());
+				}
+		}
+
+	}
+
 	if (attacker->getFaction() != 0) {
 		if (attacker->isPlayerCreature() || attacker->isPet()) {
 			CreatureObject* attackerCreature = attacker->asCreatureObject();
