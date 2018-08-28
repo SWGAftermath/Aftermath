@@ -177,8 +177,6 @@ void FactionManager::awardPvpFactionPoints(TangibleObject* killer, CreatureObjec
 
 			killedGhost->decreaseFactionStanding("imperial", 45);
 			playerManager->awardExperience(killerCreature, "gcw_currency_rebel", 1000);
-			zBroadcast << "\\#7133FF Imperial " <<"\\#00e604" << playerName << " \\#e60000 was slain in the GCW by " <<"\\#FF9933 Rebel " << "\\#00cc99" << killerName;
-			ghost->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, zBroadcast.toString());
 			group = killerCreature->getGroup();
 			Vector<ManagedReference<CreatureObject*> > players;
 			int playerCount = 1;
@@ -232,8 +230,6 @@ void FactionManager::awardPvpFactionPoints(TangibleObject* killer, CreatureObjec
 
 			killedGhost->decreaseFactionStanding("rebel", 45);
 			playerManager->awardExperience(killerCreature, "gcw_currency_imperial", 1000);
-			zBroadcast << "\\#FF9933 Rebel " << "\\#00e604" << playerName << " \\#e60000 was slain in the GCW by " << "\\#7133FF Imperial "<< "\\#00cc99" << killerName;
-			ghost->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, zBroadcast.toString());
 			group = killerCreature->getGroup();
 			Vector<ManagedReference<CreatureObject*> > players;
 			int playerCount = 1;
