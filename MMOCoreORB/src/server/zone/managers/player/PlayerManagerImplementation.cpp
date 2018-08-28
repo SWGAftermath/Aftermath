@@ -869,7 +869,7 @@ void PlayerManagerImplementation::killPlayer(TangibleObject* attacker, CreatureO
 				if (!CombatManager::instance()->areInDuel(attackerCreature, player))
 					zBroadcast << playerFaction <<"\\#00e604 " << playerName << "\\#e60000 was slain in PVP by" << killerFaction << "\\#00cc99 " << killerName;
 				else
-					zBroadcast << playerFaction <<"\\#00e604 " << playerName << "\\#e60000 was slain in a Duel by" << killerFaction << "\\#00cc99 " << killerName;
+					zBroadcast << playerFaction <<"\\#00e604 " << playerName << "\\#e60000 was slain in a duel by" << killerFaction << "\\#00cc99 " << killerName;
 
 				ghost->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, zBroadcast.toString());
 		}

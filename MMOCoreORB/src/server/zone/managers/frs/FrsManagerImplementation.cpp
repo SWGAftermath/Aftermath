@@ -998,11 +998,13 @@ int FrsManagerImplementation::calculatePvpExperienceChange(CreatureObject* attac
 	if (!isVictim){
 		String attackerName = attacker->getFirstName();
 		String victimName = victim->getFirstName();
+		Database::escapeString(victimName);
+		Database::escapeString(attackerName);
 		StringBuffer frsKillQuery, zBroadcast;
 		frsKillQuery << "INSERT INTO frs_kills(killer, xpchange, victim) VALUES ('" << attackerName <<"'," << xpChange << ", '" << victimName << "');";
 		ServerDatabase::instance()->executeStatement(frsKillQuery);
-		zBroadcast << "\\#00cc99 " << attackerName << " gained FRS from killing" << "\\#00e604" << victimName; 
-		playerGhost->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, zBroadcast.toString());
+		//zBroadcast << "\\#00cc99 " << attackerName << "\\#e60000 gained FRS from killing" << "\\#00e604 " << victimName; 
+		//playerGhost->getZoneServer()->getChatManager()->broadcastGalaxy(NULL, zBroadcast.toString());
 	}
 	return xpChange;
 }
