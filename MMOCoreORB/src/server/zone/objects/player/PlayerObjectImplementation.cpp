@@ -1395,7 +1395,7 @@ void PlayerObjectImplementation::notifyOffline() {
 
 	MissionManager* missionManager = getZoneServer()->getMissionManager();
 
-	if (missionManager != nullptr && playerCreature->hasSkill("force_title_jedi_rank_02")) {
+	if (missionManager != nullptr && (playerCreature->hasSkill("force_title_jedi_rank_02") || playerCreature->hasSkill("combat_bountyhunter_investigation_03"))) {
 		missionManager->updatePlayerBountyOnlineStatus(playerCreature->getObjectID(), false);
 	}
 }
