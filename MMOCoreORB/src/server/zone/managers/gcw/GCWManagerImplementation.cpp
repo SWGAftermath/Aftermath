@@ -2683,6 +2683,8 @@ void GCWManagerImplementation::spawnBaseTerminals(BuildingObject* bldg) {
 		copySpawnLocs->removeElementAt(randIndex);
 	}
 
+	delete(copySpawnLocs);
+
 	baseData->setTerminalsSpawned(true);
 }
 
