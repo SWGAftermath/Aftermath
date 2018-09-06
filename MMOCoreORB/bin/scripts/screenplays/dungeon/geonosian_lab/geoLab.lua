@@ -84,7 +84,7 @@ function GeonosianLab:start()
 			self:setupTrap()
 			self:spawnSceneObjects()
 			self:spawnMobiles()
-			--self:setupPermissionGroups()
+			self:setupPermissionGroups()
 		end
 	end
 end
@@ -112,8 +112,8 @@ function GeonosianLab:setupTrap()
 
 		if (trapLoc[1] == "object/tangible/dungeon/trash_container.iff") then
 			SceneObject(pTrap):setContainerInheritPermissionsFromParent(false)
-			SceneObject(pTrap):setContainerDefaultDenyPermission(MOVEOUT)
-			SceneObject(pTrap):setContainerAllowPermission("GeoLabTrashContainer", MOVEOUT)
+			SceneObject(pTrap):clearContainerDefaultAllowPermission(OPEN + MOVEOUT)
+			SceneObject(pTrap):setContainerDefaultDenyPermission(OPEN + MOVEOUT)
 			SceneObject(pTrap):setObjectMenuComponent("GeoLabTrashContainerMenuComponent")
 			writeData("geoLab:trashContainerLoot", 1)
 		end
@@ -320,6 +320,11 @@ function GeonosianLab:turnOnTrap(pTrap)
 		SceneObject(pTrap):playEffect("clienteffect/item_gas_leak_trap_on.cef", "")
 	end
 
+	if (trapIndex == 4) then
+		SceneObject(pTrap):clearContainerDefaultAllowPermission(OPEN + MOVEOUT)
+		SceneObject(pTrap):setContainerDefaultDenyPermission(OPEN + MOVEOUT)
+	end
+
 	createEvent(2000, "GeonosianLab", "spawnTrapEffect", pTrap, "")
 	writeData("geoLab:trapEnabled:" .. trapIndex, 1)
 end
@@ -389,6 +394,11 @@ function GeonosianLab:enteredTrapArea(pActiveArea, pMovingObject)
 		return 0
 	end
 
+	-- Don't trigger trap if player isnt at base level of cell
+	if (trapIndex == 2 and SceneObject(pMovingObject):getPositionZ() > -30) then
+		return 0
+	end
+
 	if (trapIndex == 3) then
 		CreatureObject(pMovingObject):inflictDamage(pMovingObject, 0, getRandomNumber(300, 700), 1)
 		CreatureObject(pMovingObject):sendSystemMessage("@dungeon/geonosian_madbio:shock") --You feel electricity coursing through your body!
@@ -407,7 +417,7 @@ function GeonosianLab:enteredTrapArea(pActiveArea, pMovingObject)
 	return 0
 end
 
-function GeonosianLab:keypadSuiCallback(pPlayer, pSui, eventIndex, code, button)
+function GeonosianLab:keypadSuiCallback(pPlayer, pSui, eventIndex, code, pressedButton)
 	if (pPlayer == nil) then
 		return
 	end
@@ -437,35 +447,37 @@ function GeonosianLab:keypadSuiCallback(pPlayer, pSui, eventIndex, code, button)
 	local enteredCode = 0
 
 	if (code ~= nil and code ~= "") then
-		enteredCode = tonumber(args)
+		enteredCode = tonumber(code)
 	end
 
 	local keypadIndex = readData(keypadID .. ":geonosianLab:keypadIndex")
 	local keypadCode = self.keypadCodes[keypadIndex]
 
 	if (pressedButton == "enter") then
-		if (tonumber(enteredCode) == keypadCode) then
-			CreatureObject(pCreature):sendSystemMessage("@dungeon/geonosian_madbio:right_code") --You have successfully entered the code for this door.
-			self:givePermission(pCreature, "GeoLabKeypad" .. keypadIndex)
+		if (enteredCode == keypadCode) then
+			CreatureObject(pPlayer):sendSystemMessage("@dungeon/geonosian_madbio:right_code") --You have successfully entered the code for this door.
+			self:givePermission(pPlayer, "GeoLabKeypad" .. keypadIndex)
 		else
-			CreatureObject(pCreature):sendSystemMessage("@dungeon/geonosian_madbio:bad_code") --The number that you entered is not a valid code for this door.
+			CreatureObject(pPlayer):sendSystemMessage("@dungeon/geonosian_madbio:bad_code") --The number that you entered is not a valid code for this door.
 		end
 	elseif (pressedButton == "slice") then
-		if (CreatureObject(pCreature):hasSkill("combat_smuggler_slicing_01")) then
-			CreatureObject(pCreature):sendSystemMessage("@dungeon/geonosian_madbio:hack_success") --You have successfully hacked this terminal.
-			self:givePermission(pCreature, "GeoLabKeypad" .. keypadIndex)
-		else
-			CreatureObject(pCreature):sendSystemMessage("@dungeon/geonosian_madbio:hack_fail") --Unable to successfully slice the keypad, you realize that the only way to reset it is to carefully repair what damage you have done.
+		if (CreatureObject(pPlayer):hasSkill("combat_smuggler_slicing_01")) then
+			local pGhost = CreatureObject(pPlayer):getPlayerObject()
+
+			if (pGhost ~= nil) then
+				printf("starting slicing session on " .. SceneObject(pKeypad):getObjectID() .. "\n")
+				PlayerObject(pGhost):startSlicingSession(pKeypad, true)
+			end
 		end
 	elseif (pressedButton == "keycard") then
-		if (keypadIndex ~= 4 and self:hasGeoItem(pCreature, "object/tangible/loot/dungeon/geonosian_mad_bunker/passkey.iff")) then
-			self:removeGeoItem(pCreature, "object/tangible/loot/dungeon/geonosian_mad_bunker/passkey.iff")
-			CreatureObject(pCreature):sendSystemMessage("@dungeon/geonosian_madbio:keycard_success") --You have successfully used a keycard on this door.
-			self:givePermission(pCreature, "GeoLabKeypad" .. keypadIndex)
-		elseif (keypadIndex == 4 and self:hasGeoItem(pCreature, "object/tangible/loot/dungeon/geonosian_mad_bunker/engineering_key.iff")) then
-			self:removeGeoItem(pCreature, "object/tangible/loot/dungeon/geonosian_mad_bunker/engineering_key.iff")
-			CreatureObject(pCreature):sendSystemMessage("@dungeon/geonosian_madbio:keycard_success") --You have successfully used a keycard on this door.
-			self:givePermission(pCreature, "GeoLabKeypad" .. keypadIndex)
+		if (keypadIndex ~= 4 and self:hasGeoItem(pPlayer, "object/tangible/loot/dungeon/geonosian_mad_bunker/passkey.iff")) then
+			self:removeGeoItem(pPlayer, "object/tangible/loot/dungeon/geonosian_mad_bunker/passkey.iff")
+			CreatureObject(pPlayer):sendSystemMessage("@dungeon/geonosian_madbio:keycard_success") --You have successfully used a keycard on this door.
+			self:givePermission(pPlayer, "GeoLabKeypad" .. keypadIndex)
+		elseif (keypadIndex == 4 and self:hasGeoItem(pPlayer, "object/tangible/loot/dungeon/geonosian_mad_bunker/engineering_key.iff")) then
+			self:removeGeoItem(pPlayer, "object/tangible/loot/dungeon/geonosian_mad_bunker/engineering_key.iff")
+			CreatureObject(pPlayer):sendSystemMessage("@dungeon/geonosian_madbio:keycard_success") --You have successfully used a keycard on this door.
+			self:givePermission(pPlayer, "GeoLabKeypad" .. keypadIndex)
 		end
 	end
 end
@@ -619,6 +631,8 @@ function GeonosianLab:notifyKeypadSliced(pKeypad, pPlayer, success)
 	end
 
 	if (success == 1) then
+		local keypadIndex = readData(SceneObject(pKeypad):getObjectID() .. ":geonosianLab:keypadIndex")
+		CreatureObject(pPlayer):sendSystemMessage("@dungeon/geonosian_madbio:hack_success") --You have successfully hacked this terminal.
 		self:givePermission(pPlayer, "GeoLabKeypad" .. keypadIndex)
 	end
 
