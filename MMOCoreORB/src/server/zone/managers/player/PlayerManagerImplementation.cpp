@@ -5234,28 +5234,14 @@ void PlayerManagerImplementation::enhanceCharacter(CreatureObject* player, int t
 	bool message = true;
 	int cost = 0;
 	if (type == 3){
-		// Credits For Buffs
-		if (player->getCashCredits() < 40000){
-			player->sendSystemMessage("Sorry, you don't have enough cash on hand to purchase a buff.");
-			return;
-		} else if (player->getCashCredits() >= 40000){
-			// Charge player for buffs
-			player->subtractCashCredits(40000);
 			message = message && doEnhanceCharacter(0x11C1772E, player, expensivePerformanceBuff, performanceDuration, BuffType::PERFORMANCE, 6); // performance_enhance_dance_mind
 			message = message && doEnhanceCharacter(0x2E77F586, player, expensivePerformanceSubBuff, performanceDuration, BuffType::PERFORMANCE, 7); // performance_enhance_music_focus
 			message = message && doEnhanceCharacter(0x3EC6FCB6, player, expensivePerformanceSubBuff, performanceDuration, BuffType::PERFORMANCE, 8); // performance_enhance_music_willpower
 
 			if (message && player->isPlayerCreature())
 				player->sendSystemMessage("An unknown force GREATLY strengthens your MIND for battles yet to come.");
-			}
+
 	} else if (type == 2){
-		// Credits For Buffs
-		if (player->getCashCredits() < 40000){
-			player->sendSystemMessage("Sorry, you don't have enough cash on hand to purchase a buff.");
-			return;
-		} else if (player->getCashCredits() >= 40000){
-			// Charge player for buffs
-			player->subtractCashCredits(40000);
 			message = message && doEnhanceCharacter(0x98321369, player, expensiveMedicalBuff, medicalDuration, BuffType::MEDICAL, 0); // medical_enhance_health
 			message = message && doEnhanceCharacter(0x815D85C5, player, expensiveMedicalSubBuff, medicalDuration, BuffType::MEDICAL, 1); // medical_enhance_strength
 			message = message && doEnhanceCharacter(0x7F86D2C6, player, expensiveMedicalSubBuff, medicalDuration, BuffType::MEDICAL, 2); // medical_enhance_constitution
@@ -5265,15 +5251,8 @@ void PlayerManagerImplementation::enhanceCharacter(CreatureObject* player, int t
 
 			if (message && player->isPlayerCreature())
 				player->sendSystemMessage("An unknown force GREATLY strengthens your BODY for battles yet to come.");
-			}
+
 	} else if (type == 1){
-		// Credits For Buffs
-			if (player->getCashCredits() < 2000){
-				player->sendSystemMessage("Sorry, you don't have enough cash on hand to purchase a buff.");
-				return;
-			} else if (player->getCashCredits() >= 2000){
-				// Charge player for buffs
-				player->subtractCashCredits(2000);
 
 			message = message && doEnhanceCharacter(0x98321369, player, cheapMedicalBuff, medicalDuration, BuffType::MEDICAL, 0); // medical_enhance_health
 			message = message && doEnhanceCharacter(0x815D85C5, player, cheapMedicalBuff, medicalDuration, BuffType::MEDICAL, 1); // medical_enhance_strength
@@ -5288,7 +5267,7 @@ void PlayerManagerImplementation::enhanceCharacter(CreatureObject* player, int t
 
 			if (message && player->isPlayerCreature())
 				player->sendSystemMessage("An unknown force strengthens you for battles yet to come.");
-			}
+			
 	} else if (type == 0){
 
 		message = message && doEnhanceCharacter(0x98321369, player, medicalBuff, medicalDuration, BuffType::MEDICAL, 0); // medical_enhance_health

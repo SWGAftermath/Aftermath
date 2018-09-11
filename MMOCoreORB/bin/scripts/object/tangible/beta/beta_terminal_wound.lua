@@ -55,9 +55,9 @@ object_tangible_beta_beta_terminal_wound = object_tangible_beta_shared_beta_term
 
 
 	itemList = {
-			"Cheap Character Buff (2,000 Credits)", "cheap_enhance_character",
-			"Expensive Character Medical Buff (40,000 Credits)", "expensive_enhance_character_body",
-			"Expensive Character Mind Buff (40,000 Credits)", "expensive_enhance_character_mind",
+			"Cheap Character Buff (FREE)", "cheap_enhance_character",
+			"Expensive Character Medical Buff (FREE)", "expensive_enhance_character_body",
+			"Expensive Character Mind Buff (FREE)", "expensive_enhance_character_mind",
 			"Remove Buffs", "reset_buffs",
 			"Skills",
 			{
