@@ -46,7 +46,7 @@
 
 onlineCharactersPerAccount = 3 --How many characters are allowed online from a single account.
 
-allowSameAccountPvpRatingCredit = 0
+allowSameAccountPvpRatingCredit = 1
 
 --Blue frog / GM buff values
 performanceBuff = 2000
