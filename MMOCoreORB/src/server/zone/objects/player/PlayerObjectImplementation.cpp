@@ -72,10 +72,15 @@
 #include "server/zone/objects/player/sui/messagebox/SuiMessageBox.h"
 #include "server/chat/PendingMessageList.h"
 #include "server/zone/managers/director/DirectorManager.h"
+#include "server/db/ServerDatabase.h"
+#include "server/ServerCore.h"
 
 void PlayerObjectImplementation::initializeTransientMembers() {
+	playerLogLevel = ConfigManager::instance()->getPlayerLogLevel();
+
 	IntangibleObjectImplementation::initializeTransientMembers();
 
+	countMaxCov = 4500; // Only report very large lists
 	foodFillingMax = 100;
 	drinkFillingMax = 100;
 
@@ -85,6 +90,35 @@ void PlayerObjectImplementation::initializeTransientMembers() {
 	setLoggingName("PlayerObject");
 
 	initializeAccount();
+
+	sessionStatsMiliSecs = 0;
+	sessionStatsLastCredits = -1;
+	sessionStatsLastSkillPoints = skillPoints;
+	sessionStatsActivityXP = 0;
+	sessionStatsActivityMovement = 0;
+	sessionStatsTotalMovement = 0;
+	sessionStatsIPAddress = "";
+	miliSecsSession = 0;
+}
+
+PlayerObject* PlayerObjectImplementation::asPlayerObject() {
+	return _this.getReferenceUnsafeStaticCast();
+}
+
+PlayerObject* PlayerObject::asPlayerObject() {
+	    return this;
+}
+
+void PlayerObjectImplementation::info(const String& msg, bool force) {
+	getZoneServer()->getPlayerManager()->writePlayerLog(asPlayerObject(), msg, Logger::LogLevel::INFO);
+}
+
+void PlayerObjectImplementation::debug(const String& msg) {
+	getZoneServer()->getPlayerManager()->writePlayerLog(asPlayerObject(), msg, Logger::LogLevel::DEBUG);
+}
+
+void PlayerObjectImplementation::error(const String& msg) {
+	getZoneServer()->getPlayerManager()->writePlayerLog(asPlayerObject(), msg, Logger::LogLevel::ERROR);
 }
 
 void PlayerObjectImplementation::checkPendingMessages() {
@@ -285,7 +319,8 @@ int PlayerObjectImplementation::calculateBhReward() {
 	int minReward = 60000; // Minimum reward for a player bounty
 	int maxReward = 1000000; // Maximum reward for a player bounty
 
-	int reward = minReward;
+	if (getJediState() >= 4) // Minimum if player is knight
+		minReward = 50000;
 
 	int skillPoints = getSpentJediSkillPoints();
 	ManagedReference<CreatureObject*> creature = dynamic_cast<CreatureObject*>(parent.get().get());
@@ -297,14 +332,12 @@ int PlayerObjectImplementation::calculateBhReward() {
 	}
 	if (reward < minReward)
 		reward = minReward;
-	else if (reward > maxReward)
-		reward = maxReward;
 
 	return reward;
 }
 
 void PlayerObjectImplementation::sendBaselinesTo(SceneObject* player) {
-	debug("sending player object baselines");
+	// debug("sendBaselinesTo(" + String::valueOf(player->getObjectID()) + ")");
 
 	BaseMessage* play3 = new PlayerObjectMessage3(_this.getReferenceUnsafeStaticCast());
 	player->sendMessage(play3);
@@ -530,6 +563,9 @@ int PlayerObjectImplementation::addExperience(const String& xpType, int xp, bool
 	int valueToAdd = xp;
 
 	Locker locker(_this.getReferenceUnsafeStaticCast());
+
+	if (xp > 0)
+		sessionStatsActivityXP += xp; // Count all xp as we're looking for activity not caps etc.
 
 	if (experienceList.contains(xpType)) {
 		xp += experienceList.get(xpType);
@@ -1259,6 +1295,10 @@ void PlayerObjectImplementation::notifyOnline() {
 	if (playerCreature == nullptr)
 		return;
 
+	miliSecsSession = 0;
+
+	resetSessionStats(true);
+
 	ChatManager* chatManager = server->getChatManager();
 	ZoneServer* zoneServer = server->getZoneServer();
 
@@ -1329,6 +1369,7 @@ void PlayerObjectImplementation::notifyOnline() {
 		if (!missionManager->hasPlayerBountyTargetInList(id))
 			missionManager->addPlayerToBountyList(id, calculateBhReward());
 		else {
+			missionManager->updatePlayerBountyReward(id, calculateBhReward());
 			missionManager->updatePlayerBountyOnlineStatus(id, true);
 			missionManager->updatePlayerBountyReward(id, calculateBhReward());
 		}
@@ -1398,6 +1439,159 @@ void PlayerObjectImplementation::notifyOffline() {
 	if (missionManager != nullptr && (playerCreature->hasSkill("force_title_jedi_rank_02") || playerCreature->hasSkill("combat_bountyhunter_investigation_03"))) {
 		missionManager->updatePlayerBountyOnlineStatus(playerCreature->getObjectID(), false);
 	}
+
+	logSessionStats(true);
+}
+
+void PlayerObjectImplementation::incrementSessionMovement(float moveDelta) {
+	if (moveDelta < 1.0f)
+		return;
+
+	sessionStatsActivityMovement += (int)moveDelta;
+	sessionStatsTotalMovement += (int)moveDelta;
+}
+
+void PlayerObjectImplementation::resetSessionStats(bool isSessionStart) {
+	Reference<SceneObject*> parent = getParent().get();
+	CreatureObject* playerCreature = nullptr;
+
+	if (parent != nullptr)
+		playerCreature = parent->asCreatureObject();
+
+	if (playerCreature != nullptr) {
+		auto client = playerCreature->getClient();
+
+		if (client != nullptr && (isSessionStart || sessionStatsIPAddress.isEmpty()))
+			sessionStatsIPAddress = client->getIPAddress();
+	}
+
+	if (isSessionStart) {
+		getZoneServer()->getPlayerManager()->updateOnlinePlayers();
+
+		if (sessionStatsLastCredits == -1 && playerCreature != nullptr)
+			sessionStatsLastCredits = playerCreature->getCashCredits() + playerCreature->getBankCredits();
+
+		logSessionStats(false);
+		sessionStatsTotalMovement = 0;
+		return;
+	}
+
+	if (playerCreature != nullptr)
+		sessionStatsLastCredits = playerCreature->getCashCredits() + playerCreature->getBankCredits();
+
+	sessionStatsActivityXP = 0;
+	sessionStatsActivityMovement = 0;
+	sessionStatsLastSkillPoints = skillPoints;
+	sessionStatsMiliSecs = 0;
+}
+
+void PlayerObjectImplementation::logSessionStats(bool isSessionEnd) {
+	if (isSessionEnd)
+		getZoneServer()->getPlayerManager()->updateOnlinePlayers();
+
+	if (isSessionEnd
+	&& sessionStatsActivityXP == 0
+	&& sessionStatsActivityMovement == 0
+	&& sessionStatsLastSkillPoints == skillPoints
+	&& sessionStatsMiliSecs <= 2)
+		return;
+
+	int64 uptime = -1;
+	int galaxyID = 0;
+	uint64 objectID = 0;
+	int64 currentCredits = sessionStatsLastCredits;
+
+	Reference<SceneObject*> parent = getParent().get();
+
+	if (parent != nullptr) {
+		objectID = parent->getObjectID();
+
+		CreatureObject* playerCreature = parent->asCreatureObject();
+
+		if (playerCreature != nullptr) {
+			currentCredits = playerCreature->getCashCredits() + playerCreature->getBankCredits();
+			galaxyID = playerCreature->getZoneServer()->getGalaxyID();
+
+			auto client = playerCreature->getClient();
+
+			if (client != nullptr)
+				sessionStatsIPAddress = client->getIPAddress();
+
+			Time now;
+			uptime = playerCreature->getZoneServer()->getStartTimestamp()->miliDifference(now);
+		} else {
+			error("playerCreature == nullptr in logSessionStats");
+		}
+	} else {
+		error("parent == nullptr in logSessionStats");
+	}
+
+	if (sessionStatsLastCredits == -1)
+		sessionStatsLastCredits = currentCredits;
+
+	int skillPointDelta = skillPoints - sessionStatsLastSkillPoints;
+	int64 creditsDelta = (int64)currentCredits - (int64)sessionStatsLastCredits;
+
+	int ipAccountCount = 0;
+
+	if (!sessionStatsIPAddress.isEmpty()) {
+		SortedVector<uint32> loggedInAccounts = getZoneServer()->getPlayerManager()->getOnlineZoneClientMap()->getAccountsLoggedIn(sessionStatsIPAddress);
+		ipAccountCount = loggedInAccounts.size();
+	}
+
+	// Need the session_stats table to log to database
+	if (ServerCore::getSchemaVersion() >= 1003) {
+		StringBuffer query;
+
+		query << "INSERT INTO `session_stats` ("
+			<< "`uptime`, `account_id`, `galaxy_id`, `character_oid`, `ip`, `session_end`"
+			<< ", `session_seconds`, `delta_seconds`, `delta_credits`, `delta_skillpoints`"
+			<< ", `activity_xp`, `activity_movement`, `current_credits`, `ip_account_count`"
+			<< ") VALUES"
+			<< " (" << (int)(uptime / 1000.0f)
+			<< ", " << getAccountID()
+			<< ", " << galaxyID
+			<< ", " << objectID
+			<< ", '" << sessionStatsIPAddress << "'"
+			<< ", " << isSessionEnd
+			<< ", " << (int)(miliSecsSession / 1000.0f)
+			<< ", " << (int)(sessionStatsMiliSecs / 1000.0f)
+			<< ", " << creditsDelta
+			<< ", " << skillPointDelta
+			<< ", " << sessionStatsActivityXP
+			<< ", " << sessionStatsActivityMovement
+			<< ", " << currentCredits
+			<< ", " << ipAccountCount
+			<< ");"
+			;
+
+		Core::getTaskManager()->executeTask([=] () {
+			try {
+				ServerDatabase::instance()->executeStatement(query);
+			} catch(DatabaseException& e) {
+				error(e.getMessage());
+			}
+		}, "logSessionStats");
+	} else {
+		StringBuffer logMsg;
+
+		logMsg << "SessionStats:"
+			<< " isSessionEnd: " << isSessionEnd
+			<< " sessionSeconds: " << (int)(miliSecsSession / 1000.0f)
+			<< " logSeconds: " << (int)(sessionStatsMiliSecs / 1000.0f)
+			<< " creditsDelta: " << creditsDelta
+			<< " skillPointDelta: " << skillPointDelta
+			<< " activityXP: " << sessionStatsActivityXP
+			<< " activityMovement: " << sessionStatsActivityMovement
+			<< " ip: " << sessionStatsIPAddress
+			<< " ipAccountCount: " << ipAccountCount
+			<< " currentCredits: " << currentCredits
+			;
+
+		info(logMsg.toString(), true);
+	}
+
+	resetSessionStats(false);
 }
 
 void PlayerObjectImplementation::setLanguageID(byte language, bool notifyClient) {
@@ -1593,11 +1787,14 @@ void PlayerObjectImplementation::logout(bool doLock) {
 
 	try {
 		if (disconnectEvent == nullptr) {
-			info("creating disconnect event");
-
 			Reference<CreatureObject*> creature = dynamic_cast<CreatureObject*>(parent.get().get());
 
-			int isInSafeArea = creature->getSkillMod("private_safe_logout");
+			if (creature == nullptr)
+				return;
+
+			int isInSafeArea = creature->getSkillMod("private_safe_logout") || ConfigManager::instance()->getBool("Core3.Tweaks.PlayerObject.AlwaysSafeLogout", false);
+
+			info("creating disconnect event: isInSafeArea=" + String::valueOf(isInSafeArea), true);
 
 			disconnectEvent = new PlayerDisconnectEvent(_this.getReferenceUnsafeStaticCast(), isInSafeArea);
 
@@ -1628,7 +1825,7 @@ void PlayerObjectImplementation::doRecovery(int latency) {
 		return;
 
 	if (!isTeleporting()) {
-		creature->updateCOV();
+		creature->removeOutOfRangeObjects();
 	}
 
 	ZoneServer* zoneServer = creature->getZoneServer();
@@ -1638,7 +1835,7 @@ void PlayerObjectImplementation::doRecovery(int latency) {
 
 	if (isLinkDead()) {
 		if (logoutTimeStamp.isPast()) {
-			info("unloading dead link player");
+			info("unloading link dead player");
 
 			unload();
 
@@ -1650,7 +1847,7 @@ void PlayerObjectImplementation::doRecovery(int latency) {
 
 			return;
 		} else {
-			info("keeping dead linked player in game");
+			debug("keeping link dead player in game");
 		}
 	}
 
@@ -1702,6 +1899,13 @@ void PlayerObjectImplementation::doRecovery(int latency) {
 				cooldownTimerMap->updateToCurrentAndAddMili("weatherEvent", 3000);
 			}
 		}
+
+		miliSecsPlayed += latency;
+		miliSecsSession += latency;
+		sessionStatsMiliSecs += latency;
+
+		if (sessionStatsMiliSecs >= ConfigManager::instance()->getSessionStatsSeconds() * 1000)
+			logSessionStats(false);
 	}
 
 	if (cooldownTimerMap->isPast("spawnCheckTimer")) {
@@ -1871,8 +2075,10 @@ void PlayerObjectImplementation::setLinkDead(bool isSafeLogout) {
 	onlineStatus = LINKDEAD;
 
 	logoutTimeStamp.updateToCurrentTime();
-	if(!isSafeLogout)
-		logoutTimeStamp.addMiliTime(180000); // 3 minutes if unsafe
+	if(!isSafeLogout) {
+		info("went link dead");
+		logoutTimeStamp.addMiliTime(ConfigManager::instance()->getInt("Core3.Tweaks.PlayerObject.LinkDeadDelay", 3 * 60) * 1000); // 3 minutes if unsafe
+	}
 
 	setCharacterBit(PlayerObjectImplementation::LD, true);
 
@@ -2528,7 +2734,7 @@ void PlayerObjectImplementation::activateQuest(int questID) {
 	if (playerManager == nullptr)
 		return;
 
-	ManagedReference<QuestInfo*> questInfo = playerManager->getQuestInfo(questID);
+	Reference<QuestInfo*> questInfo = playerManager->getQuestInfo(questID);
 
 	if (questInfo == nullptr)
 		return;
@@ -2567,7 +2773,7 @@ void PlayerObjectImplementation::completeQuest(int questID) {
 	if (playerManager == nullptr)
 		return;
 
-	ManagedReference<QuestInfo*> questInfo = playerManager->getQuestInfo(questID);
+	Reference<QuestInfo*> questInfo = playerManager->getQuestInfo(questID);
 
 	if (questInfo == nullptr)
 		return;
@@ -2769,4 +2975,64 @@ void PlayerObjectImplementation::recalculateForcePower() {
 	maxForce += (forcePowerMod + forceControlMod) * 10;
 
 	setForcePowerMax(maxForce, true);
+}
+
+String PlayerObjectImplementation::getMiliSecsTimeString(uint64 miliSecs, bool verbose) {
+	uint64 ss = miliSecs / 1000;
+
+	int dd = ss / 86400;
+	ss = ss - (dd * 86400);
+
+	int hh = ss / 3600;
+	ss = ss - (hh * 3600);
+
+	int mm = ss / 60;
+	ss = ss - (mm * 60);
+
+	StringBuffer buf;
+
+	if (verbose) {
+		if (dd > 0)
+			buf << " " << dd << (dd == 1 ? " day," : " days,");
+
+		if (dd > 0 || hh > 0)
+			buf << " " << hh << (hh == 1 ? " hour," : " hours,");
+
+		if (dd > 0 || hh > 0 || mm > 0)
+			buf << " " << mm << (mm == 1 ? " minute," : " minutes,");
+
+		buf << " " << ss << (ss == 1 ? " second" : " seconds");
+	} else {
+		if (dd > 0)
+			buf << " " << dd << "d";
+
+		if (dd > 0 || hh > 0)
+			buf << " " << hh << "h";
+
+		if (dd > 0 || hh > 0 || mm > 0)
+			buf << " " << mm << "m";
+
+		buf << " " << ss << "s";
+	}
+
+	return buf.toString();
+}
+
+String PlayerObjectImplementation::getPlayedTimeString(bool verbose) {
+	StringBuffer buf;
+
+	if (verbose) {
+		buf << "You have played this character a total of";
+		buf << getMiliSecsTimeString(miliSecsPlayed, true);
+		buf << ", and ";
+		buf << getMiliSecsTimeString(miliSecsSession, true);
+		buf << " this session.";
+	} else {
+		buf << "played:";
+		buf << getMiliSecsTimeString(miliSecsPlayed, false);
+		buf << ", session:";
+		buf << getMiliSecsTimeString(miliSecsSession, false);
+	}
+
+	return buf.toString();
 }

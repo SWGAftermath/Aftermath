@@ -5,25 +5,48 @@
 #include "ServerDatabase.h"
 
 #include "conf/ConfigManager.h"
+#include "MySqlDatabase.h"
 
 Vector<Database*>* ServerDatabase::databases = NULL;
 AtomicInteger ServerDatabase::currentDB;
 
 ServerDatabase::ServerDatabase(ConfigManager* configManager) {
+	setLoggingName("ServerDatabase");
+
 	const String& dbHost = configManager->getDBHost();
 	const String& dbUser = configManager->getDBUser();
 	const String& dbPass = configManager->getDBPass();
 	const String& dbName = configManager->getDBName();
-	const uint16& dbPort = configManager->getDBPort();
+	const int     dbPort = configManager->getDBPort();
 
 	databases = new Vector<Database*>();
 
 	for (int i = 0; i < DEFAULT_SERVERDATABASE_INSTANCES; ++i) {
-		Database* db = new engine::db::mysql::MySqlDatabase(String("ServerDatabase" + String::valueOf(i)), dbHost);
+		Database* db = new server::db::mysql::MySqlDatabase(String("ServerDatabase" + String::valueOf(i)), dbHost);
 		db->connect(dbName, dbUser, dbPass, dbPort);
 
 		databases->add(db);
 	}
+
+	try {
+		Reference<ResultSet*> result = instance()->executeQuery("SELECT `schema_version` FROM `db_metadata`;");
+
+		if (result != nullptr && result->next())
+			dbSchemaVersion = result->getInt(0);
+	} catch (Exception& e) {
+		dbSchemaVersion = 1000;
+
+		String createTable = "CREATE TABLE `db_metadata` AS SELECT 1000 as `schema_version`;";
+		try {
+			Reference<ResultSet*> result = instance()->executeQuery(createTable);
+		} catch (Exception& e) {
+			error("Failed to create db_metadata table, please manually create in mysql: " + createTable);
+		}
+	}
+
+	updateDatabaseSchema();
+
+	info("schema_version = " + String::valueOf(dbSchemaVersion), true);
 }
 
 ServerDatabase::~ServerDatabase() {
@@ -35,4 +58,59 @@ ServerDatabase::~ServerDatabase() {
 
 	delete databases;
 	databases = nullptr;
+}
+
+void ServerDatabase::alterDatabase(int nextSchemaVersion, const String& alterSql) {
+	if (dbSchemaVersion >= nextSchemaVersion)
+		return;
+
+	String updateVersionSql = "UPDATE `db_metadata` SET `schema_version` = " + String::valueOf(nextSchemaVersion);
+
+	try {
+		Reference<ResultSet*> result = instance()->executeQuery(alterSql);
+
+		if (result != nullptr) {
+			result = instance()->executeQuery(updateVersionSql);
+			dbSchemaVersion = nextSchemaVersion;
+			info("Upgraded mysql database schema to version " + String::valueOf(dbSchemaVersion), true);
+		}
+	} catch (Exception& e) {
+		error(e.getMessage());
+		error("Failed to update database schema, please manually execute: " + alterSql + " " + updateVersionSql);
+	}
+}
+
+void ServerDatabase::updateDatabaseSchema() {
+	alterDatabase(1001,
+		"ALTER TABLE `account_ips`"
+		" ADD COLUMN `galaxy_id` INT(5) DEFAULT -1 AFTER `account_id`,"
+		" ADD COLUMN `online_count` INT(4) DEFAULT -1 AFTER `logout`;"
+	);
+
+	alterDatabase(1002,
+		"CREATE TABLE `session_stats` ("
+		"`timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP"
+		",`ip` char(15) NOT NULL"
+		",`galaxy_id` int(5) DEFAULT '-1'"
+		",`account_id` int(10) unsigned NOT NULL"
+		",`character_oid` bigint(20) NOT NULL"
+		",`session_seconds` int(10) unsigned NOT NULL"
+		",`delta_seconds` int(10) unsigned NOT NULL"
+		",`delta_credits` int(11) NOT NULL"
+		",`delta_skillpoints` int(3) NOT NULL"
+		",`activity_xp` int(10) unsigned NOT NULL"
+		",`activity_movement` int(5) unsigned NOT NULL"
+		",`current_credits` int(11) unsigned NOT NULL"
+		",`ip_account_count` int(2) unsigned NOT NULL"
+		",`session_end` int(1) unsigned NOT NULL"
+		",KEY `idx_timestamp` (`timestamp`)"
+		",KEY `idx_ip` (`ip`)"
+		",KEY `idx_galaxy_ip` (`galaxy_id`,`ip`,`account_id`,`character_oid`)"
+		") ENGINE=MyISAM DEFAULT CHARSET=latin1;"
+	);
+
+	alterDatabase(1003,
+		"ALTER TABLE `session_stats`"
+		" ADD COLUMN `uptime` INT(11) DEFAULT '-1' AFTER `timestamp`;"
+	);
 }

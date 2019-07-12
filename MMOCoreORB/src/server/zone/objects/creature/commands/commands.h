@@ -301,7 +301,7 @@
 #include "HarvesterHarvestCommand.h"
 #include "HarvesterMakeCrateCommand.h"
 #include "HarvesterSelectResourceCommand.h"
-#include "HarvesterTakeSurvey Command.h"
+#include "HarvesterTakeSurveyCommand.h"
 #include "HasVeteranRewardCommand.h"
 #include "HaveconsentCommand.h"
 #include "HeadShot1Command.h"

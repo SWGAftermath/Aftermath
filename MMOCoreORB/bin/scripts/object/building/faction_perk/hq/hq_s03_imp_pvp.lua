@@ -41,7 +41,7 @@
 --this exception also makes it possible to release a modified version
 
 
-object_building_faction_perk_hq_hq_s03_imp_pvp = object_building_faction_perk_hq_shared_hq_s03:new {
+object_building_faction_perk_hq_hq_s03_imp_pvp = object_building_faction_perk_hq_shared_hq_s03_imp_pvp:new {
 
 		lotSize = 0,
 		containerComponent = "GCWBaseContainerComponent",
@@ -62,11 +62,11 @@ object_building_faction_perk_hq_hq_s03_imp_pvp = object_building_faction_perk_hq
 
 		skillMods = {
 			{"private_buff_mind", 100},
-			{"private_faction_buff_mind", 25},
+			--{"private_faction_buff_mind", 25},
 			{"private_med_battle_fatigue", 5},
-			{"private_faction_mind_heal", 10},
+			--{"private_faction_mind_heal", 10},
 			{"private_medical_rating", 100},
-			{"private_faction_medical_rating", 25},
+			--{"private_faction_medical_rating", 25},
 		},
 
 		childObjects = {

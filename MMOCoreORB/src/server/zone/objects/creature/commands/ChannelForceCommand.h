@@ -31,8 +31,11 @@ public:
 			return NOJEDIARMOR;
 		}
 
-		ManagedReference<PlayerObject*> playerObject = creature->getPlayerObject();
+		// Bonus is in between 250-350.
+		int forceRandom = System::random(100);
+		int forceBonus = 250 + (forceRandom);
 
+		ManagedReference<PlayerObject*> playerObject = creature->getPlayerObject();
 		if (playerObject == NULL)
 			return GENERALERROR;
 

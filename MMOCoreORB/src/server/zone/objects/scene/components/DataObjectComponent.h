@@ -10,6 +10,10 @@
 
 #include "SceneObjectComponent.h"
 
+#include "engine/util/json_utils.h"
+
+#define SERIALIZE_JSON_MEMBER(x) j[#x] = x;
+
 namespace server {
 namespace zone {
 namespace objects {
@@ -33,6 +37,12 @@ public:
 	DataObjectComponent();
 
 	~DataObjectComponent();
+
+	friend void to_json(nlohmann::json& j, const DataObjectComponent& comp);
+
+	virtual void writeJSON(nlohmann::json& j) const {
+		j["parent"] = parent;
+	}
 
 	virtual void initializeTransientMembers();
 
@@ -123,6 +133,5 @@ public:
 	}
 
 };
-
 
 #endif /* DATAOBJECTCOMPONENT_H_ */

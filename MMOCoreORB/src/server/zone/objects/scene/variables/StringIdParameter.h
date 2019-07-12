@@ -6,6 +6,7 @@
 #define STRINGIDPARAMETER_H_
 
 #include "engine/engine.h"
+#include "engine/util/json_utils.h"
 
 #include "StringId.h"
 
@@ -28,7 +29,7 @@ namespace variables {
 
 class StringIdParameter : public Serializable {
 protected:
-	uint64 pointerParameter;
+	uint64 pointerParameter = 0;
 	StringId stringID;
 	UnicodeString customName;
 
@@ -73,6 +74,13 @@ public:
 		return *this;
 	}
 #endif
+
+	friend void to_json(nlohmann::json& j, const StringIdParameter& p) {
+		j["stringID"] = p.stringID;
+		j["pointerParameter"] = p.pointerParameter;
+		j["customName"] = p.customName;
+	}
+
 	void set(StringId* sid);
 	void set(StringId& sid);
 

@@ -98,33 +98,30 @@ void ChatManagerImplementation::loadMailDatabase() {
 
 		uint64 objectID;
 		uint32 timeStamp, currentTime = System::getTime();
-		ObjectInputStream* objectData = new ObjectInputStream(2000);
+		ObjectInputStream objectData(2000);
 
-		while (i < 25000 && iterator.getNextKeyAndValue(objectID, objectData)) {
-			if (!Serializable::getVariable<uint32>(STRING_HASHCODE("PersistentMessage.timeStamp"), &timeStamp, objectData)) {
-				objectData->clear();
+		const auto limit = ConfigManager::instance()->getCleanupMailCount();
+
+		while (i < limit && iterator.getNextKeyAndValue(objectID, &objectData)) {
+			if (!Serializable::getVariable<uint32>(STRING_HASHCODE("PersistentMessage.timeStamp"), &timeStamp, &objectData)) {
+				objectData.clear();
 				continue;
 			}
 
 			j++;
 
-			if (currentTime - timeStamp > PM_LIFESPAN) {
-				Reference<PersistentMessage*> mail = Core::getObjectBroker()->lookUp(objectID).castTo<PersistentMessage*>();
+			if ((currentTime - timeStamp) > PM_LIFESPAN) {
+				i++;
 
-				if (mail != NULL) {
-					i++;
-
-					ObjectManager::instance()->destroyObjectFromDatabase(objectID);
-				}
+				playerMailDatabase->deleteData(objectID);
 			}
 
 			if (ConfigManager::instance()->isProgressMonitorActivated())
 				printf("\r\tChecking mail for expiration [%d] / [?]\t", j);
 
-			objectData->clear();
+			objectData.clear();
 		}
 
-		delete objectData;
 	} catch (DatabaseException& e) {
 		error("Database exception in ChatManager::loadMailDatabase(): " + e.getMessage());
 	}
@@ -871,7 +868,7 @@ void ChatManagerImplementation::handleSocialInternalMessage(CreatureObject* send
 	SortedVector<QuadTreeEntry* > closeEntryObjects(200, 50);
 
 	if (vec != NULL) {
-		vec->safeCopyReceiversTo(closeEntryObjects, 1);
+		vec->safeCopyReceiversTo(closeEntryObjects, CloseObjectsVector::PLAYERTYPE);
 	} else {
 #ifdef COV_DEBUG
 		sender->info("Null closeobjects vector in ChatManager::handleSocialInternalMessage", true);
@@ -1217,7 +1214,7 @@ void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreat
 	SortedVector<QuadTreeEntry*> closeEntryObjects(200, 50);
 
 	if (closeObjects != NULL) {
-		closeObjects->safeCopyReceiversTo(closeEntryObjects, 1);
+		closeObjects->safeCopyReceiversTo(closeEntryObjects, CloseObjectsVector::PLAYERTYPE);
 	} else {
 #ifdef COV_DEBUG
 		sourceCreature->info("Null closeobjects vector in ChatManager::broadcastChatMessage(StringId)", true);
@@ -1833,7 +1830,7 @@ void ChatManagerImplementation::loadMail(CreatureObject* player) {
 	Locker _locker(player);
 
 	PlayerObject* ghost = player->getPlayerObject();
-    
+
 	ghost->checkPendingMessages();
 
 	SortedVector<uint64>* messages = ghost->getPersistentMessages();

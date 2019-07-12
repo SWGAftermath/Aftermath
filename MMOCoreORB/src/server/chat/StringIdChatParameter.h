@@ -9,6 +9,8 @@
 #include "server/zone/objects/scene/variables/StringIdParameter.h"
 #include "server/zone/objects/scene/variables/StringId.h"
 
+#include "engine/util/json_utils.h"
+
 namespace server {
 namespace zone {
 namespace objects {
@@ -56,7 +58,9 @@ public:
 	bool toBinaryStream(ObjectOutputStream* stream);
 	bool parseFromBinaryStream(ObjectInputStream* stream);
 
-	virtual String toString() {
+	friend void to_json(nlohmann::json& j, const StringIdChatParameter& p);
+
+	virtual String toString() const {
 		return StringId::getFullPath();
 	}
 

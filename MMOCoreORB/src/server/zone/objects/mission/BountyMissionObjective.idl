@@ -21,6 +21,7 @@ import engine.core.ManagedObject;
 include engine.log.Logger;
 include engine.util.u3d.Vector3;
 
+@json
 class BountyMissionObjective extends MissionObjective {
 	@dereferenced
 	protected TemplateReference<SharedObjectTemplate> npcTemplateToSpawn;
@@ -31,13 +32,13 @@ class BountyMissionObjective extends MissionObjective {
 
 	protected SceneObject activeDroid;
 
-	protected BountyHunterDroid droid;
+	protected transient BountyHunterDroid droid;
 
 	@dereferenced
-	protected FindTargetTaskList droidTasks;
+	protected transient FindTargetTaskList droidTasks;
 
-	protected BountyHunterTargetTask targetTask;
-	
+	protected transient BountyHunterTargetTask targetTask;
+
 	protected boolean completedMission;
 
 	@dereferenced
@@ -55,7 +56,7 @@ class BountyMissionObjective extends MissionObjective {
 
 		activeDroid = null;
 		droid = null;
-		
+
 		completedMission = false;
 
 		Logger.setLoggingName("BountyMissionObjective");

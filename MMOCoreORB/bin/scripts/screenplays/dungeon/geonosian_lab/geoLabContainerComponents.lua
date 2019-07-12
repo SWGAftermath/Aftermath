@@ -1,7 +1,7 @@
 GeoLabChemicalStorageComponent = {}
 
 function GeoLabChemicalStorageComponent:canAddObject(pContainer, pObj, slot)
-	return -1
+	return true
 end
 
 function GeoLabChemicalStorageComponent:transferObject(pContainer, pObj, slot)
@@ -59,7 +59,7 @@ function GeoLabChemicalStorageComponent:transferObject(pContainer, pObj, slot)
 	SceneObject(pObj):destroyObjectFromWorld()
 	SceneObject(pObj):destroyObjectFromDatabase()
 
-	createEvent(20000, "GeonosianLab", "turnOnTrap", pTrap, "")
+	createEvent(40000, "GeonosianLab", "turnOnTrap", pTrap, "")
 
 	return 1
 end

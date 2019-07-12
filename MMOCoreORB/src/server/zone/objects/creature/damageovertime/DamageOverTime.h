@@ -10,6 +10,8 @@
 
 #include "engine/engine.h"
 
+#include "engine/util/json_utils.h"
+
 namespace server {
  namespace zone {
   namespace objects {
@@ -30,9 +32,9 @@ protected:
 	uint32 strength;
 	uint32 duration;
 
-	Time applied;
-	Time expires;
-	Time nextTick;
+	SerializableTime applied;
+	SerializableTime expires;
+	SerializableTime nextTick;
 	int secondaryStrength;
 
 public:
@@ -48,6 +50,8 @@ public:
 	bool parseFromBinaryStream(ObjectInputStream* stream);*/
 
 	//~DamageOverTime();
+
+	friend void to_json(nlohmann::json& j, const DamageOverTime& t);
 
 	void activate();
 	uint32 applyDot(CreatureObject* victim);

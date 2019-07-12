@@ -125,6 +125,7 @@ includeFile("dungeon/geonosian_lab/conversations/biogenicEngineerTechConvoHandle
 includeFile("dungeon/geonosian_lab/conversations/biogenicHeraldConvoHandler.lua")
 includeFile("dungeon/geonosian_lab/conversations/biogenicHeraldDealerConvoHandler.lua")
 includeFile("dungeon/geonosian_lab/conversations/biogenicRandomConvoHandler.lua")
+includeFile("dungeon/geonosian_lab/conversations/biogenicScientistGeneric02ConvoHandler.lua")
 includeFile("dungeon/geonosian_lab/conversations/biogenicScientistHumanConvoHandler.lua")
 includeFile("dungeon/geonosian_lab/conversations/biogenicSecurityTechConvoHandler.lua")
 includeFile("dungeon/warren/warren.lua")
@@ -674,3 +675,7 @@ includeFile("tests/tests.lua")
 --Merchants
 includeFile("merchants/house_merch.lua")
 includeFile("merchants/merchant_system.lua")
+
+-- Server Event Automation
+includeFile("events/ServerEventAutomation.lua")
+

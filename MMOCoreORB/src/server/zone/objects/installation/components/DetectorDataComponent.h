@@ -9,10 +9,11 @@
 #define DETECTORDATACOMPONENT_H_
 #include "server/zone/objects/scene/components/DataObjectComponent.h"
 
-class DetectorDataComponent : public DataObjectComponent, public Logger{
+class DetectorDataComponent : public DataObjectComponent, public Logger {
 protected:
 	int maxrange;
 	uint64 nextScanTime;
+	
 	const static uint64 scanCooldown = 20;
 	//Logger::Logger tlog;
 
@@ -20,8 +21,15 @@ public:
 	DetectorDataComponent()  {
 		maxrange = 58;
 		nextScanTime = time(0);
-		this->setLoggingName("DetectorDAta");
+		this->setLoggingName("DetectorData");
 
+	}
+
+	void writeJSON(nlohmann::json& j) const {
+		DataObjectComponent::writeJSON(j);
+
+		SERIALIZE_JSON_MEMBER(maxrange);
+		SERIALIZE_JSON_MEMBER(nextScanTime);
 	}
 
 	bool canScan(){

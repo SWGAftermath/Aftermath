@@ -107,7 +107,7 @@ void PetControlDeviceImplementation::callObject(CreatureObject* player) {
 
 	if(player->getPendingTask("call_pet") != NULL) {
 		StringIdChatParameter waitTime("pet/pet_menu", "call_delay_finish_pet"); // Already calling a Pet: Call will be finished in %DI seconds.
-		Time nextExecution;
+		AtomicTime nextExecution;
 		Core::getTaskManager()->getNextExecutionTime(player->getPendingTask("call_pet"), nextExecution);
 		int timeLeft = (nextExecution.getMiliTime() / 1000) - System::getTime();
 		waitTime.setDI(timeLeft);
@@ -175,7 +175,7 @@ void PetControlDeviceImplementation::callObject(CreatureObject* player) {
 
 		if (object != NULL) {
 			if (object->isCreature() && petType == PetManager::CREATUREPET) {
-				ManagedReference<CreatureTemplate*> activePetTemplate = object->getCreatureTemplate();
+				CreatureTemplate* activePetTemplate = object->getCreatureTemplate();
 
 				if (activePetTemplate == NULL || activePetTemplate->getTemplateName() == "at_st")
 					continue;
@@ -197,8 +197,8 @@ void PetControlDeviceImplementation::callObject(CreatureObject* player) {
 					return;
 				}
 			} else if (object->isCreature() && petType == PetManager::FACTIONPET) {
-				ManagedReference<CreatureTemplate*> activePetTemplate = object->getCreatureTemplate();
-				ManagedReference<CreatureTemplate*> callingPetTemplate = pet->getCreatureTemplate();
+				CreatureTemplate* activePetTemplate = object->getCreatureTemplate();
+				CreatureTemplate* callingPetTemplate = pet->getCreatureTemplate();
 
 				if (activePetTemplate == NULL || callingPetTemplate == NULL || activePetTemplate->getTemplateName() != "at_st")
 					continue;
@@ -506,7 +506,7 @@ void PetControlDeviceImplementation::storeObject(CreatureObject* player, bool fo
 			pet->addPendingTask("store_pet", task, 60 * 1000);
 		}
 		else {
-			Time nextExecution;
+			AtomicTime nextExecution;
 			Core::getTaskManager()->getNextExecutionTime(pet->getPendingTask("store_pet"), nextExecution);
 			int timeLeft = (nextExecution.getMiliTime() / 1000) - System::getTime();
 			player->sendSystemMessage( "Pet will store in " + String::valueOf(timeLeft) + " seconds." );
@@ -532,7 +532,7 @@ bool PetControlDeviceImplementation::growPet(CreatureObject* player, bool force,
 		return true;
 	ManagedReference<Creature*> pet = cast<Creature*>(controlledObject.get());
 
-	ManagedReference<CreatureTemplate*> creatureTemplate = pet->getCreatureTemplate();
+	Reference<CreatureTemplate*> creatureTemplate = pet->getCreatureTemplate();
 
 	if (creatureTemplate == NULL)
 		return true;
@@ -621,7 +621,7 @@ void PetControlDeviceImplementation::arrestGrowth() {
 
 	ManagedReference<Creature*> pet = cast<Creature*>(controlledObject.get());
 
-	ManagedReference<CreatureTemplate*> creatureTemplate = pet->getCreatureTemplate();
+	Reference<CreatureTemplate*> creatureTemplate = pet->getCreatureTemplate();
 
 	if (creatureTemplate == NULL)
 		return;

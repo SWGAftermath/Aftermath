@@ -9,6 +9,7 @@
 #define ZONEREFERENCE_H_
 
 #include "engine/engine.h"
+#include "engine/util//json_utils.h"
 
 namespace server {
 namespace zone {
@@ -16,11 +17,22 @@ namespace zone {
 class Zone;
 
 class ZoneReference : public ManagedReference<Zone*> {
+#ifdef ODB_SERIALIZATION
+protected:
+	String zoneName;
+#endif
 public:
 	bool toBinaryStream(ObjectOutputStream* stream);
 	bool parseFromBinaryStream(ObjectInputStream* stream);
 	Zone* operator=(Zone* obj);
+#ifdef ODB_SERIALIZATION
+	const String& getZoneName() const {
+		return zoneName;
+	}
+#endif
 };
+
+void to_json(nlohmann::json& j, const ZoneReference& p);
 
 }
 }

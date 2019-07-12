@@ -5,6 +5,7 @@
 #ifndef FIRSTAIDCOMMAND_H_
 #define FIRSTAIDCOMMAND_H_
 
+#include "server/zone/objects/building/BuildingObject.h"
 #include "server/zone/objects/scene/SceneObject.h"
 
 class FirstAidCommand : public QueueCommand {
@@ -111,10 +112,44 @@ public:
 		if(!checkDistance(creature, creatureTarget, range))
 			return TOOFAR;
 
+		if (creature != creatureTarget && checkForArenaDuel(creatureTarget)) {
+			creature->sendSystemMessage("@jedi_spam:no_help_target"); // You are not permitted to help that target.
+			return GENERALERROR;
+		}
+
 		if (!creatureTarget->isHealableBy(creature)) {
 			creature->sendSystemMessage("@healing:pvp_no_help"); //It would be unwise to help such a patient.
 			return GENERALERROR;
 		}
+
+		if (creature->isPlayerCreature() && creatureTarget->getParentID() != 0 && creature->getParentID() != creatureTarget->getParentID()) {
+			Reference<CellObject*> targetCell = creatureTarget->getParent().get().castTo<CellObject*>();
+
+			if (targetCell != nullptr) {
+				if (!creatureTarget->isPlayerCreature()) {
+					ContainerPermissions* perms = targetCell->getContainerPermissions();
+
+					if (!perms->hasInheritPermissionsFromParent()) {
+						if (!targetCell->checkContainerPermission(creature, ContainerPermissions::WALKIN)) {
+							creature->sendSystemMessage("@combat_effects:cansee_fail"); // You cannot see your target.
+							return GENERALERROR;
+						}
+					}
+				}
+
+				ManagedReference<SceneObject*> parentSceneObject = targetCell->getParent().get();
+
+				if (parentSceneObject != nullptr) {
+					BuildingObject* buildingObject = parentSceneObject->asBuildingObject();
+
+					if (buildingObject != nullptr && !buildingObject->isAllowedEntry(creature)) {
+						creature->sendSystemMessage("@combat_effects:cansee_fail"); // You cannot see your target.
+						return GENERALERROR;
+					}
+				}
+			}
+		}
+
 
 		if (creature->getHAM(CreatureAttribute::MIND) < mindCost) {
 			creature->sendSystemMessage("@healing_response:not_enough_mind"); //You do not have enough mind to do that.

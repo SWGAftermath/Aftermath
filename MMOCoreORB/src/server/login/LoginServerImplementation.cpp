@@ -10,6 +10,7 @@
 #include "LoginMessageProcessorTask.h"
 
 #include "conf/ConfigManager.h"
+#include "server/login/account/Account.h"
 #include "server/login/account/AccountManager.h"
 
 #include "LoginHandler.h"
@@ -31,8 +32,6 @@ LoginServerImplementation::LoginServerImplementation(ConfigManager* configMan) :
 	configManager = configMan;
 
 	processor = NULL;
-
-	enumClusterMessage = NULL;
 
 	accountManager = NULL;
 
@@ -58,8 +57,6 @@ void LoginServerImplementation::initialize() {
 
 	//taskManager->setLogging(false);
 
-	populateGalaxyList();
-
 	return;
 }
 
@@ -70,7 +67,6 @@ void LoginServerImplementation::startManagers() {
 	accountManager = new AccountManager(_this.getReferenceUnsafeStaticCast());
 	accountManager->setAutoRegistrationEnabled(configManager->getAutoReg());
 	accountManager->setRequiredVersion(configManager->getLoginRequiredVersion());
-	accountManager->setMaxOnlineCharacters(configManager->getZoneOnlineCharactersPerAccount());
 	accountManager->setDBSecret(configManager->getDBSecret());
 }
 
@@ -92,7 +88,6 @@ void LoginServerImplementation::shutdown() {
 	loginHandler = NULL;
 	phandler = NULL;
 	processor = NULL;
-	enumClusterMessage = NULL;
 
 	printInfo();
 
@@ -174,45 +169,35 @@ void LoginServerImplementation::printInfo() {
 	unlock();
 }
 
-void LoginServerImplementation::populateGalaxyList() {
-	//Populate the galaxies list for the login server.
-	GalaxyList galaxies;
+LoginEnumCluster* LoginServerImplementation::getLoginEnumClusterMessage(Account* account) {
+	auto galaxies = GalaxyList(account->getUsername());
 	uint32 galaxyCount = galaxies.size();
 
-	//In case we want to add the functionality to update the lists while the server is running...
-	if (enumClusterMessage != NULL) {
-		delete enumClusterMessage;
-		enumClusterMessage = NULL;
-	}
-
-	enumClusterMessage = new LoginEnumCluster(galaxyCount);
-    while (galaxies.next()) {
-    	uint32 galaxyID = galaxies.getGalaxyID();
-
-    	String name;
-    	galaxies.getGalaxyName(name);
-
-    	enumClusterMessage->addGalaxy(galaxyID, name);
-    }
-
-    enumClusterMessage->finish();
-}
-
-LoginClusterStatus* LoginServerImplementation::getLoginClusterStatusMessage() {
-	GalaxyList galaxies;
-	uint32 galaxyCount = galaxies.size();
-
-	auto clusterStatusMessage = new LoginClusterStatus(galaxyCount);
+	auto msg = new LoginEnumCluster(galaxyCount);
 
 	while (galaxies.next()) {
-		uint32 galaxyID = galaxies.getGalaxyID();
-
-		String address;
-		galaxies.getGalaxyAddress(address);
-
-		clusterStatusMessage->addGalaxy(galaxyID, address, galaxies.getRandomGalaxyPort(), galaxies.getGalaxyPingPort());
+		msg->addGalaxy(galaxies.getID(), galaxies.getName());
 	}
 
-	return clusterStatusMessage;
+	msg->finish();
+
+	return msg;
 }
 
+LoginClusterStatus* LoginServerImplementation::getLoginClusterStatusMessage(Account* account) {
+	auto galaxies = GalaxyList(account->getUsername());
+	uint32 galaxyCount = galaxies.size();
+
+	auto msg = new LoginClusterStatus(galaxyCount);
+
+	while (galaxies.next()) {
+		msg->addGalaxy(
+			galaxies.getID(),
+			galaxies.getAddress(),
+			galaxies.getRandomPort(),
+			galaxies.getPingPort()
+		);
+	}
+
+	return msg;
+}

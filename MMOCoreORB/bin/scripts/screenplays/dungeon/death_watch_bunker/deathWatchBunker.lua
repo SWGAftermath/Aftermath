@@ -210,11 +210,19 @@ end
 
 function DeathWatchBunkerScreenPlay:spawnMobiles()
 	for i,v in ipairs(deathWatchStaticSpawns) do
-		spawnMobile("endor", v[1], v[2], v[3], v[4], v[5], v[6], v[7])
+		local pMobile = spawnMobile("endor", v[1], v[2], v[3], v[4], v[5], v[6], v[7])
+
+		if (pMobile ~= nil) then
+			writeData("dwb:staticMobile" .. i, SceneObject(pMobile):getObjectID())
+		end
 	end
 	for i,v in ipairs(deathWatchQuestNpcs) do
 		if (isZoneEnabled(v[8])) then
-			spawnMobile(v[8], v[1], v[2], v[3], v[4], v[5], v[6], v[7])
+			local pMobile = spawnMobile(v[8], v[1], v[2], v[3], v[4], v[5], v[6], v[7])
+
+			if (pMobile ~= nil) then
+				writeData("dwb:questMobile" .. i, SceneObject(pMobile):getObjectID())
+			end
 		end
 	end
 end
@@ -523,7 +531,6 @@ end
 function DeathWatchBunkerScreenPlay:setBombDroidTemplate(pDroid)
 	AiAgent(pDroid):setAiTemplate("idlewait") -- Don't move unless patrol point is added to list
 	AiAgent(pDroid):setFollowState(4) -- Patrolling
-	createObserver(OBJECTDESTRUCTION, "DeathWatchBunkerScreenPlay", "bombDroidDetonated", spawnedPointer)
 end
 
 function DeathWatchBunkerScreenPlay:setLootBoxPermissions(pContainer)
@@ -536,8 +543,8 @@ function DeathWatchBunkerScreenPlay:onEnterDWB(sceneObject, pCreature)
 	if (not SceneObject(pCreature):isPlayerCreature()) then
 		return 0
 	end
-	
-	createObserver(SPATIALCHATSENT, "DeathWatchBunkerScreenPlay", "notifyTerminalChatSent", pPlayer)
+
+	createObserver(SPATIALCHATSENT, "DeathWatchBunkerScreenPlay", "notifyTerminalChatSent", pCreature)
 
 	self:lockAll(pCreature)
 
@@ -552,8 +559,8 @@ function DeathWatchBunkerScreenPlay:onExitDWB(sceneObject, pCreature, long)
 	if long == self.buildingIds.outside or long == 0 then
 		self:lockAll(pCreature)
 	end
-	
-	dropObserver(SPATIALCHATSENT, "DeathWatchBunkerScreenPlay", "notifyTerminalChatSent", pPlayer)
+
+	dropObserver(SPATIALCHATSENT, "DeathWatchBunkerScreenPlay", "notifyTerminalChatSent", pCreature)
 
 	return 0
 end
@@ -790,6 +797,7 @@ function DeathWatchBunkerScreenPlay:doBombDroidAction(pBombDroid)
 	if (spatialCommand == "detonate") then
 		CreatureObject(pBombDroid):playEffect("clienteffect/combat_grenade_proton.cef", "")
 		CreatureObject(pBombDroid):inflictDamage(pBombDroid, 0, 1000000, 1)
+		self:bombDroidDetonated(pBombDroid)
 		writeData("dwb:lastDroidDetonate", os.time())
 		return
 	end
@@ -916,7 +924,7 @@ function DeathWatchBunkerScreenPlay:notifyEnteredOutsideLockedDoorArea(pArea, pP
 	return 0
 end
 
-function DeathWatchBunkerScreenPlay:bombDroidDetonated(pBombDroid, pBombDroid2)
+function DeathWatchBunkerScreenPlay:bombDroidDetonated(pBombDroid)
 	if (pBombDroid == nil) then
 		return 1
 	end
@@ -933,12 +941,13 @@ function DeathWatchBunkerScreenPlay:bombDroidDetonated(pBombDroid, pBombDroid2)
 
 	if (pDebris ~= nil and SceneObject(pBombDroid):isInRangeWithObject(pDebris, 5)) then
 		SceneObject(pDebris):playEffect("clienteffect/combat_grenade_proton.cef", "")
-		createEvent(1000, "DeathWatchBunkerScreenPlay", "destroyDebris", pDebris, "")
+		createEvent(500, "DeathWatchBunkerScreenPlay", "destroyDebris", pDebris, "")
 	elseif (pDebris2 ~= nil and SceneObject(pBombDroid):isInRangeWithObject(pDebris2, 5)) then
 		SceneObject(pDebris2):playEffect("clienteffect/combat_grenade_proton.cef", "")
-		createEvent(1000, "DeathWatchBunkerScreenPlay", "destroyDebris", pDebris2, "")
+		createEvent(500, "DeathWatchBunkerScreenPlay", "destroyDebris", pDebris2, "")
 	end
 
+	createEvent(2000, "DeathWatchBunkerScreenPlay", "despawnCreature", pBombDroid, "")
 	deleteData("dwb:bombDroid")
 
 	return 1

@@ -12,31 +12,41 @@
 #include "server/zone/managers/auction/AuctionManager.h"
 
 class AuctionQueryHeadersMessageCallback : public MessageCallback {
-	int extent;
+	int locationType;
 	int counter;
-	int screen;
-	uint32 category;
+	int searchType;
+	uint32 itemCategory;
+	int unk1;
+	UnicodeString filterText;
+	int unk2;
+	int minPrice;
+	int maxPrice;
+	bool includeEntranceFee;
 	uint64 vendorID;
-	char unk1;
+	bool isVendor;
 	int offset;
 
 public:
 	AuctionQueryHeadersMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-			MessageCallback(client, server), extent(0), counter(0), screen(0), category(0), vendorID(0), unk1(0), offset(0) {
+			MessageCallback(client, server), locationType(0), counter(0), searchType(0), itemCategory(0), unk1(0), unk2(0), minPrice(0), maxPrice(0), includeEntranceFee(0), vendorID(0), isVendor(0), offset(0) {
 
 	}
 
 	void parse(Message* message) {
-		extent = message->parseInt();
-		// 0 - galaxy, 1 - planet, 2 - region, 3 - vendor
+		locationType = message->parseInt();
 		counter = message->parseInt();
-		screen = message->parseInt();
-		// 2 - all items, 3 - my sales, 4 - my bids, 5 - available items,
-		// 7 - for sale (vendor), 9 - offers to vendor
-		category = message->parseInt();  // Bitmask
-		message->shiftOffset(21);
+		searchType = message->parseInt();
+		itemCategory = message->parseInt();  // Bitmask
+
+		unk1 = message->parseInt();
+		message->parseUnicode(filterText);
+		unk2 = message->parseInt();
+		minPrice = message->parseInt();
+		maxPrice = message->parseInt();
+		includeEntranceFee = message->parseByte();
+
 		vendorID = message->parseLong();
-		unk1 = message->parseByte(); //Becomes one when using a vendor.
+		isVendor = message->parseByte(); //Becomes one when using a vendor.
 		offset = message->parseShort();
 
 	}
@@ -44,15 +54,15 @@ public:
 	void run() {
 		ManagedReference<CreatureObject*> player = client->getPlayer();
 
-		if (player == NULL)
+		if (player == nullptr)
 			return;
 			
 		Locker locker(player);
 
 		AuctionManager* auctionManager = server->getZoneServer()->getAuctionManager();
 
-		if (auctionManager != NULL)
-			auctionManager->getData(player, extent, vendorID, screen, category, counter, offset);
+		if (auctionManager != nullptr)
+			auctionManager->getData(player, locationType, vendorID, searchType, itemCategory, filterText, minPrice, maxPrice, includeEntranceFee, counter, offset);
 	}
 };
 

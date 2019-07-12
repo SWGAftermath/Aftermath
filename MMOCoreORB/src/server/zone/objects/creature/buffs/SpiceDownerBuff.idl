@@ -11,6 +11,7 @@ include server.zone.objects.creature.buffs.BuffType;
 include server.zone.objects.creature.buffs.BuffCRC;
 include templates.params.ObserverEventType;
 
+@json
 class SpiceDownerBuff extends Buff {
 	public SpiceDownerBuff(CreatureObject creo, final string name, unsigned int buffCRC, int duration) {
 		super(creo, buffCRC, duration, BuffType.SPICE);
@@ -26,7 +27,11 @@ class SpiceDownerBuff extends Buff {
 			Buff buff = super.creature.getBuff(BuffCRC.FOOD_REDUCE_SPICE_DOWNTIME);
 
 			if (buff != null) {
-				super.buffDuration = super.buffDuration * (100.0 - buff.getSkillModifierValue("reduce_spice_downtime")) / 100.0;
+				float reductionMod = buff.getSkillModifierValue("reduce_spice_downtime");
+				float reduction = 1.f - (reductionMod / 100);
+
+				if (reduction > 0)
+					super.buffDuration = super.buffDuration * reduction;
 			}
 		}
 

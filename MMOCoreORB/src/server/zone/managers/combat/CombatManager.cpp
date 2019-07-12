@@ -1215,19 +1215,17 @@ int CombatManager::getArmorReduction(TangibleObject* attacker, WeaponObject* wea
 		float armorReduction =  getArmorObjectReduction(psg, damageType);
 		float dmgAbsorbed = damage;
 
+		damage *= getArmorPiercing(psg, armorPiercing);
+
         if (armorReduction > 0) damage *= 1.f - (armorReduction / 100.f);
 
 		dmgAbsorbed -= damage;
 		if (dmgAbsorbed > 0)
 			sendMitigationCombatSpam(defender, psg, (int)dmgAbsorbed, PSG);
 
-		// inflict condition damage
-		// TODO: this formula makes PSG's take more damage than regular armor, but that's how it was on live
-		// it can be fixed by doing condition damage after all damage reductions
-
 		Locker plocker(psg);
 
-		psg->inflictDamage(psg, 0, damage * 0.1, true, true);
+		psg->inflictDamage(psg, 0, damage * 0.2, true, true);
 
 	}
 
@@ -1252,7 +1250,7 @@ int CombatManager::getArmorReduction(TangibleObject* attacker, WeaponObject* wea
 		// inflict condition damage
 		Locker alocker(armor);
 
-		armor->inflictDamage(armor, 0, damage * 0.1, true, true);
+		armor->inflictDamage(armor, 0, damage * 0.2, true, true);
 	}
 
 	return damage;
@@ -1690,9 +1688,16 @@ int CombatManager::getHitChance(TangibleObject* attacker, CreatureObject* target
 		if (targetDefense > 50 + attackerAccuracy + weaponAccuracy + accuracyBonus + postureAccuracy + bonusAccuracy + attackerRoll) { // successful secondary defense, return type of defense
 
 			//info("Secondaries defenses prevailed", true);
-			// this means use defensive acuity, which mean random 1, 2, or 3
-			if (targetWeapon == nullptr)
-				return System::random(2) + 1;
+			// defense acuity returns random: case 0 BLOCK, case 1 DODGE or default COUNTER
+			if (targetWeapon == nullptr || def == "unarmed_passive_defense") {
+				int randRoll = System::random(2);
+				switch (randRoll) {
+				case 0: return BLOCK;
+				case 1: return DODGE;
+				case 2:
+				default: return COUNTER;
+				}
+			}
 
 			if (def == "block")
 				return BLOCK;
@@ -1700,8 +1705,6 @@ int CombatManager::getHitChance(TangibleObject* attacker, CreatureObject* target
 				return DODGE;
 			else if (def == "counterattack")
 				return COUNTER;
-			else if (def == "unarmed_passive_defense")
-				return System::random(2) + 1;
 			else // shouldn't get here
 				return HIT; // no secondary defenses available on this weapon
 		}
@@ -1883,6 +1886,9 @@ void CombatManager::applyStates(CreatureObject* creature, CreatureObject* target
 			targetDefense /= 1.5;
 			targetDefense += playerLevel;
 
+			if (targetDefense > 90)
+				targetDefense = 90.f;
+
 			if (System::random(100) > accuracyMod - targetDefense)
 				failed = true;
 
@@ -1896,6 +1902,9 @@ void CombatManager::applyStates(CreatureObject* creature, CreatureObject* target
 
 					targetDefense /= 1.5;
 					targetDefense += playerLevel;
+
+					if (targetDefense > 90)
+						targetDefense = 90.f;
 
 					if (System::random(100) > accuracyMod - targetDefense) {
 						failed = true;
@@ -2334,7 +2343,7 @@ void CombatManager::requestDuel(CreatureObject* player, CreatureObject* targetPl
 		return;
 	}
 
-	player->info("requesting duel");
+	player->info("requesting duel with " + String::valueOf(targetPlayer->getObjectID()));
 
 	ghost->addToDuelList(targetPlayer);
 
@@ -2410,7 +2419,7 @@ void CombatManager::requestEndDuel(CreatureObject* player, CreatureObject* targe
 		return;
 	}
 
-	player->info("ending duel");
+	player->info("ending duel with " + String::valueOf(targetPlayer->getObjectID()));
 
 	ghost->removeFromDuelList(targetPlayer);
 	player->removeDefender(targetPlayer);
@@ -2573,6 +2582,8 @@ void CombatManager::declineDuel(CreatureObject* player, CreatureObject* targetPl
 		StringIdChatParameter stringId2("duel", "cancel_target");
 		stringId2.setTT(player->getObjectID());
 		targetPlayer->sendSystemMessage(stringId2);
+
+		player->info("declined duel with " + String::valueOf(targetPlayer->getObjectID()));
 	}
 }
 
@@ -2682,6 +2693,31 @@ Reference<SortedVector<ManagedReference<TangibleObject*> >* > CombatManager::get
 			if (!tano->isAttackableBy(attacker)) {
 				//error("object is not attackable");
 				continue;
+			}
+
+			if (attacker->isPlayerCreature() && object->getParentID() != 0 && attacker->getParentID() != object->getParentID()) {
+				Reference<CellObject*> targetCell = object->getParent().get().castTo<CellObject*>();
+				CreatureObject* aggressor = attacker->asCreatureObject();
+
+				if (targetCell != nullptr) {
+					if (!object->isPlayerCreature()) {
+						ContainerPermissions* perms = targetCell->getContainerPermissions();
+
+						if (!perms->hasInheritPermissionsFromParent()) {
+							if (targetCell->checkContainerPermission(aggressor, ContainerPermissions::WALKIN))
+								continue;
+						}
+					}
+
+					ManagedReference<SceneObject*> parentSceneObject = targetCell->getParent().get();
+
+					if (parentSceneObject != nullptr) {
+						BuildingObject* buildingObject = parentSceneObject->asBuildingObject();
+
+						if (buildingObject != nullptr && !buildingObject->isAllowedEntry(aggressor))
+							continue;
+					}
+				}
 			}
 
 			if (attacker->getWorldPosition().distanceTo(object->getWorldPosition()) - attacker->getTemplateRadius() - object->getTemplateRadius() > range) {

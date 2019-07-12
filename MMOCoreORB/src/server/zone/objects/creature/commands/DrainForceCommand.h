@@ -82,18 +82,21 @@ public:
 				return GENERALERROR;
 			}
 
-			int forceDrain = targetForce >= maxDrain ? maxDrain : targetForce; //Drain whatever Force the target has, up to max.
+			int forceDrain = targetForce >= drain ? drain : targetForce; //Drain whatever Force the target has, up to max.
 			if (forceDrain > forceSpace)
 				forceDrain = forceSpace; //Drain only what attacker can hold in their own Force pool.
 
-			playerGhost->setForcePower(playerGhost->getForcePower() + forceDrain);
+			playerGhost->setForcePower(playerGhost->getForcePower() + (forceDrain - forceCost));
 			targetGhost->setForcePower(targetGhost->getForcePower() - forceDrain);
 
 			uint32 animCRC = getAnimationString().hashCode();
 			creature->doCombatAnimation(targetCreature, animCRC, 0x1, 0xFF);
 			manager->broadcastCombatSpam(creature, targetCreature, NULL, forceDrain, "cbt_spam", combatSpam, 1);
 
+			VisibilityManager::instance()->increaseVisibility(creature, visMod);
+
 			return SUCCESS;
+
 		}
 
 		return GENERALERROR;
@@ -101,7 +104,14 @@ public:
 	}
 
 	float getCommandDuration(CreatureObject* object, const UnicodeString& arguments) const {
-		return defaultTime * 3.0;
+		float baseDuration = defaultTime * 3.0;
+		float combatHaste = object->getSkillMod("combat_haste");
+
+		if (combatHaste > 0) {
+			return baseDuration * (1.f - (combatHaste / 100.f));
+		} else {
+			return baseDuration;
+		}
 	}
 
 };

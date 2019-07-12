@@ -74,8 +74,8 @@ public:
 				sendEmptyAttributes(creature, objid);
 			}
 
-			if ((incr++) > 200) {
-				creature->info("Objects attribute limit exceeded!");
+			if (++incr > 999) {
+				creature->error("GetAttributesBatchCommand: Objects attribute limit exceeded: arguments: " + arguments.toString());
 
 				return GENERALERROR;
 			}

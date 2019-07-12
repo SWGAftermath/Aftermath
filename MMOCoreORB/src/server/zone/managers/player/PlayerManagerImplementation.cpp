@@ -6,6 +6,8 @@
  */
 
 #include "server/zone/managers/player/PlayerManager.h"
+#include <utility>
+#include <mutex>
 
 #include "server/zone/packets/charcreation/ClientCreateCharacterCallback.h"
 #include "server/zone/packets/charcreation/ClientCreateCharacterFailed.h"
@@ -106,11 +108,19 @@
 #include "server/zone/managers/visibility/VisibilityManager.h"
 #include "server/zone/managers/mission/MissionManager.h"
 #include "server/zone/managers/frs/FrsManager.h"
+#include "server/zone/objects/player/events/OnlinePlayerLogTask.h"
+#include <sys/stat.h>
 
 
 
 PlayerManagerImplementation::PlayerManagerImplementation(ZoneServer* zoneServer, ZoneProcessServer* impl) :
 										Logger("PlayerManager") {
+
+	playerLoggerFilename = "log/player.log";
+	playerLoggerLines = ConfigManager::instance()->getMaxLogLines();
+	playerLogger.setLoggingName("PlayerLogger");
+	playerLogger.setFileLogger(playerLoggerFilename, true);
+
 	server = zoneServer;
 	processor = impl;
 
@@ -153,6 +163,40 @@ PlayerManagerImplementation::PlayerManagerImplementation(ZoneServer* zoneServer,
 			info("Player: " + name + " level: " + String::valueOf(level), true);
 		}
 	}
+
+	Core::getTaskManager()->executeTask([=] () {
+	    rescheduleOnlinePlayerLogTask(ConfigManager::instance()->getOnlineLogSeconds());
+	}, "startOnlinePlayerLogTask");
+}
+
+bool PlayerManagerImplementation::rescheduleOnlinePlayerLogTask(int logSecs) {
+	if (logSecs <= -1) {
+		if (onlinePlayerLogTask != nullptr) {
+			onlinePlayerLogTask->cancel();
+			onlinePlayerLogTask = nullptr;
+		}
+		info("Loging online players disabled.", true);
+		return true;
+	}
+
+	if (logSecs < 10) {
+		error("rescheduleOnlinePlayerLogTask: attempt to set log schedule too low: " + String::valueOf(logSecs));
+		return false;
+	}
+
+	if (onlinePlayerLogTask == nullptr) {
+		onlinePlayerLogTask = new OnlinePlayerLogTask(_this.getReferenceUnsafeStaticCast());
+	} else {
+		onlinePlayerLogTask->cancel();
+	}
+
+	onlinePlayersLogOnSessionChange = ConfigManager::instance()->getBool("Core3.LogOnlineOnSessionChange", true);
+
+	onlinePlayerLogTask->schedulePeriodic(0, logSecs * 1000);
+
+	info("Loging online players every " + String::valueOf(logSecs) + " seconds.", true);
+
+	return true;
 }
 
 bool PlayerManagerImplementation::createPlayer(ClientCreateCharacterCallback* callback) {
@@ -360,13 +404,13 @@ void PlayerManagerImplementation::loadNameMap() {
 	info("loading character names");
 
 	try {
-		String query = "SELECT * FROM characters where character_oid > 16777216 and galaxy_id = " + String::valueOf(server->getGalaxyID()) + " order by character_oid asc";
+		String query = "SELECT character_oid, firstname FROM characters where character_oid > 16777216 and galaxy_id = " + String::valueOf(server->getGalaxyID()) + " order by character_oid asc";
 
 		Reference<ResultSet*> res = ServerDatabase::instance()->executeQuery(query);
 
 		while (res->next()) {
 			uint64 oid = res->getUnsignedLong(0);
-			String firstName = res->getString(3);
+			String firstName = res->getString(1);
 
 			if (!nameMap->put(firstName.toLowerCase(), oid)) {
 				error("error coliding name:" + firstName.toLowerCase());
@@ -374,12 +418,139 @@ void PlayerManagerImplementation::loadNameMap() {
 		}
 
 	} catch (Exception& e) {
-		error(e.getMessage());
+		fatal(e.getMessage());
 	}
 
 	StringBuffer msg;
 	msg << "loaded " << nameMap->size() << " character names in memory";
 	info(msg.toString(), true);
+}
+
+void PlayerManagerImplementation::writePlayerLogEntry(JSONSerializationType& logEntry) {
+	FileWriter* logFile = playerLogger.getFileLogger();
+	StringBuffer logLine;
+
+	logLine << logEntry.dump().c_str() << "\n";
+
+	Locker lock(&playerLoggerMutex);
+
+	(*logFile) << logLine;
+
+	logFile->flush();
+
+	// Check for log rotation
+	if (--playerLoggerLines <= 0) {
+		playerLoggerLines = ConfigManager::instance()->getMaxLogLines();
+
+		Time now;
+		StringBuffer archiveFilename;
+		archiveFilename << "log/player-" << now.getMiliTime() << ".log";
+
+		// If the rename failed its ok because we open with append below
+		int err = std::rename(playerLoggerFilename.toCharArray(), archiveFilename.toString().toCharArray());
+
+		// report failure if any
+		if (err != 0)
+			error("Failed to archive player log to " + archiveFilename.toString() + " err = " + String::valueOf(err));
+
+		playerLogger.setFileLogger(playerLoggerFilename, true);
+	}
+}
+
+JSONSerializationType PlayerManagerImplementation::basePlayerLogEntry(CreatureObject* creature, PlayerObject* ghost) {
+	JSONSerializationType logEntry;
+	Time time;
+
+	logEntry["@timestamp"] = time.getFormattedTimeFull().toCharArray();
+	logEntry["time_msecs"] = time.getMiliTime();
+
+	Thread* currentThread = Thread::getCurrentThread();
+
+	if (currentThread != nullptr)
+		logEntry["thread"] = currentThread->getName();
+
+	if (creature != nullptr) {
+		Locker locker(creature);
+		logEntry["oid"] = creature->getObjectID();
+		logEntry["first_name"] = creature->getFirstName();
+	} else {
+		logEntry["oid"] = ghost != nullptr ? ghost->getObjectID() : 0;
+		logEntry["first_name"] = "-ghost-";
+	}
+
+	if (ghost != nullptr) {
+		Locker locker(ghost);
+		logEntry["account_id"] = ghost->getAccountID();
+		logEntry["played_ms"] = ghost->getPlayedMiliSecs();
+		logEntry["session_ms"] = ghost->getSessionMiliSecs();
+	}
+
+	logEntry["uptime_secs"] = playerLogger.getElapsedTime();
+
+	return logEntry;
+}
+
+void PlayerManagerImplementation::writePlayerLog(CreatureObject* creature, PlayerObject* ghost, const String& msg, int logLevelType) {
+	if (logLevelType > ghost->getLogLevel())
+		return;
+
+	JSONSerializationType logEntry = basePlayerLogEntry(creature, ghost);
+
+	logEntry["type"] = "log";
+	logEntry["log"] = msg;
+	logEntry["log_level"] = playerLogger.getLogType((Logger::LogLevel)logLevelType);
+	logEntry["log_tag"] = playerLogger.getLoggingName();
+
+	// Add additional info on error
+	if (logLevelType == Logger::LogLevel::ERROR) {
+		logEntry["worldPositionX"] = (int)creature->getWorldPositionX();
+		logEntry["worldPositionZ"] = (int)creature->getWorldPositionZ();
+		logEntry["worldPositionY"] = (int)creature->getWorldPositionY();
+
+		if (creature != nullptr) {
+			auto parent = creature->getParent().get();
+
+			if (parent != nullptr) {
+				logEntry["parentOID"] = parent->getObjectID();
+
+				if (parent->isCellObject()) {
+					logEntry["positionX"] = (int)creature->getPositionX();
+					logEntry["positionZ"] = (int)creature->getPositionZ();
+					logEntry["positionY"] = (int)creature->getPositionY();
+				}
+			}
+
+			auto zone = creature->getZone();
+
+			logEntry["zone"] = zone != nullptr ? zone->getZoneName() : "null";
+		}
+	}
+
+	writePlayerLogEntry(logEntry);
+}
+
+void PlayerManagerImplementation::writePlayerLog(PlayerObject* ghost, const String& msg, int logLevelType) {
+	if (ghost == nullptr)
+		return;
+
+	Reference<CreatureObject*> creature = ghost->getParent().get()->asCreatureObject();
+
+	if (creature == nullptr)
+		return;
+
+	PlayerManagerImplementation::writePlayerLog(creature, ghost, msg, logLevelType);
+}
+
+void PlayerManagerImplementation::writePlayerLog(CreatureObject* creature, const String& msg, int logLevelType) {
+	if (creature == nullptr)
+		return;
+
+	Reference<PlayerObject*> ghost = creature->getPlayerObject();
+
+	if (ghost == nullptr)
+		return;
+
+	PlayerManagerImplementation::writePlayerLog(creature, ghost, msg, logLevelType);
 }
 
 int PlayerManagerImplementation::getPlayerQuestID(const String& name) {
@@ -586,6 +757,186 @@ bool PlayerManagerImplementation::checkPlayerName(ClientCreateCharacterCallback*
 	}
 
 	return true;
+}
+
+String PlayerManagerImplementation::setFirstName(CreatureObject* creature, const String& newFirstName) {
+    if (creature == nullptr)
+		return "nullptr creature specified";
+
+	if (!creature->isPlayerCreature())
+		return "Can only set FirstName on players.";
+
+	auto ghost = creature->getPlayerObject();
+
+	if (ghost == nullptr)
+		return "missing ghost";
+
+	if (newFirstName.isEmpty())
+		return "Empty first name is now allowed";
+
+	if (existsName(newFirstName))
+		return "That name is already in use";
+
+	Locker locker(creature, ghost);
+
+	auto nameManager = processor->getNameManager();
+
+	int result = nameManager->validateName(newFirstName, creature->getSpecies());
+
+	switch (result) {
+	case NameManagerResult::ACCEPTED:
+		break;
+	case NameManagerResult::DECLINED_EMPTY:
+		return "First names may not be empty.";
+		break;
+	case NameManagerResult::DECLINED_RACE_INAPP:
+		return "That name is inappropriate for the player's species.";
+		break;
+	case NameManagerResult::DECLINED_PROFANE:
+		return "That name is profane.";
+		break;
+	case NameManagerResult::DECLINED_DEVELOPER:
+		return "That is a developer's name.";
+		break;
+	case NameManagerResult::DECLINED_FICT_RESERVED:
+		return "That name is a reserved fictional name.";
+		break;
+	case NameManagerResult::DECLINED_RESERVED:
+		return "That name is reserved.";
+		break;
+	case NameManagerResult::DECLINED_SYNTAX:
+		return "That name contains invalid syntax.";
+		break;
+	}
+
+	String oldFirstName = creature->getFirstName();
+	String oldLastName = creature->getLastName();
+	String newFullName = newFirstName;
+
+	if (!oldLastName.isEmpty())
+		newFullName = newFirstName + " " + oldLastName;
+
+	creature->setCustomObjectName(newFullName, true);
+
+	// If staff fix their staff tags
+	if (ghost->hasGodMode())
+		updatePermissionName(creature, ghost->getAdminLevel());
+
+	auto chatManager = server->getChatManager();
+	chatManager->removePlayer(oldFirstName);
+	chatManager->addPlayer(creature);
+
+	removePlayer(oldFirstName);
+	addPlayer(creature);
+
+	// Remove the old name from other people's friends lists
+	ghost->removeAllReverseFriends(oldFirstName);
+
+	// Update mysql characters table
+	String characterFirstName = creature->getFirstName();
+	Database::escapeString(characterFirstName);
+
+	int galaxyID = server->getGalaxyID();
+
+	StringBuffer charDirtyQuery;
+	charDirtyQuery
+			<< "UPDATE `characters_dirty` SET `firstname` = '"  << characterFirstName
+			<< "' WHERE `character_oid` = '" << creature->getObjectID()
+			<< "' AND `galaxy_id` = '" << galaxyID << "'";
+
+	ServerDatabase::instance()->executeStatement(charDirtyQuery);
+
+	StringBuffer charQuery;
+	charQuery
+			<< "UPDATE `characters` SET `firstname` = '"  << characterFirstName
+			<< "' WHERE `character_oid` = '" << creature->getObjectID()
+			<< "' AND `galaxy_id` = '" << galaxyID << "'";
+
+	ServerDatabase::instance()->executeStatement(charQuery);
+
+	// Success, return empty string
+	return "";
+}
+
+String PlayerManagerImplementation::setLastName(CreatureObject* creature, const String& newLastName, bool skipVerify) {
+    if (creature == nullptr)
+		return "nullptr creature specified";
+
+	if (!creature->isPlayerCreature())
+		return "Can only set LastName on players.";
+
+	auto ghost = creature->getPlayerObject();
+
+	if (ghost == nullptr)
+		return "missing ghost";
+
+	Locker locker(creature, ghost);
+
+	String oldFirstName = creature->getFirstName();
+	String newFullName = oldFirstName;
+
+	if (!newLastName.isEmpty())
+		newFullName = oldFirstName + " " + newLastName;
+
+	if (!skipVerify) {
+		auto nameManager = processor->getNameManager();
+
+		int result = nameManager->validateName(newFullName, creature->getSpecies());
+
+		switch (result) {
+		case NameManagerResult::ACCEPTED:
+			break;
+		case NameManagerResult::DECLINED_RACE_INAPP:
+			return "That name is inappropriate for the player's species.";
+			break;
+		case NameManagerResult::DECLINED_PROFANE:
+			return "That name is profane.";
+			break;
+		case NameManagerResult::DECLINED_DEVELOPER:
+			return "That is a developer's name.";
+			break;
+		case NameManagerResult::DECLINED_FICT_RESERVED:
+			return "That name is a reserved fictional name.";
+			break;
+		case NameManagerResult::DECLINED_RESERVED:
+			return "That name is reserved.";
+			break;
+		case NameManagerResult::DECLINED_SYNTAX:
+			return "That name contains invalid syntax.";
+			break;
+		}
+	}
+
+	creature->setCustomObjectName(newFullName, true);
+
+	// If staff fix their staff tags
+	if (ghost->hasGodMode())
+		updatePermissionName(creature, ghost->getAdminLevel());
+
+	// Update mysql characters table
+	String characterLastName = creature->getLastName();
+	Database::escapeString(characterLastName);
+
+	int galaxyID = server->getGalaxyID();
+
+	StringBuffer charDirtyQuery;
+	charDirtyQuery
+			<< "UPDATE `characters_dirty` SET `surname` = '"  << characterLastName
+			<< "' WHERE `character_oid` = '" << creature->getObjectID()
+			<< "' AND `galaxy_id` = '" << galaxyID << "'";
+
+	ServerDatabase::instance()->executeStatement(charDirtyQuery);
+
+	StringBuffer charQuery;
+	charQuery
+			<< "UPDATE `characters` SET `surname` = '"  << characterLastName
+			<< "' WHERE `character_oid` = '" << creature->getObjectID()
+			<< "' AND `galaxy_id` = '" << galaxyID << "'";
+
+	ServerDatabase::instance()->executeStatement(charQuery);
+
+	// Success, return empty string
+	return "";
 }
 
 void PlayerManagerImplementation::createTutorialBuilding(CreatureObject* player) {
@@ -1749,6 +2100,24 @@ int PlayerManagerImplementation::awardExperience(CreatureObject* player, const S
 		else
 			xp = playerObject->addExperience(xpType, (int)amount);
 	}
+/* Code from EMU for adding other XP mods
+	float speciesModifier = 1.f;
+
+	if (amount > 0)
+		speciesModifier = getSpeciesXpModifier(player->getSpeciesName(), xpType);
+
+	float buffMultiplier = 1.f;
+
+	if (player->hasBuff(BuffCRC::FOOD_XP_INCREASE) && !player->containsActiveSession(SessionFacadeType::CRAFTING))
+		buffMultiplier += player->getSkillModFromBuffs("xp_increase") / 100.f;
+
+	int xp = 0;
+
+	if (applyModifiers)
+		xp = playerObject->addExperience(xpType, (int) (amount * speciesModifier * buffMultiplier * localMultiplier * globalExpMultiplier));
+	else
+		xp = playerObject->addExperience(xpType, (int)amount);
+ */
 	player->notifyObservers(ObserverEventType::XPAWARDED, player, xp);
 
 	if (sendSystemMessage) {
@@ -2305,7 +2674,7 @@ int PlayerManagerImplementation::notifyObserverEvent(uint32 eventType, Observabl
 
 		// Check POSTURECHANGED disrupting Logout...
 		Reference<LogoutTask*> logoutTask = creature->getPendingTask("logout").castTo<LogoutTask*>();
-		if (logoutTask != NULL) {
+		if (logoutTask != NULL && !creature->isSitting()) {
 			logoutTask->cancelLogout();
 		}
 
@@ -3073,7 +3442,7 @@ int PlayerManagerImplementation::checkSpeedHackFirstTest(CreatureObject* player,
 		}
 
 		SpeedModChange* firstChange = &changeBuffer->get(changeBuffer->size() - 1);
-		Time* timeStamp = &firstChange->getTimeStamp();
+		const Time* timeStamp = &firstChange->getTimeStamp();
 
 		if (timeStamp->miliDifference() > 2000) { // we already should have lowered the speed, 2 seconds lag
 			StringBuffer msg;
@@ -3205,6 +3574,8 @@ int PlayerManagerImplementation::checkSpeedHackSecondTest(CreatureObject* player
 
 		if (ghost->isOnLoadScreen())
 			ghost->setOnLoadScreen(false);
+
+		ghost->incrementSessionMovement(dist);
 	}
 
 	return ret;
@@ -4112,12 +4483,14 @@ SortedVector<String> PlayerManagerImplementation::getTeachableSkills(CreatureObj
 void PlayerManagerImplementation::decreaseOnlineCharCount(ZoneClientSession* client) {
 	Locker locker(&onlineMapMutex);
 
+	auto server = ServerCore::getZoneServer();
 	uint32 accountId = client->getAccountID();
 
-	if (!onlineZoneClientMap.containsKey(accountId))
+	if (!onlineZoneClientMap.containsKey(accountId)) {
+		error("decreaseOnlineCharCount missing account " + String::valueOf(accountId) + " in onlineZoneClientMap");
+		onlineZoneClientMap.accountLoggedOut(client->getIPAddress(), accountId, server != nullptr ? server->getGalaxyID() : 0);
 		return;
-
-	auto session = client->getSession();
+	}
 
 	Vector<Reference<ZoneClientSession*> > clients = onlineZoneClientMap.get(accountId);
 
@@ -4128,16 +4501,13 @@ void PlayerManagerImplementation::decreaseOnlineCharCount(ZoneClientSession* cli
 			break;
 		}
 
-	if (clients.size() == 0)
+	if (clients.size() == 0) {
 		onlineZoneClientMap.remove(accountId);
-	else
+		onlineZoneClientMap.accountLoggedOut(client->getIPAddress(), accountId, server != nullptr ? server->getGalaxyID() : 0);
+	} else
 		onlineZoneClientMap.put(accountId, clients);
 
 	locker.release();
-
-	if (session != NULL) {
-		onlineZoneClientMap.accountLoggedOut(session->getIPAddress(), accountId);
-	}
 }
 
 void PlayerManagerImplementation::proposeUnity( CreatureObject* askingPlayer, CreatureObject* respondingPlayer, SceneObject* askingPlayerRing) {
@@ -4804,9 +5174,8 @@ int PlayerManagerImplementation::getFirstIneligibleMilestone(PlayerObject *playe
 bool PlayerManagerImplementation::increaseOnlineCharCountIfPossible(ZoneClientSession* client) {
 	Locker locker(&onlineMapMutex);
 
+	auto server = ServerCore::getZoneServer();
 	uint32 accountId = client->getAccountID();
-
-	auto session = client->getSession();
 
 	if (!onlineZoneClientMap.containsKey(accountId)) {
 		Vector<Reference<ZoneClientSession*> > clients;
@@ -4816,11 +5185,7 @@ bool PlayerManagerImplementation::increaseOnlineCharCountIfPossible(ZoneClientSe
 
 		locker.release();
 
-		if (session != NULL) {
-			String ip = session->getIPAddress();
-
-			onlineZoneClientMap.addAccount(ip, accountId);
-		}
+		onlineZoneClientMap.accountLoggedIn(client->getIPAddress(), accountId, server != nullptr ? server->getGalaxyID() : 0);
 
 		return true;
 	}
@@ -4831,6 +5196,9 @@ bool PlayerManagerImplementation::increaseOnlineCharCountIfPossible(ZoneClientSe
 
 	for (int i = 0; i < clients.size(); ++i) {
 		ZoneClientSession* session = clients.get(i);
+
+		if (session == nullptr)
+			continue;
 
 		ManagedReference<CreatureObject*> player = session->getPlayer();
 
@@ -4852,12 +5220,6 @@ bool PlayerManagerImplementation::increaseOnlineCharCountIfPossible(ZoneClientSe
 	onlineZoneClientMap.put(accountId, clients);
 
 	locker.release();
-
-	if (session != NULL) {
-		String ip = session->getIPAddress();
-
-		onlineZoneClientMap.addAccount(ip, accountId);
-	}
 
 	return true;
 }
@@ -5156,8 +5518,19 @@ bool PlayerManagerImplementation::doBurstRun(CreatureObject* player, float hamMo
 	}
 
 	float hamReduction = 1.f - hamModifier;
-	hamCost *= hamReduction;
-	int newHamCost = (int) hamCost;
+
+	int healthCost = (int) (player->calculateCostAdjustment(CreatureAttribute::STRENGTH, hamCost) * hamReduction);
+	int actionCost = (int) (player->calculateCostAdjustment(CreatureAttribute::QUICKNESS, hamCost) * hamReduction);
+	int mindCost = (int) (player->calculateCostAdjustment(CreatureAttribute::FOCUS, hamCost) * hamReduction);
+
+	if (player->getHAM(CreatureAttribute::HEALTH) <= healthCost || player->getHAM(CreatureAttribute::ACTION) <= actionCost || player->getHAM(CreatureAttribute::MIND) <= mindCost) {
+		player->sendSystemMessage("@combat_effects:burst_run_wait"); // You are too tired to Burst Run.
+		return false;
+	}
+
+	player->inflictDamage(player, CreatureAttribute::HEALTH, healthCost, true);
+	player->inflictDamage(player, CreatureAttribute::ACTION, actionCost, true);
+	player->inflictDamage(player, CreatureAttribute::MIND, mindCost, true);
 
 	if (cooldownModifier > 1.0f) {
 		cooldownModifier = 1.0f;
@@ -5166,15 +5539,6 @@ bool PlayerManagerImplementation::doBurstRun(CreatureObject* player, float hamMo
 	float coodownReduction = 1.f - cooldownModifier;
 	cooldown *= coodownReduction;
 	int newCooldown = (int) cooldown;
-
-	if (player->getHAM(CreatureAttribute::HEALTH) <= newHamCost || player->getHAM(CreatureAttribute::ACTION) <= newHamCost || player->getHAM(CreatureAttribute::MIND) <= newHamCost) {
-		player->sendSystemMessage("@combat_effects:burst_run_wait"); // You are too tired to Burst Run.
-		return false;
-	}
-
-	player->inflictDamage(player, CreatureAttribute::HEALTH, newHamCost, true);
-	player->inflictDamage(player, CreatureAttribute::ACTION, newHamCost, true);
-	player->inflictDamage(player, CreatureAttribute::MIND, newHamCost, true);
 
 	StringIdChatParameter startStringId("cbt_spam", "burstrun_start_single");
 	StringIdChatParameter modifiedStartStringId("combat_effects", "instant_burst_run");
@@ -5390,35 +5754,78 @@ void PlayerManagerImplementation::sendAdminFRSList(CreatureObject* player) {
 }
 
 VectorMap<String, int> PlayerManagerImplementation::generateAdminList() {
+	static Mutex guard; //only one thread cann run this
+
+	Locker locker(&guard);
+
 	VectorMap<String, int> players;
 
 	HashTable<String, uint64> names = nameMap->getNames();
 	HashTableIterator<String, uint64> iter = names.iterator();
 
-	Reference<ObjectManager*> objectManager = server->getObjectManager();
+	auto objectManager = server->getObjectManager();
+	auto taskManager = Core::getTaskManager();
+
+	constexpr const int objectsPerTask = 500;
+
+	static SynchronizedVectorMap<String, int> sharedMap;
+	static AtomicInteger totalObjects;
+
+	totalObjects = names.size();
+
+	Vector<VectorMapEntry<String, uint64>> currentObjects;
+
+	int count = 0;
+	static TaskQueue* customQueue = [taskManager] () { return taskManager->initializeCustomQueue("AdminListThreads", 10); } (); //only once
 
 	while (iter.hasNext()) {
 		uint64 oid;
 		String playerName;
 		iter.getNextKeyAndValue(playerName, oid);
+		++count;
 
-		VectorMap<String, uint64> slottedObjects;
-		int state = 0;
+		currentObjects.emplace(std::move(playerName), std::move(oid));
 
-		objectManager->getPersistentObjectsSerializedVariable<VectorMap<String, uint64> >(STRING_HASHCODE("SceneObject.slottedObjects"), &slottedObjects, oid);
+		if (currentObjects.size() >= objectsPerTask || count >= names.size()) {
+			taskManager->executeTask([currentObjects, objectManager]() {
+				for (const auto& obj : currentObjects) {
+					try {
+						VectorMap<String, uint64> slottedObjects;
+						int state = 0;
 
-		uint64 ghostId = slottedObjects.get("ghost");
+						objectManager->getPersistentObjectsSerializedVariable<VectorMap<String, uint64> >(STRING_HASHCODE("SceneObject.slottedObjects"), &slottedObjects, obj.getValue());
 
-		if (ghostId == 0) {
-			continue;
-		}
+						uint64 ghostId = slottedObjects.get("ghost");
 
-		objectManager->getPersistentObjectsSerializedVariable<int>(STRING_HASHCODE("PlayerObject.adminLevel"), &state, ghostId);
+						if (ghostId == 0) {
+							totalObjects.decrement();
+							continue;
+						}
 
-		if (state != 0) {
-			players.put(playerName, state);
+						objectManager->getPersistentObjectsSerializedVariable<int>(STRING_HASHCODE("PlayerObject.adminLevel"), &state, ghostId);
+
+						if (state != 0) {
+							sharedMap.put(obj.getKey(), state);
+						}
+					} catch (...) {
+						Logger::console.error("unreported exception caught in GetAdminPlayerObjectTask");
+					}
+
+					totalObjects.decrement();
+				}
+
+			}, "GetAdminPlayerObjectTask", "AdminListThreads");
+
+			currentObjects.removeAll(objectsPerTask, 50);
 		}
 	}
+
+	taskManager->waitForQueueToFinish("AdminListThreads");
+
+	players = sharedMap.getMapUnsafe();
+
+	sharedMap.removeAll();
+	totalObjects = 0;
 
 	return players;
 }
@@ -5501,7 +5908,7 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 			highDamageAttacker = attacker;
 		}
 
-		if (ghost->hasOnKillerList(attacker->getObjectID())) {
+		if (attackerGhost->hasOnVictimList(player->getObjectID())) {
 			String stringFile;
 
 			if (attacker->getSpecies() == CreatureObject::TRANDOSHAN)
@@ -5551,7 +5958,7 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 			}
 		}
 
-		ghost->addToKillerList(attacker->getObjectID());
+		attackerGhost->addToVictimList(player->getObjectID());
 		throttleOnly = false;
 
 		if (defenderPvpRating > PlayerObject::PVP_RATING_FLOOR) {
@@ -5674,6 +6081,11 @@ void PlayerManagerImplementation::unlockFRSForTesting(CreatureObject* player, in
 	if (ghost == nullptr)
 		return;
 
+	if (player->hasSkill("force_rank_light_novice") || player->hasSkill("force_rank_dark_novice")) {
+		player->sendSystemMessage("You already have FRS skills. You must drop them before using this feature again.");
+		return;
+	}
+
 	SkillManager* skillManager = SkillManager::instance();
 
 	int glowyBadgeIds[] = { 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 38, 39, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 105, 106, 107, 108, 112, 113, 114, 115, 116, 117, 118, 119, 120, 129, 130, 131, 132, 134, 135, 136, 137, 138, 143, 144, 145, 146 };
@@ -5783,4 +6195,231 @@ void PlayerManagerImplementation::grantJediMaster(CreatureObject* player){
 	skillManager->awardSkill("jedi_light_side_journeyman_master", player, true, true, true);
 	skillManager->awardSkill("jedi_light_side_master_master", player, true, true, true);
 
+Vector<uint64> PlayerManagerImplementation::getOnlinePlayerList() {
+	Vector<uint64> playerList;
+
+	Locker locker(&onlineMapMutex);
+
+	HashTableIterator<uint32, Vector<Reference<ZoneClientSession*> > > iter = onlineZoneClientMap.iterator();
+
+	while (iter.hasNext()) {
+		Vector<Reference<ZoneClientSession*> > clients = iter.next();
+
+		for (int i = 0; i < clients.size(); i++) {
+			ZoneClientSession* session = clients.get(i);
+
+			if (session != NULL) {
+				CreatureObject* player = session->getPlayer();
+
+				if (player != NULL) {
+					playerList.add(player->getObjectID());
+				}
+			}
+		}
+	}
+
+	return playerList;
+}
+
+void PlayerManagerImplementation::logOnlinePlayers(bool onlyWho) {
+	int countOnline = 0;
+	int countAccounts = 0;
+	int countPlayers = 0;
+	int countNULLClient = 0;
+	int countNULLCreature = 0;
+	int countNULLGhost = 0;
+
+	JSONSerializationType logClients;
+
+	Locker locker(&onlineMapMutex);
+
+	auto iter = onlineZoneClientMap.iterator();
+
+	while (iter.hasNext()) {
+		countAccounts++;
+
+		auto clients = iter.next();
+
+		for (int i = 0;i < clients.size();i++) {
+			auto client = clients.get(i);
+
+			if (client == nullptr) {
+				countNULLClient++;
+				continue;
+			}
+
+			JSONSerializationType logClient;
+
+			logClient["accountID"] = client->getAccountID();
+			logClient["ip"] = client->getIPAddress();
+
+			Reference<CreatureObject*> creature = client->getPlayer();
+
+			if (creature != nullptr) {
+				countPlayers++;
+
+				logClient["oid"] = creature->getObjectID();
+				logClient["firstName"] = creature->getFirstName();
+
+				if (creature->isInvisible())
+					logClient["invisible"] = true;
+
+				Reference<PlayerObject*> ghost = creature->getPlayerObject();
+
+				if (ghost != nullptr) {
+					Locker lock(ghost);
+
+					logClient["playedSeconds"] = (int)(ghost->getPlayedMiliSecs() / 1000);
+					logClient["sessionSeconds"] = (int)(ghost->getSessionMiliSecs() / 1000);
+					logClient["totalMovement"] = ghost->getSessionTotalMovement();
+
+					auto admin_level = ghost->getAdminLevel();
+
+					if (admin_level > 0 && ghost->hasAbility("admin"))
+						logClient["admin_level"] = admin_level;
+
+					if (ghost->isOnline()) {
+						countOnline++;
+
+						auto zone = creature->getZone();
+
+						if (zone != nullptr) {
+							logClient["worldPositionX"] = (int)creature->getWorldPositionX();
+							logClient["worldPositionZ"] = (int)creature->getWorldPositionZ();
+							logClient["worldPositionY"] = (int)creature->getWorldPositionY();
+							logClient["zone"] = zone->getZoneName();
+						}
+					} else {
+						logClient["isOnline"] = false;
+					}
+
+					if (ghost->isAFK())
+						logClient["isAFK"] = true;
+				} else {
+					countNULLGhost++;
+				}
+			} else {
+				countNULLCreature++;
+			}
+
+			logClients.push_back(logClient);
+		}
+	}
+
+	locker.release();
+
+	JSONSerializationType logEntry;
+	Time now;
+
+	logEntry["@timestamp"] = now.getFormattedTimeFull().toCharArray();
+	logEntry["timeMSecs"] = now.getMiliTime();
+	logEntry["clients"] = logClients.size() > 0 ? logClients : nlohmann::json::array();
+
+	auto server = ServerCore::getZoneServer();
+
+	if (server != nullptr) {
+		logEntry["uptime"] = (int)(server->getStartTimestamp()->miliDifference(now) / 1000);
+
+		if (server->isServerLocked())
+			logEntry["isServerLocked"] = true;
+
+		if (server->isServerLoading())
+			logEntry["isServerLoading"] = true;
+
+		if (server->isServerShuttingDown())
+			logEntry["isServerShuttingDown"] = true;
+	}
+
+	logEntry["countAccounts"] = countAccounts;
+	logEntry["countPlayers"] = countPlayers;
+	logEntry["countDistinctIPs"] = onlineZoneClientMap.getDistinctIps();
+
+	if (countOnline != countPlayers)
+		logEntry["countOnline"] = countOnline;
+
+	if (countNULLClient > 0)
+		logEntry["countNULLClient"] = countNULLClient;
+
+	if (countNULLCreature > 0)
+		logEntry["countNULLCreature"] = countNULLCreature;
+
+	if (countNULLGhost > 0)
+		logEntry["countNULLGhost"] = countNULLGhost;
+
+	StringBuffer logLine;
+
+	logLine << logEntry.dump().c_str() << "\n";
+
+	// Write who file
+	try {
+		// Write a new "current status" file
+		FileWriter* logFile = new FileWriter(new File("log/who.json.next"), false);
+
+		(*logFile) << logLine;
+
+		logFile->close();
+
+		// Update current status file
+		int err = std::rename("log/who.json.next", "log/who.json");
+
+		if (err != 0)
+			error("Failed to update log/online-players.json err = " + String::valueOf(err));
+	} catch (Exception& e) {
+		error("logOnlinePlayers failed to write log/who.json: " + e.getMessage());
+	}
+
+	if (onlyWho)
+		return;
+
+	Locker logfileLock(&onlinePlayerLogMutext);
+
+	String fileName = "log/online-players.log";
+
+	struct stat st_log;
+
+	// Check for rollover
+	if (stat(fileName.toCharArray(), &st_log) == 0) {
+		if (st_log.st_size >= ConfigManager::instance()->getOnlineLogSize()) {
+			StringBuffer archiveFilename;
+			archiveFilename << "log/online-players-" << now.getMiliTime() << ".log";
+
+			// If the rename failed its ok because we open with append below
+			int err = std::rename(fileName.toCharArray(), archiveFilename.toString().toCharArray());
+
+			if (err != 0)
+				error("Failed to archive online-players to " + archiveFilename.toString() + " err = " + String::valueOf(err));
+		}
+	}
+
+	try {
+		// Append log file with this entry
+		FileWriter* logFile = new FileWriter(new File(fileName), true);
+
+		(*logFile) << logLine;
+
+		logFile->close();
+
+		logfileLock.release();
+
+		if (countOnline > 0 || countNULLClient > 0 || countNULLCreature > 0 || countNULLGhost > 0) {
+			StringBuffer logMsg;
+
+			logMsg << "Logged " << countOnline << " players (" << countAccounts << " accounts) to " << fileName;
+
+			if (countNULLClient > 0)
+				logMsg << "; " << countNULLClient << " null clients";
+
+			if (countNULLCreature > 0)
+				logMsg << "; " << countNULLCreature << " clients without a creature";
+
+			if (countNULLGhost > 0)
+				logMsg << "; " << countNULLGhost << " creatures without a player object";
+
+			logMsg << ".";
+
+			info(logMsg.toString(), true);
+		}
+	} catch (Exception& e) {
+		error("logOnlinePlayers failed to write " + fileName + ": " + e.getMessage());
+	}
 }

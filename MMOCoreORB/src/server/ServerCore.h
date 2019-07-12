@@ -6,6 +6,7 @@
 #define SERVERCORE_H_
 
 #include "engine/engine.h"
+#include "server/features/Features.h"
 
 namespace server {
 	namespace zone{
@@ -26,12 +27,15 @@ using namespace conf;
 class ServerDatabase;
 class MantisDatabase;
 class StatusServer;
-class Features;
 class PingServer;
 
 namespace server {
  namespace web {
  	 class WebServer;
+ }
+
+ namespace web3 {
+ 	class RESTServer;
  }
 }
 
@@ -56,13 +60,15 @@ class ServerCore : public Core, public Logger {
 
 	StatusServer* statusServer;
 
-	Features* features;
+	server::features::Features* features;
 
 	PingServer* pingServer;
 
 	WebServer* webServer;
 
 	MetricsManager* metricsManager;
+
+	server::web3::RESTServer* restServer;
 
 	Mutex shutdownBlockMutex;
 	Condition waitCondition;
@@ -80,9 +86,13 @@ class ServerCore : public Core, public Logger {
 public:
 	ServerCore(bool truncateDatabases, SortedVector<String>& args);
 
-	void initialize();
+	void initialize() override;
 
-	void run();
+	void finalizeContext() override;
+
+	void initializeContext(int logLevel) override;
+
+	void run() override;
 
 	void shutdown();
 
@@ -109,6 +119,7 @@ public:
 		return arguments.contains(arg);
 	}
 
+	static int getSchemaVersion();
 };
 
 #endif /*SERVERCORE_H_*/

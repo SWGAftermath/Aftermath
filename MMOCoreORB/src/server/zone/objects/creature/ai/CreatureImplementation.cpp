@@ -134,7 +134,7 @@ void CreatureImplementation::fillAttributeList(AttributeListMessage* alm, Creatu
 		alm->insertAttribute("ferocity", (int) getFerocity());
 	}
 
-	if (creaKnowledge >= 50)
+	if (creaKnowledge >= 45)
 		alm->insertAttribute("challenge_level", getAdultLevel());
 
 	//int skillNum = skillCommands.size();
@@ -486,4 +486,25 @@ bool CreatureImplementation::isMount() {
 		return true;
 
 	return false;
+}
+
+void CreatureImplementation::sendMessage(BasePacket* msg) {
+	if (!isMount()) {
+#ifdef LOCKFREE_BCLIENT_BUFFERS
+		if (!msg->getReferenceCount())
+#endif
+		delete msg;
+		return;
+	}
+
+	ManagedReference<CreatureObject* > linkedCreature = this->linkedCreature.get();
+
+	if (linkedCreature != NULL && linkedCreature->getParent().get() == _this.getReferenceUnsafeStaticCast())
+		linkedCreature->sendMessage(msg);
+	else {
+#ifdef LOCKFREE_BCLIENT_BUFFERS
+		if (!msg->getReferenceCount())
+#endif
+		delete msg;
+	}
 }

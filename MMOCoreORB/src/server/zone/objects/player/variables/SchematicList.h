@@ -9,6 +9,8 @@
 #define SCHEMATICLIST_H_
 
 #include "engine/engine.h"
+#include "engine/util/json_utils.h"
+
 #include "server/zone/objects/scene/variables/DeltaVector.h"
 #include "server/zone/objects/draftschematic/DraftSchematic.h"
 
@@ -26,10 +28,12 @@ public:
 		rewardedSchematics.setNoDuplicateInsertPlan();
 	}
 
-	SchematicList(const SchematicList& list) : Object(), DeltaVector<ManagedReference<DraftSchematic* > >(list) {
+	SchematicList(const SchematicList& list) : DeltaVector<ManagedReference<DraftSchematic* > >(list) {
 		rewardedSchematics.setNoDuplicateInsertPlan();
 		rewardedSchematics = list.rewardedSchematics;
 	}
+
+	friend void to_json(nlohmann::json& j, const SchematicList& l);
 
 	bool add(DraftSchematic* schematic, DeltaMessage* message = NULL, int updates = 1);
 

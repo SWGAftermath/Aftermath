@@ -31,16 +31,13 @@ using namespace engine::db;
 uint32 ObjectManager::serverObjectCrcHashCode = STRING_HASHCODE("SceneObject.serverObjectCRC");
 uint32 ObjectManager::_classNameHashCode = STRING_HASHCODE("_className");
 
-ObjectManager::ObjectManager() : DOBObjectManager() {
+ObjectManager::ObjectManager(bool initializeTemplates) : DOBObjectManager() {
 	server = NULL;
 
 	deleteCharactersTask = new DeleteCharactersTask();
 
 	databaseManager = ObjectDatabaseManager::instance();
 	databaseManager->loadDatabases(ServerCore::truncateDatabases());
-
-	templateManager = TemplateManager::instance();
-	templateManager->loadLuaTemplates();
 
 	registerObjectTypes();
 
@@ -59,20 +56,30 @@ ObjectManager::ObjectManager() : DOBObjectManager() {
 	databaseManager->loadObjectDatabase("questdata", true);
 	databaseManager->loadObjectDatabase("surveys", true);
 	databaseManager->loadObjectDatabase("accounts", true);
-    databaseManager->loadObjectDatabase("pendingmail", true);
+	databaseManager->loadObjectDatabase("pendingmail", true);
 	databaseManager->loadObjectDatabase("credits", true);
 	databaseManager->loadObjectDatabase("navareas", true, 0xFFFF, false);
 	databaseManager->loadObjectDatabase("frsdata", true);
 	databaseManager->loadObjectDatabase("frsmanager", true);
+	databaseManager->loadObjectDatabase("resourcespawns", true);
+	databaseManager->loadObjectDatabase("playerbounties", true);
+	databaseManager->loadObjectDatabase("mail", true);
+	databaseManager->loadObjectDatabase("chatrooms", true);
 
 	ObjectDatabaseManager::instance()->commitLocalTransaction();
 
+	Core::getTaskManager()->initalizeDatabaseHandles();
 	Core::getTaskManager()->initializeCustomQueue("slowQueue", SLOW_QUEUES_COUNT, true);
 
 	loadLastUsedObjectID();
 
 	setLogging(false);
 	setGlobalLogging(true);
+
+	if (initializeTemplates) {
+		templateManager = TemplateManager::instance();
+		templateManager->loadLuaTemplates();
+	}
 }
 
 ObjectManager::~ObjectManager() {
@@ -555,7 +562,7 @@ SceneObject* ObjectManager::loadObjectFromTemplate(uint32 objectCRC) {
 }*/
 
 SceneObject* ObjectManager::cloneObject(SceneObject* object, bool makeTransient) {
-	
+
 	ObjectOutputStream objectData(500);
 
 	(cast<ManagedObject*>(object))->writeObject(&objectData);
@@ -596,7 +603,7 @@ SceneObject* ObjectManager::cloneObject(SceneObject* object, bool makeTransient)
 	clonedObject->readObject(&objectInput);
 	clonedObject->createComponents();
 	clonedObject->setParent(NULL);
-    
+
 	VectorMap<String, ManagedReference<SceneObject*> > slottedObjects;
 	clonedObject->getSlottedObjects(slottedObjects);
 
@@ -627,7 +634,7 @@ SceneObject* ObjectManager::cloneObject(SceneObject* object, bool makeTransient)
 
 		clonedObject->transferObject(clonedChild, -1, false);
 	}
-	
+
 	clonedObject->onCloneObject(object);
 
 	if (clonedObject->isPersistent())
@@ -718,7 +725,7 @@ Reference<DistributedObjectStub*> ObjectManager::loadPersistentObject(uint64 obj
 
 	ObjectInputStream objectData(500);
 
-	if (database->getData(objectID, &objectData)) {
+	if (database->getData(objectID, &objectData, berkley::LockMode::READ_UNCOMMITED, false, true)) {
 		return NULL;
 	}
 

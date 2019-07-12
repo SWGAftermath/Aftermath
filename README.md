@@ -11,7 +11,7 @@ At SWGEmu, Emulator refers to the software the SWGEmu team is building. This Emu
 ##### Dependencies #####
   * CMake 3.1.0 or higher
   * BerkeleyDB 5.3
-  * MySQL (libmysqlclient20)
+  * MySQL Client and Server
   * OpenSSL libraries
   * pthreads
   * Lua 5.3 libraries
@@ -23,25 +23,19 @@ At SWGEmu, Emulator refers to the software the SWGEmu team is building. This Emu
 ### Debian 9+ or Ubuntu 16.04+ ###
   * Install dependencies
 
-        sudo apt install build-essential libmysqlclient-dev liblua5.3-dev libdb5.3-dev libssl-dev cmake git default-jre libssl-dev
+        sudo apt install build-essential libmysqlclient-dev liblua5.3-dev libdb5.3-dev libssl-dev cmake git default-jre libssl-dev git
   * Clone core3 repository somewhere  (~/git)
 
+        mkdir -p ~/git
+        cd ~/git
         git clone http://review.swgemu.com/Core3
-  * Clone engine3 repository somewhere (~/git)
-
-        git clone http://review.swgemu.com/PublicEngine
-  * Enter repository and run make
-
-        cd PublicEngine/MMOEngine && make
-  * Symlink MMOEngine in Core3 where MMOCoreORB resides
-
-        cd ../../Core3
-        ln -s ../PublicEngine/MMOEngine MMOEngine
   * Build Core3 with 8 threads
 
         cd MMOCoreORB
-        git checkout origin/unstable
-        make build-cmake -j8
+        make -j8
+  * Import sql database
+
+        mysql -h<MYSQLHOST> -u<MYSQLUSER> -p<MYSQLPASSWORD> < sql/swgemu.sql
 
 ### How to Run ###
     cd ~/git/Core3/MMOCoreORB/bin

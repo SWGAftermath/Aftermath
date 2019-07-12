@@ -6,15 +6,16 @@
 
 #include <type_traits>
 
+#include "db/MySqlDatabase.h"
 #include "db/ServerDatabase.h"
 #include "db/MantisDatabase.h"
 
 #include "server/chat/ChatManager.h"
 #include "server/login/LoginServer.h"
-#include "features/Features.h"
 #include "ping/PingServer.h"
 #include "status/StatusServer.h"
 #include "web/WebServer.h"
+#include "web/RESTServer.h"
 #include "server/zone/ZoneServer.h"
 
 #include "server/zone/managers/object/ObjectManager.h"
@@ -27,22 +28,23 @@
 
 #include "engine/core/MetricsManager.h"
 
-ManagedReference<ZoneServer*> ServerCore::zoneServerRef = NULL;
+ManagedReference<ZoneServer*> ServerCore::zoneServerRef = nullptr;
 SortedVector<String> ServerCore::arguments;
 bool ServerCore::truncateAllData = false;
-ServerCore* ServerCore::instance = NULL;
+ServerCore* ServerCore::instance = nullptr;
 
 ServerCore::ServerCore(bool truncateDatabases, SortedVector<String>& args) :
-		Core("log/core3.log"), Logger("Core") {
-	orb = NULL;
+		Core("log/core3.log", "core3engine", LogLevel::LOG), Logger("Core") {
+	orb = nullptr;
 
-	loginServer = NULL;
-	zoneServerRef = NULL;
-	statusServer = NULL;
-	pingServer = NULL;
-	webServer = NULL;
-	database = NULL;
-	mantisDatabase = NULL;
+	loginServer = nullptr;
+	zoneServerRef = nullptr;
+	statusServer = nullptr;
+	pingServer = nullptr;
+	webServer = nullptr;
+	database = nullptr;
+	mantisDatabase = nullptr;
+	restServer = nullptr;
 
 	truncateAllData = truncateDatabases;
 	arguments = args;
@@ -52,7 +54,7 @@ ServerCore::ServerCore(bool truncateDatabases, SortedVector<String>& args) :
 	configManager = ConfigManager::instance();
 	metricsManager = MetricsManager::instance();
 
-	features = NULL;
+	features = nullptr;
 
 	handleCmds = true;
 }
@@ -69,6 +71,31 @@ public:
 		zoneServer->printInfo();
 	}
 };
+
+void ServerCore::finalizeContext() {
+	Core::finalizeContext();
+
+	server::db::mysql::MySqlDatabase::finalizeLibrary();
+}
+
+void ServerCore::initializeContext(int logLevel) {
+	server::db::mysql::MySqlDatabase::initializeLibrary();
+
+	class ThreadHook : public ThreadInitializer {
+	public:
+		void onThreadStart(Thread* thread) final {
+			server::db::mysql::MySqlDatabase::onThreadStart();
+		}
+
+		void onThreadEnd(Thread* thread) final {
+			server::db::mysql::MySqlDatabase::onThreadEnd();
+		}
+	};
+
+	Thread::setThreadInitializer(new ThreadHook());
+
+	Core::initializeContext(logLevel);
+}
 
 void ServerCore::signalShutdown() {
 	shutdownBlockMutex.lock();
@@ -97,14 +124,12 @@ void ServerCore::initialize() {
 
 		const String& orbaddr = configManager->getORBNamingDirectoryAddress();
 		orb = DistributedObjectBroker::initialize(orbaddr,
-//				DistributedObjectBroker::NAMING_DIRECTORY_PORT);
 				configManager->getORBNamingDirectoryPort());
 
 		orb->setCustomObjectManager(objectManager);
 
 		StringBuffer metricsMsg;
-		metricsMsg << "METRICS: " << String::valueOf(configManager->shouldUseMetrics()) << " " << configManager->getMetricsHost() << " " << String::valueOf(configManager->getMetricsPort()) << endl;
-
+		metricsMsg << "MetricsServer: " << String::valueOf(configManager->shouldUseMetrics()) << " " << configManager->getMetricsHost() << " " << String::valueOf(configManager->getMetricsPort());
 		info(metricsMsg, true);
 
 		if (configManager->shouldUseMetrics()) {
@@ -117,11 +142,12 @@ void ServerCore::initialize() {
 		if (configManager->getMakeLogin()) {
 			loginServer = new LoginServer(configManager);
 			loginServer->deploy("LoginServer");
+			database->instance()->executeStatement("TRUNCATE TABLE sessions");
 		}
 
 		if (configManager->getMakeZone()) {
 			ZoneServer* zoneServer = new ZoneServer(configManager);
-            zoneServer->deploy("ZoneServer");
+			zoneServer->deploy("ZoneServer");
 
 			zoneServerRef = zoneServer;
 		}
@@ -142,13 +168,13 @@ void ServerCore::initialize() {
 
 		NavMeshManager::instance()->initialize(configManager->getMaxNavMeshJobs(), zoneServer);
 
-		if (zoneServer != NULL) {
+		if (zoneServer != nullptr) {
 			int zonePort = configManager->getZoneServerPort();
 
 			int zoneAllowedConnections =
 					configManager->getZoneAllowedConnections();
 
-			if (arguments.contains("deleteNavMeshes") && zoneServer != NULL) {
+			if (arguments.contains("deleteNavMeshes") && zoneServer != nullptr) {
 				zoneServer->setShouldDeleteNavAreas(true);
 			}
 
@@ -165,13 +191,10 @@ void ServerCore::initialize() {
 					Reference < ResultSet * > result =
 							database->instance()->executeQuery(query);
 
-					if (result != NULL && result->next()) {
+					if (result != nullptr && result->next()) {
 						zonePort = result->getInt(0);
 					}
 				}
-
-				database->instance()->executeStatement(
-						"TRUNCATE TABLE sessions");
 
 				database->instance()->executeStatement(
 						"DELETE FROM characters_dirty WHERE galaxy_id = "
@@ -185,7 +208,7 @@ void ServerCore::initialize() {
 			zoneServer->start(zonePort, zoneAllowedConnections);
 		}
 
-		if (statusServer != NULL) {
+		if (statusServer != nullptr) {
 			int statusPort = configManager->getStatusPort();
 			int statusAllowedConnections =
 					configManager->getStatusAllowedConnections();
@@ -193,11 +216,11 @@ void ServerCore::initialize() {
 			statusServer->start(statusPort, statusAllowedConnections);
 		}
 
-		if (webServer != NULL) {
+		if (webServer != nullptr) {
 			webServer->start(configManager);
 		}
 
-		if (pingServer != NULL) {
+		if (pingServer != nullptr) {
 			int pingPort = configManager->getPingPort();
 			int pingAllowedConnections =
 					configManager->getPingAllowedConnections();
@@ -205,7 +228,7 @@ void ServerCore::initialize() {
 			pingServer->start(pingPort, pingAllowedConnections);
 		}
 
-		if (loginServer != NULL) {
+		if (loginServer != nullptr) {
 			int loginPort = configManager->getLoginPort();
 			int loginAllowedConnections =
 					configManager->getLoginAllowedConnections();
@@ -220,20 +243,25 @@ void ServerCore::initialize() {
 		statiscticsTask->schedulePeriodic(10000, 10000);
 #endif
 
+		if (configManager->getRESTPort()) {
+			restServer = new server::web3::RESTServer(configManager->getRESTPort());
+			restServer->start();
+		}
+
 		info("initialized", true);
-		
-		if (arguments.contains("playercleanup") && zoneServer != NULL) {
+
+		if (arguments.contains("playercleanup") && zoneServer != nullptr) {
 			zoneServer->getPlayerManager()->cleanupCharacters();
 		}
 
-		if (arguments.contains("playercleanupstats") && zoneServer != NULL) {
+		if (arguments.contains("playercleanupstats") && zoneServer != nullptr) {
 			zoneServer->getPlayerManager()->getCleanupCharacterCount();
 		}
 
 		if (arguments.contains("shutdown")) {
 			handleCmds = false;
 		}
-		
+
 	} catch (ServiceException& e) {
 		shutdown();
 	} catch (DatabaseException& e) {
@@ -252,6 +280,13 @@ void ServerCore::run() {
 void ServerCore::shutdown() {
 	info("shutting down server..", true);
 
+	if (restServer) {
+		restServer->stop();
+
+		delete restServer;
+		restServer = nullptr;
+	}
+
 	ObjectManager* objectManager = ObjectManager::instance();
 
 	while (objectManager->isObjectUpdateInProcess())
@@ -260,14 +295,14 @@ void ServerCore::shutdown() {
 	objectManager->cancelDeleteCharactersTask();
 	objectManager->cancelUpdateModifiedObjectsTask();
 
-	if (loginServer != NULL) {
+	if (loginServer != nullptr) {
 		loginServer->stop();
-		loginServer = NULL;
+		loginServer = nullptr;
 	}
 
 	ZoneServer* zoneServer = zoneServerRef.get();
 
-	if (zoneServer != NULL) {
+	if (zoneServer != nullptr) {
 		zoneServer->setServerStateShuttingDown();
 
 		Thread::sleep(2000);
@@ -287,21 +322,21 @@ void ServerCore::shutdown() {
 		info("All players disconnected", true);
 	}
 
-	if (pingServer != NULL) {
+	if (pingServer != nullptr) {
 		pingServer->stop();
 		delete pingServer;
-		pingServer = NULL;
+		pingServer = nullptr;
 	}
 
-	if (webServer != NULL) {
+	if (webServer != nullptr) {
 		webServer->stop();
-		webServer = NULL;
+		webServer = nullptr;
 	}
 
-	if (statusServer != NULL) {
+	if (statusServer != nullptr) {
 		statusServer->stop();
 		delete statusServer;
-		statusServer = NULL;
+		statusServer = nullptr;
 	}
 
 	NavMeshManager::instance()->stop();
@@ -317,7 +352,7 @@ void ServerCore::shutdown() {
 
 	objectManager->cancelUpdateModifiedObjectsTask();
 
-	if (zoneServer != NULL) {
+	if (zoneServer != nullptr) {
 		zoneServer->clearZones();
 	}
 
@@ -325,9 +360,9 @@ void ServerCore::shutdown() {
 
 	Core::shutdownTaskManager();
 
-	if (zoneServer != NULL) {
+	if (zoneServer != nullptr) {
 		zoneServer->stop();
-		zoneServer = NULL;
+		zoneServer = nullptr;
 	}
 
 	DistributedObjectDirectory* dir = objectManager->getLocalObjectDirectory();
@@ -348,26 +383,26 @@ void ServerCore::shutdown() {
 
 	objectManager->finalizeInstance();
 
-	configManager = NULL;
-	metricsManager = NULL;
+	configManager = nullptr;
+	metricsManager = nullptr;
 
-	if (database != NULL) {
+	if (database != nullptr) {
 		delete database;
-		database = NULL;
+		database = nullptr;
 	}
 
-	if (mantisDatabase != NULL) {
+	if (mantisDatabase != nullptr) {
 		delete mantisDatabase;
-		mantisDatabase = NULL;
+		mantisDatabase = nullptr;
 	}
 
-	if (features != NULL) {
+	if (features != nullptr) {
 		delete features;
-		features = NULL;
+		features = nullptr;
 	}
 
 	mysql_thread_end();
-	engine::db::mysql::MySqlDatabase::finalizeLibrary();
+	server::db::mysql::MySqlDatabase::finalizeLibrary();
 
 	NetworkInterface::finalize();
 
@@ -375,7 +410,7 @@ void ServerCore::shutdown() {
 
 	orb->finalizeInstance();
 
-	zoneServerRef = NULL;
+	zoneServerRef = nullptr;
 
 	info("server closed", true);
 }
@@ -416,9 +451,9 @@ void ServerCore::handleCommands() {
 			ZoneServer* zoneServer = zoneServerRef.getForUpdate();
 
 			if (command == "exit") {
-				if (zoneServer != NULL) {
+				if (zoneServer != nullptr) {
 					ChatManager* chatManager = zoneServer->getChatManager();
-					chatManager->broadcastGalaxy(NULL,
+					chatManager->broadcastGalaxy(nullptr,
 							"Server is shutting down NOW!");
 				}
 
@@ -432,35 +467,37 @@ void ServerCore::handleCommands() {
 			} else if (command == "info") {
 				//TaskManager::instance()->printInfo();
 
-				if (loginServer != NULL)
+				if (loginServer != nullptr)
 					loginServer->printInfo();
 
-				if (zoneServer != NULL)
+				if (zoneServer != nullptr)
 					zoneServer->printInfo();
 
-				if (pingServer != NULL)
+				if (pingServer != nullptr)
 					pingServer->printInfo();
 			} else if (command == "lock") {
-				if (zoneServer != NULL)
+				if (zoneServer != nullptr)
 					zoneServer->setServerStateLocked();
 			} else if (command == "unlock") {
-				if (zoneServer != NULL)
+				if (zoneServer != nullptr)
 					zoneServer->setServerStateOnline();
 			} else if (command == "icap") {
-				if (zoneServer != NULL)
+				if (zoneServer != nullptr)
 					zoneServer->changeUserCap(50);
 			} else if (command == "dcap") {
-				if (zoneServer != NULL)
+				if (zoneServer != nullptr)
 					zoneServer->changeUserCap(-50);
 			} else if (command == "fixQueue") {
-				if (zoneServer != NULL)
+				if (zoneServer != nullptr)
 					zoneServer->fixScheduler();
 			} else if (command == "save") {
 				ObjectManager::instance()->createBackup();
 				//ObjectDatabaseManager::instance()->checkpoint();
 			} else if (command == "help") {
-				System::out << "available commands:\n";
-				System::out << "\texit, logQuadTree, info, lock, unlock, icap, dcap, fixQueue, save, chars, lookupcrc, rev, broadcast, shutdown.\n";
+				System::out << "available commands:" << endl
+					<< "\texit, logQuadTree, info, lock, unlock, icap, dcap, fixQueue, save, chars, lookupcrc, rev, broadcast, shutdown, "
+					<< "setpvpmode, getpvpmode"
+					<< endl;
 			} else if (command == "chars") {
 				uint32 num = 0;
 
@@ -508,7 +545,7 @@ void ServerCore::handleCommands() {
 				System::out << ConfigManager::instance()->getRevision() << endl;
 			} else if (command == "broadcast") {
 				ChatManager* chatManager = zoneServer->getChatManager();
-				chatManager->broadcastGalaxy(NULL, arguments);
+				chatManager->broadcastGalaxy(nullptr, arguments);
 			} else if (command == "shutdown") {
 				int minutes = 1;
 
@@ -518,7 +555,7 @@ void ServerCore::handleCommands() {
 					System::out << "invalid minutes number expected dec";
 				}
 
-				if (zoneServer != NULL) {
+				if (zoneServer != nullptr) {
 					zoneServer->timedShutdown(minutes);
 
 					shutdownBlockMutex.lock();
@@ -531,20 +568,20 @@ void ServerCore::handleCommands() {
 				return;
 			} else if ( command == "playercleanup" ) {
 
-				if(zoneServerRef != NULL){
+				if(zoneServerRef != nullptr){
 					ZoneServer* server = zoneServerRef.get();
 
-					if(server != NULL)
+					if(server != nullptr)
 						server->getPlayerManager()->cleanupCharacters();
 				}
 
 			} else if ( command == "playercleanupstats" ) {
 
-				if(zoneServerRef != NULL){
+				if(zoneServerRef != nullptr){
 
 					ZoneServer* server = zoneServerRef.get();
 
-					if(server != NULL)
+					if(server != nullptr)
 						server->getPlayerManager()->getCleanupCharacterCount();
 				}
 
@@ -602,6 +639,35 @@ void ServerCore::handleCommands() {
 					System::out << "invalid statsd sampling rate" << endl;
 				}
 #endif
+			} else if (command == "getpvpmode" || command == "getpvp") {
+				System::out << "PvpMode = " << ConfigManager::instance()->getPvpMode() << endl;
+			} else if (command == "setpvpmode" || command == "setpvp") {
+				int num;
+
+				try {
+					if (arguments == "on") {
+						num = 1;
+					} else if (arguments == "off") {
+						num = 0;
+					} else {
+						num = UnsignedInteger::valueOf(arguments);
+					}
+
+					if (num == 1) {
+						ConfigManager::instance()->setPvpMode(true);
+					} else {
+						ConfigManager::instance()->setPvpMode(false);
+					}
+
+					StringBuffer msg;
+					msg << "console set new PvpMode = " << ConfigManager::instance()->getPvpMode();
+
+					info(msg.toString(), true);
+				} catch (Exception& e) {
+					System::out << "invalid PvpMode: (0=off; 1=on)" << endl;
+				}
+			} else if (command == "dumpcfg" || command == "dumpconfig") {
+				ConfigManager::instance()->dumpConfig(arguments == "all" ? true : false);
 			} else {
 				System::out << "unknown command (" << command << ")\n";
 			}
@@ -631,4 +697,11 @@ void ServerCore::processConfig() {
 
 	//if (!features->loadFeatures())
 	//info("Problem occurred trying to load features.lua");
+}
+
+int ServerCore::getSchemaVersion() {
+	if (instance != nullptr && instance->database != nullptr)
+		return instance->database->getSchemaVersion();
+
+	return -1;
 }

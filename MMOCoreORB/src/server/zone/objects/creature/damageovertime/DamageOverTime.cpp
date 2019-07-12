@@ -23,11 +23,11 @@ DamageOverTime::DamageOverTime() {
 }
 
 DamageOverTime::DamageOverTime(CreatureObject* attacker,
-							   uint64 tp,
-							   uint8 attrib,
-							   uint32 str,
-							   uint32 dur,
-							   int secondaryStrength) {
+		uint64 tp,
+		uint8 attrib,
+		uint32 str,
+		uint32 dur,
+		int secondaryStrength) {
 
 	if (attacker != NULL)
 		setAttackerID(attacker->getObjectID());
@@ -87,6 +87,18 @@ void DamageOverTime::addSerializableVariables() {
 	addSerializableVariable("nextTick", &nextTick);
 	addSerializableVariable("secondaryStrength", &secondaryStrength);
 
+}
+
+void to_json(nlohmann::json& j, const DamageOverTime& t) {
+	j["attackerID"] = t.attackerID;
+	j["type"] = t.type;
+	j["attribute"] = t.attribute;
+	j["strength"] = t.strength;
+	j["duration"] = t.duration;
+	j["applied"] = t.applied;
+	j["expires"] = t.expires;
+	j["nextTick"] = t.nextTick;
+	j["secondaryStrength"] = t.secondaryStrength;
 }
 
 void DamageOverTime::activate() {
@@ -392,6 +404,16 @@ uint32 DamageOverTime::doForceChokeTick(CreatureObject* victim, CreatureObject* 
 			jediBuffDamage = rawDamage - (chokeDam *= 1.f - (forceShield / 100.f));
 			victimRef->notifyObservers(ObserverEventType::FORCESHIELD, attackerRef, jediBuffDamage);
 			CombatManager::instance()->sendMitigationCombatSpam(victimRef, nullptr, (int)jediBuffDamage, CombatManager::FORCESHIELD);
+		}
+
+		//PSG with lightsaber resistance only
+		ManagedReference<ArmorObject*> psg = CombatManager::instance()->getPSGArmor(victimRef);
+		if (psg != nullptr && !psg->isVulnerable(SharedWeaponObjectTemplate::LIGHTSABER)) {
+			float armorReduction =  CombatManager::instance()->getArmorObjectReduction(psg, SharedWeaponObjectTemplate::LIGHTSABER);
+
+		if (armorReduction > 0)
+			chokeDam *= 1.f - (armorReduction / 100.f);
+
 		}
 
 		CombatManager::instance()->broadcastCombatSpam(attackerRef, victimRef, nullptr, chokeDam, "cbt_spam", "forcechoke_hit", 1);

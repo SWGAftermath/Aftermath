@@ -41,6 +41,10 @@
 
 #include "variables/ContainerPermissions.h"
 
+#include <fstream>
+#include <sys/stat.h>
+#include <iomanip>
+
 void SceneObjectImplementation::initializeTransientMembers() {
 	ManagedObjectImplementation::initializeTransientMembers();
 
@@ -154,18 +158,21 @@ void SceneObjectImplementation::loadTemplateData(SharedObjectTemplate* templateD
 
 	dataObjectComponent = ComponentManager::instance()->getDataObjectComponent(templateData->getDataObjectComponent());
 
-
 	if (!isCreatureObject() && !isLairObject() && gameObjectType != SceneObjectType::FURNITURE) {
 		if (templateData->getCollisionMaterialFlags() && templateData->getCollisionMaterialBlockFlags() && templateData->isNavUpdatesEnabled()) {
 			collidableObject = true;
 		}
+	}
+
+	if (templateObject->getDelayedContainerLoad()) {
+		containerObjects.setDelayedLoadOperationMode();
 	}
 }
 
 void SceneObjectImplementation::setZoneComponent(const String& name) {
 	if(name.isEmpty())
 		return;
-	
+
 	zoneComponent = ComponentManager::instance()->getComponent<ZoneComponent*>(name);
 }
 
@@ -378,20 +385,38 @@ void SceneObjectImplementation::notifyLoadFromDatabase() {
 	}
 
 	if (zone != NULL) {
-		ManagedReference<SceneObject*> sceno = asSceneObject();
-		ManagedReference<Zone*> thisZone = zone;
+		class InsertZoneTask : public Task {
+			Reference<SceneObject*> obj;
+			Zone* zone;
 
-		Core::getTaskManager()->executeTask([sceno, thisZone] () {
-			Locker locker(sceno);
-			thisZone->transferObject(sceno, -1, true);
-		}, "TransferToZoneLambda", thisZone->getZoneName().toCharArray());
+			public:
+
+			InsertZoneTask(SceneObject* s, Zone* z) : obj(s), zone(z) {
+				setCustomTaskQueue(zone->getZoneName().toCharArray());
+			}
+
+			void run() {
+				if (!zone->hasManagersStarted()) {
+					schedule(500);
+
+					return;
+				}
+
+				Locker locker(obj);
+
+				zone->transferObject(obj, -1, true);
+			}
+		};
+
+		auto task = new InsertZoneTask(asSceneObject(), zone);
+		task->execute();
 	}
 }
 
 void SceneObjectImplementation::setObjectMenuComponent(const String& name) {
 	if (name.isEmpty())
 		return;
-	
+
 	objectMenuComponent = ComponentManager::instance()->getComponent<ObjectMenuComponent*>(name);
 
 	if (objectMenuComponent == NULL) {
@@ -413,7 +438,7 @@ void SceneObjectImplementation::setObjectMenuComponent(const String& name) {
 void SceneObjectImplementation::setContainerComponent(const String& name) {
 	if (name.isEmpty())
 		return;
-	
+
 	containerComponent = ComponentManager::instance()->getComponent<ContainerComponent*>(name);
 
 	if (containerComponent == NULL) {
@@ -437,13 +462,13 @@ void SceneObjectImplementation::sendSlottedObjectsTo(SceneObject* player) {
 	VectorMap<String, ManagedReference<SceneObject* > > slotted;
 	getSlottedObjects(slotted);
 
-	SortedVector<SceneObject*> objects(slotted.size(), slotted.size());
+	SortedVector<uint64> objects(slotted.size(), slotted.size());
 	objects.setNoDuplicateInsertPlan();
 
 	for (int i = 0; i < slotted.size(); ++i) {
 		SceneObject* object = slotted.get(i);
 
-		if (objects.put(object) != -1) {
+		if (objects.put(object->getObjectID()) != -1) {
 			if (object->isInQuadTree()) {
 				notifyInsert(object);
 			} else {
@@ -547,7 +572,7 @@ void SceneObjectImplementation::broadcastObjectPrivate(SceneObject* object, Scen
 		CloseObjectsVector* vec = (CloseObjectsVector*) closeobjects;
 		closeSceneObjects.removeAll(vec->size(), 10);
 
-		vec->safeCopyReceiversTo(closeSceneObjects, 1);
+		vec->safeCopyReceiversTo(closeSceneObjects, CloseObjectsVector::PLAYERTYPE);
 
 		maxInRangeObjectCount = closeSceneObjects.size(); //closeobjects->size();
 	}
@@ -599,7 +624,7 @@ void SceneObjectImplementation::broadcastDestroyPrivate(SceneObject* object, Sce
 		CloseObjectsVector* vec = (CloseObjectsVector*) closeobjects;
 		closeSceneObjects.removeAll(vec->size(), 10);
 
-		vec->safeCopyReceiversTo(closeSceneObjects, 1);
+		vec->safeCopyReceiversTo(closeSceneObjects, CloseObjectsVector::PLAYERTYPE);
 
 		maxInRangeObjectCount = closeSceneObjects.size();
 
@@ -655,7 +680,7 @@ void SceneObjectImplementation::broadcastMessagePrivate(BasePacket* message, Sce
 #endif
 			zone->getInRangeObjects(getPositionX(), getPositionY(), getOutOfRangeDistance(), &closeNoneReference, true);
 		} else {
-			closeobjects->safeCopyReceiversTo(closeNoneReference, 1);
+			closeobjects->safeCopyReceiversTo(closeNoneReference, CloseObjectsVector::PLAYERTYPE);
 		}
 
 	} catch (Exception& e) {
@@ -743,7 +768,7 @@ void SceneObjectImplementation::broadcastMessagesPrivate(Vector<BasePacket*>* me
 #endif
 			zone->getInRangeObjects(getPositionX(), getPositionY(), getOutOfRangeDistance(), &closeSceneObjects, true);
 		} else {
-			closeobjects->safeCopyReceiversTo(closeSceneObjects, 1);
+			closeobjects->safeCopyReceiversTo(closeSceneObjects, CloseObjectsVector::PLAYERTYPE);
 		}
 
 	} catch (Exception& e) {
@@ -841,7 +866,6 @@ void SceneObjectImplementation::updateVehiclePosition(bool sendPackets) {
 	parent->incrementMovementCounter();
 
 	parent->updateZone(false, sendPackets);
-	parent->asCreatureObject()->updateCOV();
 }
 
 void SceneObjectImplementation::updateZone(bool lightUpdate, bool sendPackets) {
@@ -1025,11 +1049,11 @@ Reference<SceneObject*> SceneObjectImplementation::getParentRecursively(uint32 g
 		return NULL;
 
 	if (temp->getGameObjectType() == gameObjectType)
-		return temp;
+		return std::move(temp);
 
 	while ((temp = temp->getParent().get()) != NULL && temp != asSceneObject()) {
 		if (temp->getGameObjectType() == gameObjectType) {
-			return temp;
+			return std::move(temp);
 		}
 	}
 
@@ -1171,11 +1195,23 @@ void SceneObjectImplementation::rotateYaxis(int degrees) {
 }
 
 void SceneObjectImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuResponse, CreatureObject* player) {
-	return objectMenuComponent->fillObjectMenuResponse(asSceneObject(), menuResponse, player);
+	if (objectMenuComponent == nullptr) {
+		error("no object menu component set for " + templateObject->getTemplateFileName());
+
+		return;
+	} else {
+		return objectMenuComponent->fillObjectMenuResponse(asSceneObject(), menuResponse, player);
+	}
 }
 
 int SceneObjectImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
-	return objectMenuComponent->handleObjectMenuSelect(asSceneObject(), player, selectedID);
+	if (objectMenuComponent == nullptr) {
+		error("no object menu component set for " + templateObject->getTemplateFileName());
+
+		return 1;
+	} else {
+		return objectMenuComponent->handleObjectMenuSelect(asSceneObject(), player, selectedID);
+	}
 }
 
 void SceneObjectImplementation::setObjectName(StringId& stringID, bool notifyClient) {
@@ -1639,7 +1675,7 @@ bool SceneObjectImplementation::isDecoration() {
 }
 
 Reference<SceneObject*> SceneObjectImplementation::getContainerObjectRecursive(uint64 oid) {
-	ManagedReference<SceneObject*> obj = containerObjects.get(oid);
+	Reference<SceneObject*> obj = containerObjects.get(oid);
 
 	if (obj != NULL)
 		return obj;
@@ -1688,7 +1724,7 @@ void SceneObjectImplementation::onContainerLoaded() {
 }
 
 Reference<SceneObject*> SceneObjectImplementation::getCraftedComponentsSatchel() {
-    
+
 	Reference<SceneObject*> sceno = asSceneObject();
 	if (sceno == NULL)
 		return NULL;
@@ -1697,11 +1733,11 @@ Reference<SceneObject*> SceneObjectImplementation::getCraftedComponentsSatchel()
 
 	if(zServer == NULL)
 		return NULL;
-	
+
 	ManagedReference<SceneObject*> craftingComponents = sceno->getSlottedObject("crafted_components");
 	ManagedReference<SceneObject*> craftingComponentsSatchel = NULL;
-	
-    
+
+
 	if(craftingComponents == NULL) {
 
 		/// Add Components to crafted object
@@ -1709,7 +1745,7 @@ Reference<SceneObject*> SceneObjectImplementation::getCraftedComponentsSatchel()
 		craftingComponents = zServer->createObject(craftingComponentsPath.hashCode(), 1);
 
 		Locker componentsLocker(craftingComponents);
-		
+
 		craftingComponents->setSendToClient(false);
 		sceno->transferObject(craftingComponents, 4, false);
 
@@ -1726,7 +1762,7 @@ Reference<SceneObject*> SceneObjectImplementation::getCraftedComponentsSatchel()
 		craftingComponentsSatchel = zServer->createObject(craftingComponentsSatchelPath.hashCode(), 1);
 
 		Locker satchelLocker(craftingComponentsSatchel, craftingComponents);
-		
+
 		craftingComponentsSatchel->setContainerInheritPermissionsFromParent(false);
 		craftingComponentsSatchel->setContainerDefaultDenyPermission(ContainerPermissions::OPEN + ContainerPermissions::MOVEIN + ContainerPermissions::MOVEOUT + ContainerPermissions::MOVECONTAINER);
 		craftingComponentsSatchel->setContainerDefaultAllowPermission(0);
@@ -1740,8 +1776,8 @@ Reference<SceneObject*> SceneObjectImplementation::getCraftedComponentsSatchel()
 	} else {
 		craftingComponentsSatchel = craftingComponents->getContainerObject(0);
 	}
-	
-	return craftingComponentsSatchel;
+
+	return std::move(craftingComponentsSatchel);
 }
 
 int SceneObjectImplementation::getArrangementDescriptorSize() {
@@ -1899,4 +1935,108 @@ int SceneObject::compareTo(SceneObject* obj) {
 
 int SceneObjectImplementation::compareTo(SceneObject* obj) {
 	return asSceneObject()->compareTo(obj);
+}
+
+int SceneObjectImplementation::writeRecursiveJSON(JSONSerializationType& j, int maxDepth) {
+	if (maxDepth <= 0)
+		return 0;
+
+	int count = 0;
+
+	JSONSerializationType thisObject;
+	writeJSON(thisObject);
+	thisObject["_maxDepth"] = maxDepth;
+	j[String::valueOf(getObjectID()).toCharArray()] = thisObject;
+
+	count++;
+
+	for (int i = 0; i < getContainerObjectsSize(); ++i) {
+		auto obj = getContainerObject(i);
+
+		if (obj != nullptr) {
+			ReadLocker locker(obj);
+
+			count += obj->writeRecursiveJSON(j, maxDepth - 1);
+		}
+	}
+
+	auto childObjects = getChildObjects();
+
+	for (int i = 0;i < childObjects->size(); ++i) {
+		auto obj = childObjects->get(i);
+
+		if (obj != nullptr) {
+			ReadLocker locker(obj);
+
+			count += obj->writeRecursiveJSON(j, maxDepth - 1);
+		}
+	}
+
+	for (int i = 0;i < getSlottedObjectsSize(); ++i) {
+		auto obj =  getSlottedObject(i);
+
+		if (obj != nullptr) {
+			ReadLocker locker(obj);
+
+			count += obj->writeRecursiveJSON(j, maxDepth - 1);
+		}
+	}
+
+	return count;
+}
+
+String SceneObjectImplementation::exportJSON(const String& exportNote, int maxDepth) {
+	uint64 oid = getObjectID();
+
+	// Collect object and all children to maxDepth
+	nlohmann::json exportedObjects = nlohmann::json::object();
+
+	if (maxDepth <= 0)
+		maxDepth = 1000;
+
+	int count = 0;
+
+	try {
+		count = writeRecursiveJSON(exportedObjects, maxDepth);
+	} catch (Exception& e) {
+		info("SceneObjectImplementation::writeRecursiveJSON(): failed:" + e.getMessage(), true);
+	}
+
+	// Metadata
+	Time now;
+	nlohmann::json metaData = nlohmann::json::object();
+	metaData["exportTime"] = now.getFormattedTimeFull();
+	metaData["exportNote"] = exportNote;
+	metaData["rootObjectID"] = oid;
+	metaData["rootObjectClassName"] = _className;
+	metaData["objectCount"] = count;
+	metaData["maxDepth"] = maxDepth;
+
+	// Root object is meta "exportObject"
+	nlohmann::json exportObject;
+	exportObject["metadata"] = metaData;
+	exportObject["objects"] = exportedObjects;
+
+	// Save to file...
+	StringBuffer fileNameBuf;
+
+	// Spread the files out across directories
+	fileNameBuf << "exports";
+	mkdir(fileNameBuf.toString().toCharArray(), 0770);
+
+	fileNameBuf << "/" << String::hexvalueOf((int64)((oid & 0xFFFF000000000000) >> 48));
+	mkdir(fileNameBuf.toString().toCharArray(), 0770);
+
+	fileNameBuf << "/" << String::hexvalueOf((int64)((oid & 0x0000FFFFFF000000) >> 24));
+	mkdir(fileNameBuf.toString().toCharArray(), 0770);
+
+	fileNameBuf << "/" << String::valueOf(oid) << "-" << now.getMiliTime() << ".json";
+
+	String fileName = fileNameBuf.toString();
+
+	std::ofstream jsonFile(fileName.toCharArray());
+	jsonFile << std::setw(4) << exportObject << std::endl;
+	jsonFile.close();
+
+	return fileName;
 }
