@@ -23,7 +23,7 @@ RUN mkdir -p /home/swgemu/workspace/tre
 
 #RUN apt-get install -y clang-3.5
 
-RUN mkdir git && cd git && git clone https://gitlab.com/c0pp3r/Aftermath-Beta.git && git clone http://review.swgemu.com/p/PublicEngine.git && cd PublicEngine/MMOEngine && make && chmod +x bin/idlc && cp bin/idlc /usr/local/bin/idlc && cd ../../Core3 && git checkout unstable && ln -s ../PublicEngine/MMOEngine MMOEngine
+RUN mkdir git && cd git && git clone https://gitlab.com/c0pp3r/Aftermath-Beta.git Core3/ && git clone http://review.swgemu.com/p/PublicEngine.git && cd PublicEngine/MMOEngine && make && chmod +x bin/idlc && cp bin/idlc /usr/local/bin/idlc && cd ../../Core3 && git checkout unstable && ln -s ../PublicEngine/MMOEngine MMOEngine
 
 ENV CLASSPATH="/git/PublicEngine/MMOEngine/bin/idlc.jar"
 RUN echo 'export CLASSPATH="/git/PublicEngine/MMOEngine/bin/idlc.jar"' >> /root/.profile
