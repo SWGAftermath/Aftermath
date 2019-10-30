@@ -28,24 +28,25 @@ public:
 	void run(CreatureObject* creature, SuiBox* sui, uint32 eventIndex, Vector<UnicodeString>* args) {
 		bool cancelPressed = (eventIndex == 1);
 
-		if(cancelPressed || server == NULL)
+		if(cancelPressed || server == nullptr)
 			return;
 
 		ManagedReference<CityRegion*> cityObject = city.get();
-		if(cityObject == NULL)
+		if(cityObject == nullptr)
 			return;
 
 		ManagedReference<Zone*> zone = this->zne.get();
-		if (zone == NULL)
+		if (zone == nullptr)
 			return;
 
 		PlayerObject* ghost = creature->getPlayerObject();
-		if (ghost == NULL)
+		if (ghost == nullptr)
 			return;
 
 		String cityName = args->get(0).toString();
 
-		NameManager* nameManager = NameManager::instance();
+		ZoneProcessServer* zps = creature->getZoneProcessServer();
+		NameManager* nameManager = zps->getNameManager();
 
 		int result = nameManager->validateCityName(cityName);
 
@@ -99,7 +100,7 @@ public:
 		if(cityObject->hasShuttleInstallation()) {
 			Reference<PlanetTravelPoint*> tp = planetManager->getPlanetTravelPoint(oldName);
 
-			if(tp != NULL) {
+			if(tp != nullptr) {
 				Reference<PlanetTravelPoint*> newTP = tp;
 				newTP->setPointName(cityName);
 				planetManager->removePlayerCityTravelPoint(oldName);

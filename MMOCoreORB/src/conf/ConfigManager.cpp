@@ -4,6 +4,8 @@
 
 #include "ConfigManager.h"
 
+using namespace sys::thread;
+
 ConfigManager::ConfigManager() {
 	setLoggingName("ConfigManager");
 #ifdef DEBUG_CONFIGMANAGER
@@ -43,16 +45,16 @@ bool ConfigManager::loadConfigData() {
 	info("Loaded config file(s) in " + String::valueOf(getConfigDataAgeMs()) + "ms", true);
 #endif // DEBUG_CONFIGMANAGER
 
-	bool result_global, result_core3;
+	bool resultGlobal, resultCore3;
 
 	clearConfigData();
 
 	// Load new-style "Core3.value" settings
 	LuaObject core3 = getGlobalObject("Core3");
 
-	result_core3 = parseConfigData("Core3");
+	resultCore3 = parseConfigData("Core3");
 
-	if (!result_core3)
+	if (!resultCore3)
 		error("Failed to parse Core3 configuration table, falling back on old Globals style config.");
 
 	core3.pop();
@@ -62,9 +64,9 @@ bool ConfigManager::loadConfigData() {
 
 	lua_pushglobaltable(L);
 
-	result_global = parseConfigData("Core3", true);
+	resultGlobal = parseConfigData("Core3", true);
 
-	if (!result_global)
+	if (!resultGlobal)
 		error("Failed to parse legacy configuration globals.");
 
 	lua_pop(L, 1);
@@ -82,12 +84,12 @@ bool ConfigManager::loadConfigData() {
 	dumpConfig();
 #endif // DEBUG_CONFIGMANAGER
 
-	return result_global || result_core3;
+	return resultGlobal || resultCore3;
 }
 
 void ConfigManager::clearConfigData() {
 	for (int i = 0; i < configData.size(); ++i) {
-		auto entry = configData.get(i);
+		auto entry = configData.getUnsafe(i).getValue();
 		delete entry;
 	}
 
@@ -95,28 +97,28 @@ void ConfigManager::clearConfigData() {
 	configData.setNoDuplicateInsertPlan();
 
 	// Clear any cached values below
-	cache_PvpMode = false;
-	cache_ProgressMonitors = false;
-	cache_UnloadContainers = false;
-	cache_UseMetrics = false;
-	cache_SessionStatsSeconds = 3600;
-	cache_OnlineLogSize = 100000000;
+	cachedPvpMode = false;
+	cachedProgressMonitors = false;
+	cachedUnloadContainers = false;
+	cachedUseMetrics = false;
+	cachedSessionStatsSeconds = 3600;
+	cachedOnlineLogSize = 100000000;
 }
 
 void ConfigManager::cacheHotItems() {
 	// Items here are asked for often enough to have a performance impact
-	cache_PvpMode = getBool("Core3.PvpMode", false);
-	cache_ProgressMonitors = getBool("Core3.ProgressMonitors", false);
-	cache_UnloadContainers = getBool("Core3.UnloadContainers", true);
-	cache_UseMetrics = getBool("Core3.UseMetrics", false);
-	cache_SessionStatsSeconds = getInt("Core3.SessionStatsSeconds", 3600);
-	cache_OnlineLogSize = getInt("Core3.OnlineLogSize", 100000000);
+	cachedPvpMode = getBool("Core3.PvpMode", false);
+	cachedProgressMonitors = getBool("Core3.ProgressMonitors", false);
+	cachedUnloadContainers = getBool("Core3.UnloadContainers", true);
+	cachedUseMetrics = getBool("Core3.UseMetrics", false);
+	cachedSessionStatsSeconds = getInt("Core3.SessionStatsSeconds", 3600);
+	cachedOnlineLogSize = getInt("Core3.OnlineLogSize", 100000000);
 }
 
 void ConfigManager::dumpConfig(bool includeSecure) {
 	uint64 age = getConfigDataAgeMs() / 1000;
 
-	info("dumpConfig: START (Config Age: " + String::valueOf(age) + " s)", true);
+	info(true) << "dumpConfig: START (Config Age: " << age << " s)";
 
 	String hottestKey;
 	int maxPS = 0;
@@ -132,7 +134,8 @@ void ConfigManager::dumpConfig(bool includeSecure) {
 		if (!includeSecure && (key.toLowerCase().contains("pass") || key.toLowerCase().contains("secret")))
 			stringVal = "*******";
 
-		StringBuffer msg;
+		auto msg = info(true);
+
 		int ps = age > 0 ? itm->getUsageCounter() / age : 0;
 
 		if (ps > maxPS || itm->getUsageCounter() > maxUsageCounter) {
@@ -144,19 +147,23 @@ void ConfigManager::dumpConfig(bool includeSecure) {
 		msg << key
 			<< " usageCounter: " << itm->getUsageCounter()
 			<< " (" << ps << "/s)"
-		    << " bool: " << itm->getBool()
+			<< " bool: " << itm->getBool()
 			<< " int: " << itm->getInt()
-		    << " float: " << itm->getFloat()
+			<< " float: " << itm->getFloat()
 			<< " str: '" << stringVal.escapeString()
-			<< "'"
-			;
+			<< "'";
 
-		info(msg, true);
+		msg.flush();
 	}
 
 	if (!hottestKey.isEmpty()) {
-		info("Hottest key: " + hottestKey + " usageCounter: " + String::valueOf(maxUsageCounter) + " (" + String::valueOf(maxPS) + "/s)", true);
+		info(true) << "Hottest key: " <<
+		       	hottestKey << " usageCounter: " << maxUsageCounter << " (" << maxPS << "/s)";
 	}
+
+	auto engineConfig = Core::getPropertiesString();
+
+	info(true) << engineConfig;
 
 #ifdef DEBUG_CONFIGMANAGER
 	if (getLogLevel() >= Logger::DEBUG) {
@@ -563,7 +570,7 @@ ConfigDataItem::~ConfigDataItem() {
 
 	if (asVector != nullptr) {
 		for (int i = 0;i < asVector->size(); ++i) {
-			auto element = asVector->get(i);
+			auto element = asVector->getUnsafe(i);
 			delete element;
 		}
 

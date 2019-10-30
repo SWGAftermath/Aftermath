@@ -18,7 +18,7 @@
 int PlayerContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject* object, int containmentType, String& errorDescription) const {
 	CreatureObject* creo = dynamic_cast<CreatureObject*>(sceneObject);
 
-	if (creo == NULL) {
+	if (creo == nullptr) {
 		return TransferErrorCode::PLAYERUSEMASKERROR;
 	}
 
@@ -27,8 +27,8 @@ int PlayerContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject
 
 		SharedTangibleObjectTemplate* tanoData = dynamic_cast<SharedTangibleObjectTemplate*>(wearable->getObjectTemplate());
 
-		if (tanoData != NULL) {
-			Vector<uint32>* races = tanoData->getPlayerRaces();
+		if (tanoData != nullptr) {
+			const auto races = tanoData->getPlayerRaces();
 			String race = creo->getObjectTemplate()->getFullTemplateString();
 
 			if (!races->contains(race.hashCode())) {
@@ -65,7 +65,7 @@ int PlayerContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject
 		}
 
 		if (object->isWearableObject()) {
-			if (tanoData != NULL) {
+			if (tanoData != nullptr) {
 				const Vector<String>& skillsRequired = tanoData->getCertificationsRequired();
 
 				if (skillsRequired.size() > 0) {
@@ -123,7 +123,7 @@ int PlayerContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject
 int PlayerContainerComponent::notifyObjectInserted(SceneObject* sceneObject, SceneObject* object) const {
 	CreatureObject* creo = dynamic_cast<CreatureObject*>(sceneObject);
 
-	if (creo == NULL) {
+	if (creo == nullptr) {
 		return 0;
 	}
 
@@ -185,7 +185,7 @@ int PlayerContainerComponent::notifyObjectInserted(SceneObject* sceneObject, Sce
 int PlayerContainerComponent::notifyObjectRemoved(SceneObject* sceneObject, SceneObject* object, SceneObject* destination) const {
 	CreatureObject* creo = dynamic_cast<CreatureObject*>(sceneObject);
 
-	if (creo == NULL) {
+	if (creo == nullptr) {
 		return 0;
 	}
 

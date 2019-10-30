@@ -9,7 +9,7 @@
 BuffList::BuffList() {
 	spiceActive = false;
 
-	buffList.setNullValue(NULL);
+	buffList.setNullValue(nullptr);
 	buffList.setAllowDuplicateInsertPlan();
 
 	addSerializableVariable("spiceActive", &spiceActive);
@@ -42,7 +42,7 @@ void BuffList::updateBuffsToDatabase() {
 	}
 }
 
-void BuffList::sendTo(CreatureObject* player) {
+void BuffList::sendTo(CreatureObject* player) const {
 	Locker guard(&mutex);
 
 	for (int i = 0; i < buffList.size(); ++i) {
@@ -52,7 +52,7 @@ void BuffList::sendTo(CreatureObject* player) {
 	}
 }
 
-void BuffList::sendDestroyTo(CreatureObject* player) {
+void BuffList::sendDestroyTo(CreatureObject* player) const {
 	Locker guard(&mutex);
 
 	for (int i = 0; i < buffList.size(); ++i) {
@@ -63,7 +63,7 @@ void BuffList::sendDestroyTo(CreatureObject* player) {
 }
 
 void BuffList::addBuff(Buff* buff) {
-	if (buff == NULL)
+	if (buff == nullptr)
 		return;
 
 	Locker guard(&mutex);
@@ -110,7 +110,7 @@ bool BuffList::removeBuff(uint32 buffcrc) {
 }
 
 void BuffList::removeBuff(Buff* buff) {
-	if (buff == NULL)
+	if (buff == nullptr)
 		return;
 
 	Locker guard(&mutex);
@@ -144,7 +144,7 @@ void BuffList::removeBuff(Buff* buff) {
 	}
 }
 
-int BuffList::findBuff(Buff* buff) {
+int BuffList::findBuff(Buff* buff) const {
 	Locker guard(&mutex);
 
 	uint32 buffCRC = buff->getBuffCRC();

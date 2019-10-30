@@ -21,7 +21,7 @@ public:
 	MysqlTask(MySqlDatabase* db, const String& q) : database(db), query(q) {
 	}
 
-	void run() {
+	void run() final {
 		try {
 			database->doExecuteStatement(query);
 		} catch (Exception& e) {
@@ -33,10 +33,10 @@ public:
 
 class MysqlCallback : public Task {
 	engine::db::ResultSet* result;
-	std::function<void(engine::db::ResultSet*)> callback;
+	Function<void(engine::db::ResultSet*)> callback;
 
 public:
-	MysqlCallback(engine::db::ResultSet* res, std::function<void(engine::db::ResultSet*)>&& f)
+	MysqlCallback(engine::db::ResultSet* res, Function<void(engine::db::ResultSet*)>&& f)
 			: result(res), callback(std::move(f)) {
 	}
 
@@ -48,21 +48,20 @@ public:
 class MysqlLambda : public Task {
 	MySqlDatabase* database;
 	String query;
-	std::function<void(engine::db::ResultSet*)> function;
+	Function<void(engine::db::ResultSet*)> function;
 
 public:
 	MysqlLambda(MySqlDatabase* db, const char* q,
-				std::function<void(engine::db::ResultSet*)>&& f): database(db), query(q), function(std::move(f)) {
+				Function<void(engine::db::ResultSet*)>&& f): database(db), query(q), function(std::move(f)) {
 	}
 
-	void run() {
+	void run() final {
 		try {
 			engine::db::ResultSet* res = database->executeQuery(query);
 
 			MysqlCallback* callback = new MysqlCallback(res, std::move(function));
 			callback->execute();
-
-		} catch (Exception& e) {
+		} catch (const Exception& e) {
 			database->error(e.getMessage().toCharArray());
 		}
 	}
@@ -75,14 +74,17 @@ const char* MySqlDatabase::mysqlThreadName = "mysqlThread";
 MySqlDatabase::MySqlDatabase(const String& s) : Mutex("MYSQL DB"), Logger(s) {
 	queryTimeout = 5;
 	writeQueryTimeout = queryTimeout * 10;
+
+	memset(&mysql, 0, sizeof(mysql));
 }
 
 MySqlDatabase::MySqlDatabase(const String& s, const String& host) : Mutex("MYSQL DB"), Logger(s) {
 	MySqlDatabase::host = host;
 
+	memset(&mysql, 0, sizeof(mysql));
+
 	queryTimeout = 5;
 	writeQueryTimeout = queryTimeout * 1000;
-
 
 	setLockTracing(false);
 }
@@ -98,30 +100,27 @@ int MySqlDatabase::createDatabaseThread() {
 }
 
 void MySqlDatabase::connect(const String& dbname, const String& user, const String& passw, int port) {
-	StringBuffer msg;
-
 	Locker locker(this);
 
-	msg << "connecting to " << host << "...";
-	info(msg, true);
+	info(true) << "connecting to " << host << "...";
 
 	static int databaseThread = createDatabaseThread();
+
+	fatal(!databaseThread) << "could not create mysql database thread";
 
 	if (!mysql_init(&mysql))
 		error();
 
 	mysql_options(&mysql, MYSQL_OPT_READ_TIMEOUT, (char*)&queryTimeout);
 	mysql_options(&mysql, MYSQL_OPT_WRITE_TIMEOUT, (char*)&writeQueryTimeout);
-	my_bool reconnect = 1;
+	int reconnect = 1;
 	mysql_options(&mysql, MYSQL_OPT_RECONNECT, &reconnect);
 
 	if (!mysql_real_connect(&mysql, host.toCharArray(), user.toCharArray(), passw.toCharArray(), dbname.toCharArray(), port, nullptr, 0)) {
 		error();
 	}
 
-	msg.deleteAll();
-	msg << "connected to " << host;
-	info(msg, true);
+	info(true) << "connected to " << host;
 
 #ifdef WITH_STM
 	autocommit(false);
@@ -146,7 +145,7 @@ void MySqlDatabase::doExecuteStatement(const String& statement) {
 			error(statement.toCharArray());
 			break;
 		} else
-			info(String("Warning mysql lock wait timeout on statement: ") + statement);
+			warning() << "Warning mysql lock wait timeout on statement: " << statement;
 	}
 
 #ifdef WITH_STM
@@ -184,7 +183,7 @@ void MySqlDatabase::executeStatement(const StringBuffer& statement) {
 	executeStatement(statement.toString().toCharArray());
 }
 
-void MySqlDatabase::executeQuery(const char* query, std::function<void(engine::db::ResultSet*)>&& function) {
+void MySqlDatabase::executeQuery(const char* query, Function<void(engine::db::ResultSet*)>&& function) {
 	Reference<MysqlLambda*> lambda = new MysqlLambda(this, query, std::move(function));
 	lambda->setCustomTaskQueue(mysqlThreadName);
 
@@ -212,7 +211,7 @@ engine::db::ResultSet* MySqlDatabase::executeQuery(const char* statement) {
 			error(statement);
 			break;
 		} else
-			info(String("Warning mysql lock wait timeout on statement: ") + statement);
+			info() << "Warning mysql lock wait timeout on statement: " << statement;
 	}
 
 	MYSQL_RES* result = mysql_store_result(&mysql);
@@ -289,7 +288,7 @@ void MySqlDatabase::error() {
 void MySqlDatabase::error(const char* query) {
 	StringBuffer msg;
 	msg << "DatabaseException caused by query: " << query << "\n" << mysql_errno(&mysql) << ": " << mysql_error(&mysql);
-	//Logger::error(msg);
+	Logger::error(msg);
 
 	throw DatabaseException(msg.toString());
 }

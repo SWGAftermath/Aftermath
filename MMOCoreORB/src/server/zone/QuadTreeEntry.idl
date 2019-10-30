@@ -9,7 +9,6 @@ include system.lang.ref.Reference;
 include system.lang.Math;
 include system.util.SortedVector;
 
-include engine.stm.TransactionalReference;
 include server.zone.CloseObjectsVector;
 
 import engine.core.ManagedObject;
@@ -25,7 +24,6 @@ class QuadTreeEntry extends Observable {
 	@dereferenced
 	protected Coordinate coordinates;
 
-	@transactional
 	transient protected QuadTreeNode node;
 
 	protected boolean bounding;
@@ -118,7 +116,7 @@ class QuadTreeEntry extends Observable {
 			return false;
 	}
 
-	@dirty
+	@read
 	public float getDistanceTo(QuadTreeEntry obj) {
 		float x = obj.getPositionX();
 		float y = obj.getPositionY();
@@ -229,6 +227,7 @@ class QuadTreeEntry extends Observable {
 		coordinates.setPosition(x, z, y);
 	}
 
+	@dirty
 	public void initializePosition(float x, float z, float y) {
 		coordinates.initializePosition(x, z, y);
 	}
@@ -257,10 +256,10 @@ class QuadTreeEntry extends Observable {
 		return closeobjects.size();
 	}*/
 
-	@local
-	@dereferenced
+	@reference
 	@read
-	public TransactionalReference<QuadTreeNode> getNode() {
+	@local
+	public QuadTreeNode getNode() {
 		return node;
 	}
 
@@ -303,6 +302,7 @@ class QuadTreeEntry extends Observable {
 		bounding = false;
 	}
 
+	@dirty
 	public abstract void setParent(QuadTreeEntry par) {
 		parent = par;
 	}

@@ -26,18 +26,6 @@ void PingServer::run() {
 }
 
 void PingServer::shutdown() {
-	HashTable<uint64, ServiceClient*> clientsCopy;
-	clientsCopy.copyFrom(clients);
-
-	HashTableIterator<uint64, ServiceClient*> itr = clientsCopy.iterator();
-
-	while (itr.hasNext()) {
-		PingClient* ping = cast<PingClient*>(itr.getNextValue());
-
-		if (ping != NULL) {
-			ping->disconnect();
-		}
-	}
 }
 
 PingClient* PingServer::createConnection(Socket* sock, SocketAddress& addr) {
@@ -73,7 +61,7 @@ void PingServer::handleMessage(ServiceClient* client, Packet* message) {
 bool PingServer::handleError(ServiceClient* client, Exception& e) {
 	PingClient* lclient = cast<PingClient*>(client);
 
-	if (lclient != NULL) {
+	if (lclient != nullptr) {
 		lclient->setError();
 
 		lclient->disconnect();

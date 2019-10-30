@@ -436,11 +436,7 @@ class PlayerObject extends IntangibleObject {
 		countMaxCov = newMaxCov;
 	}
 
-    public native void info(final string msg, boolean force = false);
-    public native void debug(final string msg);
-    public native void error(final string msg);
-
-	public void setClientPathWaypoint(SceneObject obj) {
+  	public void setClientPathWaypoint(SceneObject obj) {
 		currentClientPathWaypoint = obj;
 	}
 
@@ -455,6 +451,7 @@ class PlayerObject extends IntangibleObject {
 
 	public native void unload();
 
+	@dirty
 	public native int calculateBhReward();
 
 	@local
@@ -609,21 +606,23 @@ class PlayerObject extends IntangibleObject {
 	 * Gets the first waypoint of a special type from this player
 	 * @param specialTypeID id of special type to find
 	 */
-	@dirty
+	@read
 	public native WaypointObject getWaypointBySpecialType(int specialTypeID);
 
-	@dirty
+	@read
 	public native WaypointObject getSurveyWaypoint();
 
+	@read
 	public boolean hasWaypoint(unsigned long objectID) {
 		return waypointList.contains(objectID);
 	}
 
+	@read
 	public WaypointObject getWaypointAt(float x, float y, string planet) {
 		return waypointList.getWaypointAt(x, y, planet);
 	}
 
-	@dirty
+	@read
 	@local
 	public void insertWaypointListToMessage(BaseMessage msg) {
 		waypointList.insertToMessage(msg);
@@ -841,7 +840,7 @@ class PlayerObject extends IntangibleObject {
 	@dirty
 	public native PlayerQuestData getQuestData(unsigned int questHashCode);
 
-	@dirty
+	@read
 	public boolean hasQuestData(unsigned int questHashCode) {
 		return playerQuestsData.contains(questHashCode);
 	}
@@ -867,17 +866,17 @@ class PlayerObject extends IntangibleObject {
 		lastNpcConvoMessage = mess;
 	}
 
-	@dirty
+	@read
 	public string getLastNpcConvStr() {
 		return lastNpcConvo;
 	}
 
-	@dirty
+	@read
 	public string getLastNpcConvMessStr() {
 		return lastNpcConvoMessage;
 	}
 
-	@dirty
+	@read
 	public string getLastNpcConvOption(int idx) {
 		return lastNpcConvoOptions.get(idx);
 	}
@@ -886,7 +885,7 @@ class PlayerObject extends IntangibleObject {
 		lastNpcConvoOptions.add(option);
 	}
 
-	@dirty
+	@read
 	public int countLastNpcConvOptions() {
 		return lastNpcConvoOptions.size();
 	}
@@ -902,7 +901,7 @@ class PlayerObject extends IntangibleObject {
 			conversatingCreature = creature.getObjectID();
 	}
 
-	@dirty
+	@read
 	public unsigned long getConversatingCreature() {
 		return conversatingCreature;
 	}
@@ -919,7 +918,7 @@ class PlayerObject extends IntangibleObject {
 		trainerZoneName = zoneName;
 	}
 
-	@dirty
+	@read
 	public string getTrainerZoneName() {
 		return trainerZoneName;
 	}
@@ -947,6 +946,7 @@ class PlayerObject extends IntangibleObject {
 		consentList.put(name);
 	}
 
+	@read
 	public boolean hasInConsentList(final string name) {
 		return consentList.contains(name);
 	}
@@ -955,23 +955,22 @@ class PlayerObject extends IntangibleObject {
 		consentList.drop(name);
 	}
 
-	@dirty
+	@read
 	public string getConsentName(int i) {
 		return consentList.get(i);
 	}
 
-	@dirty
+	@read
 	public int getConsentListSize() {
 		return consentList.size();
 	}
 
-	@dirty
+	@read
 	public int getReactionFines() {
 		return reactionFines;
 	}
 
-	@local
-	@dirty
+	@read
 	public string getFactionRank() {
 		return factionStandingList.getFactionRank();
 	}
@@ -1063,7 +1062,7 @@ class PlayerObject extends IntangibleObject {
 	@dirty
 	public native unsigned int getNewSuiBoxID(unsigned int type);
 
-	@dirty
+	@read
 	public boolean hasSuiBox(unsigned int boxID) {
 		return suiBoxes.contains(boxID);
 	}
@@ -1174,12 +1173,12 @@ class PlayerObject extends IntangibleObject {
 		return duelList.contains(targetPlayer);
 	}
 
-	@dirty
+	@read
 	public boolean isDuelListEmpty() {
 		return duelList.isEmpty();
 	}
 
-	@dirty
+	@read
 	public int getDuelListSize() {
 		return duelList.size();
 	}
@@ -1198,12 +1197,12 @@ class PlayerObject extends IntangibleObject {
 		return activePets.get(index);
 	}
 
-	@dirty
+	@read
 	public boolean hasActivePet(AiAgent pet) {
 		return activePets.contains(pet);
 	}
 
-	@dirty
+	@read
 	public int getActivePetsSize() {
 		return activePets.size();
 	}
@@ -1253,16 +1252,17 @@ class PlayerObject extends IntangibleObject {
 		return badges.getTypeCount(type);
 	}
 
-	@dirty
+	@read
 	public boolean hasFriend(final string name) {
 		return friendList.contains(name);
 	}
 
-	@dirty
+	@read
 	public int getFriendListSize() {
 		return friendList.size();
 	}
 
+	@read
 	public native boolean isIgnoring(final string name);
 
 	public void addReverseFriend(final string name) {
@@ -1273,6 +1273,7 @@ class PlayerObject extends IntangibleObject {
 		friendList.removeReversePlayer(name);
 	}
 
+	@dirty
 	public native void sendFriendLists();
 
 	/**
@@ -1281,12 +1282,12 @@ class PlayerObject extends IntangibleObject {
 	 * @return True if the player has the ability.
 	 */
 	@local
-	@dirty
+	@read
 	public boolean hasAbility(final string ability) {
 		return abilityList.contains(ability);
 	}
 
-	@dirty
+	@read
 	public boolean hasCommandMessageString(unsigned int actionCRC) {
 		return commandMessageStrings.contains(actionCRC);
 	}
@@ -1323,22 +1324,22 @@ class PlayerObject extends IntangibleObject {
 		biography = bio;
 	}
 
-	@dirty
+	@read
 	public boolean hasGodMode() {
 		return (adminLevel > 0 && hasAbility("admin"));
 	}
 
-	@dirty
+	@read
 	public boolean isPrivileged() {
 		return (adminLevel > 6 && hasAbility("admin"));
 	}
 
-	@dirty
+	@read
 	public boolean isStaff() {
 		return (adminLevel > 10 && hasAbility("admin"));
 	}
 
-	@dirty
+	@read
 	public boolean isAdmin() {
 		return (adminLevel == 15 && hasAbility("admin"));
 	}
@@ -1353,12 +1354,21 @@ class PlayerObject extends IntangibleObject {
 	/**
 	 * is the player AFK
 	 */
-	@dirty
+	@read
 	public native boolean isLFG();
+
+	@read
 	public native boolean isAFK();
+
+	@read
 	public native boolean isAnonymous();
+
+	@read
 	public native boolean isRoleplayer();
+
+	@read
 	public native boolean isNewbieHelper();
+
 	@local
 	@dirty
 	public VectorMap<string, int> getXpTypeCapList() {
@@ -1418,13 +1428,14 @@ class PlayerObject extends IntangibleObject {
 		return schematicList;
 	}
 
-	@dirty
+	@read
 	public DraftSchematic getSchematic(int i) {
 		return schematicList.get(i);
 	}
 
 	@local
 	@dereferenced
+	@dirty
 	public native Vector<DraftSchematic> filterSchematicList(CreatureObject player, Vector<unsigned int> enabledTabs, int complexityLevel);
 
 	@read
@@ -1506,7 +1517,7 @@ class PlayerObject extends IntangibleObject {
 		return ignoreList;
 	}
 
-	@dirty
+	@read
 	public int getExperience(final string xp) {
 		if (experienceList.contains(xp)) {
 			return experienceList.get(xp);
@@ -1570,6 +1581,7 @@ class PlayerObject extends IntangibleObject {
 	}
 
 	@local
+	@read
 	public int getDaysSinceLastLogout() {
 		return (int)(logoutTimeStamp.miliDifference() / 1000 / 60 / 60 / 24);
 	}
@@ -1588,6 +1600,7 @@ class PlayerObject extends IntangibleObject {
 	}
 
 	@local
+	@dirty
 	public ValidatedPosition getLastValidatedPosition() {
 		return lastValidatedPosition;
 	}
@@ -1700,14 +1713,17 @@ class PlayerObject extends IntangibleObject {
 
 	@dereferenced
 	@local
+	@read
 	public native Time getLastVisibilityUpdateTimestamp();
 
 	@dereferenced
 	@local
+	@read
 	public native Time getLastBhPvpCombatActionTimestamp();
 
 	@dereferenced
 	@local
+	@read
 	public native Time getLastGcwPvpCombatActionTimestamp();
 
 	@dereferenced
@@ -1728,8 +1744,10 @@ class PlayerObject extends IntangibleObject {
 
 	public native void updateLastJediAttackableTimestamp();
 
+	@read
 	public native boolean hasPvpTef();
 
+	@read
 	public native boolean hasBhTef();
 
 	public native boolean hasJediTef();
@@ -1768,10 +1786,12 @@ class PlayerObject extends IntangibleObject {
 		return jediState >= 2; //TODO: Implement jedi constants.
 	}
 
+	@read
 	public boolean isJediLight() {
 		return jediState == 4; // Light FRS.
 	}
 
+	@read
 	public boolean isJediDark() {
 		return jediState == 8; // Dark FRS.
 	}
@@ -1866,10 +1886,12 @@ class PlayerObject extends IntangibleObject {
 		currentEventPerks.drop(deed.getObjectID());
 	}
 
+	@read
 	public int getEventPerkCount() {
 		return currentEventPerks.size();
 	}
 
+	@dirty
 	public native int getCharacterAgeInDays();
 
 	public void addToReactionFines(int fine) {
@@ -1902,6 +1924,7 @@ class PlayerObject extends IntangibleObject {
 		return reactionFineMailTimestamp;
 	}
 
+	@read
 	public int getXpCap(final string type) {
 		return xpTypeCapList.get(type);
 	}
@@ -1909,11 +1932,12 @@ class PlayerObject extends IntangibleObject {
 	@dirty
 	public native int getSpentJediSkillPoints();
 
-	@dirty
+	@read
 	public native boolean hasSchematic(DraftSchematic schematic) {
 		return schematicList.contains(schematic);
 	}
 
+	@read
 	public native boolean hasEventPerk(final string templatePath);
 
 	public native void doFieldFactionChange(int newStatus);
@@ -1955,6 +1979,7 @@ class PlayerObject extends IntangibleObject {
 	}
 
 	@read
+<<<<<<< HEAD
 	public int getRatingReset() {
 		return ratingReset;
 	}
@@ -1963,6 +1988,8 @@ class PlayerObject extends IntangibleObject {
 		ratingReset = reset;
 	}
 	
+=======
+>>>>>>> unstable
 	public boolean isCloning() {
 		return isPlayerCloning;
 	}
@@ -1981,13 +2008,14 @@ class PlayerObject extends IntangibleObject {
 		return miliSecsSession;
 	}
 
+	@read
 	public unsigned long getSessionTotalMovement() {
 		return sessionStatsTotalMovement;
 	}
 
-	@dirty
+	@read
 	public native string getMiliSecsTimeString(unsigned long miliSecs, boolean verbose = false);
 
-	@dirty
+	@read
 	public native string getPlayedTimeString(boolean verbose = false);
 }

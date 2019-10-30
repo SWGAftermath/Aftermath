@@ -5,7 +5,6 @@
 #ifndef NAMEMANAGER_H_
 #define NAMEMANAGER_H_
 
-#include "engine/lua/Lua.h"
 #include "engine/core/ManagedReference.h"
 #include "server/zone/managers/name/NameData.h"
 
@@ -31,16 +30,6 @@ namespace server {
 }
 
 using namespace server::zone::objects::creature;
-
-class BannedNameSet : public HashSet<String> {
-	int hash(const String& str) const {
-		return str.hashCode();
-	}
-
-public:
-	BannedNameSet() : HashSet<String>() {
-	}
-};
 
 class NameManagerResult {
 public:
@@ -96,8 +85,6 @@ namespace server {
 class NameManager : public Singleton<NameManager>, public Logger, public Object {
 	ManagedReference<ZoneProcessServer*> server;
 
-	Lua* lua;
-
 	NameData* bothanData;
 	NameData* humanData;
 	NameData* ithorianData;
@@ -114,10 +101,7 @@ class NameManager : public Singleton<NameManager>, public Logger, public Object 
 	NameData* plainResourceData;
 	NameData* reactiveGasResourceData;
 
-	Vector<String>* profaneNames;
-	BannedNameSet* developerNames;
-	BannedNameSet* fictionNames;
-	BannedNameSet* reservedNames;
+	VectorMap<String, int> reservedNames;
 
 	Vector<String> stormtrooperPrefixes;
 	Vector<String> scouttrooperPrefixes;
@@ -126,30 +110,19 @@ class NameManager : public Singleton<NameManager>, public Logger, public Object 
 
 
 private:
-
 	void initialize();
 
-	bool loadConfigFile();
+	char chooseNextLetter(const char, const char) const;
 
-	bool loadConfigData();
+	inline bool isReserved(const String&) const;
+	inline bool isDeveloper(const String&) const;
+	inline bool isFiction(const String&) const;
 
-	void loadDefaultConfig();
+	String appendSyllable(const String& left, const String& right, const NameData* data) const;
 
-	void fillNames();
+	int getFragmentType(const String& frag, const NameData* data) const;
 
-	char chooseNextLetter(const char, const char);
-
-	inline bool isReserved(String);
-
-	inline bool isDeveloper(String);
-
-	inline bool isFiction(String);
-
-	String appendSyllable(const String& left, const String& right, NameData* data);
-
-	int getFragmentType(const String& frag, NameData* data);
-
-	String makeImperialTrooperName(int type);
+	String makeImperialTrooperName(int type) const;
 
 public:
 	NameManager();
@@ -157,34 +130,32 @@ public:
 
 	~NameManager();
 
-	void test();
+	void test() const;
 
-	bool isProfane(String name);
+	bool isProfane(const String& name) const;
+	void loadConfigData(bool reload = false);
 
-	int validateName(CreatureObject * obj);
-	int validateName(const String& name, int species = -1);
-	int validateGuildName(const String& name, int type = NameManagerType::GUILD_NAME);
-	int validateCityName(const String& name);
-	int validateVendorName(const String& name);
-	int validateChatRoomName(const String& name);
+	int validateName(const CreatureObject* obj) const;
+	int validateName(const String& name, int species = -1) const;
+	int validateGuildName(const String& name, int type = NameManagerType::GUILD_NAME) const;
+	int validateCityName(const String& name) const;
+	int validateVendorName(const String& name) const;
+	int validateChatRoomName(const String& name) const;
+	int validateReservedNames(const String& name, int resultType = -1) const;
 
-	const String makeCreatureName(int type = 1, int species = 0);
+	const String makeCreatureName(int type = 1, int species = 0) const;
 
-	String generateSingleName(NameData* nameData, NameRules* rules);
+	String generateSingleName(const NameData* nameData, const NameRules* rules) const;
+	String generateUniqueName(const NameData* nameData, const NameRules* rules) const;
+	String generateRandomizedName(const NameData* nameData, const NameRules* nameRules) const;
+	String generateRandomName(const NameData* nameData) const;
+	String generateResourceName(const String& randomNameClass) const;
 
-	String generateUniqueName(NameData* nameData, NameRules* rules);
+	String makeDroidName(int type) const;
 
-	String generateRandomizedName(NameData* nameData, NameRules* nameRules);
+	String capitalizeName(const String& name) const;
 
-	String generateRandomName(NameData* nameData);
-
-	String generateResourceName(const String& randomNameClass);
-
-	String makeDroidName(int type);
-
-	String capitalizeName(String& name);
-
-	NameData* getSpeciesData(int species);
+	const NameData* getSpeciesData(int species) const;
 
 };
 

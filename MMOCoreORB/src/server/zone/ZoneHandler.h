@@ -11,26 +11,24 @@
 namespace server {
   namespace zone {
 
-	class ZoneSessionMap : public HashTable<uint64, Reference<ZoneClientSession*> >,
-			public HashTableIterator<uint64, Reference<ZoneClientSession*> > {
+	class ZoneSessionMap : public HashTable<uint64, Reference<ZoneClientSession*> > {
 
 		int maxConnections;
 
 	public:
-		ZoneSessionMap(int maxconn = 10000) : HashTable<uint64, Reference<ZoneClientSession*> >((int) (maxconn * 1.25f)),
-				HashTableIterator<uint64, Reference<ZoneClientSession*> >(this) {
+		ZoneSessionMap(int maxconn = 10000) : HashTable<uint64, Reference<ZoneClientSession*> >((int) (maxconn * 1.25f)) {
 			maxConnections = maxconn;
 		}
 
 		bool add(ZoneClientSession* client) {
-			if (HashTable<uint64, Reference<ZoneClientSession*> >::put(client->getSession()->getNetworkID(), client) == NULL) {
+			if (HashTable<uint64, Reference<ZoneClientSession*> >::put(client->getSession()->getNetworkID(), client) == nullptr) {
 				return true;
 			} else
 				return false;
 		}
 
 		bool remove(ZoneClientSession* client) {
-			if (HashTable<uint64, Reference<ZoneClientSession*> >::remove(client->getSession()->getNetworkID()) != NULL) {
+			if (HashTable<uint64, Reference<ZoneClientSession*> >::remove(client->getSession()->getNetworkID()) != nullptr) {
 				return true;
 			} else
 				return false;
@@ -86,7 +84,7 @@ namespace server {
 
 			ManagedReference<ZoneClientSession*> client = getClientSession(session);
 
-			if (client != NULL)
+			if (client != nullptr)
 				server->handleMessage(client, message);
 		}
 

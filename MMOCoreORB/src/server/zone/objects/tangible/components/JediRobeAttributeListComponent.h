@@ -17,13 +17,17 @@ public:
 	void fillAttributeList(AttributeListMessage* alm, CreatureObject* creature, SceneObject* object) const {
 
 		ManagedReference<RobeObject*> robe = cast<RobeObject*> (object);
-		if (robe == NULL) {
+		if (robe == nullptr) {
 			return;
 		}
 
 		VectorMap<String, int>* skills = robe->getTemplateSkillMods();
 		//Remove stats from Robes
 		/*
+=======
+		const auto skills = robe->getTemplateSkillMods();
+
+>>>>>>> unstable
 		if (skills->contains("jedi_force_power_max")) {
 			int mod = skills->get("jedi_force_power_max");
 			alm->insertAttribute("jedi_robe_power", "+" + String::valueOf(mod));

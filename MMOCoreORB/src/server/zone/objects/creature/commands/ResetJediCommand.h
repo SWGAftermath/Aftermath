@@ -25,14 +25,14 @@ public:
 
 		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
 
-		if (object == NULL || !object->isCreatureObject())
+		if (object == nullptr || !object->isCreatureObject())
 			return INVALIDTARGET;
 
 		CreatureObject* targetCreature = cast<CreatureObject*>( object.get());
 
 		Locker clocker(targetCreature, creature);
 
-		SkillList* skillList = targetCreature->getSkillList();
+		const SkillList* skillList = targetCreature->getSkillList();
 
 		for (int i = 0; i < skillList->size(); ++i) {
 			Skill* skill = skillList->get(i);
@@ -45,7 +45,7 @@ public:
 
 		ManagedReference<PlayerObject*> targetGhost = targetCreature->getPlayerObject();
 
-		if (targetGhost == NULL)
+		if (targetGhost == nullptr)
 			return GENERALERROR;
 
 		targetGhost->setJediState(0);

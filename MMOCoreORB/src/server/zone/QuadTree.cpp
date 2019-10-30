@@ -242,14 +242,15 @@ bool QuadTree::update(QuadTreeEntry *obj) {
 					<< ", " << obj->getPositionY() << ")\n";
 		}
 
-		if (obj->getNode() == nullptr) {
+		auto node = obj->getNode();
+
+		if (node == nullptr) {
 #ifdef OUTPUTQTERRORS
 			System::out << hex << "object [" << obj->getObjectID() <<  "] updating error\n";
 #endif
 			return false;
 		}
 
-		Reference<QuadTreeNode*> node = obj->getNode();
 		bool res = _update(node, obj);
 
 		if (QuadTree::doLog())
@@ -375,7 +376,7 @@ void QuadTree::remove(QuadTreeEntry *obj) {
 	if (QuadTree::doLog())
 		System::out << hex << "object [" << obj->getObjectID() <<  "] removing\n";
 
-	Reference<QuadTreeNode*> node = obj->getNode();
+	auto node = obj->getNode();
 
 	if (node != nullptr) {
 		if (!node->validateNode()) {
@@ -409,7 +410,7 @@ void QuadTree::removeAll() {
  * Every Node can have data and children. Every data must be completely
  * contained inside the Node, so boundary sphere is checked.
  */
-void QuadTree::_insert(Reference<QuadTreeNode*>& node, QuadTreeEntry *obj) {
+void QuadTree::_insert(const Reference<QuadTreeNode*>& node, QuadTreeEntry *obj) {
 	/*
 	 * Logic:
 	 *
@@ -543,7 +544,7 @@ void QuadTree::_insert(Reference<QuadTreeNode*>& node, QuadTreeEntry *obj) {
 /* The difference to the Insert is that it starts at the current node
  * and tries to find the right place to be now that the position changed.
  */
-bool QuadTree::_update(Reference<QuadTreeNode*>& node, QuadTreeEntry *obj) {
+bool QuadTree::_update(const Reference<QuadTreeNode*>& node, QuadTreeEntry *obj) {
 	// Whew, still in the same square. Lucky bastards we are.
 	//System::out << "(" << obj->positionX << "," << obj->positionY << ")\n";
 
@@ -564,8 +565,7 @@ bool QuadTree::_update(Reference<QuadTreeNode*>& node, QuadTreeEntry *obj) {
 	// Here is the right spot for the object, so lets drop it in.
 	// May result in another squaring frenzy.
 	if (cur != nullptr) {
-		Reference<QuadTreeNode*> c = cur;
-		_insert(c, obj);
+		_insert(cur, obj);
 	}
 #ifdef OUTPUTQTERRORS
 	else
@@ -683,7 +683,7 @@ void QuadTree::copyObjects(const Reference<QuadTreeNode*>& node, float x, float 
 	}
 }
 
-void QuadTree::_inRange(Reference<QuadTreeNode*>& node, QuadTreeEntry *obj, float range) {
+void QuadTree::_inRange(const Reference<QuadTreeNode*>& node, QuadTreeEntry *obj, float range) {
 	Reference<QuadTreeNode*> refNode = node;
 
 	float rangesq = range * range;

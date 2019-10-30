@@ -18,7 +18,7 @@ class MapGroup : public TemplateVariable<'MGRP'> {
 public:
 
 	MapGroup() {
-		mfrcs.setNullValue(NULL);
+		mfrcs.setNullValue(nullptr);
 		mfrcs.setNoDuplicateInsertPlan();
 	}
 
@@ -58,6 +58,11 @@ public:
 	inline MapFractal* getMfrc(int index) {
 		return mfrcs.get((uint32)index);
 	}
+
+	inline const MapFractal* getMfrc(int index) const {
+		return mfrcs.get((uint32)index);
+	}
+
 
 };
 

@@ -36,7 +36,7 @@ public:
 		int forceBonus = 250 + (forceRandom);
 
 		ManagedReference<PlayerObject*> playerObject = creature->getPlayerObject();
-		if (playerObject == NULL)
+		if (playerObject == nullptr)
 			return GENERALERROR;
 
 		// Bonus is in between 200-300.
@@ -84,7 +84,7 @@ public:
 		uint32 buffCRC = STRING_HASHCODE("channelforcebuff");
 		Reference<Buff*> buff = creature->getBuff(buffCRC);
 		int duration = ChannelForceBuff::FORCE_CHANNEL_DURATION_SECONDS;
-		if (buff == NULL) {
+		if (buff == nullptr) {
 			buff = new ChannelForceBuff(creature, buffCRC, duration);
 			
 			Locker locker(buff);
@@ -110,7 +110,7 @@ public:
 			
 			creature->renewBuff(buffCRC, duration);
 			Reference<ChannelForceBuff*> channelBuff = buff.castTo<ChannelForceBuff*>();
-			if (channelBuff != NULL)
+			if (channelBuff != nullptr)
 				channelBuff->activateRegenTick();
 		}
 

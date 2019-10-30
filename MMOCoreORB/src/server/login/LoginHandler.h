@@ -14,25 +14,23 @@
 namespace server {
   namespace login {
 
-	class LoginSessionMap : private HashTable<uint64, Reference<LoginClient*> >,
-			public HashTableIterator<uint64, Reference<LoginClient*> > {
-
+	class LoginSessionMap : private HashTable<uint64, Reference<LoginClient*> > {
 		int maxConnections;
+
 	public:
-		LoginSessionMap(int maxconn = 10000) : HashTable<uint64, Reference<LoginClient*> >((int) (maxconn * 1.25f)),
-				HashTableIterator<uint64, Reference<LoginClient*> >(this) {
+		LoginSessionMap(int maxconn = 10000) : HashTable<uint64, Reference<LoginClient*> >((int) (maxconn * 1.25f)) {
 			maxConnections = maxconn;
 		}
 
 		bool add(LoginClient* client) {
-			if (HashTable<uint64, Reference<LoginClient*> >::put(client->getSession()->getNetworkID(), client) == NULL) {
+			if (HashTable<uint64, Reference<LoginClient*> >::put(client->getSession()->getNetworkID(), client) == nullptr) {
 				return true;
 			} else
 				return false;
 		}
 
 		bool remove(LoginClient* client) {
-			if (HashTable<uint64, Reference<LoginClient*> >::remove(client->getSession()->getNetworkID()) != NULL) {
+			if (HashTable<uint64, Reference<LoginClient*> >::remove(client->getSession()->getNetworkID()) != nullptr) {
 				return true;
 			} else
 				return false;
@@ -72,7 +70,7 @@ namespace server {
 		bool deleteConnection(ServiceClient* session) {
 			Reference<LoginClient*> client = getClient(session);
 
-			if (client != NULL) {
+			if (client != nullptr) {
 				client->disconnect();
 
 				clients.remove(client);

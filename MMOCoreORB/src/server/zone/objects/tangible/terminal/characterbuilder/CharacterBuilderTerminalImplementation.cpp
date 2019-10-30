@@ -14,7 +14,7 @@ void CharacterBuilderTerminalImplementation::loadTemplateData(SharedObjectTempla
 
 	CharacterBuilderTerminalTemplate* terminalData = dynamic_cast<CharacterBuilderTerminalTemplate*>(templateData);
 
-	if (terminalData == NULL)
+	if (terminalData == nullptr)
 		return;
 
 	rootNode = terminalData->getItemList();
@@ -48,7 +48,7 @@ void CharacterBuilderTerminalImplementation::sendInitialChoices(CreatureObject* 
 
 	//info("entering sendInitialChoices", true);
 
-	if (rootNode == NULL) {
+	if (rootNode == nullptr) {
 		player->sendSystemMessage("There was an error initializing the menu for this character builder terminal. Sorry for the inconvenience.");
 		return;
 	}
@@ -67,13 +67,13 @@ void CharacterBuilderTerminalImplementation::enhanceCharacter(CreatureObject* pl
 
 	ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
 
-	if (ghost == NULL)
+	if (ghost == nullptr)
 		return;
 
 	for (int i = 0; i < ghost->getActivePetsSize(); i++) {
 		ManagedReference<AiAgent*> pet = ghost->getActivePet(i);
 
-		if (pet != NULL) {
+		if (pet != nullptr) {
 			Locker crossLocker(pet, player);
 
 			pm->enhanceCharacter(pet, type);
@@ -111,12 +111,12 @@ void CharacterBuilderTerminalImplementation::giveLanguages(CreatureObject* playe
 void CharacterBuilderTerminalImplementation::grantGlowyBadges(CreatureObject* player) {
 	CharacterBuilderTerminalTemplate* terminalTemplate = dynamic_cast<CharacterBuilderTerminalTemplate*>(templateObject.get());
 
-	if (terminalTemplate == NULL)
+	if (terminalTemplate == nullptr)
 		return;
 
 	PlayerObject* ghost = player->getPlayerObject();
 
-	if (ghost == NULL)
+	if (ghost == nullptr)
 		return;
 
 	int ids[] = { 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 38, 39, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 105, 106, 107, 108, 112, 113, 114, 115, 116, 117, 118, 119, 120, 129, 130, 131, 132, 134, 135, 136, 137, 138, 143, 144, 145, 146 };
@@ -132,12 +132,12 @@ void CharacterBuilderTerminalImplementation::grantJediInitiate(CreatureObject* p
 
 	CharacterBuilderTerminalTemplate* terminalTemplate = dynamic_cast<CharacterBuilderTerminalTemplate*>(templateObject.get());
 
-	if (terminalTemplate == NULL)
+	if (terminalTemplate == nullptr)
 		return;
 
 	PlayerObject* ghost = player->getPlayerObject();
 
-	if (ghost == NULL)
+	if (ghost == nullptr)
 		return;
 
 	SkillManager* skillManager = server->getSkillManager();

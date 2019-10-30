@@ -20,8 +20,8 @@ public:
 	BuffList();
 	BuffList(const BuffList& bf);
 
-	void sendTo(CreatureObject* player);
-	void sendDestroyTo(CreatureObject* player);
+	void sendTo(CreatureObject* player) const;
+	void sendDestroyTo(CreatureObject* player) const;
 
 	void updateBuffsToDatabase();
 
@@ -31,7 +31,7 @@ public:
 
 	void clearBuffs(bool updateclient, bool removeAll);
 
-	int findBuff(Buff* buff);
+	int findBuff(Buff* buff) const;
 
 	String getDurationString(bool showhours = true, bool showminutes = true) const;
 
@@ -46,7 +46,7 @@ public:
 		Locker guard(&mutex);
 
 		if (index < 0 || index >= buffList.size())
-			return NULL;
+			return nullptr;
 
 		Buff* buff = buffList.elementAt(index).getValue();
 
@@ -59,7 +59,7 @@ public:
 		if (buffList.contains(buffcrc))
 			return buffList.get(buffcrc);
 
-		return NULL;
+		return nullptr;
 	}
 
 	long long getModifierByName(const String& skillMod) const {

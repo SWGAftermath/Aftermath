@@ -57,7 +57,7 @@ public:
 			}
 		}		
 
-		if (object == NULL)
+		if (object == nullptr)
 			return GENERALERROR;
 
 

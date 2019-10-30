@@ -52,7 +52,7 @@ public:
 		ManagedReference<Facade*> facade = creature->getActiveSession(SessionFacadeType::MIGRATESTATS);
 		ManagedReference<MigrateStatsSession*> session = dynamic_cast<MigrateStatsSession*>(facade.get());
 
-		if (session == NULL) {
+		if (session == nullptr) {
 			return GENERALERROR;
 		}
 
@@ -96,7 +96,7 @@ public:
 		uint32 focusBuffCRC = STRING_HASHCODE("performance_enhance_music_focus");
 		uint32 willBuffCRC = STRING_HASHCODE("performance_enhance_music_willpower");
 		uint32 mindBuffCRC = STRING_HASHCODE("performance_enhance_dance_mind");
-		if (zone != NULL && !player->isInCombat() && !creature->hasBuff(focusBuffCRC) && !creature->hasBuff(willBuffCRC) && !creature->hasBuff(mindBuffCRC)){
+		if (zone != nullptr && !player->isInCombat() && !creature->hasBuff(focusBuffCRC) && !creature->hasBuff(willBuffCRC) && !creature->hasBuff(mindBuffCRC)){
 			session->migrateStats();
 			/*creature->updateCooldownTimer(skillName, delay * 1000);*/
 			return SUCCESS;

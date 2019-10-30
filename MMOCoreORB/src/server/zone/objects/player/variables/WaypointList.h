@@ -14,10 +14,10 @@
 class WaypointList : public DeltaVectorMap<uint64, ManagedReference<WaypointObject*> > {
 public:
 
-	int set(uint64 key, WaypointObject* value, DeltaMessage* message = NULL, int updates = 1) {
+	int set(uint64 key, WaypointObject* value, DeltaMessage* message = nullptr, int updates = 1) {
 		int pos = vectorMap.put(key, value);
 
-		if (message != NULL) {
+		if (message != nullptr) {
 			if (updates != 0)
 				message->startList(updates, updateCounter += updates);
 
@@ -36,7 +36,7 @@ public:
 		to_json(j, vm);
 	}
 
-	bool drop(const uint64& key, DeltaMessage* message = NULL, int updates = 1) {
+	bool drop(const uint64& key, DeltaMessage* message = nullptr, int updates = 1) override {
 		if (!vectorMap.contains(key))
 			return false;
 
@@ -44,7 +44,7 @@ public:
 
 		vectorMap.drop(key);
 
-		if (message != NULL) {
+		if (message != nullptr) {
 			if (updates != 0)
 				message->startList(updates, updateCounter += updates);
 
@@ -63,7 +63,7 @@ public:
 
 		ManagedReference<WaypointObject*> value = vectorMap.get(key);
 
-		if (message != NULL) {
+		if (message != nullptr) {
 			if (updates != 0)
 				message->startList(updates, updateCounter += updates);
 
@@ -76,13 +76,13 @@ public:
 		return true;
 	}
 
-	void insertToMessage(BaseMessage* msg) {
+	void insertToMessage(BaseMessage* msg) const override {
 		msg->insertInt(size());
 		msg->insertInt(getUpdateCounter());
 
 		for (int i = 0; i < size(); ++i) {
-			uint64& key = getKeyAt(i);
-			ManagedReference<WaypointObject*> value = getValueAt(i);
+			const uint64& key = getKeyAt(i);
+			const auto& value = getValueAt(i);
 
 			msg->insertByte(0);
 			msg->insertLong(key);
@@ -90,13 +90,13 @@ public:
 		}
 	}
 
-	uint64 find(const String& name) {
+	uint64 find(const String& name) const {
 		if (name.isEmpty())
 			return 0;
 
 		for (int i = 0; i < size(); ++i) {
-			uint64& key = getKeyAt(i);
-			ManagedReference<WaypointObject*> value = getValueAt(i);
+			const uint64& key = getKeyAt(i);
+			const auto& value = getValueAt(i);
 
 			if (name == value->getCustomObjectName().toString())
 				return key;
@@ -105,12 +105,12 @@ public:
 		return 0;
 	}
 
-	uint64 getWaypointBySpecialType(const uint8 specialTypeID) {
+	uint64 getWaypointBySpecialType(const uint8 specialTypeID) const {
 		if (specialTypeID == 0)
 			return 0;
 
 		for (int i = 0; i < vectorMap.size(); ++i) {
-			ManagedReference<WaypointObject*> value = vectorMap.elementAt(i).getValue();
+			const auto& value = vectorMap.elementAt(i).getValue();
 
 			if (value->getSpecialTypeID() == specialTypeID)
 				return value->getObjectID();
@@ -119,15 +119,15 @@ public:
 		return 0;
 	}
 
-	WaypointObject* getWaypointAt(float x, float y, String planet) {
+	WaypointObject* getWaypointAt(float x, float y, String planet) const {
 		for (int i = 0; i < vectorMap.size(); ++i) {
-			ManagedReference<WaypointObject*> value = vectorMap.elementAt(i).getValue();
+			const auto& value = vectorMap.elementAt(i).getValue();
 
 			if (value->getPositionX() == x && value->getPositionY() == y && value->getPlanetCRC() == planet.hashCode())
 				return value;
 		}
 
-		return NULL;
+		return nullptr;
 	}
 };
 

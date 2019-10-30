@@ -9,24 +9,24 @@
 #include "templates/LootItemTemplate.h"
 #include "templates/LootGroupTemplate.h"
 
-Lua* LootGroupMap::lua = NULL;
+Lua* LootGroupMap::lua = nullptr;
 int LootGroupMap::ERROR_CODE = NO_ERROR;
 String LootGroupMap::currentFilename = "";
 
 LootGroupMap::LootGroupMap() : Logger("LootGroupMap") {
-	lua = NULL;
+	lua = nullptr;
 
-	itemTemplates.setNullValue(NULL);
-	groupTemplates.setNullValue(NULL);
+	itemTemplates.setNullValue(nullptr);
+	groupTemplates.setNullValue(nullptr);
 }
 
 LootGroupMap::~LootGroupMap() {
 	delete lua;
-	lua = NULL;
+	lua = nullptr;
 }
 
 int LootGroupMap::initialize() {
-	if (lua != NULL)
+	if (lua != nullptr)
 		return ERROR_CODE;
 
 	lua = new Lua();
@@ -45,9 +45,9 @@ int LootGroupMap::initialize() {
 }
 
 void LootGroupMap::registerFunctions() {
-	lua_register(lua->getLuaState(), "addLootGroupTemplate", addLootGroupTemplate);
-	lua_register(lua->getLuaState(), "addLootItemTemplate", addLootItemTemplate);
-	lua_register(lua->getLuaState(), "includeFile", includeFile);
+	lua->registerFunction("addLootGroupTemplate", addLootGroupTemplate);
+	lua->registerFunction("addLootItemTemplate", addLootItemTemplate);
+	lua->registerFunction("includeFile", includeFile);
 }
 
 void LootGroupMap::registerGlobals() {

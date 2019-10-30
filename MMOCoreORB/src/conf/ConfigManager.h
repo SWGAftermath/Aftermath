@@ -10,8 +10,6 @@
 #include "engine/engine.h"
 
 namespace conf {
-	using namespace sys::thread;
-
 	class ConfigDataItem {
 		bool asBool;
 		String asString;
@@ -20,7 +18,7 @@ namespace conf {
 		Vector <String>* asStringVector = nullptr;
 		SortedVector <String>* asSortedStringVector = nullptr;
 		Vector <int>* asIntVector = nullptr;
-		int usageCounter = 0;
+		mutable int usageCounter = 0; //this counter is not thread safe but we dont care
 
 	public:
 		ConfigDataItem(lua_Number value);
@@ -31,22 +29,22 @@ namespace conf {
 		ConfigDataItem(Vector <ConfigDataItem *>* value);
 		~ConfigDataItem();
 
-		inline bool getBool() {
+		inline bool getBool() const {
 			usageCounter++;
 			return asBool;
 		}
 
-		inline float getFloat() {
+		inline float getFloat() const {
 			usageCounter++;
 			return (float)asNumber;
 		}
 
-		inline int getInt() {
+		inline int getInt() const {
 			usageCounter++;
 			return (int)asNumber;
 		}
 
-		inline const String& getString() {
+		inline const String& getString() const {
 			usageCounter++;
 			return asString;
 		}
@@ -118,7 +116,7 @@ namespace conf {
 			if (asVector == nullptr)
 				return String(asString);
 
-			Vector<String> elements = getStringVector();
+			const Vector<String>& elements = getStringVector();
 
 			StringBuffer buf;
 
@@ -134,7 +132,7 @@ namespace conf {
 			return buf.toString();
 		}
 
-		inline int getUsageCounter() {
+		inline int getUsageCounter() const {
 			return usageCounter;
 		}
 
@@ -160,12 +158,12 @@ namespace conf {
 		VectorMap<String, ConfigDataItem *> configData;
 
 		// Cached values
-		bool cache_PvpMode;
-		bool cache_ProgressMonitors;
-		bool cache_UnloadContainers;
-		bool cache_UseMetrics;
-		int cache_SessionStatsSeconds;
-		int cache_OnlineLogSize;
+		bool cachedPvpMode = false;
+		bool cachedProgressMonitors = false;
+		bool cachedUnloadContainers = false;
+		bool cachedUseMetrics = false;
+		int cachedSessionStatsSeconds = 1;
+		int cachedOnlineLogSize = 0;
 
 	public:
 		ConfigManager();
@@ -178,7 +176,7 @@ namespace conf {
 		void dumpConfig(bool includeSecure = false);
 		bool testConfig(ConfigManager* configManager);
 
-		uint64 getConfigDataAgeMs() {
+		uint64 getConfigDataAgeMs() const {
 			return configStartTime.elapsedMs();
 		}
 
@@ -225,21 +223,21 @@ namespace conf {
 			return getBool("Core3.DumpObjFiles", true);
 		}
 
-		inline bool shouldUnloadContainers() {
+		inline bool shouldUnloadContainers() const {
 			// Use cached value as this is called often
-			return cache_UnloadContainers;
+			return cachedUnloadContainers;
 		}
 
-		inline bool shouldUseMetrics() {
+		inline bool shouldUseMetrics() const {
 			// On Basilisk this is called 400/s
-			return cache_UseMetrics;
+			return cachedUseMetrics;
 		}
 
-		inline bool getPvpMode() {
+		inline bool getPvpMode() const {
 			// Use cached value as this is a hot item called in:
 			//   CreatureObjectImplementation::isAttackableBy
 			//   CreatureObjectImplementation::isAggressiveTo
-			return cache_PvpMode;
+			return cachedPvpMode;
 		}
 
 		inline bool setPvpMode(bool val) {
@@ -247,7 +245,7 @@ namespace conf {
 				return false;
 
 			// Updated cached value
-			cache_PvpMode = getBool("Core3.PvpMode", val);
+			cachedPvpMode = getBool("Core3.PvpMode", val);
 
 			return true;
 		}
@@ -266,7 +264,7 @@ namespace conf {
 
 		inline bool isProgressMonitorActivated() {
 			// Use cached value as this a hot item called in lots of loops
-			return cache_ProgressMonitors;
+			return cachedProgressMonitors;
 		}
 
 		inline int getDBPort() {
@@ -441,7 +439,7 @@ namespace conf {
 			setBool("Core3.ProgressMonitors", val);
 
 			// Updated cached value
-			cache_ProgressMonitors = getBool("Core3.ProgressMonitors", val);
+			cachedProgressMonitors = getBool("Core3.ProgressMonitors", val);
 		}
 
 		inline const String& getTermsOfService() {
@@ -496,16 +494,16 @@ namespace conf {
 			return getInt("Core3.MaxLogLines", 1000000);
 		}
 
-		inline int getSessionStatsSeconds() {
-			return cache_SessionStatsSeconds;
+		inline int getSessionStatsSeconds() const {
+			return cachedSessionStatsSeconds;
 		}
 
 		inline int getOnlineLogSeconds() {
 			return getInt("Core3.OnlineLogSeconds", 300);
 		}
 
-		inline int getOnlineLogSize() {
-			return cache_OnlineLogSize;
+		inline int getOnlineLogSize() const {
+			return cachedOnlineLogSize;
 		}
 	};
 }

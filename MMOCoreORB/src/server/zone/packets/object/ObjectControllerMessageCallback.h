@@ -22,7 +22,7 @@ public:
 	ObjectControllerMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
 		MessageCallback(client, server), priority(0), type(0), objectID(0) {
 
-		objectControllerCallback = NULL;
+		objectControllerCallback = nullptr;
 	}
 
 	static MessageCallbackFactory<MessageCallback* (ObjectControllerMessageCallback*), uint32>* objectMessageControllerFactory;
@@ -33,15 +33,15 @@ public:
 
 	void run();
 
-	inline uint32 getPriority() {
+	inline uint32 getPriority() const {
 		return priority;
 	}
 
-	inline uint32 getType() {
+	inline uint32 getType() const {
 		return type;
 	}
 
-	inline uint64 getObjectID() {
+	inline uint64 getObjectID() const {
 		return objectID;
 	}
 

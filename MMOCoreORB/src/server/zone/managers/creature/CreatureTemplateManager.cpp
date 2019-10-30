@@ -28,18 +28,18 @@ CreatureTemplateManager::CreatureTemplateManager() : Logger("CreatureTemplateMan
 		lua->setLogging(true);
 	}
 
-	hashTable.setNullValue(NULL);
+	hashTable.setNullValue(nullptr);
 
-	lua_register(lua->getLuaState(), "includeFile", includeFile);
-	lua_register(lua->getLuaState(), "addTemplate", addTemplate);
-	lua_register(lua->getLuaState(), "addWeapon", addWeapon);
-	lua_register(lua->getLuaState(), "addConversationTemplate", addConversationTemplate);
-	lua_register(lua->getLuaState(), "addLairTemplate", addLairTemplate);
-	lua_register(lua->getLuaState(), "addSpawnGroup", addSpawnGroup);
-	lua_register(lua->getLuaState(), "addDestroyMissionGroup", addDestroyMissionGroup);
-	lua_register(lua->getLuaState(), "addPatrolPathTemplate", addPatrolPathTemplate);
-	lua_register(lua->getLuaState(), "addOutfitGroup", addOutfitGroup);
-	lua_register(lua->getLuaState(), "addDressGroup", addDressGroup);
+	lua->registerFunction("includeFile", includeFile);
+	lua->registerFunction("addTemplate", addTemplate);
+	lua->registerFunction("addWeapon", addWeapon);
+	lua->registerFunction("addConversationTemplate", addConversationTemplate);
+	lua->registerFunction("addLairTemplate", addLairTemplate);
+	lua->registerFunction("addSpawnGroup", addSpawnGroup);
+	lua->registerFunction("addDestroyMissionGroup", addDestroyMissionGroup);
+	lua->registerFunction("addPatrolPathTemplate", addPatrolPathTemplate);
+	lua->registerFunction("addOutfitGroup", addOutfitGroup);
+	lua->registerFunction("addDressGroup", addDressGroup);
 
 	lua->setGlobalInt("NONE", CreatureFlag::NONE);
 	lua->setGlobalInt("ATTACKABLE", CreatureFlag::ATTACKABLE);
@@ -134,7 +134,7 @@ int CreatureTemplateManager::loadTemplates() {
 		ret = false;
 	}
 
-	lua = NULL;
+	lua = nullptr;
 
 	if (!ret)
 		ERROR_CODE = GENERAL_ERROR;

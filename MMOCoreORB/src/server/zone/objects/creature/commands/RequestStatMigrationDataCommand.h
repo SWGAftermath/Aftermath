@@ -27,10 +27,10 @@ public:
 		ManagedReference<Facade*> facade = creature->getActiveSession(SessionFacadeType::MIGRATESTATS);
 		ManagedReference<MigrateStatsSession*> session = dynamic_cast<MigrateStatsSession*>(facade.get());
 
-		if (session == NULL) {
+		if (session == nullptr) {
 			session = new MigrateStatsSession(creature);
 
-			DeltaVector<int>* baseHam = creature->getBaseHAM();
+			const DeltaVector<int>* baseHam = creature->getBaseHAM();
 
 			for (int i = 0; i < 9; ++i) {
 				session->setAttributeToModify(i, baseHam->get(i));

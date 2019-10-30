@@ -46,7 +46,7 @@ public:
 		return *this;
 	}
 
-	String toString() {
+	String toString() const {
 		StringBuffer stream;
 		/*stream << "variableName" << " = " << variableName.toString() << "\n";
 		stream << "palettePathName" << " = " << palettePathName.toString() << "\n";
@@ -70,7 +70,7 @@ public:
 
 		Chunk* chunk = iffStream->openChunk('PCNT');
 
-		if (chunk == NULL) {
+		if (chunk == nullptr) {
 			//std::cout << "could not open pcnt\n";
 			return false;
 		}
@@ -102,7 +102,7 @@ public:
 	}
 
 
-	inline String getPaletteFileName() {
+	inline const String& getPaletteFileName() const {
 		return palettePathName.get();
 	}
 
@@ -110,7 +110,7 @@ public:
 		return address->parseFromString(value, version);
 	}*/
 
-	String getVariableName() {
+	const String& getVariableName() const {
 		return variableName.get();
 	}
 

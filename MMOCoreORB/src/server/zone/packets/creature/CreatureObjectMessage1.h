@@ -11,16 +11,16 @@
 
 class CreatureObjectMessage1 : public BaseLineMessage {
 public:
-	CreatureObjectMessage1(CreatureObject* creo)
-			: BaseLineMessage(creo->getObjectID(), 0x4352454F, 1, 0x04) {
+	CreatureObjectMessage1(const CreatureObject* creo)
+			: BaseLineMessage(creo, 0x4352454F, 1, 0x04) {
 		insertInt(creo->getBankCredits());
 		insertInt(creo->getCashCredits());
 
 		// Base HAM
-		DeltaVector<int>* baseHam = creo->getBaseHAM();
+		const DeltaVector<int>* baseHam = creo->getBaseHAM();
 		baseHam->insertToMessage(this);
 
-		SkillList* skillList = creo->getSkillList();
+		const SkillList* skillList = creo->getSkillList();
 		skillList->insertToMessage(this);
 
 		setSize();

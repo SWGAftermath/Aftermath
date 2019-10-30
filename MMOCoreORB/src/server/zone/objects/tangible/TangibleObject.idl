@@ -101,6 +101,7 @@ class TangibleObject extends SceneObject {
 		luaStringData.setNoDuplicateInsertPlan();
 	}
 
+	@dirty
 	public void initializeMembers() {
 		faction = 0;
 		factionStatus = 0;
@@ -132,13 +133,15 @@ class TangibleObject extends SceneObject {
 	 * Adds this object's skill mod map to the target object's skill mod map
 	 * @param targetObject The targeted object containing the SkillModMap which will be affected.
 	 */
-	@local
+	@read
 	public abstract native void addTemplateSkillMods(TangibleObject targetObject);
 
+	@read
 	public abstract void applySkillModsTo(CreatureObject creature) {
 
 	}
 
+	@dirty
 	public abstract void removeSkillModsFrom(CreatureObject creature) {
 
 	}
@@ -160,10 +163,12 @@ class TangibleObject extends SceneObject {
 	 * @param targetObject the targeted object containing the SkillModMap which will be affected.
 	 */
 	@local
+	@dirty
 	public abstract native void removeTemplateSkillMods(TangibleObject tangibleObject);
 
+	@read
 	@local
-	public native VectorMap<string, int> getTemplateSkillMods();
+	public final native VectorMap<string, int> getTemplateSkillMods();
 
 	/**
 	 * Reads and sets the template data from a SharedTangibleObjectTemplate LuaObject
@@ -172,6 +177,7 @@ class TangibleObject extends SceneObject {
 	 * @param templateData templateData points to the SharedTangibleObjectTemplate LuaObject that is used to initialize the TangibleObject members
 	 */
 	@local
+	@dirty
 	public native void loadTemplateData(SharedObjectTemplate templateData);
 
 	/**
@@ -179,6 +185,7 @@ class TangibleObject extends SceneObject {
 	 * @pre {transient members are not initialized }
 	 * @post { transient members are initialized }
 	 */
+	@dirty
 	public native void initializeTransientMembers();
 
 	/**
@@ -194,7 +201,7 @@ class TangibleObject extends SceneObject {
 	 * @post { this locked }
 	 */
 	@local
-	public native void setObjectName(@dereferenced StringId stringID, boolean notifyClient);
+	public native void setObjectName(@dereferenced final StringId stringID, boolean notifyClient);
 
 	/**
 	 * Updates the custom name of the object
@@ -425,7 +432,7 @@ class TangibleObject extends SceneObject {
 	public native void removeAllVisibleComponents(boolean notifyClient = true);
 
 	@preLocked
-	@dirty
+	@read
 	public boolean hasVisibleComponent(int value) {
 		return visibleComponents.contains(value);
 	}
@@ -453,7 +460,7 @@ class TangibleObject extends SceneObject {
 	@preLocked
 	public native void dropFromDefenderLists();
 
-	@dirty
+	@read
 	public byte getObjectVisible() {
 		return objectVisible;
 	}
@@ -494,24 +501,24 @@ class TangibleObject extends SceneObject {
 		return customizationVariables;
 	}
 
-	@dirty
+	@read
 	public abstract int getUseCount() {
 		return useCount;
 	}
 
-	@dirty
+	@read
 	public int getMaxCondition() {
 		return maxCondition;
 	}
 
 	public native void setMaxCondition(int maxCond, boolean notifyClient = true);
 
-	@dirty
+	@read
 	public int getConditionDamage() {
 		return (int)conditionDamage;
 	}
 
-	@dirty
+	@read
 	public int getVolume() {
 		return volume;
 	}
@@ -520,12 +527,12 @@ class TangibleObject extends SceneObject {
 		complexity = value;
 	}
 
-	@dirty
+	@read
 	public float getComplexity() {
 		return complexity;
 	}
 
-	@dirty
+	@read
 	public unsigned int getOptionsBitmask() {
 		return optionsBitmask;
 	}
@@ -540,17 +547,17 @@ class TangibleObject extends SceneObject {
 			clearOptionBit(OptionBitmask.YELLOW, notifyClient);
 	}
 
-	@dirty
+	@read
 	public int getLevel() {
 		return level;
 	}
 
-	@dirty
+	@read
 	public boolean getIsCraftedEnhancedItem() {
 		return isCraftedEnhancedItem;
 	}
 
-	@dirty
+	@read
 	public unsigned int getPvpStatusBitmask() {
 		return pvpStatusBitmask;
 	}
@@ -560,24 +567,24 @@ class TangibleObject extends SceneObject {
 		return true;
 	}
 
-	@dirty
+	@read
 	public void getCustomizationString(string variables) {
 		customizationVariables.getData(variables);
 	}
 
 	@local
-	@dirty
-	@preLocked
-	public DeltaVector<SceneObject> getDefenderList() {
+	@read
+	public final DeltaVector<SceneObject> getDefenderList() {
 		return defenderList;
 	}
 
 	@local
-	public AutoDeltaSet<int> getVisibleComponents() {
+	@read
+	public final AutoDeltaSet<int> getVisibleComponents() {
 		return visibleComponents;
 	}
 
-	@dirty
+	@read
 	public SceneObject getMainDefender() {
 		if(defenderList.size() > 0)
 			return defenderList.get(0);
@@ -720,20 +727,22 @@ class TangibleObject extends SceneObject {
 	@reference
 	public native FactoryCrate createFactoryCrate(int maxSize, boolean insertSelf = false);
 
+	@dirty
 	public native boolean canRepair(CreatureObject player);
 
 	public native void repair(CreatureObject player);
 
+	@dirty
 	public abstract string repairAttempt(int repairChance) {
 		return "Repairing is not implemented for this item";
 	}
 
-	@dirty
+	@read
 	public boolean isBroken() {
 		return maxCondition < 2 || getConditionDamage() >= getMaxCondition();
 	}
 
-	@dirty
+	@read
 	protected float getConditionReduction(float value) {
 		if(isBroken())
 			return 0.5 * value;
@@ -747,7 +756,7 @@ class TangibleObject extends SceneObject {
 		return reductionPercent * value;
 	}
 
-	@dirty
+	@read
 	public abstract float getHitChance(){
 		return 0;
 	}
@@ -812,6 +821,7 @@ class TangibleObject extends SceneObject {
 		return null;
 	}
 
+	@read
 	public boolean hasAntiDecayKit() {
 		return antiDecayKitObject != null;
 	}
@@ -838,8 +848,13 @@ class TangibleObject extends SceneObject {
 		return null;
 	}
 
+	@read
 	public native boolean isCityStreetLamp();
+
+	@read
 	public native boolean isCityStatue();
+
+	@read
 	public native boolean isCityFountain();
 
 	@read
@@ -870,12 +885,14 @@ class TangibleObject extends SceneObject {
 		luaStringData.drop(key);
 	}
 
-	@dirty
+	@read
 	public string getLuaStringData(final string key) {
 		return luaStringData.get(key);
 	}
 
 	public native void setDisabled(boolean disabled);
+
+	@read
 	public native boolean isDisabled();
 
 	@dirty

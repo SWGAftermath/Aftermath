@@ -9,9 +9,12 @@
 #define LOOTGROUPMAP_H_
 
 class LootItemTemplate;
+
 #include "templates/LootGroupTemplate.h"
+
 #include "engine/log/Logger.h"
 #include "engine/util/Singleton.h"
+#include "engine/lua/Lua.h"
 
 class LootGroupMap : public Singleton<LootGroupMap>, public Object, public Logger {
 public:
@@ -36,23 +39,23 @@ public:
 		groupTemplates.put(name, group);
 	}
 
-	LootGroupTemplate* getLootGroupTemplate(const String& name) {
+	const LootGroupTemplate* getLootGroupTemplate(const String& name) const {
 		return groupTemplates.get(name);
 	}
 
-	LootItemTemplate* getLootItemTemplate(const String& name) {
+	const LootItemTemplate* getLootItemTemplate(const String& name) const {
 		return itemTemplates.get(name);
 	}
 
-	inline int countLootItemTemplates() {
+	inline int countLootItemTemplates() const {
 		return itemTemplates.size();
 	}
 
-	inline int countLootGroupTemplates() {
+	inline int countLootGroupTemplates() const {
 		return groupTemplates.size();
 	}
 
-	bool lootGroupExists(const String& group) {
+	bool lootGroupExists(const String& group) const {
 		return groupTemplates.containsKey(group);
 	}
 

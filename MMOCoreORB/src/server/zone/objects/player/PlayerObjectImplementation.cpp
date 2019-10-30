@@ -106,45 +106,33 @@ PlayerObject* PlayerObjectImplementation::asPlayerObject() {
 }
 
 PlayerObject* PlayerObject::asPlayerObject() {
-	    return this;
-}
-
-void PlayerObjectImplementation::info(const String& msg, bool force) {
-	getZoneServer()->getPlayerManager()->writePlayerLog(asPlayerObject(), msg, Logger::LogLevel::INFO);
-}
-
-void PlayerObjectImplementation::debug(const String& msg) {
-	getZoneServer()->getPlayerManager()->writePlayerLog(asPlayerObject(), msg, Logger::LogLevel::DEBUG);
-}
-
-void PlayerObjectImplementation::error(const String& msg) {
-	getZoneServer()->getPlayerManager()->writePlayerLog(asPlayerObject(), msg, Logger::LogLevel::ERROR);
+	return this;
 }
 
 void PlayerObjectImplementation::checkPendingMessages() {
-    ObjectManager *objectManager = ObjectManager::instance();
-    ManagedReference<PendingMessageList*> messageList = getZoneServer()->getChatManager()->getPendingMessages(parent.getSavedObjectID());
+	ObjectManager *objectManager = ObjectManager::instance();
+	ManagedReference<PendingMessageList*> messageList = getZoneServer()->getChatManager()->getPendingMessages(parent.getSavedObjectID());
 
-    if (messageList != nullptr) {
-        Locker locker(messageList);
-        Vector<uint64>& pendingMessages = *messageList->getPendingMessages();
-        
-        for (uint64 messageID : pendingMessages) {
-            ManagedReference<PersistentMessage*> mail = Core::getObjectBroker()->lookUp(messageID).castTo<PersistentMessage*>();
+	if (messageList != nullptr) {
+		Locker locker(messageList);
+		Vector<uint64>& pendingMessages = *messageList->getPendingMessages();
 
-            if (mail != nullptr && isIgnoring(mail->getSenderName())) {
-                objectManager->destroyObjectFromDatabase(mail->getObjectID());
-                continue;
-            }
+		for (uint64 messageID : pendingMessages) {
+			ManagedReference<PersistentMessage*> mail = Core::getObjectBroker()->lookUp(messageID).castTo<PersistentMessage*>();
 
-            persistentMessages.put(messageID);
-        }
-        messageList->clearPendingMessages();
-    }
+			if (mail != nullptr && isIgnoring(mail->getSenderName())) {
+				objectManager->destroyObjectFromDatabase(mail->getObjectID());
+				continue;
+			}
+
+			persistentMessages.put(messageID);
+		}
+
+		messageList->clearPendingMessages();
+	}
 }
 
 void PlayerObjectImplementation::initializeAccount() {
-
 	if (accountID == 0) {
 		CreatureObject* creature = dynamic_cast<CreatureObject*>(parent.get().get());
 
@@ -161,11 +149,10 @@ void PlayerObjectImplementation::initializeAccount() {
 		account = AccountManager::getAccount(accountID);
 
 	if (account != nullptr && galaxyAccountInfo == nullptr) {
-
 		Locker locker(account);
-		
+
 		galaxyAccountInfo = account->getGalaxyAccountInfo(getZoneServer()->getGalaxyName());
-		
+
 		if (chosenVeteranRewards.size() > 0) {
 			//galaxyAccountInfo->updateVetRewardsFromPlayer(chosenVeteranRewards);
 			chosenVeteranRewards.removeAll();
@@ -204,6 +191,21 @@ void PlayerObjectImplementation::loadTemplateData(SharedObjectTemplate* template
 	experienceList.setNullValue(0);
 
 	permissionGroups = *(sply->getPlayerDefaultGroupPermissions());
+
+	auto zoneServer = ServerCore::getZoneServer();
+
+	if (zoneServer != nullptr) {
+		setLoggerCallback([playerObject = asPlayerObject(), manager = WeakReference<PlayerManager*>(zoneServer->getPlayerManager())]
+				(Logger::LogLevel level, const char* msg) -> int {
+			auto playerManager = manager.get();
+
+			if (playerManager != nullptr) {
+				playerManager->writePlayerLog(playerObject, msg, level);
+			}
+
+			return Logger::SUCCESS;
+		});
+	}
 }
 
 void PlayerObjectImplementation::notifyLoadFromDatabase() {
@@ -237,10 +239,9 @@ void PlayerObjectImplementation::unloadSpawnedChildren() {
 		}
 	}
 
-	StoreSpawnedChildrenTask* task = new StoreSpawnedChildrenTask(creo, childrenToStore);
+	StoreSpawnedChildrenTask* task = new StoreSpawnedChildrenTask(creo, std::move(childrenToStore));
 	task->execute();
 }
-
 
 void PlayerObjectImplementation::unload() {
 	info("unloading player");
@@ -509,23 +510,23 @@ bool PlayerObjectImplementation::setCharacterBit(uint32 bit, bool notifyClient) 
 		return false;
 }
 
-bool PlayerObjectImplementation::isAnonymous()  {
+bool PlayerObjectImplementation::isAnonymous() const {
 	return (characterBitmask & ((uint32)ANONYMOUS)) != 0;
 }
 
-bool PlayerObjectImplementation::isAFK()  {
+bool PlayerObjectImplementation::isAFK() const {
 	return (characterBitmask & ((uint32)AFK)) != 0;
 }
 
-bool PlayerObjectImplementation::isRoleplayer()  {
+bool PlayerObjectImplementation::isRoleplayer() const {
 	return (characterBitmask & ((uint32)ROLEPLAYER)) != 0;
 }
 
-bool PlayerObjectImplementation::isNewbieHelper()  {
+bool PlayerObjectImplementation::isNewbieHelper() const {
 	return (characterBitmask & ((uint32)NEWBIEHELPER)) != 0;
 }
 
-bool PlayerObjectImplementation::isLFG()  {
+bool PlayerObjectImplementation::isLFG() const {
 	return (characterBitmask & ((uint32)LFG)) != 0;
 }
 
@@ -739,7 +740,7 @@ void PlayerObjectImplementation::removeWaypointBySpecialType(int specialTypeID, 
 
 }
 
-WaypointObject* PlayerObjectImplementation::getWaypointBySpecialType(int specialTypeID) {
+WaypointObject* PlayerObjectImplementation::getWaypointBySpecialType(int specialTypeID) const {
 	uint64 waypointID = waypointList.getWaypointBySpecialType(specialTypeID);
 	if (waypointID != 0) {
 		return waypointList.get(waypointID);
@@ -747,7 +748,7 @@ WaypointObject* PlayerObjectImplementation::getWaypointBySpecialType(int special
 	return nullptr;
 }
 
-WaypointObject* PlayerObjectImplementation::getSurveyWaypoint() {
+WaypointObject* PlayerObjectImplementation::getSurveyWaypoint() const {
 	return getWaypointBySpecialType(WaypointObject::SPECIALTYPE_RESOURCE);
 }
 
@@ -957,7 +958,7 @@ void PlayerObjectImplementation::removeSchematics(Vector<ManagedReference<DraftS
 	if(player == nullptr)
 		return;
 
-	SkillList* playerSkillBoxList = player->getSkillList();
+	const SkillList* playerSkillBoxList = player->getSkillList();
 
 	for(int i = 0; i < playerSkillBoxList->size(); ++i) {
 		Skill* skillBox = playerSkillBoxList->get(i);
@@ -1871,8 +1872,8 @@ void PlayerObjectImplementation::doRecovery(int latency) {
 	if (isOnline()) {
 		CommandQueueActionVector* commandQueue = creature->getCommandQueue();
 
-		if (creature->isInCombat() && creature->getTargetID() != 0 && !creature->isPeaced() && 
-			!creature->hasBuff(STRING_HASHCODE("private_feign_buff")) && (commandQueue->size() == 0) && 
+		if (creature->isInCombat() && creature->getTargetID() != 0 && !creature->isPeaced() &&
+			!creature->hasBuff(STRING_HASHCODE("private_feign_buff")) && (commandQueue->size() == 0) &&
 			creature->isNextActionPast() && !creature->isDead() && !creature->isIncapacitated() &&
 			cooldownTimerMap->isPast("autoAttackDelay")) {
 
@@ -1904,7 +1905,7 @@ void PlayerObjectImplementation::doRecovery(int latency) {
 		miliSecsSession += latency;
 		sessionStatsMiliSecs += latency;
 
-		if (sessionStatsMiliSecs >= ConfigManager::instance()->getSessionStatsSeconds() * 1000)
+		if (sessionStatsMiliSecs >= ConfigManager::instance()->getSessionStatsSeconds() * 1000ull)
 			logSessionStats(false);
 	}
 
@@ -2256,9 +2257,9 @@ void PlayerObjectImplementation::setForcePower(int fp, bool notifyClient) {
 	if(fp == getForcePower())
 		return;
 
-	// Set forcepower back to 0 incase player goes below	
+	// Set forcepower back to 0 incase player goes below
 	if (fp < 0)
-		fp = 0;	
+		fp = 0;
 
 	// Set force back to max incase player goes over
 	if (fp > getForcePowerMax())
@@ -2270,7 +2271,7 @@ void PlayerObjectImplementation::setForcePower(int fp, bool notifyClient) {
 		activateForcePowerRegen();
 	}
 
-	forcePower = fp;			
+	forcePower = fp;
 
 	if (notifyClient == true){
 		// Update the force power bar.
@@ -2316,15 +2317,15 @@ void PlayerObjectImplementation::clearScreenPlayData(const String& screenPlay) {
 	}
 }
 
-Time PlayerObjectImplementation::getLastVisibilityUpdateTimestamp() {
+Time PlayerObjectImplementation::getLastVisibilityUpdateTimestamp() const {
 	return lastVisibilityUpdateTimestamp;
 }
 
-Time PlayerObjectImplementation::getLastBhPvpCombatActionTimestamp() {
+Time PlayerObjectImplementation::getLastBhPvpCombatActionTimestamp() const {
 	return lastBhPvpCombatActionTimestamp;
 }
 
-Time PlayerObjectImplementation::getLastGcwPvpCombatActionTimestamp() {
+Time PlayerObjectImplementation::getLastGcwPvpCombatActionTimestamp() const {
 	return lastGcwPvpCombatActionTimestamp;
 }
 
@@ -2388,11 +2389,11 @@ void PlayerObjectImplementation::updateLastJediPvpCombatActionTimestamp() {
 	updateLastPvpCombatActionTimestamp(false, false, true);
 }
 
-bool PlayerObjectImplementation::hasPvpTef() {
+bool PlayerObjectImplementation::hasPvpTef() const{
 	return !lastGcwPvpCombatActionTimestamp.isPast() || hasBhTef() || hasJediTef();
 }
 
-bool PlayerObjectImplementation::hasBhTef() {
+bool PlayerObjectImplementation::hasBhTef() const {
 	return !lastBhPvpCombatActionTimestamp.isPast();
 }
 
@@ -2668,7 +2669,7 @@ int PlayerObjectImplementation::getSpentJediSkillPoints() {
 
 	int jediSkillPoints = 0;
 
-	SkillList* skillList = player->getSkillList();
+	const SkillList* skillList = player->getSkillList();
 
 	for(int i = 0; i < skillList->size(); ++i) {
 		Skill* jediSkill = skillList->get(i);
@@ -2865,7 +2866,7 @@ int PlayerObjectImplementation::getCharacterAgeInDays() {
 	return days;
 }
 
-bool PlayerObjectImplementation::hasEventPerk(const String& templatePath) {
+bool PlayerObjectImplementation::hasEventPerk(const String& templatePath) const {
 	ZoneServer* zoneServer = server->getZoneServer();
 	ManagedReference<SceneObject*> eventPerk = nullptr;
 
@@ -2913,7 +2914,7 @@ void PlayerObjectImplementation::doFieldFactionChange(int newStatus) {
 	parent->sendMessage(inputbox->generateMessage());
 }
 
-bool PlayerObjectImplementation::isIgnoring(const String& name) {
+bool PlayerObjectImplementation::isIgnoring(const String& name) const {
 	return !name.isEmpty() && ignoreList.contains(name);
 }
 
@@ -2977,7 +2978,7 @@ void PlayerObjectImplementation::recalculateForcePower() {
 	setForcePowerMax(maxForce, true);
 }
 
-String PlayerObjectImplementation::getMiliSecsTimeString(uint64 miliSecs, bool verbose) {
+String PlayerObjectImplementation::getMiliSecsTimeString(uint64 miliSecs, bool verbose) const {
 	uint64 ss = miliSecs / 1000;
 
 	int dd = ss / 86400;
@@ -3018,7 +3019,7 @@ String PlayerObjectImplementation::getMiliSecsTimeString(uint64 miliSecs, bool v
 	return buf.toString();
 }
 
-String PlayerObjectImplementation::getPlayedTimeString(bool verbose) {
+String PlayerObjectImplementation::getPlayedTimeString(bool verbose) const {
 	StringBuffer buf;
 
 	if (verbose) {

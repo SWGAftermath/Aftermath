@@ -56,6 +56,7 @@ class WearableObject extends TangibleObject {
 
 	public native void applyAttachment(CreatureObject player, Attachment attachment);
 
+	@read
 	public abstract native void applySkillModsTo(CreatureObject creature);
 
 	public abstract native void removeSkillModsFrom(CreatureObject creature);
@@ -90,6 +91,12 @@ class WearableObject extends TangibleObject {
 
 	@local
 	public VectorMap<string, int> getWearableSkillMods() {
+		return wearableSkillMods;
+	}
+
+	@local
+	@read
+	public final VectorMap<string, int> getWearableSkillMods() {
 		return wearableSkillMods;
 	}
 

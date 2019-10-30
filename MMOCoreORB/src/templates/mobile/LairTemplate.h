@@ -38,7 +38,7 @@ public:
 	LairTemplate(const String& templateName) {
 		spawnLimit = 0;
 		buildings.setAllowDuplicateInsertPlan();
-		buildings.setNullValue(NULL);
+		buildings.setNullValue(nullptr);
 		faction = 0;
 		mobType = CREATURE;
 		buildingType = LAIR;
@@ -49,34 +49,34 @@ public:
 	virtual ~LairTemplate() {
 	}
 
-	String getBuilding(uint32 difficulty) {
+	String getBuilding(uint32 difficulty) const {
 		if (buildingType == NONE)
 			return String();
 
-		Vector<String>* objects = NULL;
+		const Vector<String>* objects = nullptr;
 
 		objects = buildings.get(difficulty);
 
-		if (objects == NULL) {
-			for (int i = 0; i < buildings.size() && objects == NULL; ++i) {
+		if (objects == nullptr) {
+			for (int i = 0; i < buildings.size() && objects == nullptr; ++i) {
 				objects = buildings.elementAt(i).getValue();
 			}
 		}
 
-		if (objects != NULL && objects->size() > 0)
+		if (objects != nullptr && objects->size() > 0)
 			return objects->get(System::random(objects->size() - 1));
 		else
 			return String();
 	}
 
-	String getMissionBuilding(uint32 difficulty) {
+	String getMissionBuilding(uint32 difficulty) const {
 		if (!missionBuilding.isEmpty() || difficulty > VERYHARD)
 			return missionBuilding;
 
 		return getBuilding(difficulty);
 	}
 
-	Vector<String>* getBuildings( int difficulty ){
+	const Vector<String>* getBuildings(int difficulty) const {
 		return buildings.get((uint32)difficulty);
 	}
 
@@ -148,7 +148,7 @@ public:
 		LuaObject veryEasy = templateData->getObjectField("buildingsVeryEasy");
 		Vector<String>* buildings = this->buildings.get((uint32)VERYEASY);
 
-		if (buildings == NULL) {
+		if (buildings == nullptr) {
 			buildings = new Vector<String>();
 			this->buildings.put(VERYEASY, buildings);
 		}
@@ -162,7 +162,7 @@ public:
 		LuaObject easy = templateData->getObjectField("buildingsEasy");
 		buildings = this->buildings.get((uint32)EASY);
 
-		if (buildings == NULL) {
+		if (buildings == nullptr) {
 			buildings = new Vector<String>();
 			this->buildings.put(EASY, buildings);
 		}
@@ -177,7 +177,7 @@ public:
 
 		buildings = this->buildings.get((uint32)MEDIUM);
 
-		if (buildings == NULL) {
+		if (buildings == nullptr) {
 			buildings = new Vector<String>();
 			this->buildings.put(MEDIUM, buildings);
 		}
@@ -192,7 +192,7 @@ public:
 
 		buildings = this->buildings.get((uint32)HARD);
 
-		if (buildings == NULL) {
+		if (buildings == nullptr) {
 			buildings = new Vector<String>();
 			this->buildings.put(HARD, buildings);
 		}
@@ -207,7 +207,7 @@ public:
 
 		buildings = this->buildings.get((uint32)VERYHARD);
 
-		if (buildings == NULL) {
+		if (buildings == nullptr) {
 			buildings = new Vector<String>();
 			this->buildings.put((uint32)VERYHARD, buildings);
 		}
@@ -223,23 +223,23 @@ public:
 		}
 	}
 
-	int getSpawnLimit() {
+	int getSpawnLimit() const {
 		return spawnLimit;
 	}
 
-	VectorMap<String, int>* getMobiles() {
+	const VectorMap<String, int>* getMobiles() const {
 		return &mobiles;
 	}
 
-	Vector<String>* getWeightedMobiles() {
+	const Vector<String>* getWeightedMobiles() const {
 		return &weightedMobiles;
 	}
 
-	VectorMap<String, int>* getBossMobiles() {
+	const VectorMap<String, int>* getBossMobiles() const {
 		return &bossMobiles;
 	}
 
-	bool hasBossMobs() {
+	bool hasBossMobs() const {
 		return bossMobiles.size() > 0;
 	}
 
@@ -247,19 +247,19 @@ public:
 		return true;
 	}
 
-	String& getName() {
+	const String& getName() const {
 		return name;
 	}
 
-	unsigned int getFaction() {
+	unsigned int getFaction() const {
 		return faction;
 	}
 
-	MobType getMobType() {
+	MobType getMobType() const {
 		return mobType;
 	}
 
-	BuildingType getBuildingType() {
+	BuildingType getBuildingType() const {
 		return buildingType;
 	}
 };

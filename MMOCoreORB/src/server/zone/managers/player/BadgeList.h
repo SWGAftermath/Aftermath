@@ -3,10 +3,10 @@
 
 #include "server/zone/objects/player/badges/Badge.h"
 
-class BadgeList : public Singleton<BadgeList>, Logger, public Object {
+class BadgeList : public Singleton<BadgeList>, public Logger, public Object {
 	// idx to Badge
 	VectorMap<unsigned int, const Badge*> badges;
-	
+
 	// Name to badge
 	HashTable<String, const Badge*> names;
 
@@ -22,7 +22,7 @@ public:
 
 	/*
 	 * Get a badge by name
-         * returns NULL if the name wasn't found
+         * returns nullptr if the name wasn't found
 	 */
 	inline const Badge* get(const String& name) {
 		return names.get(name);
@@ -30,7 +30,7 @@ public:
 
 	/*
          * Get a badge by index
-	 * return NULLe if the name wasn't found
+	 * return nullptre if the name wasn't found
 	 */
 	inline const Badge* get(unsigned int idx) {
 		return badges.get(idx);
@@ -39,7 +39,7 @@ public:
 	/*
 	 * Returns the (idx, Badge*) vector map
 	 */
-	inline VectorMap<unsigned int, const Badge*>* getMap() {
+	inline const VectorMap<unsigned int, const Badge*>* getMap() const {
 		return &badges;
 	}
 

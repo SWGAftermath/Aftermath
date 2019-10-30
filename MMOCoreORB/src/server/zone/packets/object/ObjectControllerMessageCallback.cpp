@@ -9,50 +9,38 @@
 
 #include "ObjectControllerMessageCallback.h"
 
-MessageCallbackFactory<MessageCallback* (ObjectControllerMessageCallback*), uint32>* ObjectControllerMessageCallback::objectMessageControllerFactory = NULL;
+MessageCallbackFactory<MessageCallback* (ObjectControllerMessageCallback*), uint32>* ObjectControllerMessageCallback::objectMessageControllerFactory = nullptr;
 
 void ObjectControllerMessageCallback::parse(Message* message) {
 	priority = message->parseInt();
 	type = message->parseInt();
 
-	/*StringBuffer priorityMsg;
-	priorityMsg << "received objc with priority 0x" << hex << priority;
-	client->getPlayer()->info(priorityMsg.toString(), true);*/
+	client->debug() << "received objc with priority 0x" << hex << priority;
 
 	objectID = message->parseLong();
 
-	if (client != NULL) {
-		StringBuffer objectCtrl;
-		objectCtrl << "parsing objc type 0x" << hex << type;
-		client->debug(objectCtrl.toString());
+	if (client != nullptr) {
+		client->debug() << "parsing objc type 0x" << hex << type;
 	}
 
 	objectControllerCallback = objectMessageControllerFactory->createObject(type, this);
 
-	if (objectControllerCallback == NULL) {
-		StringBuffer msg;
-		msg << "unregistered 0x" << hex << type << " object controller message received";
+	if (objectControllerCallback == nullptr) {
+		client->error() << "unregistered 0x" << hex << type << " object controller message received";
 
-		//CreatureObject* player = client->getPlayer();
-		client->error(msg.toString());
 		return;
 	}
-	
+
 	const auto& newTaskQueue = objectControllerCallback->getCustomTaskQueue();
-	
-	if (newTaskQueue.length()) {
+
+	if (!newTaskQueue.isEmpty()) {
 		setCustomTaskQueue(newTaskQueue);
 	}
-	
+
 	try {
-
-		/*StringBuffer objectCtrl;
-		objectCtrl << "parsing objc type 0x" << hex << type;
-		client->getPlayer()->info(objectCtrl.toString(), true);*/
-
 		objectControllerCallback->parse(message);
 
-	} catch (Exception& e) {
+	} catch (const Exception& e) {
 		System::out << "exception parsing ObjectControllerMessage" << e.getMessage();
 		e.printStackTrace();
 
@@ -61,12 +49,12 @@ void ObjectControllerMessageCallback::parse(Message* message) {
 }
 
 void ObjectControllerMessageCallback::run() {
-	if (client == NULL)
+	if (client == nullptr)
 		return;
 
 	ManagedReference<CreatureObject*> player = client->getPlayer();
 
-	if (player == NULL || objectControllerCallback == NULL)
+	if (player == nullptr || objectControllerCallback == nullptr)
 		return;
 
 	Locker _locker(player);
@@ -83,7 +71,7 @@ void ObjectControllerMessageCallback::run() {
 }
 
 const char* ObjectControllerMessageCallback::getTaskName() {
-	if (objectControllerCallback != NULL && (objectControllerCallback != this)) {
+	if (objectControllerCallback != nullptr && (objectControllerCallback != this)) {
 		return objectControllerCallback->getTaskName();
 	} else {
 		return Task::getTaskName();

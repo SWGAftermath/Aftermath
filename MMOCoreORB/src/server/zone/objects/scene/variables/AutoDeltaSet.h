@@ -50,10 +50,10 @@ public:
 		j["updateCounter"] = set.updateCounter;
 	}
 
-	virtual void add(const K& key, DeltaMessage* message = NULL, int updates = 1) {
+	virtual void add(const K& key, DeltaMessage* message = nullptr, int updates = 1) {
 		set.add(key);
 
-		if (message != NULL) {
+		if (message != nullptr) {
 			if (updates != 0)
 				message->startList(updates, updateCounter += updates);
 
@@ -64,13 +64,13 @@ public:
 		}
 	}
 
-	virtual bool drop(const K& key, DeltaMessage* message = NULL, int updates = 1) {
+	virtual bool drop(const K& key, DeltaMessage* message = nullptr, int updates = 1) {
 		if (!set.contains(key))
 			return false;
 
 		set.remove(key);
 
-		if (message != NULL) {
+		if (message != nullptr) {
 			if (updates != 0)
 				message->startList(updates, updateCounter += updates);
 
@@ -83,16 +83,16 @@ public:
 		return true;
 	}
 
-	virtual void removeAll(DeltaMessage* msg = NULL) {
+	virtual void removeAll(DeltaMessage* msg = nullptr) {
 		set.removeAll();
 
-		if (msg != NULL) {
+		if (msg != nullptr) {
 			msg->startList(1, ++updateCounter);
 			msg->insertByte(2);
 		}
 	}
 
-	virtual void insertToMessage(BaseMessage* msg) {
+	virtual void insertToMessage(BaseMessage* msg) const {
 		msg->insertInt(size());
 		msg->insertInt(getUpdateCounter());
 
@@ -105,19 +105,19 @@ public:
 		}
 	}
 
-	inline bool contains(const K& key) {
+	inline bool contains(const K& key) const {
 		return set.contains(key);
 	}
 
-	inline int size() {
+	inline int size() const {
 		return set.size();
 	}
 
-	inline uint32 getUpdateCounter() {
+	inline uint32 getUpdateCounter() const {
 		return updateCounter;
 	}
 
-	inline HashSetIterator<K> getIterator() {
+	inline HashSetIterator<K> getIterator() const {
 		return set.iterator();
 	}
 };

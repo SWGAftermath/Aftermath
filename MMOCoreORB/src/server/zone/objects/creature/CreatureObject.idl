@@ -34,6 +34,7 @@ include server.zone.objects.creature.variables.WearablesDeltaVector;
 import system.lang.Long;
 import engine.service.proto.BasePacket;
 import system.thread.Mutex;
+import system.thread.ReadWriteLock;
 import server.zone.objects.creature.credits.CreditObject;
 include engine.util.u3d.Vector3;
 include system.util.SortedVector;
@@ -142,7 +143,7 @@ class CreatureObject extends TangibleObject {
 	protected SkillModList skillModList;
 
 	@dereferenced
-	protected transient Mutex skillModMutex;
+	protected transient ReadWriteLock skillModMutex;
 
 	@transactional
 	protected transient CommandQueueActionVector commandQueue;
@@ -251,10 +252,6 @@ class CreatureObject extends TangibleObject {
 	 * @post { transient members are initialized }
 	 */
 	public native void initializeTransientMembers();
-
-	public native void info(final string msg, boolean force = false);
-	public native void debug(final string msg);
-	public native void error(final string msg);
 
 	@preLocked
 	public abstract void setCountdownTimer(unsigned int newCount, boolean notifyClient = true) {
@@ -720,8 +717,8 @@ class CreatureObject extends TangibleObject {
 	public native void removeWearableObject(TangibleObject object, boolean notifyClient = true);
 
 	@local
-	@dirty
-	public WearablesDeltaVector getWearablesDeltaVector() {
+	@read
+	public final WearablesDeltaVector getWearablesDeltaVector() {
 		return wearablesVector;
 	}
 
@@ -1522,52 +1519,52 @@ class CreatureObject extends TangibleObject {
 		return creditObject.getCashCredits();
 	}
 
-	@dirty
+	@read
 	public int getBaseHAM(int idx) {
 		return baseHAM.get(idx);
 	}
 
-	@dirty
+	@read
 	public int getWounds(int idx) {
 		return wounds.get(idx);
 	}
 
 	@local
-	@dirty
-	public DeltaVector<int> getWounds() {
+	@read
+	public final DeltaVector<int> getWounds() {
 		return wounds;
 	}
 
-	@dirty
+	@read
 	public int getHAM(int idx) {
 		return hamList.get(idx);
 	}
 
-	@dirty
+	@read
 	@local
-	public DeltaVector<int> getHAM() {
+	public final DeltaVector<int> getHAM() {
 		return hamList;
 	}
 
-	@dirty
+	@read
 	public int getMaxHAM(int idx) {
 		return maxHamList.get(idx);
 	}
 
 	@local
-	@dirty
-	public DeltaVector<int> getMaxHAM() {
+	@read
+	public final DeltaVector<int> getMaxHAM() {
 		return maxHamList;
 	}
 
-	@dirty
+	@read
 	public int getEncumbrance(int idx) {
 		return encumbrances.get(idx);
 	}
 
 	@local
-	@dirty
-	public DeltaVector<int> getEncumbrances() {
+	@read
+	public final DeltaVector<int> getEncumbrances() {
 		return encumbrances;
 	}
 
@@ -1709,7 +1706,7 @@ class CreatureObject extends TangibleObject {
 		return turnScale;
 	}
 
-	@dirty
+	@read
 	public native float getTerrainNegotiation();
 
 	@read
@@ -1855,8 +1852,10 @@ class CreatureObject extends TangibleObject {
 	@dirty
 	public native boolean hasDotImmunity(unsigned int dotType);
 
+	@read
 	public abstract native int getSpecies();
 
+	@read
 	public string getSpeciesName() {
 		int species = getSpecies();
 		if(species == 0)
@@ -1883,21 +1882,22 @@ class CreatureObject extends TangibleObject {
 			return "";
 	}
 
+	@read
 	public native int getGender();
 
 	@local
-	@dirty
-	public DeltaVector<int> getBaseHAM() {
+	@read
+	public final DeltaVector<int> getBaseHAM() {
 		return baseHAM;
 	}
 
 	@local
-	@dirty
-	public SkillList getSkillList() {
+	@read
+	public final SkillList getSkillList() {
 		return skillList;
 	}
 
-	@dirty
+	@read
 	@preLocked
 	public native int getSkillMod(final string skillmod);
 
@@ -1905,14 +1905,19 @@ class CreatureObject extends TangibleObject {
 	@preLocked
 	public native int getSkillModOfType(final string skillmod, final unsigned int modType);
 
-	@dirty
+	@read
 	public boolean hasSkill(final string skill) {
 		return skillList.containsSkill(skill);
 	}
 
 	@local
-	@dirty
 	public SkillModList getSkillModList() {
+		return skillModList;
+	}
+
+	@local
+	@read
+	public final SkillModList getSkillModList() {
 		return skillModList;
 	}
 
@@ -2165,13 +2170,14 @@ class CreatureObject extends TangibleObject {
 	@arg1preLocked
 	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
 
+	@read
 	public string getAlternateAppearance() {
 		return alternateAppearance;
 	}
 
 	@local
 	@dirty
-	public Mutex getSkillModMutex() {
+	public ReadWriteLock getSkillModMutex() {
 		return skillModMutex;
 	}
 
@@ -2193,6 +2199,7 @@ class CreatureObject extends TangibleObject {
 	@preLocked
 	public abstract native void destroyPlayerCreatureFromDatabase(boolean destroyContainedObjects = false);
 
+	@dirty
 	public native float getTemplateRadius();
 
 	@preLocked
@@ -2208,6 +2215,7 @@ class CreatureObject extends TangibleObject {
 	@preLocked
 	public native void addPersonalEnemyFlag(CreatureObject enemy, unsigned long duration);
 
+	@read
 	public unsigned long getPersonalEnemyFlagTime(unsigned long enemyID) {
 		return personalEnemyFlags.get(enemyID);
 	}
@@ -2218,6 +2226,7 @@ class CreatureObject extends TangibleObject {
 	@preLocked
 	public native void removePersonalEnemyFlag(unsigned long enemyID);
 
+	@read
 	public native boolean hasPersonalEnemyFlag(CreatureObject enemy);
 
 	@preLocked
@@ -2233,12 +2242,14 @@ class CreatureObject extends TangibleObject {
 
 	@local
 	@weakReference
+	@read
 	public AuctionSearchTask getAuctionSearchTask() {
 		return auctionSearch;
 	}
 
 	@preLocked
 	@local
+	@dirty
 	public void setAuctionSearchTask(AuctionSearchTask task) {
 		auctionSearch = task;
 	}

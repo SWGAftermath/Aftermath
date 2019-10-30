@@ -12,13 +12,13 @@
 #include "server/ServerCore.h"
 #include "server/zone/managers/skill/SkillManager.h"
 
-bool AbilityList::contains(const String& element) {
+bool AbilityList::contains(const String& element) const {
 	String lowCase = element.toLowerCase();
 
 	for (int i = 0; i < vector.size(); ++i) {
 		Ability* ability = vector.get(i);
 
-		if (ability == NULL)
+		if (ability == nullptr)
 			continue;
 
 		String skill = ability->getAbilityName().toLowerCase();
@@ -30,7 +30,7 @@ bool AbilityList::contains(const String& element) {
 	return false;
 }
 
-void AbilityList::insertToMessage(BaseMessage* msg) {
+void AbilityList::insertToMessage(BaseMessage* msg) const {
 	ReadLocker locker(getLock());
 
 	msg->insertInt(size());
@@ -105,7 +105,7 @@ void AbilityList::loadFromNames(Vector<String>& abilities) {
 
 		Ability* ability = skillManager->getAbility(name);
 
-		if (ability == NULL) {
+		if (ability == nullptr) {
 			Logger::console.error(name + " is null when trying to load from database");
 		} else {
 			vector.add(ability);
@@ -113,13 +113,13 @@ void AbilityList::loadFromNames(Vector<String>& abilities) {
 	}
 }
 
-bool AbilityList::add(Ability* ability, DeltaMessage* message, int updates) {
-	if (ability == NULL)
+bool AbilityList::add(Ability* const& ability, DeltaMessage* message, int updates) {
+	if (ability == nullptr)
 		return false;
 
 	bool val = vector.add(ability);
 
-	if (message != NULL) {
+	if (message != nullptr) {
 		if (updates != 0)
 			message->startList(updates, updateCounter += updates);
 

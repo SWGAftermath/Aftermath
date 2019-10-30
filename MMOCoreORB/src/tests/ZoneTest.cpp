@@ -26,7 +26,7 @@ using ::testing::An;
 
 class ZoneTest : public ::testing::Test {
 protected:
-	ServerDatabase* database;
+	ServerDatabase* database = nullptr;
 	Reference<ZoneServer*> zoneServer;
 	Reference<Zone*> zone;
 	Reference<ZoneProcessServer*> processServer;
@@ -101,9 +101,6 @@ public:
 			database = nullptr;
 		}
 
-		mysql_thread_end();
-		server::db::mysql::MySqlDatabase::finalizeLibrary();
-
 		if (playerManager != nullptr) {
 			playerManager->finalize();
 			playerManager = nullptr;
@@ -133,7 +130,7 @@ TEST_F(ZoneTest, GalaxyList) {
 }
 
 TEST_F(ZoneTest, PlayerManager) {
-	playerManager = new PlayerManager( zoneServer, processServer );
+	playerManager = new PlayerManager( zoneServer, processServer, false);
 }
 
 TEST_F(ZoneTest, TreLoad) {

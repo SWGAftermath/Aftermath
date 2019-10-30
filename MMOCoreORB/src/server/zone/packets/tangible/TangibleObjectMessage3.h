@@ -16,17 +16,17 @@
 class TangibleObjectMessage3 : public BaseLineMessage {
 public:
 	TangibleObjectMessage3(TangibleObject* tano, uint32 objType = 0x54414E4F, uint16 opcnt = 0x0B)
-			: BaseLineMessage(tano->getObjectID(), objType, 3, opcnt) {
+			: BaseLineMessage(tano, objType, 3, opcnt) {
 		insertFloat(tano->getComplexity());
 
-		StringId* stringId = tano->getObjectName();
+		const StringId* stringId = tano->getObjectName();
 
 		insertStringId(stringId);
 
 		if (tano->isPlayerCreature()) {
-			Reference<PlayerObject*> ghost = (static_cast<CreatureObject*>(tano))->getPlayerObject();
+			auto ghost = (static_cast<CreatureObject*>(tano))->getPlayerObject();
 
-			if (ghost != NULL && ghost->hasGodMode()) {
+			if (ghost != nullptr && ghost->hasGodMode()) {
 				UnicodeString name = tano->getCustomObjectName();
 				UnicodeString tag = PermissionLevelList::instance()->getPermissionTag(ghost->getAdminLevel());
 				insertUnicode(name + " \\#ffff00[" + tag + "]\\#.");
@@ -44,7 +44,7 @@ public:
 		tano->getCustomizationString(app);
 		insertAscii(app);
 
-		AutoDeltaSet<int>* visibleComponents = tano->getVisibleComponents();
+		auto visibleComponents = tano->getVisibleComponents();
 		visibleComponents->insertToMessage(this);
 
 		insertInt(tano->getOptionsBitmask());

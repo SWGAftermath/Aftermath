@@ -8,15 +8,16 @@ class StoreSpawnedChildrenTask : public Task {
 	ManagedWeakReference<CreatureObject*> play;
 	Vector<ManagedReference<CreatureObject*> > children;
 public:
-	StoreSpawnedChildrenTask(CreatureObject* creo, Vector<ManagedReference<CreatureObject*> >& ch) :
-		play(creo), children(ch) {
+	StoreSpawnedChildrenTask(CreatureObject* creo,
+			Vector<ManagedReference<CreatureObject*> >&& ch) :
+		play(creo), children(std::move(ch)) {
 
 	}
 
 	void run() {
 		ManagedReference<CreatureObject*> player = play.get();
 
-		if (player == NULL)
+		if (player == nullptr)
 			return;
 
 		Locker locker(player);
@@ -24,14 +25,14 @@ public:
 		for (int i = 0; i < children.size(); ++i) {
 			CreatureObject* child = children.get(i);
 
-			if (child == NULL)
+			if (child == nullptr)
 				continue;
 
 			Locker clocker(child, player);
 
 			ManagedReference<ControlDevice*> controlDevice = child->getControlDevice().get();
 
-			if (controlDevice != NULL) {
+			if (controlDevice != nullptr) {
 				Locker deviceLocker(controlDevice);
 				controlDevice->storeObject(player, true);
 			}

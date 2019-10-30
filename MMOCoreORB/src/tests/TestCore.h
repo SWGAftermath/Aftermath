@@ -10,18 +10,28 @@
 
 #include "engine/engine.h"
 
-class TestCore : public Core {
+#include "server/db/MySqlDatabase.h"
+
+class TestCore : public Core, public Logger {
 public:
-	TestCore() : Core(0) {
+	TestCore() : Core(0), Logger("TestCore") {
 
 	}
 
-	void initialize() {
+	~TestCore() {
+		finalizeContext();
+	}
+
+	void initialize() override {
+		 server::db::mysql::MySqlDatabase::initializeLibrary();
+	}
+
+	void run() override {
 
 	}
 
-	void run() {
-
+	void finalizeContext() override {
+		server::db::mysql::MySqlDatabase::finalizeLibrary();
 	}
 };
 

@@ -10,18 +10,18 @@
 
 class CreatureObjectMessage4 : public BaseLineMessage {
 public:
-	CreatureObjectMessage4(CreatureObject* creo)
-			: BaseLineMessage(creo->getObjectID(), 0x4352454F, 4, 0x0E) {
+	CreatureObjectMessage4(const CreatureObject* creo)
+			: BaseLineMessage(creo, 0x4352454F, 4, 0x0E) {
 		//
 		insertFloat(creo->getAccelerationMultiplierBase());
 		insertFloat(creo->getAccelerationMultiplierMod());
 
 		//Encumbrances
-		DeltaVector<int>* encumbrances = creo->getEncumbrances();
+		const DeltaVector<int>* encumbrances = creo->getEncumbrances();
 		encumbrances->insertToMessage(this);
 
 		// skill mods
-		SkillModList* skillMods = creo->getSkillModList();
+		const SkillModList* skillMods = creo->getSkillModList();
 		skillMods->insertToMessage(this);
 
 		//

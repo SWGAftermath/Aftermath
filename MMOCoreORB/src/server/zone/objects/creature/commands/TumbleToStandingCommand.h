@@ -36,11 +36,11 @@ public:
 
 			creature->setPosture(CreaturePosture::UPRIGHT, false, true);
 
-			Reference<CreatureObject*> defender = server->getZoneServer()->getObject(target).castTo<CreatureObject*>();
-			if (defender == NULL)
-				creature->doCombatAnimation(creature,STRING_HASHCODE("tumble"),0,0xFF);
-			else
-				creature->doCombatAnimation(defender,STRING_HASHCODE("tumble_facing"),0,0xFF);
+		Reference<CreatureObject*> defender = server->getZoneServer()->getObject(target).castTo<CreatureObject*>();
+		if (defender == nullptr)
+			creature->doCombatAnimation(creature,STRING_HASHCODE("tumble"),0,0xFF);
+		else
+			creature->doCombatAnimation(defender,STRING_HASHCODE("tumble_facing"),0,0xFF);
 
 			Reference<StateBuff*> buff = new StateBuff(creature, CreatureState::TUMBLING, 1);
 

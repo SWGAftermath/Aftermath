@@ -7,8 +7,6 @@
 
 #ifndef MESSAGECALLBACKFACTORY_H_
 #define MESSAGECALLBACKFACTORY_H_
-
-
 #include "engine/engine.h"
 
 namespace server {
@@ -16,13 +14,21 @@ namespace server {
 
  template <typename TypeId, typename Value>
  class ObjectCreatorMap : public HashTable<TypeId, Value> {
-	 int hash(const TypeId& k) const {
-		 return (int)k;
+	 int hash(const TypeId& k) const override {
+		 uint32 a = k;
+		 a = (a+0x7ed55d16) + (a<<12);
+		 a = (a^0xc761c23c) ^ (a>>19);
+		 a = (a+0x165667b1) + (a<<5);
+		 a = (a+0xd3a2646c) ^ (a<<9);
+		 a = (a+0xfd7046c5) + (a<<3);
+		 a = (a^0xb55a4f09) ^ (a>>16);
+
+		 return a;
 	 }
 
  public:
 	 ObjectCreatorMap() {
-		 HashTable<TypeId, Value>::setNullValue(NULL);
+		 HashTable<TypeId, Value>::setNullValue(nullptr);
 	 }
  };
 
@@ -39,9 +45,9 @@ namespace server {
 	 typedef BaseClassType (*CreateObjectFunc)(Param1Type);
 
  public:
-	 BaseClassType createObject(UniqueIdType uniqueID, Param1Type param1) {
+	 BaseClassType createObject(UniqueIdType uniqueID, Param1Type param1) const {
 		 if (!objectCreator.containsKey(uniqueID))
-			 return NULL;
+			 return nullptr;
 
 		 return objectCreator.get(uniqueID)(param1);
 	 }
@@ -59,7 +65,7 @@ namespace server {
 		 return objectCreator.drop(uniqueID);
 	 }
 
-	 bool containsObject(UniqueIdType uniqueID) {
+	 bool containsObject(UniqueIdType uniqueID) const {
 		 return objectCreator.containsKey(uniqueID);
 	 }
 
@@ -78,13 +84,13 @@ namespace server {
 	 typedef BaseClassType (*CreateObjectFunc)(Param1Type, Param2Type);
 
  public:
-	 BaseClassType createObject(UniqueIdType uniqueID, Param1Type param1, Param2Type param2) {
+	 BaseClassType createObject(UniqueIdType uniqueID, Param1Type param1, Param2Type param2) const {
 		 CreateObjectFunc func = objectCreator.get(uniqueID);
 
-		 if (func != NULL)
+		 if (func != nullptr)
 			 return func(param1, param2);
 		 else
-			 return NULL;
+			 return nullptr;
 	 }
 
 	 template<typename ClassType> bool registerObject(UniqueIdType uniqueID) {
@@ -97,7 +103,7 @@ namespace server {
 		 return objectCreator.drop(uniqueID);
 	 }
 
-	 bool containsObject(UniqueIdType uniqueID) {
+	 bool containsObject(UniqueIdType uniqueID) const {
 		 return objectCreator.containsKey(uniqueID);
 	 }
 
