@@ -1,0 +1,80 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions. */
+
+package server.zone.objects.player.sessions;
+
+import engine.util.Facade;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.structure.StructureObject;
+import server.zone.Zone;
+import server.zone.objects.area.ActiveArea;
+include server.zone.objects.scene.SessionFacadeType;
+include templates.tangible.SharedStructureObjectTemplate;
+
+@json
+class UnpackStructureSession extends Facade {
+	@weakReference
+	protected CreatureObject creatureObject;
+	@weakReference
+	protected StructureObject structureObject;
+
+	protected float positionX;
+	protected float positionY;
+
+	protected int directionAngle;
+
+	@weakReference
+	protected SceneObject constructionBarricade;
+
+	@weakReference
+	protected Zone zone;
+
+	@weakReference
+	protected ActiveArea temporaryNoBuildZone;
+
+	public UnpackStructureSession(CreatureObject creature, StructureObject structure) {
+		Logger.setLoggingName("UnpackStructureSession");
+		Logger.setLogging(true);
+
+		creatureObject = creature;
+		structureObject = structure;
+
+		zone = creature.getZone();
+
+		positionX = 0;
+		positionY = 0;
+
+		directionAngle = 0;
+
+		constructionBarricade = null;
+
+		temporaryNoBuildZone = null;
+	}
+
+	public int initializeSession() {
+		return 0;
+	}
+
+	@local
+	public native void placeTemporaryNoBuildZone(final SharedStructureObjectTemplate serverTemplate);
+	public native void removeTemporaryNoBuildZone();
+
+	public native int constructStructure(float x, float y, int angle);
+
+	public native int completeSession();
+
+	public int cancelSession() {
+		CreatureObject creature = creatureObject;
+
+		if (creature != null)
+			creature.dropActiveSession(SessionFacadeType.UNPACKSTRUCTURE);
+
+		return 0;
+	}
+
+	public int clearSession() {
+		return 0;
+	}
+}

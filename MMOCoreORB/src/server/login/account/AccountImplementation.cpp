@@ -19,6 +19,7 @@ void AccountImplementation::initializeTransientMembers() {
 	created = 0;
 	banExpires = 0;
 	banAdmin = 0;
+	lastLogin = 0;
 }
 
 void AccountImplementation::updateFromDatabase() {
@@ -64,6 +65,14 @@ void AccountImplementation::updateAccount() {
 		setBanExpires(result->getUnsignedInt(3));
 		setBanAdmin(result->getUnsignedInt(4));
 	}
+
+	StringBuffer query1;
+	query1 << "SELECT UNIX_TIMESTAMP(timestamp) FROM account_log WHERE account_id = '" << accountID << "' ORDER BY UNIX_TIMESTAMP(timestamp) DESC LIMIT 1;";
+
+	Reference<ResultSet*> result1 = ServerDatabase::instance()->executeQuery(query1.toString());
+
+	if (result1->next())
+		setLastLogin(result1->getUnsignedInt(0));
 }
 
 void AccountImplementation::updateCharacters() {
@@ -140,4 +149,15 @@ uint32 AccountImplementation::getAgeInDays() {
 
 bool AccountImplementation::isSqlLoaded() {
 	return (accountID || stationID || adminLevel || created);
+}
+
+uint32 AccountImplementation::getLastLoginInDays() {
+	if (lastLogin == 0) {
+		throw Exception("Account Object has lastLogin set as 0 in getLastLoginInDays");
+	}
+
+	Time currentTime;
+	Time lastLoginTime(getLastLogin());
+	uint32 lastLoginSecs = currentTime.getTime() - lastLoginTime.getTime();
+	return lastLoginSecs / 24 / 60 / 60;
 }

@@ -40,17 +40,4 @@
 --gives permission to release a modified version without this exception; 
 --this exception also makes it possible to release a modified version 
 
-
-
---Children folder includes
-includeFile("intangible/base/serverobjects.lua")
-includeFile("intangible/data_item/serverobjects.lua")
-includeFile("intangible/faction_perk/serverobjects.lua")
-includeFile("intangible/holocron/serverobjects.lua")
-includeFile("intangible/pet/serverobjects.lua")
-includeFile("intangible/ship/serverobjects.lua")
-includeFile("intangible/theater/serverobjects.lua")
-includeFile("intangible/vehicle/serverobjects.lua")
-includeFile("intangible/house/serverobjects.lua")
-
--- Server Objects
+includeFile("intangible/house/generic_house_control_device.lua")

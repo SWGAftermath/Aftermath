@@ -145,6 +145,7 @@ Core3 = {
 	-- Each tre file (order is important!)
 	TreFiles = {
 		"default_patch.tre",
+		"packup.tre",
 		"patch_sku1_14_00.tre",
 		"patch_14_00.tre",
 		"patch_sku1_13_00.tre",
@@ -237,6 +238,16 @@ Core3 = {
 
 	PlayerLogLevel = 4, -- -1 NONE, 0 FATAL, 1 ERROR, 2 WARNING, 3 LOG, 4 INFO, 5 DEBUG
 	MaxLogLines = 1000000, -- how often to rotate log (currently only log/player.log rotates)
+
+	------------------------
+	--Custom Server Settings
+	------------------------
+	--Structure Packup Config
+	structurePackupEnabled = "false", --Enables Structure Packup.
+
+	--Structure Inactivity Packup Config
+	inactiveStructurePackupEnabled = "false", --Enables Inactive Structure Packup. Structure Packup must be enabled above.
+	inactiveStructurePackupDays = 365, --Account inactivity in days to trigger structure packup for inactive accounts.
 }
 
 -- NOTE: conf/config-local.lua is parsed after this file if it exists

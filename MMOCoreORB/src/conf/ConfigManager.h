@@ -508,6 +508,19 @@ namespace conf {
 		inline int getOnlineLogSize() const {
 			return cachedOnlineLogSize;
 		}
+
+		//Structure Packup
+		inline bool getStructurePackupEnabled() {
+			return getBool("Core3.structurePackupEnabled", false);
+		}
+
+		//Inactive Structure Packup
+		inline bool getInactiveStructurePackupEnabled() {
+			return getBool("Core3.inactiveStructurePackupEnabled", false);
+		}
+		inline int getInactiveStructurePackupDays() {
+			return getInt("Core3.inactiveStructurePackupDays", 365);
+		}
 	};
 }
 

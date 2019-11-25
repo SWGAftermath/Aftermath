@@ -277,6 +277,7 @@ void ObjectManager::registerObjectTypes() {
 	objectFactory.registerObject<PetControlDevice>(SceneObjectType::PETCONTROLDEVICE);
 	objectFactory.registerObject<PetControlDevice>(SceneObjectType::DROIDCONTROLDEVICE);
 	objectFactory.registerObject<ShipControlDevice>(SceneObjectType::SHIPCONTROLDEVICE);
+	objectFactory.registerObject<StructureControlDevice>(SceneObjectType::STRUCTURECONTROLDEVICE);
 	objectFactory.registerObject<VehicleObject>(SceneObjectType::VEHICLE);
 	objectFactory.registerObject<VehicleObject>(SceneObjectType::HOVERVEHICLE);
 	objectFactory.registerObject<DroidObject>(SceneObjectType::DROIDCREATURE);

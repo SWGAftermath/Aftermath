@@ -38,6 +38,8 @@ class Account extends ManagedObject implements Logger {
 	protected transient string banReason;
 	protected transient unsigned int banAdmin;
 
+	protected transient unsigned int lastLogin;
+
 	public native Account();
 
 	@preLocked
@@ -191,4 +193,18 @@ class Account extends ManagedObject implements Logger {
 
 	@dirty
 	public native boolean isSqlLoaded();
+
+	@dirty
+	@local
+	public native unsigned int getLastLoginInDays();
+
+	@preLocked
+	public void setLastLogin(unsigned int seconds) {
+		lastLogin = seconds;
+	}
+
+	@dirty
+	public unsigned int getLastLogin() {
+		return lastLogin;
+	}
 }

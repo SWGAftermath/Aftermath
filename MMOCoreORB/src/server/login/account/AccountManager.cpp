@@ -273,6 +273,14 @@ ManagedReference<Account*> AccountManager::getAccount(uint32 accountID, bool for
 		accObj->setTimeCreated(result->getUnsignedInt(6));
 		accObj->setAdminLevel(result->getInt(7));
 
+		StringBuffer query1;
+		query1 << "SELECT UNIX_TIMESTAMP(timestamp) FROM account_log WHERE account_id = '" << accountID << "' ORDER BY UNIX_TIMESTAMP(timestamp) DESC LIMIT 1;";
+
+		Reference<ResultSet*> result1 = ServerDatabase::instance()->executeQuery(query1.toString());
+
+		if (result1->next())
+			accObj->setLastLogin(result1->getUnsignedInt(0));
+
 		accObj->updateFromDatabase();
 
 		return accObj;
@@ -334,6 +342,14 @@ ManagedReference<Account*> AccountManager::getAccount(String query, String& pass
 		account->setStationID(result->getUnsignedInt(5));
 		account->setTimeCreated(result->getUnsignedInt(6));
 		account->setAdminLevel(result->getInt(7));
+
+		StringBuffer query1;
+		query1 << "SELECT UNIX_TIMESTAMP(timestamp) FROM account_log WHERE account_id = '" << accountID << "' ORDER BY UNIX_TIMESTAMP(timestamp) DESC LIMIT 1;";
+
+		Reference<ResultSet*> result1 = ServerDatabase::instance()->executeQuery(query1.toString());
+
+		if (result1->next())
+			account->setLastLogin(result1->getUnsignedInt(0));
 
 		account->updateFromDatabase();
 

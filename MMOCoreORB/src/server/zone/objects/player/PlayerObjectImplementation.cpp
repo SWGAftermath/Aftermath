@@ -2475,6 +2475,14 @@ void PlayerObjectImplementation::destroyObjectFromDatabase(bool destroyContained
 		ManagedReference<StructureObject*> structure = getZoneServer()->getObject(oid).castTo<StructureObject*>();
 
 		if (structure != nullptr) {
+			//This shouldn't happen but it did. Lets make sure it doesn't ever again.
+			ManagedReference<CreatureObject*> player = getParent().get().castTo<CreatureObject*>();
+
+			if (player != nullptr && player->getObjectID() != structure->getOwnerObjectID()) {
+				error("Tried deleting a structure that does not belong to the player in PlayerObjectImplementation::destroyObjectFromDatabase. Skipping structure.");
+				continue;
+			}
+
 			Zone* zone = structure->getZone();
 
 			if (zone != nullptr) {
@@ -2497,7 +2505,7 @@ void PlayerObjectImplementation::destroyObjectFromDatabase(bool destroyContained
 					continue;
 				}
 
-				StructureManager::instance()->destroyStructure(structure);
+				StructureManager::instance()->destroyStructure(structure, false, "the owners character was deleted.");
 			} else {
 				structure->destroyObjectFromDatabase(true);
 			}

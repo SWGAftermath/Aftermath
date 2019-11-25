@@ -23,6 +23,7 @@ import server.zone.objects.tangible.threat.ThreatMap;
 include server.zone.objects.scene.variables.AutoDeltaSet;
 include server.zone.objects.scene.variables.StringId;
 include system.thread.atomic.AtomicInteger;
+include server.zone.objects.intangible.ControlDevice;
 
 @json
 class TangibleObject extends SceneObject {
@@ -83,6 +84,9 @@ class TangibleObject extends SceneObject {
 
 	protected SceneObject antiDecayKitObject;
 
+	@weakReference
+	protected ControlDevice controlDevice;
+
 	/**
 	 * TangibleObject constructor, used to initialized the object
 	 * @pre { templateData is a valid SharedTangibleObjectTemplate LuaObject that contains the necessary values to initialize CreatureObject }
@@ -127,6 +131,8 @@ class TangibleObject extends SceneObject {
 		threatMap = null;
 		junkDealerNeeded = 0;
 		junkValue = 0;
+
+		controlDevice = null;
 	}
 
 	/**
@@ -898,5 +904,16 @@ class TangibleObject extends SceneObject {
 
 	@dirty
 	public native boolean isInNavMesh();
+
+	@preLocked
+	public void setControlDevice(ControlDevice device) {
+		controlDevice = device;
+	}
+
+	@weakReference
+	@read
+	public ControlDevice getControlDevice() {
+		return controlDevice;
+	}
 }
 

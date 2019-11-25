@@ -199,6 +199,23 @@ int CellObjectImplementation::getCurrentNumberOfPlayerItems() {
 	return count;
 }
 
+int CellObjectImplementation::getCurrentNumberOfPlayerVendors() {
+	int count = 0;
+
+	ManagedReference<SceneObject*> strongParent = getParent().get();
+
+	if (strongParent != nullptr) {
+		for (int j = 0; j < getContainerObjectsSize(); ++j) {
+			ManagedReference<SceneObject*> containerObject = getContainerObject(j);
+
+			if (!strongParent->containsChildObject(containerObject) && containerObject->isVendor())
+				++count;
+			}
+	}
+
+	return count;
+}
+
 void CellObjectImplementation::destroyAllPlayerItems() {
 	ManagedReference<SceneObject*> strongParent = getParent().get();
 

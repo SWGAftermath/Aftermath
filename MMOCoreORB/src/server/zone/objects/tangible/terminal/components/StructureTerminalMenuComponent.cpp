@@ -64,6 +64,10 @@ void StructureTerminalMenuComponent::fillObjectMenuResponse(SceneObject* sceneOb
 	if (structureObject->isOnAdminList(creature)) {
 		menuResponse->addRadialMenuItem(118, 3, "@player_structure:management"); //Structure Management
 		menuResponse->addRadialMenuItemToRadialID(118, 128, 3, "@player_structure:permission_destroy"); //Destroy Structure
+
+		if (ConfigManager::instance()->getStructurePackupEnabled())
+			menuResponse->addRadialMenuItemToRadialID(118, 132, 3, "@player_structure:permission_packup"); //Pack-Up Structure
+
 		menuResponse->addRadialMenuItemToRadialID(118, 124, 3, "@player_structure:management_status"); //Status
 		menuResponse->addRadialMenuItemToRadialID(118, 129, 3, "@player_structure:management_pay"); //Pay Maintenance
 
@@ -207,6 +211,9 @@ int StructureTerminalMenuComponent::handleObjectMenuSelect(SceneObject* sceneObj
 			break;
 		case 128:
 			creature->executeObjectControllerAction(0x18FC1726, structureObject->getObjectID(), ""); //destroyStructure
+			break;
+		case 132:
+			creature->executeObjectControllerAction(0x184759BF, structureObject->getObjectID(), ""); //packupStructure
 			break;
 		case 129:
 			creature->executeObjectControllerAction(0xE7E35B30, structureObject->getObjectID(), ""); //payMaintenance
