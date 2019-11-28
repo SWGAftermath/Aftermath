@@ -12,7 +12,7 @@ This repository contains the structure pack-up source code that Reckoning uses o
   * Please view the following commit: https://bitbucket.org/Reckoning-Aso/core3-packup/commits/bd46624a70b3f4ff6c36534e823b4b89253359be and merge it manually into your code.
   
 ##### Download Packup .tre File #####
-  * Download the packup.tre from https://swgreckoning.com/download/dev/ and place it in your server's tre file directory. It will also need to be included client side.
+  * Download the packup.tre from https://swgreckoning.com/download/dev/packup.tre and place it in your server's tre file directory. It will also need to be included client side.
 
 ### How to build this repository as a whole ###
 
