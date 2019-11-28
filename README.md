@@ -1,15 +1,23 @@
-# SWGEmu Core3
+# Reckoning Structure Pack-Up Code Repository #
 
-## What is SWGEmu?
+[http://www.swgreckoning.com](http://www.swgreckoning.com)
 
-Star Wars Galaxies was a massively multi-player online role playing game introduced by Sony Online Entertainment in the year 2003 and shut down in 2011.
-It is this game the SWGEmu project focuses to recreate at a specific milestone referred to as Pre-CU, or Pre-Combat Upgrade. The Combat Upgrade was a set of game changes which radically changed the game-play, to the dislike of thousands of players. These changes led to the founding of this project, in an attempt to "recreate" the game as it was during the Pre-CU era.
-At SWGEmu, Emulator refers to the software the SWGEmu team is building. This Emulator is meant to imitate Sony Online Entertainment's server-side software, which hosted the galaxies of Star Wars Galaxies during the Pre-CU era.
+## About This Repository ##
 
-## How to Build
+This repository contains the structure pack-up source code that Reckoning uses on its Star Wars Galaxies play server. Reckoning is powered by SWGEmu.
 
-### Dependencies
+### How to manually add Structure Pack-Up to your own code ###
 
+##### Merge The Pack-Up Code #####
+  * Please view the following commit: https://bitbucket.org/Reckoning-Aso/core3-packup/commits/bd46624a70b3f4ff6c36534e823b4b89253359be and merge it manually into your code.
+  
+##### Download Packup .tre File #####
+  * Download the packup.tre from https://swgreckoning.com/download/dev/ and place it in your server's tre file directory. It will also need to be included client side.
+
+### How to build this repository as a whole ###
+
+##### Dependencies #####
+  * Debian 9+ or Ubuntu 16.04+
   * CMake 3.1.0 or higher
   * BerkeleyDB 5.3
   * MySQL Client and Server
@@ -17,51 +25,44 @@ At SWGEmu, Emulator refers to the software the SWGEmu team is building. This Emu
   * pthreads
   * Lua 5.3 libraries
   * Zlib libraries
-  * g++ 5.4+ or compatible
+  * g++ 5+
   * engine3
   * java jre 1.7+
 
-### Build
+##### Install dependencies #####
+  * apt install build-essential default-libmysqlclient-dev liblua5.3-dev libdb5.3-dev libssl-dev cmake git default-jre libssl-dev git
 
-  * Install dependencies (Debian 9+ or Ubuntu 16.04+)
+##### Create SWGEmu user #####
+  * adduser swgemu
 
-        sudo apt install build-essential libmysqlclient-dev liblua5.3-dev libdb5.3-dev libssl-dev cmake git default-jre
+##### Clone Reckoning Structure Pack-Up Code Repo  #####
+  * mkdir -p /home/swgemu/server/git
+  * cd /home/swgemu/server/git
+  * git clone -b unstable https://Reckoning-Aso@bitbucket.org/Reckoning-Aso/core3-packup.git
 
-  * Install dependencies (RHEL/CentOS 8+ or Fedora 28+)
+##### Build Core3 with 8 threads #####
+  * cd /home/swgemu/server/git/core3-packup/MMOCoreORB
+  * make -j8
 
-        sudo dnf install automake cmake git gcc gcc-c++ java-1.8.0-openjdk-headless libatomic libdb-devel lua-devel make mariadb-devel openssl-devel
+##### Copy Compiled Server Files #####
+  * cp -ar /home/swgemu/server/git/core3-packup/MMOCoreORB/bin/ /home/swgemu/server/
 
-  * Clone core3 repository somewhere  (~/git)
+##### Import sql database #####
+  * mysql -h<MYSQLHOST> -u<MYSQLUSER> -p<MYSQLPASSWORD> < sql/swgemu.sql
 
-        mkdir -p ~/git
-        cd ~/git
-        git clone http://review.swgemu.com/Core3
-  * Build Core3 with 8 threads
+##### Modify Config #####
+  * Modify config.lua located at: /home/swgemu/server/bin/conf
 
-        cd MMOCoreORB
-        make -j8
-  * Import sql database
+##### Run The Server #####
+  * cd /home/swgemu/server/bin
+  * ./core3
 
-        mysql -h<MYSQLHOST> -u<MYSQLUSER> -p<MYSQLPASSWORD> < sql/swgemu.sql
-
-## How to Run
-
-    cd ~/git/Core3/MMOCoreORB/bin
-    ./core3
-
-## License
-
-    Copyright (C) 2019 SWGEmu
+### License ###
+    Copyright (C) 2019 SWG Reckoning
 
     This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published by the Free Software Foundation,
-    either version 3 of the License, or (at your option) any later version.
+    it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-    without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-    See the GNU Affero General Public License for more details.
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU Affero General Public License along with this program.
-    If not, see <http://www.gnu.org/licenses/>.
-
-For more information, see https://review.swgemu.com.
+    You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
