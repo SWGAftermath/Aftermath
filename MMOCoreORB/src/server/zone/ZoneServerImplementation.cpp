@@ -519,7 +519,7 @@ Reference<SceneObject*> ZoneServerImplementation::getObject(uint64 oid, bool doL
 		}
 
 		//unlock(doLock);
-	} catch (Exception& e) {
+	} catch (const Exception& e) {
 		//unlock(doLock);
 		error(e.getMessage());
 		e.printStackTrace();
@@ -764,7 +764,7 @@ void ZoneServerImplementation::setServerStateShuttingDown() {
 	info(msg, true);
 }
 
-String ZoneServerImplementation::getLoginMessage() {
+String ZoneServerImplementation::getLoginMessage() const {
 	return loginMessage;
 }
 

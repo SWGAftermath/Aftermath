@@ -459,7 +459,7 @@ void PlayerObjectImplementation::notifySceneReady() {
 }
 
 void PlayerObjectImplementation::sendFriendLists() {
-	debug("sending friendslist message  size " + String::valueOf(friendList.size()));
+	debug() << "sending friendslist message  size " << friendList.size();
 
 	ChatManager* chatManager = server->getChatManager();
 
@@ -625,7 +625,7 @@ void PlayerObjectImplementation::removeExperience(const String& xpType, bool not
 	}
 }
 
-bool PlayerObjectImplementation::hasCappedExperience(const String& xpType) {
+bool PlayerObjectImplementation::hasCappedExperience(const String& xpType) const {
 	if (experienceList.contains(xpType) && xpTypeCapList.contains(xpType)) {
 		return experienceList.get(xpType) == xpTypeCapList.get(xpType);
 	}
@@ -1764,7 +1764,7 @@ void PlayerObjectImplementation::setFactionStanding(const String& factionName, f
 	factionStandingList.put(factionName, newAmount);
 }
 
-float PlayerObjectImplementation::getFactionStanding(const String& factionName) {
+float PlayerObjectImplementation::getFactionStanding(const String& factionName) const {
 	return factionStandingList.getFactionStanding(factionName);
 }
 
@@ -1870,7 +1870,7 @@ void PlayerObjectImplementation::doRecovery(int latency) {
 	}
 
 	if (isOnline()) {
-		CommandQueueActionVector* commandQueue = creature->getCommandQueue();
+		const CommandQueueActionVector* commandQueue = creature->getCommandQueue();
 
 		if (creature->isInCombat() && creature->getTargetID() != 0 && !creature->isPeaced() &&
 			!creature->hasBuff(STRING_HASHCODE("private_feign_buff")) && (commandQueue->size() == 0) &&
@@ -2451,7 +2451,7 @@ void PlayerObjectImplementation::schedulePvpTefRemovalTask(bool removeNow) {
 	schedulePvpTefRemovalTask(removeNow, removeNow, removeNow);
 }
 
-Vector3 PlayerObjectImplementation::getTrainerCoordinates() {
+Vector3 PlayerObjectImplementation::getTrainerCoordinates() const {
 	return trainerCoordinates;
 }
 
@@ -2498,7 +2498,7 @@ void PlayerObjectImplementation::updateInRangeBuildingPermissions() {
 	}
 }
 
-bool PlayerObjectImplementation::hasPermissionGroup(const String& group) {
+bool PlayerObjectImplementation::hasPermissionGroup(const String& group) const {
 	return permissionGroups.contains(group);
 }
 
@@ -2813,7 +2813,7 @@ void PlayerObjectImplementation::setPlayerQuestData(uint32 questHashCode, Player
 	}
 }
 
-PlayerQuestData PlayerObjectImplementation::getQuestData(uint32 questHashCode) {
+PlayerQuestData PlayerObjectImplementation::getQuestData(uint32 questHashCode) const {
 	return playerQuestsData.get(questHashCode);
 }
 
