@@ -6205,6 +6205,8 @@ void PlayerManagerImplementation::grantJediMaster(CreatureObject* player){
 	skillManager->awardSkill("jedi_light_side_journeyman_master", player, true, true, true);
 	skillManager->awardSkill("jedi_light_side_master_master", player, true, true, true);
 
+}
+
 Vector<uint64> PlayerManagerImplementation::getOnlinePlayerList() {
 	Vector<uint64> playerList;
 

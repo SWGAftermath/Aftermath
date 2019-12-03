@@ -228,21 +228,7 @@ void MissionObjectiveImplementation::awardReward() {
 		player->addBankCredits(dividedReward, true);
 	}
 
-<<<<<<< HEAD
 	StatisticsManager::instance()->completeMission(mission->getTypeCRC(), mission->getRewardCredits());
-=======
-	if (group != nullptr) {
-		if (expanded) {
-			owner->sendSystemMessage("@mission/mission_generic:group_expanded"); // Group Mission Success! Reward credits have been transmitted to the bank account of all group members in the immediate area. They have been recalculated to reflect the newly added members.
-		} else {
-			owner->sendSystemMessage("@mission/mission_generic:group_success"); // Group Mission Success! Reward credits have been transmitted to the bank account of all group members in the immediate area.
-		}
-	}
-
-	int creditsDistributed = dividedReward * players.size();
-
-	StatisticsManager::instance()->completeMission(mission->getTypeCRC(), creditsDistributed);
->>>>>>> unstable
 }
 
 Vector3 MissionObjectiveImplementation::getEndPosition() {

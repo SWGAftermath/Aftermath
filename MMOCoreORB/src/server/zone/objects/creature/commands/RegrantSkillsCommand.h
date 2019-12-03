@@ -28,7 +28,7 @@ public:
 		Locker locker(creature);
 
 		SkillManager* skillManager = SkillManager::instance();
-		SkillList* skillList = creature->getSkillList();
+		const SkillList* skillList = creature->getSkillList();
 
 		if (skillList == NULL) 
 			return GENERALERROR;

@@ -146,7 +146,7 @@ int TangibleObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject
 						ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();		
 						int i,j;
 						LootGroupMap* lootGroupMap = LootGroupMap::instance();
-						Reference<LootItemTemplate*> itemTemplate = NULL;
+						Reference<const LootItemTemplate*> itemTemplate = NULL;
 						String objectTemplate = "";
 						objectTemplate = sceneObject->getObjectTemplate()->getFullTemplateString();
 						

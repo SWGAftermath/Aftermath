@@ -38,7 +38,7 @@ public:
 		CreatureObject* targetCreature = dynamic_cast<CreatureObject*>(targetObject.get());
 
 		if (!targetCreature->checkCooldownRecovery(tarSkillName)){
-			Time* timeRemaining = targetCreature->getCooldownTime(tarSkillName);
+			const Time* timeRemaining = targetCreature->getCooldownTime(tarSkillName);
 			creature->sendSystemMessage("Target is already afflicted with Force Choke for another " + getCooldownString(timeRemaining->miliDifference() * -1) + " seconds");
 			return GENERALERROR;
 		}

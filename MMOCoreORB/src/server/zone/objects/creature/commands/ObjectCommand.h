@@ -160,7 +160,7 @@ public:
 				if (lootManager == NULL)
 					return INVALIDPARAMETERS;
 					
-				Reference<LootItemTemplate*> itemTemplate = NULL;
+				Reference<const LootItemTemplate*> itemTemplate = NULL;
 				LootGroupMap* lootGroupMap = LootGroupMap::instance();
 				if (attachmentType == "armor")
 					itemTemplate = lootGroupMap->getLootItemTemplate("attachment_armor");

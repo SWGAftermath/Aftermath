@@ -852,7 +852,7 @@ void MissionManagerImplementation::randomizeGenericDestroyMission(CreatureObject
 		groupSuffix = " lair.";
 
 	}
-	VectorMap<String, int>* mobiles = lairTemplateObject->getMobiles();
+	const VectorMap<String, int>* mobiles = lairTemplateObject->getMobiles();
 	String mobileName ="mysterious";
 
 	if (mobiles->size() > 0){
@@ -1915,7 +1915,7 @@ void MissionManagerImplementation::clearPlayerBountyMissions(uint64 targetId) {
 
 		PlayerBounty* target = playerBountyList.get(targetId);
 
-		SortedVector<uint64>* bountyHunters = target->getBountyHunters();
+		const SortedVector<uint64>* bountyHunters = target->getBountyHunters();
 
 		for (int i = bountyHunters->size() - 1; i >= 0; i--) {
 			info("Removing BH mission belonging to: " + String::valueOf(bountyHunters->get(i)), true);

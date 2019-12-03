@@ -326,7 +326,7 @@ int PlayerObjectImplementation::calculateBhReward() {
 	int skillPoints = getSpentJediSkillPoints();
 	ManagedReference<CreatureObject*> creature = dynamic_cast<CreatureObject*>(parent.get().get());
 
-	reward = skillPoints * 2000;
+	int reward = skillPoints * 2000;
 	if (creature->getScreenPlayState("deathBounty") > 0){
 		int playerBounty = 100000 + (creature->getScreenPlayState("deathBounty") * 100000);
 		reward += playerBounty;
@@ -2397,7 +2397,7 @@ bool PlayerObjectImplementation::hasBhTef() const {
 	return !lastBhPvpCombatActionTimestamp.isPast();
 }
 
-bool PlayerObjectImplementation::hasJediTef() {
+bool PlayerObjectImplementation::hasJediTef() const {
 	return !lastJediPvpCombatActionTimestamp.isPast();
 }
 bool PlayerObjectImplementation::isJediAttackable() {

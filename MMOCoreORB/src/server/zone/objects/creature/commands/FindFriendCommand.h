@@ -54,8 +54,8 @@ public:
 		String tarFirstName = targetPlayer->getFirstName().toLowerCase();
 
 		if (!targetGhost->hasFriend(myFirstName) || !ghost->hasFriend(tarFirstName)) {
-			ManagedReference<StringIdChatParameter*> message = new StringIdChatParameter("@ui_cmnty:friend_location_failed"); // Unable to locate %TU
-			message->setTU(name);
+			StringIdChatParameter message("@ui_cmnty:friend_location_failed"); // Unable to locate %TU
+			message.setTU(name);
 
 			player->sendSystemMessage(message);
 			return GENERALERROR;

@@ -46,13 +46,13 @@ public:
 			return GENERALERROR;
 
 		if (!creature->checkCooldownRecovery(skillName)){
-			Time* timeRemaining = creature->getCooldownTime(skillName);
+			const Time* timeRemaining = creature->getCooldownTime(skillName);
 			creature->sendSystemMessage("You must wait " +  getCooldownString(timeRemaining->miliDifference() * -1)  + " to use " + skillNameDisplay + " again");
 			return GENERALERROR;
 		}
 
 		if (!targetCreature->checkCooldownRecovery(tarSkillName)){
-			Time* timeRemaining = targetCreature->getCooldownTime(tarSkillName);
+			const Time* timeRemaining = targetCreature->getCooldownTime(tarSkillName);
 			creature->sendSystemMessage("You cannot use " + skillNameDisplay + " on target for " + getCooldownString(timeRemaining->miliDifference() * -1));
 			return GENERALERROR;
 		}

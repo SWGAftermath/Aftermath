@@ -534,7 +534,7 @@ TangibleObject* LootManagerImplementation::createLootObject(const LootItemTempla
 	return prototype;
 }
 
-TangibleObject* LootManagerImplementation::createLootAttachment(LootItemTemplate* templateObject, const String& modName, int value) {
+TangibleObject* LootManagerImplementation::createLootAttachment(const LootItemTemplate* templateObject, const String& modName, int value) {
 	
 	const String& directTemplateObject = templateObject->getDirectObjectTemplate();
 	

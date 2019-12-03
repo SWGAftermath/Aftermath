@@ -252,7 +252,8 @@ class PlayerObject extends IntangibleObject {
 	@dereferenced
 	protected Time lastJediAttackableTimestamp;
 
-	protected Reference<PvpTefRemovalTask> pvpTefTask;
+	@dereferenced
+	protected transient Reference<PvpTefRemovalTask> pvpTefTask;
 
 	@dereferenced
 	protected Time lastDigestion;
@@ -1771,6 +1772,7 @@ class PlayerObject extends IntangibleObject {
 	@read
 	public native boolean hasBhTef();
 
+	@read
 	public native boolean hasJediTef();
 
 	public native boolean isJediAttackable();
@@ -2001,7 +2003,6 @@ class PlayerObject extends IntangibleObject {
 	}
 
 	@read
-<<<<<<< HEAD
 	public int getRatingReset() {
 		return ratingReset;
 	}
@@ -2010,8 +2011,6 @@ class PlayerObject extends IntangibleObject {
 		ratingReset = reset;
 	}
 	
-=======
->>>>>>> unstable
 	public boolean isCloning() {
 		return isPlayerCloning;
 	}

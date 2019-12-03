@@ -47,7 +47,7 @@ blockingCRCs
 			return GENERALERROR;
 
 		} else if (!creature->checkCooldownRecovery(skillName)) {
-			Time* timeRemaining = creature->getCooldownTime(skillName);
+			const Time* timeRemaining = creature->getCooldownTime(skillName);
 			creature->sendSystemMessage("You must wait " +  getCooldownString(timeRemaining->miliDifference() * -1)  + " to use " + skillNameDisplay + " again");
 			return GENERALERROR;
 		} else {
