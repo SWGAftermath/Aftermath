@@ -31,7 +31,6 @@ void AccountImplementation::updateFromDatabase() {
 }
 
 Reference<GalaxyAccountInfo*> AccountImplementation::getGalaxyAccountInfo(const String& galaxyName) {
-
 	Reference<GalaxyAccountInfo*> info = galaxyAccountInfo.get(galaxyName);
 
 	if(info == nullptr) {
@@ -55,7 +54,7 @@ void AccountImplementation::updateAccount() {
 			<< "IFNULL((SELECT b.issuer_id FROM account_bans b WHERE b.account_id = a.account_id AND b.expires > UNIX_TIMESTAMP() ORDER BY b.expires DESC LIMIT 1), 0) "
 			<< "FROM accounts a WHERE a.account_id = '" << accountID << "' LIMIT 1;";
 
-	Reference<ResultSet*> result = ServerDatabase::instance()->executeQuery(query);
+	UniqueReference<ResultSet*> result(ServerDatabase::instance()->executeQuery(query));
 
 	if (result->next()) {
 		setActive(result->getBoolean(0));
@@ -83,11 +82,11 @@ void AccountImplementation::updateGalaxyBans() {
 	StringBuffer query;
 	query << "SELECT * FROM galaxy_bans as gb WHERE account_id=" << getAccountID() << " and expires > UNIX_TIMESTAMP()";
 
-	Reference<ResultSet*> results = ServerDatabase::instance()->executeQuery(query);
+	UniqueReference<ResultSet*> results(ServerDatabase::instance()->executeQuery(query));
 
 	galaxyBans.removeAll();
 
-	while(results->next()) {
+	while (results->next()) {
 		Reference<GalaxyBanEntry*> entry = new GalaxyBanEntry();
 
 		entry->setAccountID(results->getUnsignedInt(1));
@@ -105,22 +104,36 @@ void AccountImplementation::updateGalaxyBans() {
 	}
 }
 
-bool AccountImplementation::isBanned() {
+bool AccountImplementation::isBanned() const {
 	return banExpires > time(0);
 }
 
+const GalaxyBanEntry* AccountImplementation::getGalaxyBan(const uint32 galaxy) const {
+	return galaxyBans.get(galaxy);
+}
+
 GalaxyBanEntry* AccountImplementation::getGalaxyBan(const uint32 galaxy) {
-	if(galaxyBans.contains(galaxy))
-		return galaxyBans.get(galaxy);
+	return galaxyBans.get(galaxy);
+}
+
+const CharacterListEntry* AccountImplementation::getCharacterBan(const uint32 galaxy, const String& name) const {
+	for (int i = 0; i < characterList->size(); ++i) {
+		const CharacterListEntry* entry = &characterList->get(i);
+
+		if (entry->getFirstName() == name &&
+				entry->getGalaxyID() == galaxy &&
+				entry->isBanned())
+			return entry;
+	}
 
 	return nullptr;
 }
 
 CharacterListEntry* AccountImplementation::getCharacterBan(const uint32 galaxy, const String& name) {
-	for(int i = 0; i < characterList->size(); ++i) {
+	for (int i = 0; i < characterList->size(); ++i) {
 		CharacterListEntry* entry = &characterList->get(i);
 
-		if(entry->getFirstName() == name &&
+		if (entry->getFirstName() == name &&
 				entry->getGalaxyID() == galaxy &&
 				entry->isBanned())
 			return entry;
@@ -130,13 +143,13 @@ CharacterListEntry* AccountImplementation::getCharacterBan(const uint32 galaxy, 
 }
 
 CharacterList* AccountImplementation::getCharacterList() {
-	if(characterList == nullptr)
+	if (characterList == nullptr)
 		updateCharacters();
 
 	return characterList;
 }
 
-uint32 AccountImplementation::getAgeInDays() {
+uint32 AccountImplementation::getAgeInDays() const {
 	if (created == 0) {
 		throw Exception("Account Object has created set as 0 in getAgeInDays");
 	}
@@ -147,7 +160,7 @@ uint32 AccountImplementation::getAgeInDays() {
 	return ageSecs / 24 / 60 / 60;
 }
 
-bool AccountImplementation::isSqlLoaded() {
+bool AccountImplementation::isSqlLoaded() const {
 	return (accountID || stationID || adminLevel || created);
 }
 
