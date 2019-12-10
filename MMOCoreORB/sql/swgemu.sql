@@ -87,7 +87,7 @@ DROP TABLE IF EXISTS `swgemu`.`account_log`;
 CREATE TABLE  `swgemu`.`account_log` (
   `acclog_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `account_id` int(10) unsigned NOT NULL,
-  `timestamp` datetime NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ip_address` varchar(15) NOT NULL,
   PRIMARY KEY (`acclog_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;

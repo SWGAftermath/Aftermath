@@ -6,6 +6,8 @@
 #define PLACESTRUCTURECOMMAND_H_
 
 #include "server/zone/objects/creature/CreatureObject.h"
+#include "server/zone/objects/intangible/StructureControlDevice.h"
+#include "server/zone/objects/structure/StructureObject.h"
 #include "server/zone/objects/tangible/deed/structure/StructureDeed.h"
 
 class PlaceStructureCommand : public QueueCommand {
@@ -33,14 +35,14 @@ public:
 			return GENERALERROR;
 		}
 
-		uint64 deedID;
+		uint64 oid;
 		float x, y;
 		int angle;
 
 		try {
 			UnicodeTokenizer tokenizer(arguments);
 
-			deedID = tokenizer.getLongToken();
+			oid = tokenizer.getLongToken();
 			x = tokenizer.getFloatToken();
 			y = tokenizer.getFloatToken();
 			angle = tokenizer.getIntToken() * 90;
@@ -81,10 +83,22 @@ public:
 		}
 
 		//We want to begin the session here.
-		ManagedReference<StructureDeed*> deed = server->getZoneServer()->getObject(deedID).castTo<StructureDeed*>();
+		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(oid).castTo<SceneObject*>();
 
-		if (deed != nullptr)
-			deed->placeStructure(creature, x, y, angle);
+		if (object != nullptr) {
+			if (object->isDeedObject()) {
+				ManagedReference<StructureDeed*> deed = object.castTo<StructureDeed*>();
+
+				if (deed != nullptr)
+					deed->placeStructure(creature, x, y, angle);
+
+			} else if (object->isStructureControlDevice()) {
+				ManagedReference<StructureControlDevice*> controlDevice = object.castTo<StructureControlDevice*>();
+
+				if (controlDevice != nullptr)
+					controlDevice->placeStructure(creature, x, y, angle);
+			}
+		}
 
 		return SUCCESS;
 	}

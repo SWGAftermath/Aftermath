@@ -82,9 +82,10 @@ public:
 	const static int VEHICLECONTROLDEVICE = 0x808;
 	const static int SHIPCONTROLDEVICE = 0x80A;
 	const static int DROIDCONTROLDEVICE = 0x80B;
+	const static int STRUCTURECONTROLDEVICE = 0x80C;
 
 	/// Not in client **********
-	const static int THEATEROBJECT = 0x80C;
+	const static int THEATEROBJECT = 0x80D;
 	/// End not in client ************
 
 	const static int INSTALLATION = 0x1000;

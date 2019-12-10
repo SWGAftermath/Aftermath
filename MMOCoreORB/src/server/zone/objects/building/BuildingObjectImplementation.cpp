@@ -117,6 +117,18 @@ int BuildingObjectImplementation::getCurrentNumberOfPlayerItems() {
 	return items;
 }
 
+int BuildingObjectImplementation::getCurrentNumberOfPlayerVendors() {
+	int vendors = 0;
+
+	for (int i = 0; i < cells.size(); ++i) {
+		auto& cell = cells.get(i);
+
+		vendors += cell->getCurrentNumberOfPlayerVendors();
+	}
+
+	return vendors;
+}
+
 void BuildingObjectImplementation::createCellObjects() {
 	for (int i = 0; i < totalCellNumber; ++i) {
 		auto newCell = getZoneServer()->createObject(0xAD431713, getPersistenceLevel());

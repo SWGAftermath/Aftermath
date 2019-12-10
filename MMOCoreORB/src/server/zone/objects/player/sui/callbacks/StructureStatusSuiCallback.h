@@ -8,6 +8,7 @@
 #ifndef STRUCTURESTATUSSUICALLBACK_H_
 #define STRUCTURESTATUSSUICALLBACK_H_
 
+#include "server/zone/objects/intangible/StructureControlDevice.h"
 #include "server/zone/objects/player/sui/SuiCallback.h"
 
 
@@ -24,12 +25,21 @@ public:
 
 		ManagedReference<SceneObject*> obj = sui->getUsingObject().get();
 
-		if (obj == nullptr || !obj->isStructureObject()) {
+		if (obj == nullptr || (!obj->isStructureObject() && !obj->isStructureControlDevice())) {
 			creature->sendSystemMessage("@player_structure:no_valid_structurestatus"); //Your /structureStatus target is no longer valid. Cancelling refresh.
 			return;
 		}
 
-		creature->executeObjectControllerAction(0x13F7E585, obj->getObjectID(), ""); //structureStatus
+		uint64 objID = obj->getObjectID();
+
+		if (obj->isStructureControlDevice()) {
+			StructureControlDevice* device = cast<StructureControlDevice*>(obj.get());
+
+			if (device != nullptr)
+				objID = device->getControlledObject()->getObjectID();
+		}
+
+		creature->executeObjectControllerAction(0x13F7E585, objID, ""); //structureStatus
 	}
 };
 

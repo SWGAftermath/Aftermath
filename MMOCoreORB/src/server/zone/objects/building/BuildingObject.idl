@@ -260,6 +260,9 @@ class BuildingObject extends StructureObject {
 	@dirty
 	public native int getCurrentNumberOfPlayerItems();
 
+	@dirty
+	public native int getCurrentNumberOfPlayerVendors();
+
 	/**
 	 * Loops through all the cells, destroying items from the database that aren't contained in the child objects vector.
 	 */
@@ -343,8 +346,22 @@ class BuildingObject extends StructureObject {
 
 	@dirty
 	public string getRedeedMessage() {
-		if(getCurrentNumberOfPlayerItems() > 0)
+		if (getCurrentNumberOfPlayerItems() > 0 || getCurrentNumberOfPlayerVendors() > 0)
 			return "clear_building_for_delete";
+
+		return "";
+	}
+
+	@dirty
+	public string getPackupMessage() {
+		if (isCivicStructure() || isGCWBase())
+			return "packup_not_eligible_02";
+
+		if (getCurrentNumberOfPlayerItems() <= 0)
+			return "packup_not_eligible_03";
+
+		if (getCurrentNumberOfPlayerVendors() > 0)
+			return "packup_not_eligible_04";
 
 		return "";
 	}

@@ -28,23 +28,26 @@ public:
 			return GENERALERROR;
 		}
 
-		ManagedReference<PlayerManager*> playerManager = server->getPlayerManager();
+		ManagedReference<SceneObject*> obj = server->getZoneServer()->getObject(target).castTo<SceneObject*>();
 
-		uint64 targetid = creature->getTargetID();
+		if (obj == nullptr || !obj->isStructureObject()) {
+			ManagedReference<PlayerManager*> playerManager = server->getPlayerManager();
+			uint64 targetid = creature->getTargetID();
 
-		ManagedReference<SceneObject*> obj = playerManager->getInRangeStructureWithAdminRights(creature, targetid);
+			obj = playerManager->getInRangeStructureWithAdminRights(creature, targetid);
+		}
 
-		if (obj == nullptr || !obj->isStructureObject())
+		if (obj == nullptr || !obj->isStructureObject()) {
+			creature->sendSystemMessage("@player_structure:no_building"); //you must be in a building, be near an installation, or have one targeted to do that.
 			return INVALIDTARGET;
+		}
 
 		StructureObject* structure = cast<StructureObject*>(obj.get());
 
 		Locker clocker(structure, creature);
 
-		ManagedReference<Zone*> zone = structure->getZone();
-
-		if (zone == nullptr)
-			return INVALIDPARAMETERS;
+		if (!structure->isOnAdminList(creature))
+			return INVALIDTARGET;
 
 		if (structure->isCivicStructure()) {
 			creature->sendSystemMessage("@player_structure:civic_structure_alert"); // Civic structure: Maintenance handled by city.

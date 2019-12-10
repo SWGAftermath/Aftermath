@@ -1,0 +1,51 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions. */
+
+package server.zone.objects.player.sessions;
+
+import engine.util.Facade;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.structure.StructureObject;
+include server.zone.objects.scene.SessionFacadeType;
+
+class PackupStructureSession extends Facade {
+	protected CreatureObject creatureObject;
+	
+	protected StructureObject structureObject;
+	
+	protected unsigned int packupCode;
+	
+	public PackupStructureSession(CreatureObject creature, StructureObject structure) {
+		Logger.setLoggingName("PackupStructureSession");
+		Logger.setLogging(true);
+		
+		creatureObject = creature;
+		
+		structureObject = structure;
+		
+		packupCode = 0;
+	}
+	
+	public boolean isPackupCode(unsigned int code) {
+		return code == packupCode;
+	}
+
+	public native int initializeSession();
+	public native int sendPackupCode();
+	public native int packupStructure();
+	
+	public int cancelSession() {
+		creatureObject.dropActiveSession(SessionFacadeType.PACKUPSTRUCTURE);
+		
+		return 0;
+	}
+	
+	public int clearSession() {
+		return 0;
+	}
+	
+	public StructureObject getStructureObject() {
+		return structureObject;
+	}
+}
