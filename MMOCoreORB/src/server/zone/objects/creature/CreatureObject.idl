@@ -38,7 +38,6 @@ import system.thread.ReadWriteLock;
 import server.zone.objects.creature.credits.CreditObject;
 include engine.util.u3d.Vector3;
 include system.util.SortedVector;
-include system.lang.ref.WeakReference;
 include engine.log.Logger;
 include server.zone.CloseObjectsVector;
 include server.zone.QuadTreeEntry;
@@ -48,9 +47,8 @@ import server.zone.managers.auction.AuctionSearchTask;
 @mock
 @json
 class CreatureObject extends TangibleObject {
-	@rawTemplate(value = "ZoneClientSession*")
-	@dereferenced
-	protected transient WeakReference owner;
+	@weakReference
+	protected transient ZoneClientSession owner;
 
     	protected CreditObject creditObject;
 
@@ -1283,7 +1281,9 @@ class CreatureObject extends TangibleObject {
 	}
 
 	@preLocked
-	public native void setClient(ZoneClientSession cli);
+	public void setClient(ZoneClientSession cli) {
+		owner = cli;
+	}
 
 	@preLocked
 	public native void dismount();

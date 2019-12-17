@@ -2890,7 +2890,7 @@ void CreatureObjectImplementation::stopEntertaining() {
 }
 
 void CreatureObjectImplementation::sendMessage(BasePacket* msg) {
-	auto ownerClient = owner.get();
+	ManagedReference<ZoneClientSession*> ownerClient = owner.get();
 
 	if (ownerClient == nullptr) {
 #ifdef LOCKFREE_BCLIENT_BUFFERS
@@ -3923,8 +3923,3 @@ void CreatureObjectImplementation::setHue(int hueIndex) {
 
 	hueValue = hueIndex;
 }
-
-void CreatureObjectImplementation::setClient(ZoneClientSession* cli) {
-	owner = cli;
-}
-
