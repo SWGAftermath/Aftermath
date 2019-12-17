@@ -245,10 +245,10 @@ Core3 = {
 	--Custom Server Settings
 	------------------------
 	--Structure Packup Config
-	structurePackupEnabled = "true", --Enables Structure Packup.
+	structurePackupEnabled = "false", --Enables Structure Packup.
 
 	--Structure Inactivity Packup Config
-	inactiveStructurePackupEnabled = "true", --Enables Inactive Structure Packup. Structure Packup must be enabled above.
+	inactiveStructurePackupEnabled = "false", --Enables Inactive Structure Packup. Structure Packup must be enabled above.
 	inactiveStructurePackupDays = 365, --Account inactivity in days to trigger structure packup for inactive accounts.
 }
 
