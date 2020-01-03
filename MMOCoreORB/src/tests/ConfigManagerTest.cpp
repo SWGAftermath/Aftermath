@@ -70,7 +70,7 @@ TEST_F(ConfigManagerTest, TreFiles) {
 	ASSERT_TRUE(treFilesToLoad.size() != 0);
 
 	// Make sure it's not sorted
-	ASSERT_TRUE(treFilesToLoad.get(0) == "default_patch.tre");
+	ASSERT_TRUE(treFilesToLoad.get(0) == "aftermath_1.tre");
 
 	std::cerr << "[>>>>>>>>>>] TreFiles = { '";
 
