@@ -163,12 +163,12 @@ void StructureMaintenanceTask::run() {
 }
 
 void StructureMaintenanceTask::destroyStructureWithReason(StructureObject* structure, const String& reason) {
-#if DEBUG_STRUCTURE_TASK_NO_DESTROY
-	structure->info("Will not be destroyed because DEBUG_STRUCTURE_TASK_NO_DESTROY is set, should destroy because " + reason, true);
-#else // DEBUG_STRUCTURE_TASK_NO_DESTROY
-	structure->info("Destroying because " + reason);
-	StructureManager::instance()->destroyStructure(structure, false, reason);
-#endif // DEBUG_STRUCTURE_TASK_NO_DESTROY
+//#if DEBUG_STRUCTURE_TASK_NO_DESTROY
+structure->info("Will not be destroyed because DEBUG_STRUCTURE_TASK_NO_DESTROY is set, should destroy because " + reason, true);
+//#else // DEBUG_STRUCTURE_TASK_NO_DESTROY
+//	structure->info("Destroying because " + reason);
+//	StructureManager::instance()->destroyStructure(structure, false, reason);
+//#endif // DEBUG_STRUCTURE_TASK_NO_DESTROY
 }
 
 void StructureMaintenanceTask::sendMailMaintenanceWithdrawnFromBank(const String& creoName, StructureObject* structure) {
