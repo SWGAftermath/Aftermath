@@ -18,8 +18,6 @@ void CharacterBuilderTerminalImplementation::loadTemplateData(SharedObjectTempla
 		return;
 
 	rootNode = terminalData->getItemList();
-
-	//info("loaded " + String::valueOf(itemList.size()));
 }
 
 void CharacterBuilderTerminalImplementation::initializeTransientMembers() {
@@ -32,7 +30,7 @@ int CharacterBuilderTerminalImplementation::handleObjectMenuSelect(CreatureObjec
 	if (!ConfigManager::instance()->getCharacterBuilderEnabled())
 		return 1;
 
-	//info("entering start terminal radial call", true);
+	debug() << "entering start terminal radial call";
 
 	if (selectedID != 20) // not use object
 		return 1;
@@ -46,7 +44,7 @@ void CharacterBuilderTerminalImplementation::sendInitialChoices(CreatureObject* 
 	if (!ConfigManager::instance()->getCharacterBuilderEnabled())
 		return;
 
-	//info("entering sendInitialChoices", true);
+	debug() << "entering sendInitialChoices";
 
 	if (rootNode == nullptr) {
 		player->sendSystemMessage("There was an error initializing the menu for this character builder terminal. Sorry for the inconvenience.");
@@ -120,6 +118,9 @@ void CharacterBuilderTerminalImplementation::grantGlowyBadges(CreatureObject* pl
 		return;
 
 	int ids[] = { 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 38, 39, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 105, 106, 107, 108, 112, 113, 114, 115, 116, 117, 118, 119, 120, 129, 130, 131, 132, 134, 135, 136, 137, 138, 143, 144, 145, 146 };
+/*
+	const auto& ids = terminalTemplate->getGlowyBadgeIds();
+FIX THIS LATER*/
 
 	for (int i = 0; i < 30; i++) {
 		ghost->awardBadge(ids[i]);
@@ -151,7 +152,7 @@ void CharacterBuilderTerminalImplementation::grantJediInitiate(CreatureObject* p
 
 	luaVillageGmCmd->callFunction();
 
-	Vector<String> branches = terminalTemplate->getVillageBranchUnlocks();
+	const auto& branches = terminalTemplate->getVillageBranchUnlocks();
 
 	for (int i = 0; i < branches.size(); i++) {
 		String branch = branches.get(i);
