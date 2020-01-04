@@ -95,7 +95,7 @@ SceneObject* CreatureManagerImplementation::spawnLair(unsigned int lairTemplate,
  		return nullptr;
  	}
 
- 	ManagedReference<LairObject*> building = zoneServer->createObject(buildingToSpawn.hashCode(), 0).castTo<LairObject*>();
+ 	Reference<LairObject*> building = zoneServer->createObject(buildingToSpawn.hashCode(), 0).castTo<LairObject*>();
 
  	if (building == nullptr) {
  		error("error spawning " + buildingToSpawn);
