@@ -7,6 +7,7 @@
 
 #include "engine/engine.h"
 #include "system/lang/Function.h"
+#include "system/io/Pipe.h"
 
 #include "server/features/Features.h"
 
@@ -35,10 +36,6 @@ class MantisDatabase;
 class StatusServer;
 
 namespace server {
- namespace web {
- 	 class WebServer;
- }
-
  namespace web3 {
  	class RESTServer;
  }
@@ -50,9 +47,8 @@ namespace engine {
 	}
 }
 
-using namespace server::web;
-
 class ServerCore : public Core, public Logger {
+	Pipe consoleCommandPipe;
 	ConfigManager* configManager;
 	ServerDatabase* database;
 	MantisDatabase* mantisDatabase;
@@ -61,7 +57,6 @@ class ServerCore : public Core, public Logger {
 	Reference<StatusServer*> statusServer;
 	server::features::Features* features;
 	Reference<PingServer*> pingServer;
-	WebServer* webServer;
 	MetricsManager* metricsManager;
 	server::web3::RESTServer* restServer;
 #ifdef WITH_SESSION_API
@@ -71,12 +66,15 @@ class ServerCore : public Core, public Logger {
 	Mutex shutdownBlockMutex;
 	Condition waitCondition;
 
+public:
 	enum CommandResult {
 		SUCCESS = 0,
 		ERROR = 1,
-		SHUTDOWN
+		SHUTDOWN,
+		NOTFOUND
 	};
 
+private:
 	VectorMap<String, Function<CommandResult(const String& arguments)>> consoleCommands;
 
 	bool handleCmds;
@@ -87,6 +85,7 @@ class ServerCore : public Core, public Logger {
 	static ServerCore* instance;
 
 	void registerConsoleCommmands();
+	CommandResult processConsoleCommand(const String& commandString);
 
 public:
 	ServerCore(bool truncateDatabases, const SortedVector<String>& args);
@@ -100,6 +99,7 @@ public:
 	void run() override;
 
 	void shutdown();
+	void queueConsoleCommand(const String& commandString);
 	void handleCommands();
 	void processConfig();
 	void signalShutdown();
