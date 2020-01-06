@@ -245,7 +245,7 @@ Core3 = {
 	--Custom Server Settings
 	------------------------
 	--Structure Packup Config
-	structurePackupEnabled = "false", --Enables Structure Packup.
+	structurePackupEnabled = "true", --Enables Structure Packup.
 
 	--Structure Inactivity Packup Config
 	inactiveStructurePackupEnabled = "false", --Enables Inactive Structure Packup. Structure Packup must be enabled above.
