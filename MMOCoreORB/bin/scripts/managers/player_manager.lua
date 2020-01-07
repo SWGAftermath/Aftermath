@@ -89,7 +89,7 @@ veteranRewards = {
 
 		-- 30 Day Rewards
 		--{templateFile = "object/tangible/veteran_reward/harvester.iff", milestone=90, oneTime=true, description="@veteran_new:poweredharvester"},
-		{templateFile = "object/tangible/veteran_reward/resource.iff", milestone=30, oneTime=true, description="@veteran_new:resourcecrate"},
+		--{templateFile = "object/tangible/veteran_reward/resource.iff", milestone=30, oneTime=true, description="@veteran_new:resourcecrate"},
 		{templateFile = "object/tangible/veteran_reward/data_terminal_s1.iff", milestone=30, oneTime=false, description="@veteran_new:dataterminal1"},
 		{templateFile = "object/tangible/veteran_reward/data_terminal_s2.iff", milestone=30, oneTime=false, description="@veteran_new:dataterminal2"},
 		{templateFile = "object/tangible/veteran_reward/data_terminal_s3.iff", milestone=30, oneTime=false, description="@veteran_new:dataterminal3"},
