@@ -661,7 +661,7 @@ void SlicingSessionImplementation::handleSliceEncumbrance(uint8 percent) {
 
 	Locker locker(armor);
 
-	if ((getMaxCondition() - getConditionDamage()) <= 0) {
+	if ((armor->getMaxCondition() - armor->getConditionDamage()) <= 0) {
 		player->sendSystemMessage("The armor is too badly damaged to slice for condition");
 		return;
 	}
