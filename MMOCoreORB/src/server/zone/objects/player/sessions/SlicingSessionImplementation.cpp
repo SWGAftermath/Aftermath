@@ -666,7 +666,7 @@ void SlicingSessionImplementation::handleSliceEncumbrance(uint8 percent) {
 		return;
 	}
 	int conDmg = armor->getConditionDamage();
-	armor->setMaxCondition(getMaxCondition() + (armor->getMaxCondition() - (percent / 100.f)), true);
+	armor->setMaxCondition(armor->getMaxCondition() + (armor->getMaxCondition() - (percent / 100.f)), true);
 	armor->setConditionDamage(conDmg, true);
 
 	armor->setSliced(true);
