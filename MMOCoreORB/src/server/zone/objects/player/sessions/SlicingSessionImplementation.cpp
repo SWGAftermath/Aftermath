@@ -661,7 +661,14 @@ void SlicingSessionImplementation::handleSliceEncumbrance(uint8 percent) {
 
 	Locker locker(armor);
 
-	armor->setEncumbranceSlice(percent / 100.f);
+	if ((getMaxCondition() - getConditionDamage()) <= 0) {
+		player->sendSystemMessage("The armor is too badly damaged to slice for condition");
+		return;
+	}
+	int conDmg = armor->getConditionDamage();
+	armor->setMaxCondition(getMaxCondition() + (armor->getMaxCondition() - (percent / 100.f)), true);
+	armor->setConditionDamage(conDmg, true);
+
 	armor->setSliced(true);
 
 	StringIdChatParameter params;
