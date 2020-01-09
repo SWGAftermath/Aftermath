@@ -202,7 +202,7 @@ void PetControlDeviceImplementation::callObject(CreatureObject* player) {
 				const CreatureTemplate* activePetTemplate = object->getCreatureTemplate();
 				const CreatureTemplate* callingPetTemplate = pet->getCreatureTemplate();
 
-				if (activePetTemplate == nullptr || callingPetTemplate == nullptr || (activePetTemplate->getTemplateName() != "at_st" && activePetTemplate->activePetTemplate() != "at_xt"))
+				if (activePetTemplate == nullptr || callingPetTemplate == nullptr || (activePetTemplate->getTemplateName() != "at_st" && activePetTemplate->getTemplateName() != "at_xt"))
 					continue;
 
 				if (++currentlySpawned >= maxPets || ((activePetTemplate->getTemplateName() == "at_st" && callingPetTemplate->getTemplateName() == "at_st") || (activePetTemplate->getTemplateName() == "at_xt" && callingPetTemplate->getTemplateName() == "at_xt"))) {
