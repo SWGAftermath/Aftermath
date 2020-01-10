@@ -1,6 +1,6 @@
-housemerch = Creature:new {
-	objectName = "@mob/creature_names:commoner",
-	customName = "A Shady Looking Dealer",
+halloweenvendor = Creature:new {
+	objectName = "",
+	customName = "Hutt Cartel Trader (Halloween Event Vendor)",
 	socialGroup = "townsperson",
 	pvpFaction = "townsperson",
 	faction = "townsperson",
@@ -27,12 +27,12 @@ housemerch = Creature:new {
 	optionsBitmask = 264, --for conversation
 	diet = HERBIVORE,
 
-	templates = {"object/mobile/dressed_assassin_mission_giver_01.iff"},
+	templates = {"object/mobile/borvo.iff"},
 	lootGroups = {},
 	weapons = {},
-	conversationTemplate = "houseVendorConvoTemplate",
+	conversationTemplate = "HalloweenEventVendorConvoTemplate",
 	attacks = {
 	}
 }
 
-CreatureTemplates:addCreatureTemplate(housemerch, "housemerch")
+CreatureTemplates:addCreatureTemplate(halloweenvendor, "halloweenvendor")
