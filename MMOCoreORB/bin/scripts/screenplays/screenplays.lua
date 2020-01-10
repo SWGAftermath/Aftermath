@@ -673,8 +673,12 @@ includeFile("record_keepers/record_keepers.lua")
 includeFile("tests/tests.lua")
 
 --Merchants
-includeFile("merchants/house_merch.lua")
-includeFile("merchants/merchant_system.lua")
+includeFile("merchants/vendor_logic.lua")
+includeFile("merchants/vendorData.lua") -- Load this after vendor_logic
+includeFile("merchants/houseVendorData.lua")
+includeFile("merchants/halloweenvendorData.lua")
+includeFile("merchants/vendor_conv_handler.lua")
+
 
 -- Server Event Automation
 includeFile("events/ServerEventAutomation.lua")
