@@ -296,4 +296,4 @@ includeFile("conversations/junk_dealer/junk_dealer_sheani_conv.lua")
 includeFile("conversations/junk_dealer/junk_dealer_sneg_conv.lua")
 
 --item sales aftermath
-includeFile("conversations/merchants/house_merch_conv.lua")
+includeFile("conversations/merchants/vendor_conv.lua")
