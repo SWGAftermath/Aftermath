@@ -20,7 +20,8 @@ function DathomirTradeOutpostScreenPlay:spawnMobiles()
 	spawnMobile("dathomir", "noble", 60, 3.00888, 0.125266, -2.92449, -90, 1392894)
 	spawnMobile("dathomir", "businessman", 60, 6.94935, 0.624998, 2.6394, 198.079, 6955367)
 	spawnMobile("dathomir", "businessman", 60, -8.09806, 0.625, 4.31086, 153.675, 6955368)
-	spawnMobile("dathomir", "nirame_sakute", 60, -2.1912, 0.624999, -6.92293, 24.0649, 6955369)
+	--spawnMobile("dathomir", "nirame_sakute", 60, -2.1912, 0.624999, -6.92293, 24.0649, 6955369)
+	spawnMobile("dathomir", "halloweenvendor", 300, -0.996948, 0.624999, -5.12256, 289, 6955369)
 
 	--Outside
 	spawnMobile("dathomir", "businessman", 60, 590.176, 6, 3058.45, 264.528, 0)

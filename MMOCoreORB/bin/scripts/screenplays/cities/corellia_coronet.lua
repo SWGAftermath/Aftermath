@@ -155,6 +155,7 @@ function CorelliaCoronetScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "conversation")
 	pNpc = spawnMobile(self.planet, "commoner_naboo",60,17.3045,2.25,18.2968,360.011,1855477)
 	self:setMoodString(pNpc, "conversation")
+	spawnMobile(self.planet, "eventvendor",1,-0.00597673,-9,-20.4835,359,1855486)
 
 	--Hotel
 	pNpc = spawnMobile(self.planet, "corellia_times_investigator",60,7.44572,1.00001,-8.00652,0,1855548)
@@ -188,6 +189,7 @@ function CorelliaCoronetScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "calm")
 	spawnMobile(self.planet, "businessman",60,0.978477,-0.894992,21.4841,311.517,8105500)
 	spawnMobile(self.planet, "rebel_recruiter",60,-28.3633,-0.894984,0.335875,171.796,8105504)
+	spawnMobile("corellia", "housemerch", 1, -9.0922, -0.894992, 5.66256, 88, 8105496)
 
 	--Guild Hall -243 -4389
 	spawnMobile(self.planet, "trainer_brawler",0,-11,1.13306,-14,0,1855508)
