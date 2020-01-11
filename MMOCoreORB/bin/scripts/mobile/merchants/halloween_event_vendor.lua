@@ -27,7 +27,7 @@ halloweenvendor = Creature:new {
 	optionsBitmask = 264, --for conversation
 	diet = HERBIVORE,
 
-	templates = {"object/mobile/borvo.iff"},
+	templates = {"object/mobile/dressed_assassin_mission_giver_01.iff"},
 	lootGroups = {},
 	weapons = {},
 	conversationTemplate = "HalloweenEventVendorConvoTemplate",
