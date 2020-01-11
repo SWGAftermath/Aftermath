@@ -91,16 +91,16 @@ HouseVendorConvoHandler = VendorConvoHandler:new {
 	--Vendor Setup
 	vendorLogicType = HouseVendorLogic,
 	--Vendor Greeting
-	initialDialog = "What's a guy gotta do ta get a drink around here? Oh, yeah? Whadda ya want? Wait a minute...you look like a smart individual. You interested in some top of the line housing? If you are, I got ya covered. Just don't ask where I got it from.",
+	initialDialog = "What's a guy gotta do ta get a drink around here? Oh, yeah? Whadda ya want? Wait a minute...you look like a smart individual. You interested in buyin some top of the line housing blueprints? If you are, I got ya covered. Just don't ask where I got it from.",
 	--Player selection to start buying, vendor spatial.
-	saleOption = "Top of the line housing? Let me see what you have",
+	saleOption = "Top of the line housing blueprints? Let me see what you have",
 	saleDialog = "Here's what I got right now.",
 	--Player selection to get vendor information, vendor dialog.
-	informationFirstOption = "Is this all that you sell?",
-	informationFirstDialog = "For now. Make sure to check back for new items.",
+	informationFirstOption = "What am I supposed to do with blueprints?",
+	informationFirstDialog = "You'll have ta find yourself an Architect willing to make these houses. Any Architect worth his own will be all over these blueprints. This stuff is of the highest quality and never seen before. Make sure to check back every now and again in case I got more blueprints in stock.",
 	--Player selection to get vendor more information, vendor dialog.
-	informationSecondOption = "Where can I see these houses in person?",
-	informationSecondDialog = "You can find the houses on Naboo at -3890, 5052",
+	informationSecondOption = "Is there any way I can see these houses before purchasing?",
+	informationSecondDialog = "You sure like to ask questions don't ya? There's a small area on the planet Naboo north-east of Theed, me and my associate have put up some display versions for potential customers to check out. You can find it at -3832, 5125. The info is in ya datapad as a point of interest.",
 }
 
 HalloweenEventVendorConvoHandler = VendorConvoHandler:new {
