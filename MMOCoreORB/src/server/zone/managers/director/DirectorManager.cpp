@@ -14,6 +14,7 @@
 #include "server/zone/objects/intangible/ControlDevice.h"
 #include "server/zone/objects/intangible/PetControlDevice.h"
 #include "server/zone/objects/player/LuaPlayerObject.h"
+#include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/tangible/LuaTangibleObject.h"
 #include "server/zone/objects/region/LuaCityRegion.h"
 #include "server/zone/packets/cell/UpdateCellPermissionsMessage.h"
@@ -317,7 +318,12 @@ void DirectorManager::initializeLuaEngine(Lua* luaEngine) {
 	luaEngine->init();
 	luaEngine->setLoggingName("DirectorManagerLuaInstance");
 	luaEngine->setGlobalLogging(true);
-	luaEngine->setLogging(true);
+
+	if (DEBUG_MODE) {
+		luaEngine->setLogLevel(Logger::DEBUG);
+	} else {
+		luaEngine->setLogLevel(Logger::INFO);
+	}
 
 	luaEngine->setFileLogger("log/lua.log", true);
 	luaEngine->setLogJSON(ConfigManager::instance()->getLuaLogJSON());
