@@ -177,7 +177,6 @@ void PetControlDeviceImplementation::callObject(CreatureObject* player) {
 		if (object != nullptr) {
 			if (object->isCreature() && petType == PetManager::CREATUREPET) {
 				const CreatureTemplate* activePetTemplate = object->getCreatureTemplate();
-				info("Pet: " + String::valueOf(activePetTemplate->getTemplateName()), true);
 
 				if (activePetTemplate == nullptr || activePetTemplate->getTemplateName() == "at_st")
 					continue;
