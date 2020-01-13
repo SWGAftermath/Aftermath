@@ -34,6 +34,11 @@ public:
 
 		if(!skill.isEmpty())
 			alm->insertAttribute("skill_required", skill);
+
+		int useCount = schematicData->getTargetUseCount();
+		
+		if(useCount > 0)
+			alm->insertAttribute("target_use_count", useCount);
 	}
 
 };
