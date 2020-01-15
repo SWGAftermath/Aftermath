@@ -68,7 +68,7 @@ class PlaceStructureSession extends Facade {
 	public int cancelSession() {
 		CreatureObject creature = creatureObject;
 
-		if (creature)
+		if (creature != null)
 			creature.dropActiveSession(SessionFacadeType.PLACESTRUCTURE);
 
 		return 0;

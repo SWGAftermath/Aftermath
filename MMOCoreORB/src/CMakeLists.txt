@@ -78,12 +78,16 @@ if(COMPILE_TESTS)
 	# Define tests
 	enable_testing()
 
-	set(core3tests_libs ${tests_headers} ${tests_sources})
+	add_library(core3tests ${tests_headers} ${tests_sources})
+
+	add_dependencies(core3tests gmock idlobjects)
+
+	set(core3tests_libs core3tests)
 	set(gmock_libs gmock)
 endif(COMPILE_TESTS)
 
 # Create core3 binary
-add_executable(core3 main.cpp server/ServerCore.cpp ${core3tests_libs} ${tre3_sources} ${tre3_headers} ${zone3_sources} ${zone3_headers})
+add_executable(core3 main.cpp server/ServerCore.cpp ${tre3_sources} ${tre3_headers} ${zone3_sources} ${zone3_headers})
 
 if(ENABLE_ODB)
 	add_executable(odb3 server/ServerCore.cpp ${odb3_sources} ${odb3_headers} ${autogen_sources} ${autogen_headers} ${zone3_sources} ${zone3_headers}
@@ -92,7 +96,7 @@ if(ENABLE_ODB)
 endif(ENABLE_ODB)
 
 if(COMPILE_TESTS)
-	add_dependencies(core3 idlobjects)
+	add_dependencies(core3 gmock idlobjects)
 else(COMPILE_TESTS)
 	add_dependencies(core3 idlobjects)
 endif(COMPILE_TESTS)
@@ -107,12 +111,7 @@ set(whole_archive_start)
 set(whole_archive_end)
 
 # Add custom link options
-if(WIN32)
-	set(whole_archive_start "")
-	set(whole_archive_end "")
-
-	set (CMAKE_LINK_WHAT_YOU_USE OFF) 
-elseif(APPLE)
+if(APPLE)
 	set(whole_archive_start "-Wl,-all_load")
 	set(whole_archive_end "") #-Wl,-noall_load deprecated
 elseif(UNIX)
@@ -122,13 +121,12 @@ endif()
 
 target_link_libraries(core3
 	${whole_archive_start}
-	db3 conf3 web3 status3 ping3 login3 chat3 core3terrain core3templates core3pathfinding idlobjects
+	${core3tests_libs} db3 conf3 web3 status3 ping3 login3 chat3 core3terrain core3templates core3pathfinding idlobjects
 	${whole_archive_end}
 	engine3
-	${gmock_libs}
-	${Boost_LIBRARIES}
-	${GCCLIBATOMIC_LIBRARY} ${PTHREAD_LIB_LINK} ${MYSQL_LIB}
-	${LUA_LIBRARIES}
+	${gmock_libs} ${Boost_LIBRARIES}
+	${GCCLIBATOMIC_LIBRARY} Threads::Threads
+	${MYSQL_CLIENT_LIBS} ${LUA_LIBRARIES}
 	${DB_LIBRARIES} ${OPENSSL_LIBRARIES}
 	${ZLIB_LIBRARIES} ${CMAKE_DL_LIBS})
 
@@ -144,8 +142,8 @@ if(ENABLE_ODB)
 	target_link_libraries(odb3
 		engine3
 		${gmock_libs} ${Boost_LIBRARIES}
-		${GCCLIBATOMIC_LIBRARY} ${PTHREAD_LIB_LINK}
-		${MYSQL_LIB} ${LUA_LIBRARIES}
+		${GCCLIBATOMIC_LIBRARY} Threads::Threads
+		${MYSQL_CLIENT_LIBS} ${LUA_LIBRARIES}
 		${DB_LIBRARIES} ${OPENSSL_LIBRARIES}
 		${ZLIB_LIBRARIES} ${CMAKE_DL_LIBS})
 

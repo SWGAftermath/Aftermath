@@ -43,7 +43,7 @@ namespace server {
 	};
 
 	class LoginHandler: public ServiceHandler {
-		Reference<LoginServer*> server;
+		ManagedReference<LoginServer*> loginServerRef;
 
 		LoginSessionMap clients;
 
@@ -52,10 +52,14 @@ namespace server {
 		}
 
 		void initialize() {
+			LoginServer* server =  loginServerRef.getForUpdate();
+
 			server->initialize();
 		}
 
 		ServiceClient* createConnection(Socket* sock, SocketAddress& addr) {
+			LoginServer* server =  loginServerRef.getForUpdate();
+
 			LoginClient* client =  server->createConnection(sock, addr);
 
 			clients.add(client);
@@ -76,21 +80,27 @@ namespace server {
 		}
 
 		void handleMessage(ServiceClient* session, Packet* message) {
+			LoginServer* server =  loginServerRef.getForUpdate();
+
 			Reference<LoginClient*> client = getClient(session);
 
 			server->handleMessage(client, message);
 		}
 
 		void processMessage(Message* message) {
+			LoginServer* server =  loginServerRef.getForUpdate();
+
 			return server->processMessage(message);
 		}
 
 		bool handleError(ServiceClient* client, Exception& e) {
+			LoginServer* server =  loginServerRef.getForUpdate();
+
 			return server->handleError(client, e);
 		}
 
 		void setLoginSerrver(LoginServer* server) {
-			this->server = server;
+			loginServerRef = server;
 		}
 
 		LoginClient* getClient(ServiceClient* session) {

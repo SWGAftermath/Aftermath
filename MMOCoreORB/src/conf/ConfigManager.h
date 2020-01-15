@@ -19,9 +19,7 @@ namespace conf {
 		Vector <String>* asStringVector = nullptr;
 		SortedVector <String>* asSortedStringVector = nullptr;
 		Vector <int>* asIntVector = nullptr;
-		mutable AtomicInteger usageCounter = 0;
-
-		Mutex mutex;
+		mutable int usageCounter = 0; //this counter is not thread safe but we dont care
 
 	public:
 		ConfigDataItem(lua_Number value);
@@ -34,28 +32,26 @@ namespace conf {
 		~ConfigDataItem();
 
 		inline bool getBool() const {
-			usageCounter.increment();
+			usageCounter++;
 			return asBool;
 		}
 
 		inline float getFloat() const {
-			usageCounter.increment();
+			usageCounter++;
 			return (float)asNumber;
 		}
 
 		inline int getInt() const {
-			usageCounter.increment();
+			usageCounter++;
 			return (int)asNumber;
 		}
 
 		inline const String& getString() const {
-			usageCounter.increment();
+			usageCounter++;
 			return asString;
 		}
 
 		const Vector<String>& getStringVector() {
-			Locker guard(&mutex);
-
 			if (asStringVector == nullptr) {
 				asStringVector = new Vector<String>();
 
@@ -80,8 +76,6 @@ namespace conf {
 		}
 
 		const SortedVector<String>& getSortedStringVector() {
-			Locker guard(&mutex);
-
 			if (asSortedStringVector == nullptr) {
 				asSortedStringVector = new SortedVector<String>();
 				auto entries = getStringVector();
@@ -95,8 +89,6 @@ namespace conf {
 		}
 
 		const Vector<int>& getIntVector() {
-			Locker guard(&mutex);
-
 			if (asIntVector == nullptr) {
 				asIntVector = new Vector<int>();
 
@@ -121,9 +113,7 @@ namespace conf {
 		}
 
 		String toString() {
-			Locker guard(&mutex);
-
-			usageCounter.increment();
+			usageCounter++;
 
 			if (asVector == nullptr)
 				return String(asString);
@@ -149,9 +139,8 @@ namespace conf {
 		}
 
 		inline int resetUsageCounter() {
-			int prevCount = usageCounter.get(std::memory_order_acquire);
-			usageCounter.set(0, std::memory_order_release);
-
+			int prevCount = usageCounter;
+			usageCounter = 0;
 			return prevCount;
 		}
 
@@ -179,20 +168,13 @@ namespace conf {
 		int cachedSessionStatsSeconds = 1;
 		int cachedOnlineLogSize = 0;
 
-		ReadWriteLock mutex;
-
-	private:
-		ConfigDataItem* findItem(const String& name) const;
-		bool updateItem(const String& name, ConfigDataItem* newItem);
-
-		bool parseConfigData(const String& prefix, bool isGlobal = false, int maxDepth = 5);
-
 	public:
 		ConfigManager();
 		~ConfigManager();
 
 		bool loadConfigData();
 		void clearConfigData();
+		bool parseConfigData(const String& prefix, bool isGlobal = false, int maxDepth = 5);
 		void cacheHotItems();
 		void dumpConfig(bool includeSecure = false);
 		bool testConfig(ConfigManager* configManager);
@@ -202,6 +184,7 @@ namespace conf {
 		}
 
 		// General config functions
+		ConfigDataItem* findItem(const String& name) const;
 		int getInt(const String& name, int defaultValue);
 		bool getBool(const String& name, bool defaultValue);
 		float getFloat(const String& name, float defaultValue);
@@ -210,6 +193,7 @@ namespace conf {
 		const SortedVector<String>& getSortedStringVector(const String& name);
 		const Vector<int>& getIntVector(const String& name);
 
+		bool updateItem(const String& name, ConfigDataItem* newItem);
 		bool setNumber(const String& name, lua_Number newValue);
 		bool setInt(const String& name, int newValue);
 		bool setBool(const String& name, bool newValue);

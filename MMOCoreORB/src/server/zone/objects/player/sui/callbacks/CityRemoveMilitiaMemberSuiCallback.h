@@ -10,7 +10,6 @@
 
 #include "engine/engine.h"
 #include "server/zone/objects/player/sui/SuiCallback.h"
-#include "server/zone/managers/city/CityManager.h"
 
 namespace server {
 namespace zone {

@@ -11,7 +11,6 @@
 #include "server/zone/objects/player/sui/SuiCallback.h"
 #include "server/zone/objects/scene/SceneObject.h"
 #include "server/zone/Zone.h"
-#include "server/zone/managers/city/CityManager.h"
 
 class InstallMissionTerminalSuiCallback : public SuiCallback {
 public:

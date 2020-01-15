@@ -9,7 +9,6 @@
 #include "server/zone/objects/player/PlayerObject.h"
 #include "server/zone/objects/creature/events/DroidMerchantBarkerTask.h"
 #include "server/zone/objects/player/sui/callbacks/SelectWaypointSuiCallback.h"
-#include "server/zone/objects/creature/ai/DroidObject.h"
 
 DroidMerchantModuleDataComponent::DroidMerchantModuleDataComponent() {
 	active = false;

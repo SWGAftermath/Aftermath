@@ -26,20 +26,24 @@ namespace server {
 			}
 
 			void run() {
-				static Logger logger("LoginMessageProcessorTask", Logger::INFO);
-
 				try {
 					message->reset();
 
 					packetHandler->handleMessage(message);
-				} catch (const PacketIndexOutOfBoundsException& e) {
-					logger.error() << e.getMessage();
+				} catch (PacketIndexOutOfBoundsException& e) {
+					System::out << e.getMessage();
 
-					logger.debug() << "incorrect packet - " << *message;
-				} catch (const Exception& e) {
-					logger.error() << e.getMessage();
+				/*	StringBuffer str;
+					str << "incorrect packet - " << msg->toStringData();
+					error(str);*/
 
-					logger.debug() << "incorrect packet - " << *message;
+					e.printStackTrace();
+				} catch (Exception& e) {
+					StringBuffer msg;
+					msg << e.getMessage();
+					//error(msg);
+
+					e.printStackTrace();
 				}
 			}
 

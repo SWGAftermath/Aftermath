@@ -5,19 +5,20 @@
 #ifndef GALAXYBANENTRY_H_
 #define GALAXYBANENTRY_H_
 
-#include "system/lang/Object.h"
-
 class GalaxyBanEntry : public Object {
 private:
-	uint32 accountID = 0;
+	uint32 accountID;
 	Time creationDate;
-	int galaxyID = 0;
+	int galaxyID;
 	String banReason;
-	uint32 banAdmin = 0;
+	uint32 banAdmin;
 	Time banExpiration;
 
 public:
-	GalaxyBanEntry() = default;
+	GalaxyBanEntry() {
+		galaxyID = 0;
+		accountID = banAdmin = 0;
+	}
 
 	GalaxyBanEntry(const GalaxyBanEntry& e) : Object() {
 		accountID = e.accountID;

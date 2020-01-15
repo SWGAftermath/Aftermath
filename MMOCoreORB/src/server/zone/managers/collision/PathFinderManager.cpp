@@ -46,10 +46,6 @@ PathFinderManager::PathFinderManager() : Logger("PathFinderManager"), m_navQuery
 }
 
 Vector<WorldCoordinates>* PathFinderManager::findPath(const WorldCoordinates& pointA, const WorldCoordinates& pointB, Zone *zone) {
-#ifdef PLATFORM_WIN
-#undef isnan
-#endif
-
 	if (std::isnan(pointA.getX()) || std::isnan(pointA.getY()) || std::isnan(pointA.getZ()))
 		return nullptr;
 

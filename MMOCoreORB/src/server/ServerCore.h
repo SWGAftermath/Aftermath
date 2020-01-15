@@ -79,9 +79,7 @@ public:
 	};
 
 private:
-	using CommandFunctionType = Function<CommandResult(const String & arguments)>;
-
-	VectorMap<String, CommandFunctionType> consoleCommands;
+	VectorMap<String, Function<CommandResult(const String& arguments)>> consoleCommands;
 
 	bool handleCmds;
 

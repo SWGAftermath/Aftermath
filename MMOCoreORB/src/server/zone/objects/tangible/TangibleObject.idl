@@ -9,7 +9,7 @@ import system.util.SortedVector;
 import engine.log.Logger;
 include server.zone.packets.scene.AttributeListMessage;
 import server.zone.objects.creature.CreatureObject;
-include server.zone.objects.area.ActiveArea;
+import server.zone.objects.area.ActiveArea;
 include templates.params.OptionBitmask;
 include templates.params.ObserverEventType;
 import server.zone.objects.factorycrate.FactoryCrate;
@@ -830,7 +830,7 @@ class TangibleObject extends SceneObject {
 
 	@read
 	public boolean hasAntiDecayKit() {
-		return antiDecayKitObject;
+		return antiDecayKitObject != null;
 	}
 
 	@preLocked
@@ -838,9 +838,7 @@ class TangibleObject extends SceneObject {
 		if (!hasAntiDecayKit()) {
 			antiDecayKitObject = adk;
 
-			SceneObject parent = adk.getParent();
-
-			if (parent)
+			if (adk.getParent() != null)
 				adk.destroyObjectFromWorld(true);
 
 			sendAttributeListTo(player);

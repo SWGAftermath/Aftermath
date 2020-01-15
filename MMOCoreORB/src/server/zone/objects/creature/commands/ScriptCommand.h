@@ -109,7 +109,7 @@ public:
 
 				AtomicTime nextExecutionTime;
 				Core::getTaskManager()->getNextExecutionTime(task, nextExecutionTime);
-				int64 miliDiff = nextExecutionTime.miliDifference();
+				uint64 miliDiff = nextExecutionTime.miliDifference();
 
 				buffer += ", Execution (server time): " + nextExecutionTime.getFormattedTime() + " (" + getTimeString(-miliDiff) + " from now)";
 

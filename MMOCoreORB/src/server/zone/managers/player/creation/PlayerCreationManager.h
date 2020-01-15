@@ -9,10 +9,6 @@
 #include "engine/lua/Lua.h"
 #include "server/zone/packets/charcreation/ClientCreateCharacterCallback.h"
 
-#include "ProfessionDefaultsInfo.h"
-#include "RacialCreationData.h"
-#include "HairStyleInfo.h"
-
 namespace server {
 namespace zone {
 	class ZoneServer;

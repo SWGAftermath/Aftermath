@@ -50,16 +50,10 @@ namespace coredetail {
 
 		void run() override;
 	};
-
-#ifdef PLATFORM_WIN
-	static const char* EngineConfigName = "core3engine_windows";
-#else
-	static const char* EngineConfigName = "core3engine";
-#endif
 }
 
 ServerCore::ServerCore(bool truncateDatabases, const SortedVector<String>& args) :
-		Core("log/core3.log", coredetail::EngineConfigName, LogLevel::LOG), Logger("Core") {
+		Core("log/core3.log", "core3engine", LogLevel::LOG), Logger("Core") {
 	orb = nullptr;
 
 	loginServer = nullptr;
@@ -97,11 +91,7 @@ void ServerCore::registerConsoleCommmands() {
 
 	consoleCommands.setNoDuplicateInsertPlan();
 
-	const auto addCommand = [this](auto name, auto lambda) {
-		consoleCommands.put(name, lambda);
-	};
-
-	addCommand("exit", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("exit", [this](const String& arguments) -> CommandResult {
 		ZoneServer* zoneServer = zoneServerRef.getForUpdate();
 
 		if (zoneServer != nullptr) {
@@ -113,13 +103,13 @@ void ServerCore::registerConsoleCommmands() {
 		return SHUTDOWN;
 	});
 
-	addCommand("logQuadTree", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("logQuadTree", [this](const String& arguments) -> CommandResult {
 		QuadTree::setLogging(!QuadTree::doLog());
 
 		return SUCCESS;
 	});
 
-	addCommand("info", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("info", [this](const String& arguments) -> CommandResult {
 		//TaskManager::instance()->printInfo();
 
 		ZoneServer* zoneServer = zoneServerRef.getForUpdate();
@@ -136,7 +126,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("lock", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("lock", [this](const String& arguments) -> CommandResult {
 		ZoneServer* zoneServer = zoneServerRef.getForUpdate();
 
 		if (zoneServer != nullptr)
@@ -145,7 +135,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("unlock", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("unlock", [this](const String& arguments) -> CommandResult {
 		ZoneServer* zoneServer = zoneServerRef.getForUpdate();
 
 		if (zoneServer != nullptr)
@@ -154,7 +144,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("icap", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("icap", [this](const String& arguments) -> CommandResult {
 		ZoneServer* zoneServer = zoneServerRef.getForUpdate();
 
 		if (zoneServer != nullptr)
@@ -163,7 +153,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("dcap", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("dcap", [this](const String& arguments) -> CommandResult {
 		ZoneServer* zoneServer = zoneServerRef.getForUpdate();
 
 		if (zoneServer != nullptr)
@@ -172,7 +162,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("fixQueue", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("fixQueue", [this](const String& arguments) -> CommandResult {
 		ZoneServer* zoneServer = zoneServerRef.getForUpdate();
 
 		if (zoneServer != nullptr)
@@ -181,7 +171,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("save", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("save", [this](const String& arguments) -> CommandResult {
 		bool forceFull = !arguments.contains("delta");
 
 		ObjectManager::instance()->createBackup(forceFull);
@@ -189,7 +179,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("help", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("help", [this](const String& arguments) -> CommandResult {
 		System::out << "available commands: ";
 
 		for (const auto& entry : consoleCommands) {
@@ -201,7 +191,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("chars", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("chars", [this](const String& arguments) -> CommandResult {
 		ZoneServer* zoneServer = zoneServerRef.getForUpdate();
 		uint32 num = 0;
 
@@ -223,7 +213,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("lookupcrc", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("lookupcrc", [this](const String& arguments) -> CommandResult {
 		uint32 crc = 0;
 		try {
 			crc = UnsignedInteger::valueOf(arguments);
@@ -243,7 +233,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("loglevel", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("loglevel", [this](const String& arguments) -> CommandResult {
 		int level = 0;
 		try {
 			level = Integer::valueOf(arguments);
@@ -262,13 +252,13 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("rev", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("rev", [this](const String& arguments) -> CommandResult {
 		System::out << ConfigManager::instance()->getRevision() << endl;
 
 		return SUCCESS;
 	});
 
-	addCommand("broadcast", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("broadcast", [this](const String& arguments) -> CommandResult {
 		ZoneServer* zoneServer = zoneServerRef.getForUpdate();
 
 		if (zoneServer != nullptr) {
@@ -280,7 +270,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("shutdown", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("shutdown", [this](const String& arguments) -> CommandResult {
 		ZoneServer* zoneServer = zoneServerRef.getForUpdate();
 		int minutes = 1;
 
@@ -305,7 +295,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SHUTDOWN;
 	});
 
-	addCommand("playercleanup", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("playercleanup", [this](const String& arguments) -> CommandResult {
 		ZoneServer* zoneServer = zoneServerRef.getForUpdate();
 
 		if (zoneServerRef != nullptr) {
@@ -318,7 +308,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("playercleanupstats", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("playercleanupstats", [this](const String& arguments) -> CommandResult {
 		ZoneServer* zoneServer = zoneServerRef.getForUpdate();
 
 		if (zoneServerRef != nullptr) {
@@ -331,7 +321,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("test", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("test", [this](const String& arguments) -> CommandResult {
 		Lua* lua = DirectorManager::instance()->getLuaInstance();
 
 		// create the lua function
@@ -341,13 +331,13 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("reloadscreenplays", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("reloadscreenplays", [this](const String& arguments) -> CommandResult {
 		DirectorManager::instance()->reloadScreenPlays();
 
 		return SUCCESS;
 	});
 
-	addCommand("reloadmanager", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("reloadmanager", [this](const String& arguments) -> CommandResult {
 		if (arguments == "name") {
 			ZoneServer* server = zoneServerRef.get();
 
@@ -360,14 +350,14 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("clearstats", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("clearstats", [this](const String& arguments) -> CommandResult {
 		Core::getTaskManager()->clearWorkersTaskStats();
 
 		return SUCCESS;
 	});
 
 #ifdef COLLECT_TASKSTATISTICS
-	addCommand("statsd", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("statsd", [this](const String& arguments) -> CommandResult {
 		StringTokenizer argTokenizer(arguments);
 
 		argTokenizer.setDelimiter(" ");
@@ -392,7 +382,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("samplerate", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("samplerate", [this](const String& arguments) -> CommandResult {
 		try {
 			int rate = UnsignedInteger::valueOf(arguments);
 
@@ -408,7 +398,7 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	});
 
-	addCommand("sampleratedb", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("sampleratedb", [this](const String& arguments) -> CommandResult {
 		try {
 			int rate = UnsignedInteger::valueOf(arguments);
 
@@ -430,8 +420,8 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	};
 
-	addCommand("getpvpmode", pvpModeLambda);
-	addCommand("getpvp", pvpModeLambda);
+	consoleCommands.put("getpvpmode", pvpModeLambda);
+	consoleCommands.put("getpvp", pvpModeLambda);
 
 	const auto setPvpModeLambda = [this](const String& arguments) -> CommandResult {
 		int num;
@@ -461,8 +451,8 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	};
 
-	addCommand("setpvpmode", setPvpModeLambda);
-	addCommand("setpvp", setPvpModeLambda);
+	consoleCommands.put("setpvpmode", setPvpModeLambda);
+	consoleCommands.put("setpvp", setPvpModeLambda);
 
 	const auto dumpConfigLambda = [this](const String& arguments) -> CommandResult {
 		ConfigManager::instance()->dumpConfig(arguments == "all");
@@ -470,19 +460,19 @@ void ServerCore::registerConsoleCommmands() {
 		return SUCCESS;
 	};
 
-	addCommand("dumpcfg", dumpConfigLambda);
-	addCommand("dumpconfig", dumpConfigLambda);
+	consoleCommands.put("dumpcfg", dumpConfigLambda);
+	consoleCommands.put("dumpconfig", dumpConfigLambda);
 
 #ifdef WITH_SESSION_API
 	const auto sessionApiLambda = [this](const String& arguments) -> CommandResult {
 		return SessionAPIClient::instance()->consoleCommand(arguments) ? SUCCESS : ERROR;
 	};
 
-	addCommand("sessions", sessionApiLambda);
-	addCommand("sessionapi", sessionApiLambda);
+	consoleCommands.put("sessions", sessionApiLambda);
+	consoleCommands.put("sessionapi", sessionApiLambda);
 #endif // WITH_SESSION_API
 
-	addCommand("toggleModifiedObjectsDump", [this](const String& arguments) -> CommandResult {
+	consoleCommands.put("toggleModifiedObjectsDump", [this](const String& arguments) -> CommandResult {
 		DOBObjectManager::setDumpLastModifiedTraces(!DOBObjectManager::getDumpLastModifiedTraces());
 
 		System::out << "dump last modified traces set to " << DOBObjectManager::getDumpLastModifiedTraces();
@@ -926,12 +916,14 @@ void ServerCore::handleCommands() {
 
 		System::out << "\nREADY\n> " << flush;
 
-		char line[256];
+		char line[PIPE_BUF];
 
 		auto len = consoleCommandPipe.readLine(line, sizeof(line));
 
 		if (!len)
 			continue;
+
+		line[len] = 0;
 
 		auto cmd = String(line).trim();
 
@@ -981,7 +973,6 @@ coredetail::ConsoleReaderService::ConsoleReaderService(ServerCore* serverCoreIns
 }
 
 bool coredetail::ConsoleReaderService::inputAvailable() const {
-#ifndef PLATFORM_WIN
 	struct timeval tv = {};
 	tv.tv_sec = 1;
 	tv.tv_usec = 0;
@@ -996,40 +987,18 @@ bool coredetail::ConsoleReaderService::inputAvailable() const {
 	fatal(ret != -1) << "select on stdin failed";
 
 	return FD_ISSET(STDIN_FILENO, &fds);
-#else
-	static auto stdinHandle = [this] () {
-		auto handle = GetStdHandle(STD_INPUT_HANDLE);
-
-		fatal(handle) << "GetStdHandle returned null stdin handle";
-
-		return handle;
-	} ();
-
-	switch (WaitForSingleObject(stdinHandle, 1000)) {
-	case WAIT_OBJECT_0:
-		return true;
-	default:
-		return false;
-	}
-#endif
 }
 
 void coredetail::ConsoleReaderService::run() {
 	setReady(true);
 
 	while (doRun.get(std::memory_order_seq_cst)) {
-		char* res = nullptr;
-
-#ifndef PLATFORM_WIN
 		char line[PIPE_BUF];
-#else
-		char line[256];
-#endif
 
 		if (!inputAvailable())
 			continue;
 
-		res = fgets(line, sizeof(line), stdin);
+		auto res = fgets(line, sizeof(line), stdin);
 
 		if (!res)
 			continue;
