@@ -100,6 +100,14 @@ String APIRequest::toString() const {
 	return buf.toString();
 }
 
+String APIRequest::toStringData() const {
+	return toString();
+}
+
+bool APIRequest::stringToBool(const String& boolStr) const {
+	return boolStr.toLowerCase() == "true" || boolStr == "1";
+}
+
 bool APIRequest::hasPathField(const String& fieldName) const {
 	return mPathFields.containsKey(fieldName);
 }
@@ -174,6 +182,16 @@ uint64_t APIRequest::getQueryFieldUnsignedLong(const String& fieldName, bool req
 	return UnsignedLong::valueOf(getQueryFieldString(fieldName, false));
 }
 
+bool APIRequest::getQueryFieldBool(const String& fieldName, bool required, bool defaultValue) {
+	if (required) {
+		return stringToBool(getQueryFieldString(fieldName, true));
+	} else if (!hasQueryField(fieldName)) {
+		return defaultValue;
+	}
+
+	return stringToBool(getQueryFieldString(fieldName, false));
+}
+
 bool APIRequest::parseRequestJSON(bool failOnError, bool failOnEmpty) {
 	if (mParsedRequestJSON)
 		return true;
@@ -243,9 +261,29 @@ uint64_t APIRequest::getRequestFieldUnsignedLong(const String& fieldName, bool r
 
 	if (jvalue.is_string()) {
 		return UnsignedLong::valueOf(jvalue.get<std::string>());
-	} else {
-		return jvalue.get<uint64_t>();
 	}
+
+	return jvalue.get<uint64_t>();
+}
+
+bool APIRequest::getRequestFieldBool(const String& fieldName, bool required, bool defaultValue) {
+	if (!hasRequestField(fieldName)) {
+		if (!required) {
+			return defaultValue;
+		} else {
+			auto msg = "Missing required request field [" + fieldName + "]";
+			fail(msg);
+			throw APIRequestException(msg);
+		}
+	}
+
+	auto jvalue = mRequestJSON[fieldName];
+
+	if (jvalue.is_string()) {
+		return stringToBool(jvalue.get<std::string>());
+	}
+
+	return jvalue.get<bool>();
 }
 
 void APIRequest::reply(JSONSerializationType result, const String& status, APIRequestStatusValue status_code) {

@@ -87,7 +87,8 @@ public:
 					if (account == nullptr)
 						return;
 
-					Locker alocker(account);
+				for (int i = 0; i < characters->size(); ++i) {
+					const CharacterListEntry* entry = &characters->get(i);
 
 					client->resetCharacters();
 

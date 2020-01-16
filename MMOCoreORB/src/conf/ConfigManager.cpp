@@ -25,15 +25,15 @@ bool ConfigManager::loadConfigData() {
 
 	configStartTime.start();
 
-	if (!runFile("conf/config.lua")) {
-		error("ConfigManager failed to parse conf/config.lua");
+	if (!lua.runFile("conf/config.lua")) {
+		fatal("ConfigManager failed to parse conf/config.lua");
 		return false;
 	}
 
 	File file("conf/config-local.lua");
 
 	if (file.setReadOnly()) {
-		if (!runFile("conf/config-local.lua")) {
+		if (!lua.runFile("conf/config-local.lua")) {
 			error("ConfigManager failed to parse conf/config-local.lua");
 			return false;
 		}
@@ -50,7 +50,7 @@ bool ConfigManager::loadConfigData() {
 	clearConfigData();
 
 	// Load new-style "Core3.value" settings
-	LuaObject core3 = getGlobalObject("Core3");
+	LuaObject core3 = lua.getGlobalObject("Core3");
 
 	resultCore3 = parseConfigData("Core3");
 
@@ -60,7 +60,7 @@ bool ConfigManager::loadConfigData() {
 	core3.pop();
 
 	// Load legacy "globals" style configuration
-	lua_State* L = getLuaState();
+	lua_State* L = lua.getLuaState();
 
 	lua_pushglobaltable(L);
 
@@ -224,6 +224,8 @@ bool ConfigManager::testConfig(ConfigManager* configManager) {
 #endif // DEBUG_CONFIGMANAGER
 
 bool ConfigManager::parseConfigData(const String& prefix, bool isGlobal, int maxDepth) {
+	lua_State* L = lua.getLuaState();
+
 	// Enter with table on top of lua stack
 	if (!lua_istable(L, -1)) {
 #ifdef DEBUG_CONFIGMANAGER
@@ -231,8 +233,6 @@ bool ConfigManager::parseConfigData(const String& prefix, bool isGlobal, int max
 #endif // DEBUG_CONFIGMANAGER
 		return false;
 	}
-
-	lua_State* L = getLuaState();
 
 	lua_pushnil(L); // First key
 
