@@ -4,10 +4,6 @@
 
 #include "BaseDroidModuleComponent.h"
 
-#include "server/zone/objects/creature/CreatureObject.h"
-#include "server/zone/objects/creature/ai/DroidObject.h"
-#include "server/zone/objects/intangible/PetControlDevice.h"
-
 BaseDroidModuleComponent::BaseDroidModuleComponent() {
 	setLoggingName("DroidModuleDataComponent");
 	setLogging(false);
@@ -84,8 +80,8 @@ void BaseDroidModuleComponent::onStore() {
 
 }
 
-Reference<DroidObject*> BaseDroidModuleComponent::getDroidObject() {
-	Reference<SceneObject*> droid = getParent();
+ManagedReference<DroidObject*> BaseDroidModuleComponent::getDroidObject() {
+	ManagedReference<SceneObject*> droid = getParent();
 
 	if (droid == nullptr) {
 		return nullptr;

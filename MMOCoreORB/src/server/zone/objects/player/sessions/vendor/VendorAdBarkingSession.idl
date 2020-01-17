@@ -38,7 +38,7 @@ class VendorAdBarkingSession extends Facade {
 	
 	public int cancelSession() {
 		CreatureObject player = owner;
-		if (player)
+		if (player != null)
 			player.dropActiveSession(SessionFacadeType.VENDORADBARKING);
 
 		clearSession();

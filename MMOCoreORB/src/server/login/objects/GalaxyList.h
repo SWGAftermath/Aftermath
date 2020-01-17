@@ -11,17 +11,24 @@
 // #define USE_RANDOM_EXTRA_PORTS
 
 class Galaxy {
-	uint32 id = 0;
+	uint32 id;
 	String name;
 	String address;
-	uint32 port = 0;
-	uint32 pingPort = 0;
-	uint32 population = 0;
+	uint32 port;
+	uint32 pingPort;
+	uint32 population;
 #ifdef USE_RANDOM_EXTRA_PORTS
 	Vector<uint32> extraPorts;
 #endif // USE_RANDOM_EXTRA_PORTS
 public:
-	Galaxy() = default;
+	Galaxy() {
+		id = 0;
+		name = "";
+		address = "";
+		port = 0;
+		pingPort = 0;
+		population = 0;
+	}
 
 	Galaxy(ResultSet *result) {
 		id = result->getUnsignedInt(0);
@@ -135,16 +142,16 @@ class GalaxyList {
 	int curIdx = 0;
 
 public:
-	GalaxyList(const String& username) {
+	GalaxyList(String username) {
 		StringBuffer query;
 		query << "SELECT * FROM galaxy";
 
-		UniqueReference<ResultSet*> results(ServerDatabase::instance()->executeQuery(query));
+		Reference<ResultSet*> results = ServerDatabase::instance()->executeQuery(query);
 
 		if (results == nullptr)
 			return;
 
-		while (results->next()) {
+		while(results->next()) {
 			auto galaxy = Galaxy(results);
 
 			Vector<String> galaxyAccessList;

@@ -15,7 +15,6 @@
 #include "server/zone/packets/object/PlayClientEffectObjectMessage.h"
 #include "server/zone/packets/scene/PlayClientEffectLocMessage.h"
 #include "server/zone/Zone.h"
-#include "server/zone/objects/intangible/PetControlDevice.h"
 
 namespace server {
 namespace zone {

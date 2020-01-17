@@ -8,7 +8,6 @@
 #include "templates/tangible/DroidPersonalityModuleTemplate.h"
 #include "server/chat/ChatManager.h"
 #include "server/zone/managers/reaction/ReactionManager.h"
-#include "server/zone/objects/creature/ai/DroidObject.h"
 
 DroidPersonalityModuleDataComponent::DroidPersonalityModuleDataComponent() {
 	setLoggingName("DroidPersonalityModule");

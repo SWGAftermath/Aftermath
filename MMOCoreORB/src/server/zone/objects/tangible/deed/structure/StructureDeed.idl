@@ -41,7 +41,7 @@ class StructureDeed extends Deed {
 	public native void updateCraftingValues(CraftingValues values, boolean firstUpdate = false);
 
 	public int placeStructure(CreatureObject creature, float x, float y, int angle) {
-		if (placeStructureComponent) {
+		if (placeStructureComponent != null) {
 			return placeStructureComponent.placeStructure(this, creature, x, y, angle);
 		}
 
@@ -49,7 +49,7 @@ class StructureDeed extends Deed {
 	}
 
 	public int notifyStructurePlaced(CreatureObject creature, StructureObject structure) {
-		if (placeStructureComponent) {
+		if (placeStructureComponent != null) {
 			return placeStructureComponent.notifyStructurePlaced(this, creature, structure);
 		}
 

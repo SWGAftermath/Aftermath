@@ -11,11 +11,10 @@ import engine.core.ManagedReference;
 import engine.util.Facade;
 import system.lang.ref.Reference;
 import engine.core.Task;
-
-include engine.util.Observer;
-include engine.util.Observable;
+import engine.util.Observer;
+import engine.util.Observable;
 include templates.params.ObserverEventType;
-include server.zone.objects.installation.factory.FactoryObject;
+import server.zone.objects.installation.factory.FactoryObject;
 
 @json
 class FactoryHopperObserver extends Observer {
@@ -29,7 +28,7 @@ class FactoryHopperObserver extends Observer {
 	public int notifyObserverEvent(unsigned int eventType, Observable observable, ManagedObject arg1, long arg2) {
 		FactoryObject strongRef = factory;
 
-		if (!strongRef)
+		if (strongRef == null)
 			return 0;
 
 		if (eventType == ObserverEventType.OPENCONTAINER) {

@@ -9,6 +9,8 @@
 
 #include "ConversationScreen.h"
 
+#include "server/zone/managers/conversation/ConversationManager.h"
+
 namespace server {
 namespace zone {
 namespace objects {
@@ -44,25 +46,70 @@ public:
 
 	}
 
-	void readObject(LuaObject* templateData);
+	void readObject(LuaObject* templateData) {
+		initialScreenID = templateData->getStringField("initialScreen");
 
-	const String& getLuaClassHandler() const {
+		String templateType;
+
+		try {
+			templateType = templateData->getStringField("templateType");
+		}
+		catch (Exception&) {
+			Logger::info("Missing templateType.", true);
+			templateType = "Normal";
+		}
+
+		if (templateType == "DeliverNPC") {
+			conversationTemplateType = ConversationTemplateTypeDeliverMission;
+		} else if (templateType == "InformantNPC") {
+			conversationTemplateType = ConversationTemplateTypeInformantMission;
+		} else if (templateType == "Lua") {
+			conversationTemplateType = ConversationTemplateTypeLua;
+		} else if (templateType == "Personality") {
+			conversationTemplateType = ConversationTemplateTypePersonality;
+		} else {
+			conversationTemplateType = ConversationTemplateTypeNormal;
+		}
+
+		luaClassHandler = templateData->getStringField("luaClassHandler");
+
+		LuaObject screensTable = templateData->getObjectField("screens");
+
+		for (int i = 1; i <= screensTable.getTableSize(); ++i) {
+			lua_rawgeti(templateData->getLuaState(), -1, i);
+
+			LuaObject luaObj(templateData->getLuaState());
+
+			Reference<ConversationScreen*> screen = new ConversationScreen();
+			screen->readObject(&luaObj);
+
+			screens.put(screen->getScreenID(), screen);
+
+			luaObj.pop();
+		}
+
+		screensTable.pop();
+
+		ConversationManager::instance()->getConversationObserver(crc);
+	}
+
+	String getLuaClassHandler() {
 		return luaClassHandler;
 	}
 
-	ConversationScreen* getInitialScreen() const {
+	ConversationScreen* getInitialScreen() {
 		return screens.get(initialScreenID);
 	}
 
-	ConversationScreen* getScreen(const String& screenID) const {
+	ConversationScreen* getScreen(const String& screenID) {
 		return screens.get(screenID);
 	}
 
-	ConversationTemplateType getConversationTemplateType() const {
+	ConversationTemplateType getConversationTemplateType() {
 		return conversationTemplateType;
 	}
 
-	uint32 getCRC() const {
+	uint32 getCRC() {
 		return crc;
 	}
 };

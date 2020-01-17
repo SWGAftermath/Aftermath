@@ -51,7 +51,7 @@ TEST_F(BasicTerrainTest, LoadTestTerrainTest) {
 
 	EXPECT_NEAR(res, 30.367649, 0.01);
 
-	res = terrain.getHeight(-45.1f, 49.0f);
+	res = terrain.getHeight(-45.1, 49.0);
 
 	EXPECT_NEAR(res, 83.3, 0.1);
 

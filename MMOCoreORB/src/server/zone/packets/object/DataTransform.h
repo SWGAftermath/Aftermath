@@ -150,11 +150,6 @@ public:
 		if (ghost == nullptr)
 			return;
 
-#ifdef PLATFORM_WIN
-#undef isnan
-#undef isinf
-#endif
-
 		if (std::isnan(positionX) || std::isnan(positionY) || std::isnan(positionZ))
 			return;
 

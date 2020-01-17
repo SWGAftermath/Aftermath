@@ -10,17 +10,7 @@
 
 #include "engine/util/json_utils.h"
 
-namespace server {
-	namespace zone {
-		namespace objects {
-			namespace creature {
-				class CreatureObject;
-			}
-		}
-	}
-}
-
-using namespace server::zone::objects::creature;
+#include "server/zone/objects/creature/CreatureObject.h"
 
 class GroupMember : public Variable {
 	ManagedReference<CreatureObject*> creature;
@@ -70,9 +60,31 @@ public:
 		return creature.parseFromString(str, version);
 	}
 
-	friend void to_json(nlohmann::json& j, const GroupMember& m);
+	friend void to_json(nlohmann::json& j, const GroupMember& m) {
+		String name;
 
-	bool toBinaryStream(ObjectOutputStream* stream);
+		j["creature"] = m.creature;
+
+		if (m.creature != nullptr) {
+			name = m.creature->getCustomObjectName().toString();
+		}
+
+		j["name"] = name;
+	}
+
+	bool toBinaryStream(ObjectOutputStream* stream) {
+		String name;
+
+		creature.toBinaryStream(stream);
+
+		if (creature != nullptr) {
+			name = creature->getCustomObjectName().toString();
+		}
+
+		name.toBinaryStream(stream);
+
+		return true;
+	}
 
 	bool parseFromBinaryStream(ObjectInputStream* stream) {
 		creature.parseFromBinaryStream(stream);

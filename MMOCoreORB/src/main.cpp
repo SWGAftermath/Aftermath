@@ -2,12 +2,8 @@
 				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
-#ifndef PLATFORM_WIN
 #include "CoreProcess.h"
-#endif
-
 #include "server/ServerCore.h"
-#include "server/zone/objects/creature/CreatureObject.h"
 #include "server/chat/ChatManager.h"
 #include "server/zone/managers/director/DirectorManager.h"
 #include "server/zone/managers/collision/NavMeshManager.h"
@@ -50,14 +46,12 @@ int main(int argc, char* argv[]) {
 
 			DirectorManager::instance()->info(true) << "Done in " << elapsed / 1000000 << "ms";
 		} else if (arguments.contains("service")) {
-#ifndef PLATFORM_WIN
 			while (true) {
 				CoreProcess core(arguments);
 				core.start();
 
 				core.wait();
 			}
-#endif
 #ifdef COMPILE_CORE3_TESTS
 		} else if (arguments.contains("runUnitTests")) {
 			TestCore core;

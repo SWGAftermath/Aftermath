@@ -142,7 +142,7 @@ private:
 		startTime = time(0);
 		seed = System::random(startTime);
 
-		modifier = .00017f;
+		modifier = .00017;
 
 		if(System::random(100) > weatherStability) {
 			density = (System::random(30) + 60) / 100.0f;

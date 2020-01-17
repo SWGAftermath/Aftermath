@@ -33,28 +33,26 @@ using namespace server::web3;
 **  mRequestJSON: {"test"="123"}
 */
 
-APIRequest::APIRequest(http_request gatewayRequest, const String endpointKey, Logger& logger) {
+APIRequest::APIRequest(http_request gatewayRequest, const String endpointKey, Logger::LogLevel logLevel) {
 	uint64 trxid = (System::getMikroTime() << 8) | System::random(255);
 	mTrxId = String::hexvalueOf(trxid);
+	setLoggingName("APIRequest " + mTrxId);
+	setLogLevel(logLevel);
 	mGatewayRequest = gatewayRequest;
 	mParsedRequestJSON = false;
 	mReplied = false;
 	mFailed = false;
 	mEndpointKey = endpointKey;
-	setLoggingName("APIRequest " + mTrxId);
-	setLoggerCallback([this, &logger] (Logger::LogLevel level, const char* msg) -> int {
-		StringBuffer buf;
-
-		buf << "[" << getLoggingName() << "] " << msg;
-
-		logger.log(buf.toString().toCharArray(), level, false);
-
-		return Logger::SUCCESS;
-	});
 	parseQueryFields();
+#if DEBUG_RESTAPI
+	debug() << "\033[42;30mctor " << this << " " << toString() << "\033[0m";
+#endif // DEBUG_RESTAPI
 }
 
 APIRequest::~APIRequest() {
+#if DEBUG_RESTAPI
+	debug() << "\033[41;30mdtor " << this << " " << toString() << "\033[0m";
+#endif // DEBUG_RESTAPI
 }
 
 String APIRequest::toString() const {
@@ -64,50 +62,42 @@ String APIRequest::toString() const {
 		<< " " << mTrxId
 		<< ": replied: " << mReplied
 		<< ", endpointKey: " << mEndpointKey
-		<< ", pathFields: {"
+		<< ", pathFields: ("
 		;
 
 	auto pathFieldIter = mPathFields.iterator();
-	auto sep = "";
 
 	while(pathFieldIter.hasNext()) {
 		String fieldName, fieldValue;
 		pathFieldIter.getNextKeyAndValue(fieldName, fieldValue);
 
-		buf << sep << "\"" << fieldName << ":\"" << fieldValue << "\"";
-		sep = ", ";
+		buf << " " << fieldName << "=[" << fieldValue << "]";
 	}
 
-	buf << "}, queryFields: {";
+	buf << "), queryFields: (";
 
 	auto queryFieldIter = mQueryFields.iterator();
-	sep = "";
 
 	while(queryFieldIter.hasNext()) {
 		String fieldName, fieldValue;
 		queryFieldIter.getNextKeyAndValue(fieldName, fieldValue);
 
-		buf << sep << "\"" << fieldName << "\":\"" << fieldValue << "\"";
-		sep = ", ";
+		buf << " " << fieldName << "=[" << fieldValue << "]";
 	}
 
-	buf << "}, requestJSON: " << mRequestJSON.dump();
+	buf << "), requestJSON: " << mRequestJSON.dump();
 
 	if (mReplied) {
 		auto resultStr = String(mResult.serialize());
 
-		if (resultStr.length() > 900) {
-			resultStr = resultStr.subString(0, 900) + "...";
+		if (resultStr.length() > 200) {
+			resultStr = resultStr.subString(0, 200) + "...";
 		}
 
 		buf << " result: " << resultStr;
 	}
 
 	return buf.toString();
-}
-
-String APIRequest::toStringData() const {
-	return toString();
 }
 
 bool APIRequest::hasPathField(const String& fieldName) const {

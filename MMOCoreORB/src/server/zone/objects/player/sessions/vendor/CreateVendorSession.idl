@@ -38,7 +38,7 @@ class CreateVendorSession extends Facade {
 	public int cancelSession() {
 		CreatureObject play = player;
 
-		if (play)
+		if (play != null)
 			play.dropActiveSession(SessionFacadeType.CREATEVENDOR);
 
 		clearSession();

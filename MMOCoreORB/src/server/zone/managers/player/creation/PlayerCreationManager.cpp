@@ -5,6 +5,9 @@
 
 #include "server/db/ServerDatabase.h"
 #include "PlayerCreationManager.h"
+#include "ProfessionDefaultsInfo.h"
+#include "RacialCreationData.h"
+#include "HairStyleInfo.h"
 #include "server/zone/managers/player/PlayerManager.h"
 #include "server/login/packets/ErrorMessage.h"
 #include "server/chat/ChatManager.h"

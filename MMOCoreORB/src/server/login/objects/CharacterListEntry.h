@@ -5,27 +5,26 @@
 #ifndef CHARACTERLISTENTRY_H_
 #define CHARACTERLISTENTRY_H_
 
-#include "system/lang/Object.h"
-
 class CharacterListEntry : public Object {
 private:
-	uint64 objectID = 0;
-	uint32 accountID = 0;
-	uint32 galaxyID = 0;
+	uint64 objectID;
+	uint32 accountID;
+	uint32 galaxyID;
 	String firstName;
 	String surName;
-	uint32 race = 0;
-	uint32 gender = 0;
+	uint32 race;
+	uint32 gender;
 	Time creationDate;
 
 	String galaxyName;
 	String banReason;
-	uint32 banAdmin = 0;
+	uint32 banAdmin;
 	Time banExpiration;
 
 public:
-	CharacterListEntry() = default;
-
+	CharacterListEntry() {
+		objectID = accountID = galaxyID = race = gender = banAdmin = 0;
+	}
 
 	CharacterListEntry(const CharacterListEntry& e) : Object() {
 		objectID = e.objectID;
@@ -143,10 +142,8 @@ public:
 	String getFullName() const {
 		StringBuffer fullName;
 		fullName << firstName;
-
 		if(!surName.isEmpty())
 			fullName << " " << surName;
-
 		return fullName.toString();
 	}
 

@@ -1,26 +1,30 @@
+
 #ifndef CITIZENASSESSMENTEVENT_H_
 #define CITIZENASSESSMENTEVENT_H_
 
+#include "server/zone/objects/region/CityRegion.h"
+#include "server/zone/managers/city/CityManager.h"
 #include "server/zone/ZoneServer.h"
 
-namespace server {
-	namespace zone {
-		namespace objects {
-			namespace region {
-				class CityRegion;
-			}
-		}
-	}
-}
-
 class CitizenAssessmentEvent : public Task {
-	Reference<ZoneServer*> zoneServer;
-	WeakReference<server::zone::objects::region::CityRegion*> cityRegion;
+	ManagedReference<ZoneServer*> zoneServer;
+	ManagedWeakReference<CityRegion*> cityRegion;
 
 public:
-	CitizenAssessmentEvent(server::zone::objects::region::CityRegion* city, ZoneServer* zserv);
+	CitizenAssessmentEvent(CityRegion* city, ZoneServer* zserv) : Task() {
+		cityRegion = city;
+		zoneServer = zserv;
+	}
 
-	void run();
+	void run() {
+		ManagedReference<CityRegion*> city = cityRegion.get();
+
+		if (city == nullptr)
+			return;
+
+		CityManager* cityManager = zoneServer->getCityManager();
+		cityManager->assessCitizens(city);
+	}
 };
 
 #endif /* CITIZENASSESSMENTEVENT_H_ */
