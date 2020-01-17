@@ -13,7 +13,7 @@
 #include "server/zone/managers/player/PlayerManager.h"
 
 ZoneClientSessionImplementation::ZoneClientSessionImplementation(BaseClientProxy* session)
-		:  ManagedObjectImplementation() {
+	: ManagedObjectImplementation() {
 	ZoneClientSessionImplementation::session = session;
 
 	ipAddress = session != nullptr ? session->getIPAddress() : "";
@@ -67,7 +67,8 @@ void ZoneClientSessionImplementation::disconnect(bool doLock) {
 		}
 
 		closeConnection(true, false);
-	} else if (player != nullptr) {
+	}
+	else if (player != nullptr) {
 		zoneClientSession = player->getClient();
 
 		Reference<PlayerObject*> ghost = player->getSlottedObject("ghost").castTo<PlayerObject*>();
@@ -89,7 +90,8 @@ void ZoneClientSessionImplementation::disconnect(bool doLock) {
 				}
 
 				//player->unlock();
-			} catch (Exception& e) {
+			}
+			catch (Exception & e) {
 				//player->unlock();
 			}
 
@@ -116,7 +118,8 @@ void ZoneClientSessionImplementation::setPlayer(CreatureObject* playerCreature) 
 				zoneServer->getPlayerManager()->decreaseOnlineCharCount(_this.getReferenceUnsafeStaticCast());
 
 			}
-		} else if (playerCreature != nullptr) {
+		}
+		else if (playerCreature != nullptr) {
 			// TODO: find a proper way to acqure zone server
 			ZoneServer* zoneServer = playerCreature->getZoneServer();
 
