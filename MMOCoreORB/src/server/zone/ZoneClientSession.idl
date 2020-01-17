@@ -15,7 +15,7 @@ include engine.log.LoggerHelperStream;
 include system.util.SynchronizedVectorMap;
 
 @dirty
-class ZoneClientSession extends ManagedObject {
+class ZoneClientSession extends ManagedObject{
 	transient protected BaseClientProxy session;
 
 	string ipAddress;
@@ -62,21 +62,21 @@ class ZoneClientSession extends ManagedObject {
 	@read
 	@dereferenced
 	@local
-	public LoggerHelperStream info(int forced = false) /*int instead of bool because of const char* implicit cast to bool*/  {
+	public LoggerHelperStream info(int forced = false) /*int instead of bool because of const char* implicit cast to bool*/ {
 		return session.info(forced);
 	}
 
 	@read
 	@dereferenced
 	@local
-	public LoggerHelperStream error()  {
+	public LoggerHelperStream error() {
 		return session.error();
 	}
 
 	@read
 	@dereferenced
 	@local
-	public LoggerHelperStream debug()  {
+	public LoggerHelperStream debug() {
 		return session.debug();
 	}
 
