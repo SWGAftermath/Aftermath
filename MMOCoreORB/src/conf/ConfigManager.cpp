@@ -25,8 +25,8 @@ bool ConfigManager::loadConfigData() {
 
 	configStartTime.start();
 
-	if (!runFile("conf/config.lua")) {
-		error("ConfigManager failed to parse conf/config.lua");
+	if (!lua.runFile("conf/config.lua")) {
+		fatal("ConfigManager failed to parse conf/config.lua");
 		return false;
 	}
 

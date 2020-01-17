@@ -1925,15 +1925,31 @@ int SceneObjectImplementation::compareTo(SceneObject* obj) {
 	return asSceneObject()->compareTo(obj);
 }
 
-int SceneObjectImplementation::writeRecursiveJSON(JSONSerializationType& j, int maxDepth) {
+int SceneObjectImplementation::writeRecursiveJSON(JSONSerializationType& j, int maxDepth, Vector<uint64>* oidPath) {
 	if (maxDepth <= 0)
 		return 0;
+
+	if (oidPath == nullptr)
+		oidPath = new Vector<uint64>();
 
 	int count = 0;
 
 	JSONSerializationType thisObject;
 	writeJSON(thisObject);
 	thisObject["_maxDepth"] = maxDepth;
+	thisObject["_depth"] = oidPath->size();
+	thisObject["_oid"] = getObjectID();
+
+	auto oidPathJSON = JSONSerializationType::array();
+
+	oidPath->add(getObjectID());
+
+	for (int i = 0;i < oidPath->size();i++) {
+		oidPathJSON.push_back(oidPath->get(i));
+	}
+
+	thisObject["_oidPath"] = oidPathJSON;
+
 	j[String::valueOf(getObjectID()).toCharArray()] = thisObject;
 
 	count++;
@@ -1944,7 +1960,7 @@ int SceneObjectImplementation::writeRecursiveJSON(JSONSerializationType& j, int 
 		if (obj != nullptr) {
 			ReadLocker locker(obj);
 
-			count += obj->writeRecursiveJSON(j, maxDepth - 1);
+			count += obj->writeRecursiveJSON(j, maxDepth - 1, oidPath);
 		}
 	}
 
@@ -1956,7 +1972,7 @@ int SceneObjectImplementation::writeRecursiveJSON(JSONSerializationType& j, int 
 		if (obj != nullptr) {
 			ReadLocker locker(obj);
 
-			count += obj->writeRecursiveJSON(j, maxDepth - 1);
+			count += obj->writeRecursiveJSON(j, maxDepth - 1, oidPath);
 		}
 	}
 
@@ -1966,8 +1982,14 @@ int SceneObjectImplementation::writeRecursiveJSON(JSONSerializationType& j, int 
 		if (obj != nullptr) {
 			ReadLocker locker(obj);
 
-			count += obj->writeRecursiveJSON(j, maxDepth - 1);
+			count += obj->writeRecursiveJSON(j, maxDepth - 1, oidPath);
 		}
+	}
+
+	oidPath->remove(oidPath->size() - 1);
+
+	if (oidPath->size() == 0) {
+		delete oidPath;
 	}
 
 	return count;
