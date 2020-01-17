@@ -146,15 +146,8 @@ Account* AccountManager::validateAccountCredentials(LoginClient* client, const S
 		if (isAutoRegistrationEnabled() && client != nullptr) {
 			account = createAccount(username, password, passwordStored);
 		} else {
-			if (client != nullptr) {
-				client->sendErrorMessage("Login Error",
-					ConfigManager::instance()->getString("Core3.RegistrationMessage",
-						"Automatic registration is currently disabled. "
-						"Please visit the registration button on the launcher to create an account."
-					)
-				);
-			}
-
+			if(client != nullptr)
+				client->sendErrorMessage("Login Error", "Automatic registration is currently disabled. Please visit the registration button on the launcher to create an account.");
 			return nullptr;
 		}
 	}
