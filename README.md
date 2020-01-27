@@ -1,5 +1,7 @@
 ## SWG Aftermath ##
 
+![Aftermath Logo](https://i.imgur.com/vSCnwzW.png)
+
 * [![Discord](https://discordapp.com/api/guilds/305064511533088770/widget.png)](https://discord.gg/DNTBagP) [![GitHub Commits](https://img.shields.io/github/last-commit/SWGAftermath/Aftermath.svg?color=FF0000&style=plastic)](https://github.com/SWGAftermath/Aftermath/commits/main) [![vote for aftermath](https://img.shields.io/badge/Vote%20for%20Aftermath-Click%20Here-red?color=FF0000&style=plastic)](https://topg.org/swg-private-servers/in-486823)
 
 ## Aftermath Credits and Thanks ##
@@ -12,10 +14,10 @@ A big thank you to people who have shared their hard work with the community and
   * Cesta - GalaxyHarvester upload script.
   * TheTinyPebble - Base vendor system, event token logic, schematics to say uses on item, removed escort NPC walkbacks and rangeless guild invite.
   * Timbab - Jawa Toolbox usage.
-  * Empire in Flames server - Better astromech mod & astromech droid animation fixes.
-  * Infinity server - CA/AAs working with skirts, Covert Hat, Clothes breaking on 0 condition, RegrantSkills Command and the SEA Removal Tool.
+  * Progor - Relics of Corbantis open source launcher base and DiscordBot.
+  * Skyyyr - Colored Lightsabers for NPCs.
+  * Empire in Flames server - Better astromech mod, astromech droid animation fixes & CAs working with skirts.
+  * Infinity server - Covert Hat, Clothes breaking on 0 condition, RegrantSkills Command and the SEA Removal Tool.
   * Sentinels Republic server - Healing battle fatigue in a Ranger camp.
   * Reckoning server - City Mail spam bug fix, increased badge limit & house pack-up.
   * Flurry server - Resource name displays in inventory.
-  * Progor - Relics of Corbantis open source launcher base and DiscordBot.
-  * Skyyyr - Colored Lightsabers for NPCs.
