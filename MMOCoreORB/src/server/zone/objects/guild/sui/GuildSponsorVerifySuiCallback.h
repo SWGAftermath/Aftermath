@@ -38,10 +38,11 @@ public:
 		if (!sponsor->isOnline())
 			return;
 
-		if (!sponsor->isInRange(player, 32)) {
+		/*if (!sponsor->isInRange(player, 32)) {
 			sponsor->sendSystemMessage("@guild:sponsor_not_found"); // The specified person to sponsor could not be found nearby.
 			return;
 		}
+		*/
 
 		ManagedReference<GuildObject*> guild = sponsor->getGuildObject().get();
 
