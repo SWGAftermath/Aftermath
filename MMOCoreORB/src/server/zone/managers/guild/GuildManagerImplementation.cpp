@@ -1441,7 +1441,8 @@ void GuildManagerImplementation::sponsorPlayer(CreatureObject* player, const Str
 
 	Locker _lock(target, player);
 
-	if (!target->isOnline() || !player->isInRange(target, 32)) {
+	//if (!target->isOnline() || !player->isInRange(target, 32)) {
+	if (!target->isOnline()) {
 		player->sendSystemMessage("@guild:sponsor_not_found"); // The specified person to sponsor could not be found nearby.
 		return;
 	}
@@ -1472,7 +1473,9 @@ void GuildManagerImplementation::sponsorPlayer(CreatureObject* player, const Str
 
 	suiBox->setPromptText(text.toString());
 	suiBox->setUsingObject(player);
-	suiBox->setForceCloseDistance(32);
+	//suiBox->setForceCloseDistance(32);
+	suiBox->setForceCloseDisabled();
+	
 	suiBox->setCancelButton(true, "@no");
 	suiBox->setOkButton(true, "@yes");
 

@@ -26,7 +26,7 @@ dnaStrandLength = 23
 destructionTimer = 600
 
 -- maximum bases per planet
-maxBases = 25
+maxBases = 15
 
 -- time in seconds that a player must be overt before aborting a facility shutdown
 overtCooldown = 300
@@ -51,8 +51,8 @@ difficutlyScalingThresholds = {0, 64}
 
 -- discount percentage for side losing&winning the gcw.  negative value of increase in price (penality).  positive for a decrease (Bonus)
 
-winnerBonus = 0
-loserBonus = -30
+winnerBonus = 10
+loserBonus = 0
 
 -- Spawn turrets and minefields when base is placed 1=true 0=false
 spawnDefenses = 1
@@ -93,15 +93,15 @@ HQValues = {
 --HUMAN = 0; RODIAN = 1; TRANDOSHAN = 2; MONCAL = 3; WOOKIE = 4; BOTHAN = 5; TWILEK = 6; ZABRAK = 7; ITHORIAN = 0x21; SULLUSTAN = 0x31;
 imperial_racial_penalty = {
 	{0, 1},
-	{1, 3}, --rodian
-	{2, 2}, -- trando
-	{3, 3}, -- moncal
-	{4, 3}, -- wookie
-	{5, 2},  -- bothan
-	{6, 1.5}, -- twilek
-	{7, 2},  -- zabrack
-	{33, 2}, --ithorian
-	{49, 2}, -- sullustan
+	{1, 1}, --rodian
+	{2, 1}, -- trando
+	{3, 1}, -- moncal
+	{4, 1}, -- wookie
+	{5, 1},  -- bothan
+	{6, 1}, -- twilek
+	{7, 1},  -- zabrack
+	{33, 1}, --ithorian
+	{49, 1}, -- sullustan
 
 }
 
