@@ -9,15 +9,16 @@
 A big thank you to people who have shared their hard work with the community and also to the members of the SWGEmu team for sharing their code and hard work. Thank you and full credit to the following people:
 
   * SWGEmu - Core3 & engine usage.
-  * ModTheGalaxy - Some files used from the ModTheGalaxy tres.
-  * Holocron Team - Being helpful and providing guidance when asked upon.
-  * Cesta - GalaxyHarvester upload script.
-  * TheTinyPebble - Base vendor system, event token logic, schematics to say uses on item, removed escort NPC walkbacks and rangeless guild invite.
-  * Timbab - Jawa Toolbox usage.
+  * ModTheGalaxy - ModTheGalaxy Tre and LUA usage.
+  * Holocron Team - Being helpful and providing guidance when in need.
   * Progor - Relics of Corbantis open source launcher base and DiscordBot.
+  * Red - Name display on CA/AA.
   * Skyyyr - Colored Lightsabers for NPCs.
+  * Sytner - SIE IFF editor tool usage.
+  * TheTinyPebble - Vendor framework, event token framework, schematics to say uses on item, removed escort NPC walkbacks, rangeless guild invite and guildstatus list commands.
+  * Timbab - Jawa Toolbox usage.
   * Empire in Flames server - Better astromech mod, astromech droid animation fixes & CAs working with skirts.
-  * Infinity server - Covert Hat, Clothes breaking on 0 condition, RegrantSkills Command and the SEA Removal Tool.
-  * Sentinels Republic server - Healing battle fatigue in a Ranger camp.
-  * Reckoning server - City Mail spam bug fix, increased badge limit & house pack-up.
   * Flurry server - Resource name displays in inventory.
+  * Infinity server - Invisible Hat, Clothes breaking on 0 condition, RegrantSkills Command and the SEA Removal tool.
+  * Reckoning server - City Mail spam bug fix, increased badge limit & house pack-up.
+  * Sentinels Republic server - Healing battle fatigue in a Ranger camp.
