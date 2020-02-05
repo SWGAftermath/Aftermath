@@ -7,8 +7,9 @@ package server.zone.objects.tangible.tool;
 import server.zone.objects.tangible.tool.ToolTangibleObject;
 import server.zone.objects.creature.CreatureObject;
 import server.zone.packets.object.ObjectMenuResponse;
-include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
+import server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
 include templates.SharedObjectTemplate;
+import server.zone.packets.scene.AttributeListMessage;
 
 @json
 class SurveyTool extends ToolTangibleObject {
@@ -16,6 +17,7 @@ class SurveyTool extends ToolTangibleObject {
 	protected int points;
 
 	protected int type;
+	protected int effectiveness;
 
 	protected string surveyType;
 	protected string surveyAnimation;
@@ -42,6 +44,7 @@ class SurveyTool extends ToolTangibleObject {
 		range = 0;
 		points = 0;
 		points = 0;
+		effectiveness = 0;
 	}
 
 	public void initializeTransientMembers() {
@@ -65,11 +68,19 @@ class SurveyTool extends ToolTangibleObject {
 	 */
 	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
 
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
 
 	@local
-	public void updateCraftingValues(CraftingValues values, boolean firstUpdate) {
-
-	}
+	public native void updateCraftingValues(CraftingValues values, boolean firstUpdate);
 
 	/**
 	 * Set the surveying range on tool
@@ -91,6 +102,11 @@ class SurveyTool extends ToolTangibleObject {
 	@dirty
 	public int getToolType() {
 		return type;
+	}
+	
+	@dirty
+	public int getEffectiveness() {
+		return effectiveness;
 	}
 
 	@dirty
