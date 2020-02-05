@@ -16,13 +16,15 @@
 #include "server/zone/objects/tangible/tool/sui/SurveyToolSetRangeSuiCallback.h"
 #include "server/zone/objects/tangible/tool/sui/SurveyToolApproveRadioactiveSuiCallback.h"
 #include "server/zone/objects/player/sessions/survey/SurveySession.h"
+#include "server/zone/packets/scene/AttributeListMessage.h"
+#include "server/zone/objects/manufactureschematic/craftingvalues/CraftingValues.h"
 
 void SurveyToolImplementation::loadTemplateData(SharedObjectTemplate* templateData) {
 	TangibleObjectImplementation::loadTemplateData(templateData);
 
 	SurveyToolTemplate* surveyToolData = dynamic_cast<SurveyToolTemplate*>(templateData);
 
-	if (surveyToolData == nullptr) {
+	if (surveyToolData == NULL) {
 		throw Exception("invalid template for SurveyTool");
 	}
 
@@ -50,7 +52,7 @@ int SurveyToolImplementation::handleObjectMenuSelect(CreatureObject* player, byt
 		if (selectedID == 20) { // use object
 			int range = getRange(player);
 
-			if(range <= 0 || range > 384) {
+			if(range <= 0 || range > 414) {
 				sendRangeSui(player);
 				return 0;
 			}
@@ -58,7 +60,7 @@ int SurveyToolImplementation::handleObjectMenuSelect(CreatureObject* player, byt
 			Locker locker(_this.getReferenceUnsafeStaticCast());
 
 			ManagedReference<SurveySession*> session = player->getActiveSession(SessionFacadeType::SURVEY).castTo<SurveySession*>();
-			if(session == nullptr) {
+			if(session == NULL) {
 				session = new SurveySession(player);
 				session->initializeSession(_this.getReferenceUnsafeStaticCast());
 			}
@@ -66,7 +68,7 @@ int SurveyToolImplementation::handleObjectMenuSelect(CreatureObject* player, byt
 			session->setOpenSurveyTool(_this.getReferenceUnsafeStaticCast());
 
 			ManagedReference<ResourceManager*> resourceManager = cast<ResourceManager*>(server->getZoneServer()->getResourceManager());
-			if(resourceManager == nullptr) {
+			if(resourceManager == NULL) {
 				error("null resource manager");
 				return 0;
 			}
@@ -84,6 +86,22 @@ int SurveyToolImplementation::handleObjectMenuSelect(CreatureObject* player, byt
 	}
 
 	return TangibleObjectImplementation::handleObjectMenuSelect(player, selectedID);
+}
+
+void SurveyToolImplementation::fillAttributeList(AttributeListMessage* alm,
+		CreatureObject* object) {
+	TangibleObjectImplementation::fillAttributeList(alm, object);
+
+	alm->insertAttribute("craft_tool_effectiveness", Math::getPrecision(effectiveness, 1));
+
+}
+
+void SurveyToolImplementation::updateCraftingValues(CraftingValues* values, bool firstUpdate) {
+	/// useModifer is the effectiveness
+
+	effectiveness = values->getCurrentValue("usemodifier");
+
+	//craftingValues->toString();
 }
 
 void SurveyToolImplementation::sendRangeSui(CreatureObject* player) {
@@ -122,7 +140,7 @@ int SurveyToolImplementation::getRange(CreatureObject* player) {
 
 	int surveyMod = player->getSkillMod("surveying");
 	int rangeBasedOnSkill = getSkillBasedRange(surveyMod);
-
+	
 	if (range > rangeBasedOnSkill)
 		setRange(rangeBasedOnSkill);
 
@@ -148,7 +166,8 @@ int SurveyToolImplementation::getSkillBasedRange(int skillLevel) {
 }
 
 void SurveyToolImplementation::setRange(int r) {
-	range = r;  // Distance the tool checks during survey
+	int toolEff = getEffectiveness() * 2;
+	range = r + toolEff;  // Distance the tool checks during survey
 
 	// Set number of grid points in survey SUI 3x3 to 5x5
 	if (range >= 256) {
