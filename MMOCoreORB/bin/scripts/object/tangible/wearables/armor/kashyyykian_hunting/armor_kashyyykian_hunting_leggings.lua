@@ -44,6 +44,8 @@
 object_tangible_wearables_armor_kashyyykian_hunting_armor_kashyyykian_hunting_leggings = object_tangible_wearables_armor_kashyyykian_hunting_shared_armor_kashyyykian_hunting_leggings:new {
 	templateType = ARMOROBJECT,
 
+	objectMenuComponent = "ArmorObjectMenuComponent",
+
 	playerRaces = { "object/creature/player/wookiee_male.iff",
 				"object/creature/player/wookiee_female.iff",
 				"object/mobile/vendor/wookiee_female.iff",
