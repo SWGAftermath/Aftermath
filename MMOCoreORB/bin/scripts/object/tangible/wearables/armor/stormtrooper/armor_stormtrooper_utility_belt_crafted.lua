@@ -43,6 +43,9 @@
 
 object_tangible_wearables_armor_stormtrooper_armor_stormtrooper_utility_belt_crafted = object_tangible_wearables_armor_stormtrooper_shared_armor_stormtrooper_utility_belt_crafted:new {
 	templateType = CLOTHINGOBJECT,
+
+	objectMenuComponent = "ArmorObjectMenuComponent",
+	
 	faction = "Imperial",
 
 	playerRaces = { "object/creature/player/bothan_male.iff",

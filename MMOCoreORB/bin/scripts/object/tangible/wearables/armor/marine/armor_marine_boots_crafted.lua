@@ -42,8 +42,9 @@
 
 
 object_tangible_wearables_armor_marine_armor_marine_boots_crafted = object_tangible_wearables_armor_marine_shared_armor_marine_boots_crafted:new {
-
 	templateType = ARMOROBJECT,
+
+	objectMenuComponent = "ArmorObjectMenuComponent",
 
 	faction = "Rebel",
 

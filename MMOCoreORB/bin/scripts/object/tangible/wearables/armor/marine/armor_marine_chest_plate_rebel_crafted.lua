@@ -44,6 +44,8 @@
 object_tangible_wearables_armor_marine_armor_marine_chest_plate_rebel_crafted = object_tangible_wearables_armor_marine_shared_armor_marine_chest_plate_rebel_crafted:new {
 	templateType = ARMOROBJECT,
 
+	objectMenuComponent = "ArmorObjectMenuComponent",
+
 	faction = "Rebel",
 
 
