@@ -44,6 +44,8 @@
 object_tangible_wearables_armor_kashyyykian_ceremonial_armor_kashyyykian_ceremonial_bracer_r = object_tangible_wearables_armor_kashyyykian_ceremonial_shared_armor_kashyyykian_ceremonial_bracer_r:new {
 	templateType = ARMOROBJECT,
 
+	objectMenuComponent = "ArmorObjectMenuComponent",
+
 	playerRaces = { "object/creature/player/wookiee_male.iff",
 				"object/creature/player/wookiee_female.iff",
 				"object/mobile/vendor/wookiee_female.iff",

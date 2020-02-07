@@ -42,8 +42,9 @@
 
 
 object_tangible_wearables_armor_stormtrooper_armor_stormtrooper_boots_crafted = object_tangible_wearables_armor_stormtrooper_shared_armor_stormtrooper_boots_crafted:new {
-
 	templateType = ARMOROBJECT,
+
+	objectMenuComponent = "ArmorObjectMenuComponent",
 
 	faction = "Imperial",
 

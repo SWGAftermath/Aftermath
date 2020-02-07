@@ -42,8 +42,9 @@
 
 
 object_tangible_wearables_armor_ithorian_guardian_ith_armor_s02_leggings = object_tangible_wearables_armor_ithorian_guardian_shared_ith_armor_s02_leggings:new {
-
 	templateType = ARMOROBJECT,
+
+	objectMenuComponent = "ArmorObjectMenuComponent",
 
 	playerRaces = { "object/creature/player/ithorian_male.iff",
 				"object/creature/player/ithorian_female.iff",
