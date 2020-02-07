@@ -44,6 +44,8 @@
 object_tangible_wearables_armor_ris_armor_ris_leggings = object_tangible_wearables_armor_ris_shared_armor_ris_leggings:new {
 	templateType = ARMOROBJECT,
 
+	objectMenuComponent = "ArmorObjectMenuComponent",
+
 	playerRaces = { "object/creature/player/bothan_male.iff",
 				"object/creature/player/bothan_female.iff",
 				"object/creature/player/human_male.iff",
