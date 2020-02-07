@@ -9,13 +9,13 @@
 A big thank you to people who have shared their hard work with the community and also to the members of the SWGEmu team for sharing their code and hard work. Thank you and full credit to the following people:
 
   * SWGEmu - Core3 & engine usage.
-  * ModTheGalaxy - ModTheGalaxy Tre and LUA usage.
+  * ModTheGalaxy - ModTheGalaxy Tre/LUA usage and ArmorObjectMenuComponent.cpp recolor update.
   * Holocron Team - Being helpful and providing guidance when in need.
   * Progor - Relics of Corbantis open source launcher base and DiscordBot.
   * Red - Name display on CA/AA.
   * Skyyyr - Colored Lightsabers for NPCs.
   * Sytner - SIE IFF editor tool usage.
-  * TheTinyPebble - Vendor framework, event token framework, schematics to say uses on item, removed escort NPC walkbacks, rangeless guild invite and guildstatus list commands.
+  * TheTinyPebble - Vendor framework, event token framework, schematics to say uses on item, removed escort NPC walkbacks, rangeless guild invite, guildstatus list commands and survey tool quality increasing range.
   * Timbab - Jawa Toolbox usage.
   * Empire in Flames server - Better astromech mod, astromech droid animation fixes & CAs working with skirts.
   * Flurry server - Resource name displays in inventory.
