@@ -57,11 +57,11 @@ object_draft_schematic_furniture_furniture_armoire_modern = object_draft_schemat
 
 	assemblySkill = "structure_assembly",
 	experimentingSkill = "structure_experimentation",
-	customizationSkill = "structure_customization",
+	customizationSkill = "structure_assembly",
 
-	customizationOptions = {},
-	customizationStringNames = {},
-	customizationDefaults = {},
+	customizationOptions = {2},
+	customizationStringNames = {"/private/index_color_1"},
+	customizationDefaults = {11},
 
 	ingredientTemplateNames = {"craft_furniture_ingredients_n"},
 	ingredientTitleNames = {"frame"},
