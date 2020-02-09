@@ -18,7 +18,10 @@ BaseMessage* SuiColorBoxImplementation::generateMessage() {
 	id << usingObject.get()->getObjectID();
 
 	//Set Body Options:
-	addSetting("3", "bg.caption.lblTitle", "Text", "@base_player:swg");
+
+	if (promptTitle == "")
+		promptTitle = "@base_player:swg";
+	addSetting("3", "bg.caption.lblTitle", "Text", promptTitle);
 	addSetting("3", "ColorPicker", "TargetRangeMax", "500");
 	addSetting("3", "ColorPicker", "TargetNetworkId", id.toString().toCharArray());
 	addSetting("3", "ColorPicker", "TargetVariable", variable.toCharArray());
