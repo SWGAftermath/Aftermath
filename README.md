@@ -15,10 +15,10 @@ A big thank you to people who have shared their hard work with the community and
   * Red - Name display on CA/AA.
   * Skyyyr - Colored Lightsabers for NPCs.
   * Sytner - SIE IFF editor tool usage.
-  * TheTinyPebble - Vendor framework, event token framework, schematics to say uses on item, removed escort NPC walkbacks, rangeless guild invite, guildstatus list commands and survey tool quality increasing range.
+  * TheTinyPebble - Vendor framework, event token framework, schematics to say uses on item, removed escort NPC walkbacks, rangeless guild invite, guildstatus list commands, survey tool quality increasing survey range and assistance with colorable modern furniture.
   * Timbab - Jawa Toolbox usage.
   * Empire in Flames server - Better astromech mod, astromech droid animation fixes & CAs working with skirts.
   * Flurry server - Resource name displays in inventory.
-  * Infinity server - Invisible Hat, Clothes breaking on 0 condition, RegrantSkills Command and the SEA Removal tool.
-  * Reckoning server - City Mail spam bug fix, increased badge limit & house pack-up.
-  * Sentinels Republic server - Healing battle fatigue in a Ranger camp.
+  * Infinity server - Invisible hat, Clothes breaking on 0 condition, Regrantskills Command, SEA removal tool and color 1/2/3 name display on popup box UI when recoloring armor.
+  * Reckoning server - City Mail spam bug fix, increased badge limit, house pack-up & DiscordBot updates/fixes.
+  * Sentinels Republic server - Modern furniture palette tre files.

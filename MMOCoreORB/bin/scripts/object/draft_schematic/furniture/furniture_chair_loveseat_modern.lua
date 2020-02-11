@@ -59,9 +59,9 @@ object_draft_schematic_furniture_furniture_chair_loveseat_modern = object_draft_
 	experimentingSkill = "structure_experimentation",
 	customizationSkill = "structure_customization",
 
-	customizationOptions = {},
-	customizationStringNames = {},
-	customizationDefaults = {},
+	customizationOptions = {2},
+	customizationStringNames = {"/private/index_color_1"},
+	customizationDefaults = {38},
 
 	ingredientTemplateNames = {"craft_furniture_ingredients_n", "craft_furniture_ingredients_n"},
 	ingredientTitleNames = {"frame", "upholstery"},
