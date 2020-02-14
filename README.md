@@ -21,4 +21,3 @@ A big thank you to people who have shared their hard work with the community and
   * Flurry server - Resource name displays in inventory.
   * Infinity server - Invisible hat, Clothes breaking on 0 condition, Regrantskills Command, SEA removal tool and color 1/2/3 name display on popup box UI when recoloring armor.
   * Reckoning server - City Mail spam bug fix, increased badge limit, house pack-up & DiscordBot updates/fixes.
-  * Sentinels Republic server - Modern furniture palette tre files.
