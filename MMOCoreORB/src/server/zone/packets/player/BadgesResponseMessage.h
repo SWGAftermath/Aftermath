@@ -24,7 +24,7 @@ public:
 		setCompression(true);
 
 		//TODO: Loop through a vector of bitmasks.
-		for (int i = 0; i < 10; ++i) {
+		for (int i = 0; i < 5; ++i) {
 			insertInt(badges->getBitmask(i));
 		}
 
