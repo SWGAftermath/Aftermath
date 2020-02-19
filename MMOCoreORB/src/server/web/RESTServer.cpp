@@ -101,7 +101,11 @@ void RESTServer::registerEndpoints() {
 
 					auto scno = dynamic_cast<SceneObject*>(obj.get());
 
-					if (scno != nullptr && recursive) {
+					if (scno != nullptr) {
+						if (!recursive) {
+							maxDepth = 1;
+						}
+
 						if (parents) {
 							auto rootObj = scno->getRootParent();
 
@@ -115,8 +119,11 @@ void RESTServer::registerEndpoints() {
 						JSONSerializationType jsonData;
 						obj->writeJSON(jsonData);
 						countFound++;
+						jsonData["_depth"] = 0;
 						jsonData["_oid"] = oid;
-						jsonData["_depth"] = 1;
+						jsonData["_className"] = obj->_getClassName();
+						jsonData["_oidPath"] = JSONSerializationType::array();
+						jsonData["_oidPath"].push_back(oid);
 						objects[String::valueOf(oid)] = jsonData;
 					}
 				}
@@ -187,7 +194,15 @@ void RESTServer::registerEndpoints() {
 		}
 	}));
 
-	debug() << "Registered " << mAPIEndpoints.size() << " endpoint(s)";
+	addEndpoint(RESTEndpoint("GET:/v1/(find|lookup)/character/", {"mode"}, [this] (APIRequest& apiRequest) -> void {
+		try {
+			mPlayerManagerProxy->lookupCharacter(apiRequest);
+		} catch (http_exception const & e) {
+			apiRequest.fail("Failed to parse request.", "Exception handling request: " + String(e.what()));
+		}
+	}));
+
+	info() << "Registered " << mAPIEndpoints.size() << " endpoint(s)";
 }
 
 void RESTServer::routeRequest(http_request& request) {
@@ -245,7 +260,7 @@ void RESTServer::routeRequest(http_request& request) {
 				error() << "Unexpected exception in RESTAPITask: " + e.getMessage();
 				request.reply(status_codes::BadGateway, U("Unexpected exception in request router"));
 			}
-		}, "RESTAPITask-" + hitEndpoint.toString(), "slowQueue");
+		}, "RESTAPITask-" + hitEndpoint.toString(), "RESTServerWorker");
 	} catch (Exception& e) {
 		error() << "Unexpected exception in request router: " + e.getMessage();
 		request.reply(status_codes::BadGateway, U("Unexpected exception in request router"));
@@ -269,6 +284,9 @@ bool RESTServer::checkAuth(http_request& request) {
 
 void RESTServer::start() {
 	auto logLevel = ConfigManager::instance()->getInt("Core3.RESTServer.LogLevel", (int)Logger::INFO);
+	auto numberOfThreads = ConfigManager::instance()->getInt("Core3.RESTServer.WorkerThreads", 4);
+
+	const auto static initialized = Core::getTaskManager()->initializeCustomQueue("RESTServerWorker", numberOfThreads);
 
 	setLogLevel(static_cast<Logger::LogLevel>(logLevel));
 
