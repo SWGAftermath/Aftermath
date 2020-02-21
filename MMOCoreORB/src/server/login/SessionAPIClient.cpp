@@ -10,8 +10,6 @@
 
 #ifdef WITH_SESSION_API
 
-#define SESSION_API_CLIENT_VERSION 1002
-
 #include "SessionAPIClient.h"
 
 #include <cpprest/filestream.h>
@@ -271,7 +269,7 @@ void SessionAPIClient::notifyGalaxyStart(uint32 galaxyID) {
 	// Save for later
 	this->galaxyID = galaxyID;
 
-	path << "/v1/core3/galaxy/" << galaxyID << "/start?client_version=" << SESSION_API_CLIENT_VERSION;
+	path << "/v1/core3/galaxy/" << galaxyID << "/start";
 
 	apiNotify(__FUNCTION__, path.toString());
 }
@@ -279,7 +277,7 @@ void SessionAPIClient::notifyGalaxyStart(uint32 galaxyID) {
 void SessionAPIClient::notifyGalaxyShutdown() {
 	StringBuffer path;
 
-	path << "/v1/core3/galaxy/" << galaxyID << "/shutdown?client_version=" << SESSION_API_CLIENT_VERSION;
+	path << "/v1/core3/galaxy/" << galaxyID << "/shutdown";
 
 	apiNotify(__FUNCTION__, path.toString());
 }

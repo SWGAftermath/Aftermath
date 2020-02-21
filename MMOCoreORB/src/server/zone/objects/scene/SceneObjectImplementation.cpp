@@ -1939,7 +1939,6 @@ int SceneObjectImplementation::writeRecursiveJSON(JSONSerializationType& j, int 
 	thisObject["_maxDepth"] = maxDepth;
 	thisObject["_depth"] = oidPath->size();
 	thisObject["_oid"] = getObjectID();
-	thisObject["_className"] = _className;
 
 	auto oidPathJSON = JSONSerializationType::array();
 
