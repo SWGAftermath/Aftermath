@@ -23,7 +23,6 @@ namespace server {
 
 		server::zone::managers::player::PlayerManager* getPlayerManager();
 		void handle(APIRequest& apiRequest);
-		void lookupCharacter(APIRequest& apiRequest);
 	};
  }
 }
