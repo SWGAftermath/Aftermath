@@ -35,7 +35,7 @@ bh_targets_at_mission_level = {
 		"bh_bodyguard_zabrak_female", --level 18
 		"bh_assassin_twilek_mate", --level 18
 		"bh_pirate_captain", --level 20
-		"bh_brigand_leader", --level 20
+		"bh_brigand_leader" --level 20
 	},
 	level2 = { --level 21 - 50
 		"bh_bounty_hunter_thug", --level 24
@@ -73,6 +73,21 @@ enable_factional_entertainer_missions = "true"
 enable_same_account_bounty_missions = "false"
 
 
-playerBountyKillBuffer = 0 -- Buffer before player bounty can be put back on terminal after target is killed, set 0 to disable
+playerBountyDebuffLength = 0-- Time before their bounty resets from the minimum amount
 
-playerBountyDebuffLength = 0 -- Time before their bounty resets from the minimum amount
+-- Destroy Mission Configuration
+-- Distance calculated as: 
+--    <BaseDistance> + <DifficultyDistanceFactor> * <difficultyLevel> + 
+--    rand(<RandomDistance>) + rand(<DifficutlyRandomDistance * <difficultyLevel>)
+destroyMissionBaseDistance = 1000
+destroyMissionDifficultyDistanceFactor = 0
+destroyMissionRandomDistance = 1000
+destroyMissionDifficultyRandomDistance = 0
+
+-- Mission payout calculated as: 
+--    <BaseReward> + <DifficultyRewardFactor> * <difficultyLevel> + 
+--    rand(<RandomReward>) + rand(<DifficutlyRandomReward * <difficultyLevel>)
+destroyMissionBaseReward = 0
+destroyMissionDifficultyRewardFactor = 375
+destroyMissionRandomReward = 0
+destroyMissionDifficultyRandomReward = 15

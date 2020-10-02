@@ -112,6 +112,8 @@ namespace conf {
 			return *asIntVector;
 		}
 
+		void getAsJSON(JSONSerializationType& jsonData);
+
 		String toString() {
 			usageCounter++;
 
@@ -160,15 +162,27 @@ namespace conf {
 		Lua lua;
 
 		Timer configStartTime;
+		bool logChanges = false;
+
 		VectorMap<String, ConfigDataItem *> configData;
 
-		// Cached values
-		bool cachedPvpMode = false;
-		bool cachedProgressMonitors = false;
-		bool cachedUnloadContainers = false;
-		bool cachedUseMetrics = false;
-		int cachedSessionStatsSeconds = 1;
-		int cachedOnlineLogSize = 0;
+		// Each change increments configVersion allowing cached results to auto-reload
+		mutable AtomicInteger configVersion = 0;
+
+		ReadWriteLock mutex;
+
+	private:
+		ConfigDataItem* findItem(const String& name) const;
+		bool updateItem(const String& name, ConfigDataItem* newItem);
+
+		bool parseConfigData(const String& prefix, bool isGlobal = false, int maxDepth = 5);
+		bool parseConfigJSONRecursive(const String prefix, JSONSerializationType jsonNode, String& errorMessage, bool updateOnly = true);
+		void writeJSONPath(StringTokenizer& tokens, JSONSerializationType& jsonData, const JSONSerializationType& jsonValue);
+		bool isSensitiveKey(const String& key);
+
+		void incrementConfigVersion() {
+			configVersion.increment();
+		}
 
 	public:
 		ConfigManager();
@@ -178,6 +192,8 @@ namespace conf {
 		void clearConfigData();
 		bool parseConfigData(const String& prefix, bool isGlobal = false, int maxDepth = 5);
 		void cacheHotItems();
+		bool parseConfigJSON(const String& jsonString, String& errorMessage, bool updateOnly = true);
+		bool parseConfigJSON(const JSONSerializationType jsonData, String& errorMessage, bool updateOnly = true);
 		void dumpConfig(bool includeSecure = false);
 		bool testConfig(ConfigManager* configManager);
 
@@ -185,8 +201,13 @@ namespace conf {
 			return configStartTime.elapsedMs();
 		}
 
+		int getConfigVersion() {
+			return configVersion.get();
+		}
+
 		// General config functions
-		ConfigDataItem* findItem(const String& name) const;
+		bool contains(const String& name) const;
+		int getUsageCounter(const String& name) const;
 		int getInt(const String& name, int defaultValue);
 		bool getBool(const String& name, bool defaultValue);
 		float getFloat(const String& name, float defaultValue);
@@ -194,6 +215,7 @@ namespace conf {
 		const Vector<String>& getStringVector(const String& name);
 		const SortedVector<String>& getSortedStringVector(const String& name);
 		const Vector<int>& getIntVector(const String& name);
+		bool getAsJSON(const String& target, JSONSerializationType& jsonData);
 
 		bool updateItem(const String& name, ConfigDataItem* newItem);
 		bool setNumber(const String& name, lua_Number newValue);
@@ -224,31 +246,52 @@ namespace conf {
 			return getBool("Core3.DumpObjFiles", true);
 		}
 
-		inline bool shouldUnloadContainers() const {
+		inline bool shouldUnloadContainers() {
 			// Use cached value as this is called often
+			static uint32 cachedVersion = 0;
+			static bool cachedUnloadContainers;
+
+			if (configVersion.get() > cachedVersion) {
+				Locker guard(&mutex);
+				cachedUnloadContainers = getBool("Core3.UnloadContainers", true);
+				cachedVersion = configVersion.get();
+			}
+
 			return cachedUnloadContainers;
 		}
 
-		inline bool shouldUseMetrics() const {
+		inline bool shouldUseMetrics() {
 			// On Basilisk this is called 400/s
+			static uint32 cachedVersion = 0;
+			static bool cachedUseMetrics;
+
+			if (configVersion.get() > cachedVersion) {
+				Locker guard(&mutex);
+				cachedUseMetrics = getBool("Core3.UseMetrics", false);
+				cachedVersion = configVersion.get();
+			}
+
 			return cachedUseMetrics;
 		}
 
-		inline bool getPvpMode() const {
+		inline bool getPvpMode() {
 			// Use cached value as this is a hot item called in:
 			//   CreatureObjectImplementation::isAttackableBy
 			//   CreatureObjectImplementation::isAggressiveTo
+			static uint32 cachedVersion = 0;
+			static bool cachedPvpMode;
+
+			if (configVersion.get() > cachedVersion) {
+				Locker guard(&mutex);
+				cachedPvpMode = getBool("Core3.PvpMode", false);
+				cachedVersion = configVersion.get();
+			}
+
 			return cachedPvpMode;
 		}
 
 		inline bool setPvpMode(bool val) {
-			if (!setBool("Core3.PvpMode", val))
-				return false;
-
-			// Updated cached value
-			cachedPvpMode = getBool("Core3.PvpMode", val);
-
-			return true;
+			return setBool("Core3.PvpMode", val);
 		}
 
 		inline const String& getORBNamingDirectoryAddress() {
@@ -265,6 +308,15 @@ namespace conf {
 
 		inline bool isProgressMonitorActivated() {
 			// Use cached value as this a hot item called in lots of loops
+			static uint32 cachedVersion = 0;
+			static bool cachedProgressMonitors;
+
+			if (configVersion.get() > cachedVersion) {
+				Locker guard(&mutex);
+				cachedProgressMonitors = getBool("Core3.ProgressMonitors", false);
+				cachedVersion = configVersion.get();
+			}
+
 			return cachedProgressMonitors;
 		}
 
@@ -420,11 +472,16 @@ namespace conf {
 			return getInt("Core3.LogFileLevel", Logger::INFO);
 		}
 
+		inline int getRotateLogSizeMB() {
+			return getInt("Core3.RotateLogSizeMB", 100);
+		}
+
+		inline bool getRotateLogAtStart() {
+			return getBool("Core3.RotateLogAtStart", false);
+		}
+
 		inline void setProgressMonitors(bool val) {
 			setBool("Core3.ProgressMonitors", val);
-
-			// Updated cached value
-			cachedProgressMonitors = getBool("Core3.ProgressMonitors", val);
 		}
 
 		inline const String& getTermsOfService() {
@@ -479,7 +536,16 @@ namespace conf {
 			return getInt("Core3.MaxLogLines", 1000000);
 		}
 
-		inline int getSessionStatsSeconds() const {
+		inline int getSessionStatsSeconds() {
+			static uint32 cachedVersion = 0;
+			static int cachedSessionStatsSeconds;
+
+			if (configVersion.get() > cachedVersion) {
+				Locker guard(&mutex);
+				cachedSessionStatsSeconds = getInt("Core3.SessionStatsSeconds", 3600);
+				cachedVersion = configVersion.get();
+			}
+
 			return cachedSessionStatsSeconds;
 		}
 
@@ -487,7 +553,16 @@ namespace conf {
 			return getInt("Core3.OnlineLogSeconds", 300);
 		}
 
-		inline int getOnlineLogSize() const {
+		inline int getOnlineLogSize() {
+			static uint32 cachedVersion = 0;
+			static int cachedOnlineLogSize;
+
+			if (configVersion.get() > cachedVersion) {
+				Locker guard(&mutex);
+				cachedOnlineLogSize = getInt("Core3.OnlineLogSize", 100000000);
+				cachedVersion = configVersion.get();
+			}
+
 			return cachedOnlineLogSize;
 		}
 
@@ -502,6 +577,43 @@ namespace conf {
 		}
 		inline int getInactiveStructurePackupDays() {
 			return getInt("Core3.inactiveStructurePackupDays", 365);
+		inline String getNoTradeMessage() {
+			static uint32 cachedVersion = 0;
+			static String cachedNoTradeMessage;
+
+			if (configVersion.get() > cachedVersion) {
+				Locker guard(&mutex);
+				cachedNoTradeMessage = getString("Core3.TangibleObject.NoTradeMessage", "");
+				cachedVersion = configVersion.get();
+			}
+
+			return cachedNoTradeMessage;
+		}
+
+		inline String getForceNoTradeMessage() {
+			static uint32 cachedVersion = 0;
+			static String cachedForceNoTradeMessage;
+
+			if (configVersion.get() > cachedVersion) {
+				Locker guard(&mutex);
+				cachedForceNoTradeMessage = getString("Core3.TangibleObject.ForceNoTradeMessage", "");
+				cachedVersion = configVersion.get();
+			}
+
+			return cachedForceNoTradeMessage;
+		}
+
+		inline String getForceNoTradeADKMessage() {
+			static uint32 cachedVersion = 0;
+			static String cachedForceNoTradeADKMessage;
+
+			if (configVersion.get() > cachedVersion) {
+				Locker guard(&mutex);
+				cachedForceNoTradeADKMessage = getString("Core3.TangibleObject.ForceNoTradeADKMessage", "");
+				cachedVersion = configVersion.get();
+			}
+
+			return cachedForceNoTradeADKMessage;
 		}
 	};
 }

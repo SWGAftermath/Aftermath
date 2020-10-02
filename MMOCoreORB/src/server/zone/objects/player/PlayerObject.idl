@@ -1767,6 +1767,9 @@ class PlayerObject extends IntangibleObject {
 	public native void updateLastJediAttackableTimestamp();
 
 	@read
+	public native boolean hasTef();
+
+	@read
 	public native boolean hasPvpTef();
 
 	@read

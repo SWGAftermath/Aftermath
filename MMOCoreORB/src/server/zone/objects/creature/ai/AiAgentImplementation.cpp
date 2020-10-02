@@ -2509,7 +2509,9 @@ int AiAgentImplementation::inflictDamage(TangibleObject* attacker, int damageTyp
 		CreatureObject* creature = attacker->asCreatureObject();
 
 		if (damage > 0) {
-			getThreatMap()->addDamage(creature, damage);
+			// This damage is DOT or other types of non direct combat damage, it should not count towards loot and thus not be added to the threat map damage.
+			// Adding aggro should still be done.
+			getThreatMap()->addAggro(creature, 1);
 		}
 	}
 	activateInterrupt(attacker, ObserverEventType::DAMAGERECEIVED);
@@ -2800,6 +2802,10 @@ bool AiAgentImplementation::isAggressiveTo(CreatureObject* target) {
 	// grab the GCW faction
 	uint32 targetFaction = target->getFaction();
 	PlayerObject* ghost = target->getPlayerObject();
+
+	if (ghost != nullptr && ghost->hasCrackdownTefTowards(getFaction())) {
+		return true;
+	}
 
 	// check the GCW factions if both entities have one
 	if (getFaction() != 0 && targetFaction != 0) {
@@ -3288,6 +3294,13 @@ bool AiAgentImplementation::isAttackableBy(CreatureObject* object) {
 
 	if (pvpStatusBitmask == 0) {
 		return false;
+	}
+
+	if (object->isPlayerCreature()) {
+		Reference<PlayerObject*> ghost = object->getPlayerObject();
+		if (ghost != nullptr && ghost->hasCrackdownTefTowards(getFaction())) {
+			return true;
+		}
 	}
 
 	unsigned int targetFaction = object->getFaction();
