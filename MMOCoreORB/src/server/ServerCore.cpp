@@ -535,7 +535,7 @@ void ServerCore::initialize() {
 
 	processConfig();
 
-	Logger::setGlobalFileLogger(configManager->getLogFile());
+	Logger::setGlobalFileLogger(configManager->getLogFile(), configManager->getRotateLogSizeMB(), configManager->getRotateLogAtStart());
 	Logger::setGlobalFileJson(configManager->getJsonLogOutput());
 	Logger::setGlobalFileLoggerSync(configManager->getSyncLogOutput());
 	Logger::setGlobalFileLogLevel(static_cast<Logger::LogLevel>(configManager->getLogFileLevel()));
