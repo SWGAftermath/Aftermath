@@ -96,12 +96,47 @@ void TangibleObjectImplementation::notifyLoadFromDatabase() {
 	if (hasAntiDecayKit()) {
 		AntiDecayKit* adk = antiDecayKitObject.castTo<AntiDecayKit*>();
 
-		if (adk != nullptr && !adk->isUsed()) {
-			Locker locker(adk);
+		if (adk != nullptr) {
+			if (!adk->isUsed()) {
+				Locker locker(adk);
+				adk->setUsed(true);
+			}
 
-			adk->setUsed(true);
+			auto strongAdkParent = adk->getParent().get();
+
+			if (strongAdkParent != nullptr) {
+				error()
+					<< "oid: " << getObjectID()
+					<< " has AntiDecayKit(" << adk->getObjectID()
+					<< ") with parent: " << strongAdkParent->getObjectID()
+					<< ", removing from world."
+					;
+				Locker lock(adk);
+				adk->destroyObjectFromWorld(true);
+			}
 		}
 	}
+}
+
+void TangibleObjectImplementation::destroyObjectFromDatabase(bool destroyContainedObjects) {
+	if (hasAntiDecayKit()) {
+		AntiDecayKit* adk = antiDecayKitObject.castTo<AntiDecayKit*>();
+
+		if (adk != nullptr) {
+			auto strongAdkParent = adk->getParent().get();
+			error()
+				<< "destroyObjectFromDatabase oid: " << getObjectID()
+				<< " has AntiDecayKit(" << adk->getObjectID()
+				<< ") with parent: " << (strongAdkParent != nullptr ? strongAdkParent->getObjectID() : 0)
+				<< ", removing adk from database."
+				;
+			Locker lock(adk);
+			adk->destroyObjectFromDatabase(true);
+			antiDecayKitObject = nullptr;
+		}
+	}
+
+	SceneObjectImplementation::destroyObjectFromDatabase(destroyContainedObjects);
 }
 
 void TangibleObjectImplementation::sendBaselinesTo(SceneObject* player) {
@@ -509,6 +544,16 @@ void TangibleObjectImplementation::fillAttributeList(AttributeListMessage* alm, 
 		StringBuffer cond;
 		cond << (maxCondition-(int)conditionDamage) << "/" << maxCondition;
 
+		auto config = ConfigManager::instance();
+
+		if (isForceNoTrade()) {
+			cond << config->getForceNoTradeMessage();
+		} else if (antiDecayKitObject != nullptr && antiDecayKitObject->isForceNoTrade()) {
+			cond << config->getForceNoTradeADKMessage();
+		} else if (isNoTrade() || containsNoTradeObjectRecursive()) {
+			cond << config->getNoTradeMessage();
+		}
+
 		alm->insertAttribute("condition", cond);
 	}
 
@@ -815,32 +860,34 @@ void TangibleObjectImplementation::updateCraftingValues(CraftingValues* values,
 	}
 }
 
-Reference<FactoryCrate*> TangibleObjectImplementation::createFactoryCrate(int maxSize, bool insertSelf) {
-	String file;
-	uint32 type = getGameObjectType();
-
-	if(type & SceneObjectType::ARMOR)
-		file = "object/factory/factory_crate_armor.iff";
-	else if(type == SceneObjectType::CHEMICAL || type == SceneObjectType::PHARMACEUTICAL || type == SceneObjectType::PETMEDECINE)
-		file = "object/factory/factory_crate_chemicals.iff";
-	else if(type & SceneObjectType::CLOTHING)
-		file = "object/factory/factory_crate_clothing.iff";
-	else if(type == SceneObjectType::ELECTRONICS)
-		file = "object/factory/factory_crate_electronics.iff";
-	else if(type == SceneObjectType::FOOD || type == SceneObjectType::DRINK)
-		file = "object/factory/factory_crate_food.iff";
-	else if(type == SceneObjectType::FURNITURE)
-		file = "object/factory/factory_crate_furniture.iff";
-	else if(type & SceneObjectType::INSTALLATION)
-		file = "object/factory/factory_crate_installation.iff";
-	else if(type & SceneObjectType::WEAPON)
-		file = "object/factory/factory_crate_weapon.iff";
-	else
-		file = "object/factory/factory_crate_generic_items.iff";
-
+Reference<FactoryCrate*> TangibleObjectImplementation::createFactoryCrate(int maxSize, String& factoryCrateType, bool insertSelf ) {
 	ObjectManager* objectManager = ObjectManager::instance();
 
-	Reference<FactoryCrate*> crate = (getZoneServer()->createObject(file.hashCode(), 2)).castTo<FactoryCrate*>();
+	String crateType = factoryCrateType;
+	uint32 type = getGameObjectType();
+
+	if (crateType == "") {
+		if(type & SceneObjectType::ARMOR)
+        		crateType = "object/factory/factory_crate_armor.iff";
+    		else if(type == SceneObjectType::CHEMICAL || type == SceneObjectType::PHARMACEUTICAL || type == SceneObjectType::PETMEDECINE)
+        		crateType = "object/factory/factory_crate_chemicals.iff";
+    		else if(type & SceneObjectType::CLOTHING)
+        		crateType = "object/factory/factory_crate_clothing.iff";
+    		else if(type == SceneObjectType::ELECTRONICS)
+        		crateType = "object/factory/factory_crate_electronics.iff";
+    		else if(type == SceneObjectType::FOOD || type == SceneObjectType::DRINK)
+        		crateType = "object/factory/factory_crate_food.iff";
+    		else if(type == SceneObjectType::FURNITURE)
+        		crateType = "object/factory/factory_crate_furniture.iff";
+    		else if(type & SceneObjectType::INSTALLATION)
+        		crateType = "object/factory/factory_crate_installation.iff";
+    		else if(type & SceneObjectType::WEAPON)
+        		crateType = "object/factory/factory_crate_weapon.iff";
+    		else
+        	crateType = "object/factory/factory_crate_generic_items.iff";
+	}
+
+	Reference<FactoryCrate*> crate = (getZoneServer()->createObject(crateType.hashCode(), 2)).castTo<FactoryCrate*>();
 
 	if (crate == nullptr)
 		return nullptr;
@@ -955,8 +1002,9 @@ bool TangibleObjectImplementation::canRepair(CreatureObject* player) {
 	return false;
 }
 
-void TangibleObjectImplementation::repair(CreatureObject* player) {
-	if (player == nullptr || player->getZoneServer() == nullptr)
+void TangibleObjectImplementation::repair(CreatureObject* player, RepairTool * repairTool) {
+
+	if(player == nullptr || player->getZoneServer() == nullptr)
 		return;
 
 	if (!isASubChildOf(player))
@@ -975,33 +1023,47 @@ void TangibleObjectImplementation::repair(CreatureObject* player) {
 		return;
 	}
 
-	SceneObject* inventory = player->getSlottedObject("inventory");
-	if (inventory == nullptr)
-		return;
-
-	ManagedReference<RepairTool*> repairTool = nullptr;
 	Reference<RepairToolTemplate*> repairTemplate = nullptr;
 
-	for(int i = 0; i < inventory->getContainerObjectsSize(); ++i) {
-		ManagedReference<SceneObject*> item = inventory->getContainerObject(i);
-		if(item->isRepairTool()) {
-			repairTemplate = cast<RepairToolTemplate*>(item->getObjectTemplate());
+	if (repairTool == nullptr) {
+		SceneObject* inventory = player->getSlottedObject("inventory");
 
-			if (repairTemplate == nullptr) {
-				error("No RepairToolTemplate for: " + String::valueOf(item->getServerObjectCRC()));
-				return;
-			}
+		if(inventory == nullptr) {
+			return;
+		}
 
-			if(repairTemplate->getRepairType() & getGameObjectType()) {
-				repairTool = cast<RepairTool*>(item.get());
-				break;
+		for (int i = 0; i < inventory->getContainerObjectsSize(); ++i) {
+			ManagedReference<SceneObject*> item = inventory->getContainerObject(i);
+
+			if (item->isRepairTool()) {
+				repairTemplate = cast<RepairToolTemplate*>(item->getObjectTemplate());
+
+				if (repairTemplate == nullptr) {
+					error("No RepairToolTemplate for: " + String::valueOf(item->getServerObjectCRC()));
+					return;
+				}
+
+				if(repairTemplate->getRepairType() & getGameObjectType()) {
+					repairTool = cast<RepairTool*>(item.get());
+					break;
+				}
+
+				repairTemplate = nullptr;
 			}
-			repairTemplate = nullptr;
+		}
+	} else {
+		repairTemplate = cast<RepairToolTemplate*>(repairTool->getObjectTemplate());
+
+		if (!(repairTemplate->getRepairType() & getGameObjectType())) {
+			error ("Given RepairTool can't repair this type of object");
+			return;
 		}
 	}
 
-	if (repairTool == nullptr)
+	if (repairTool == nullptr) {
+		error ("No RepairTool given or found. Aborting");
 		return;
+	}
 
 	/// Luck Roll + Profession Mod(25) + Luck Tapes
 	/// + Station Mod - BF
@@ -1047,8 +1109,7 @@ void TangibleObjectImplementation::repair(CreatureObject* player) {
 
 	Locker locker(repairTool);
 
-	repairTool->destroyObjectFromWorld(true);
-	repairTool->destroyObjectFromDatabase(true);
+	repairTool->decreaseUseCount(1, true);
 
 	player->sendSystemMessage(result);
 }
@@ -1071,19 +1132,22 @@ bool TangibleObjectImplementation::isAttackableBy(TangibleObject* object) {
 }
 
 bool TangibleObjectImplementation::isAttackableBy(CreatureObject* object) {
-	if (isImperial() && !(object->isRebel())) {
+	if (object->isPlayerCreature()) {
+		Reference<PlayerObject*> ghost = object->getPlayerObject();
+		if (ghost != nullptr && ghost->hasCrackdownTefTowards(getFaction())) {
+			return true;
+		}
+		if (isImperial() && (!object->isRebel() || object->getFactionStatus() == 0)) {
+			return false;
+		}
+
+		if (isRebel() && (!object->isImperial() || object->getFactionStatus() == 0)) {
+			return false;
+		}
+	} else if (isImperial() && !(object->isRebel())) {
 		return false;
 	} else if (isRebel() && !(object->isImperial())) {
 		return false;
-	} else if (object->isPlayerCreature()) {
-		if (isImperial() && object->getFactionStatus() == 0) {
-			return false;
-		}
-
-		if (isRebel() && object->getFactionStatus() == 0) {
-			return false;
-		}
-
 	} else if (object->isAiAgent()) {
 		AiAgent* ai = object->asAiAgent();
 

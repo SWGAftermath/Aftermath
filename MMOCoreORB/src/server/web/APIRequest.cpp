@@ -33,26 +33,28 @@ using namespace server::web3;
 **  mRequestJSON: {"test"="123"}
 */
 
-APIRequest::APIRequest(http_request gatewayRequest, const String endpointKey, Logger::LogLevel logLevel) {
+APIRequest::APIRequest(http_request gatewayRequest, const String endpointKey, Logger& logger) {
 	uint64 trxid = (System::getMikroTime() << 8) | System::random(255);
 	mTrxId = String::hexvalueOf(trxid);
-	setLoggingName("APIRequest " + mTrxId);
-	setLogLevel(logLevel);
 	mGatewayRequest = gatewayRequest;
 	mParsedRequestJSON = false;
 	mReplied = false;
 	mFailed = false;
 	mEndpointKey = endpointKey;
+	setLoggingName("APIRequest " + mTrxId);
+	setLoggerCallback([this, &logger] (Logger::LogLevel level, const char* msg) -> int {
+		StringBuffer buf;
+
+		buf << "[" << getLoggingName() << "] " << msg;
+
+		logger.log(buf.toString().toCharArray(), level, false);
+
+		return Logger::SUCCESS;
+	});
 	parseQueryFields();
-#if DEBUG_RESTAPI
-	debug() << "\033[42;30mctor " << this << " " << toString() << "\033[0m";
-#endif // DEBUG_RESTAPI
 }
 
 APIRequest::~APIRequest() {
-#if DEBUG_RESTAPI
-	debug() << "\033[41;30mdtor " << this << " " << toString() << "\033[0m";
-#endif // DEBUG_RESTAPI
 }
 
 String APIRequest::toString() const {
@@ -62,42 +64,54 @@ String APIRequest::toString() const {
 		<< " " << mTrxId
 		<< ": replied: " << mReplied
 		<< ", endpointKey: " << mEndpointKey
-		<< ", pathFields: ("
+		<< ", pathFields: {"
 		;
 
 	auto pathFieldIter = mPathFields.iterator();
+	auto sep = "";
 
 	while(pathFieldIter.hasNext()) {
 		String fieldName, fieldValue;
 		pathFieldIter.getNextKeyAndValue(fieldName, fieldValue);
 
-		buf << " " << fieldName << "=[" << fieldValue << "]";
+		buf << sep << "\"" << fieldName << ":\"" << fieldValue << "\"";
+		sep = ", ";
 	}
 
-	buf << "), queryFields: (";
+	buf << "}, queryFields: {";
 
 	auto queryFieldIter = mQueryFields.iterator();
+	sep = "";
 
 	while(queryFieldIter.hasNext()) {
 		String fieldName, fieldValue;
 		queryFieldIter.getNextKeyAndValue(fieldName, fieldValue);
 
-		buf << " " << fieldName << "=[" << fieldValue << "]";
+		buf << sep << "\"" << fieldName << "\":\"" << fieldValue << "\"";
+		sep = ", ";
 	}
 
-	buf << "), requestJSON: " << mRequestJSON.dump();
+	buf << "}, requestJSON: " << mRequestJSON.dump();
 
 	if (mReplied) {
 		auto resultStr = String(mResult.serialize());
 
-		if (resultStr.length() > 200) {
-			resultStr = resultStr.subString(0, 200) + "...";
+		if (resultStr.length() > 900) {
+			resultStr = resultStr.subString(0, 900) + "...";
 		}
 
 		buf << " result: " << resultStr;
 	}
 
 	return buf.toString();
+}
+
+String APIRequest::toStringData() const {
+	return toString();
+}
+
+bool APIRequest::stringToBool(const String& boolStr) const {
+	return boolStr.toLowerCase() == "true" || boolStr == "1";
 }
 
 bool APIRequest::hasPathField(const String& fieldName) const {
@@ -174,6 +188,16 @@ uint64_t APIRequest::getQueryFieldUnsignedLong(const String& fieldName, bool req
 	return UnsignedLong::valueOf(getQueryFieldString(fieldName, false));
 }
 
+bool APIRequest::getQueryFieldBool(const String& fieldName, bool required, bool defaultValue) {
+	if (required) {
+		return stringToBool(getQueryFieldString(fieldName, true));
+	} else if (!hasQueryField(fieldName)) {
+		return defaultValue;
+	}
+
+	return stringToBool(getQueryFieldString(fieldName, false));
+}
+
 bool APIRequest::parseRequestJSON(bool failOnError, bool failOnEmpty) {
 	if (mParsedRequestJSON)
 		return true;
@@ -243,9 +267,29 @@ uint64_t APIRequest::getRequestFieldUnsignedLong(const String& fieldName, bool r
 
 	if (jvalue.is_string()) {
 		return UnsignedLong::valueOf(jvalue.get<std::string>());
-	} else {
-		return jvalue.get<uint64_t>();
 	}
+
+	return jvalue.get<uint64_t>();
+}
+
+bool APIRequest::getRequestFieldBool(const String& fieldName, bool required, bool defaultValue) {
+	if (!hasRequestField(fieldName)) {
+		if (!required) {
+			return defaultValue;
+		} else {
+			auto msg = "Missing required request field [" + fieldName + "]";
+			fail(msg);
+			throw APIRequestException(msg);
+		}
+	}
+
+	auto jvalue = mRequestJSON[fieldName];
+
+	if (jvalue.is_string()) {
+		return stringToBool(jvalue.get<std::string>());
+	}
+
+	return jvalue.get<bool>();
 }
 
 void APIRequest::reply(JSONSerializationType result, const String& status, APIRequestStatusValue status_code) {

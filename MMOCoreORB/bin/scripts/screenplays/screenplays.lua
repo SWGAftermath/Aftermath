@@ -70,6 +70,7 @@ includeFile("trainers/skillTrainer.lua")
 includeFile("trainers/trainerConvHandler.lua")
 
 -- GCW
+includeFile("gcw/city_control_banners.lua")
 includeFile("gcw/newsnet.lua")
 includeFile("gcw/recruiters/recruiterConvoHandler.lua")
 includeFile("gcw/recruiters/recruiterScreenplay.lua")
@@ -668,6 +669,9 @@ includeFile("space/space_chassis_dealer_conv_handler.lua")
 
 --Record Keepers
 includeFile("record_keepers/record_keepers.lua")
+
+--Battlefields
+includeFile("battlefields/battlefield_spawner.lua");
 
 --Tests
 includeFile("tests/tests.lua")

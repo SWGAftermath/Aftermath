@@ -22,6 +22,15 @@
 #include "ingredientslots/ResourceSlot.h"
 #include "ingredientslots/ComponentSlot.h"
 
+void ManufactureSchematicImplementation::destroyObjectFromDatabase(bool destroyContainedObjects) {
+	if (prototype != nullptr) {
+		prototype->destroyObjectFromDatabase(true);
+		prototype = nullptr;
+	}
+
+	SceneObjectImplementation::destroyObjectFromDatabase(destroyContainedObjects);
+}
+
 void ManufactureSchematicImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* object) {
 
 	alm->insertAttribute("data_volume", dataSize);
@@ -604,4 +613,11 @@ int ManufactureSchematicImplementation::getLabratory() {
 		return -1;
 
 	return draftSchematic->getLabratory();
+}
+
+String ManufactureSchematicImplementation::getFactoryCrateType() {
+	if (draftSchematic == nullptr)
+		return "object/factory/factory_crate_generic_items.iff";
+
+	return draftSchematic->getFactoryCrateType();
 }

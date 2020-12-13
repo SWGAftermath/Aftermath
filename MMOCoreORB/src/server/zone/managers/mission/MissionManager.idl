@@ -59,7 +59,16 @@ class MissionManager extends Observer implements Logger {
 
 	unsigned long playerBountyKillBuffer;
 	unsigned long playerBountyDebuffLength;
-	
+
+	unsigned long destroyMissionBaseDistance;
+	unsigned long destroyMissionDifficultyDistanceFactor;
+	unsigned long destroyMissionRandomDistance;
+	unsigned long destroyMissionDifficultyRandomDistance;
+	unsigned long destroyMissionBaseReward;
+	unsigned long destroyMissionDifficultyRewardFactor;
+	unsigned long destroyMissionRandomReward;
+	unsigned long destroyMissionDifficultyRandomReward;
+
 	public MissionManager(ZoneServer srv, ZoneProcessServer impl) {
 		server = srv;
 		processor = impl;
@@ -123,8 +132,17 @@ class MissionManager extends Observer implements Logger {
 
 	@local
 	@dirty
-	public native NpcSpawnPoint getFreeNpcSpawnPoint(final unsigned int planetCRC, final float x, final float y, final int spawnType);
+	public native NpcSpawnPoint getFreeNpcSpawnPoint(final unsigned int planetCRC, final float x, final float y, final int spawnType, final float maxRange);
+
+	@local
+	@dirty
+	public NpcSpawnPoint getFreeNpcSpawnPoint(final unsigned int planetCRC, final float x, final float y, final int spawnType) {
+		return getFreeNpcSpawnPoint(planetCRC, x, y, spawnType, 1600.f);
+	}
+
 	public native void createSpawnPoint(CreatureObject player, final string spawnTypes);
+
+	public native void removeSpawnPoint(CreatureObject player, final string spawnTypes);
 
 	@local
 	private native LairSpawn getRandomLairSpawn(CreatureObject player, final unsigned int faction, unsigned int type);

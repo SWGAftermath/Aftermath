@@ -63,6 +63,7 @@
 #include "server/zone/managers/jedi/JediManager.h"
 #include "server/zone/objects/player/events/ForceRegenerationEvent.h"
 #include "server/login/account/AccountManager.h"
+#include "templates/creature/SharedCreatureObjectTemplate.h"
 
 #include "server/zone/objects/tangible/deed/eventperk/EventPerkDeed.h"
 #include "server/zone/managers/player/QuestInfo.h"
@@ -1364,6 +1365,18 @@ void PlayerObjectImplementation::notifyOnline() {
 
 	playerCreature->notifyObservers(ObserverEventType::LOGGEDIN);
 
+	// Set speed if player isn't mounted.
+	if (!playerCreature->isRidingMount())
+	{
+		auto playerTemplate = dynamic_cast<SharedCreatureObjectTemplate*>(playerCreature->getObjectTemplate());
+
+		if (playerTemplate != nullptr) {
+			auto speedTempl = playerTemplate->getSpeed();
+
+			playerCreature->setRunSpeed(speedTempl.get(0));
+		}
+	}
+
 	if (getForcePowerMax() > 0 && getForcePower() < getForcePowerMax())
 		activateForcePowerRegen();
 
@@ -2361,7 +2374,12 @@ void PlayerObjectImplementation::updateLastPvpCombatActionTimestamp(bool updateG
 	if (parent == nullptr)
 		return;
 
-	bool alreadyHasTef = hasPvpTef();
+	bool alreadyHasTef = hasTef();
+
+	if (updateGcwCrackdownAction) {
+		lastCrackdownGcwCombatActionTimestamp.updateToCurrentTime();
+		lastCrackdownGcwCombatActionTimestamp.addMiliTime(FactionManager::TEFTIMER);
+	}
 
 	if (updateBhAction) {
 		bool alreadyHasBhTef = hasBhTef();
@@ -2421,8 +2439,9 @@ bool PlayerObjectImplementation::isJediAttackable() {
 void PlayerObjectImplementation::schedulePvpTefRemovalTask(bool removeGcwTefNow, bool removeBhTefNow, bool removeJediTefNow) {
 	ManagedReference<CreatureObject*> parent = getParent().get().castTo<CreatureObject*>();
 
-	if (parent == nullptr)
+	if (parent == nullptr) {
 		return;
+	}
 
 	if (pvpTefTask == nullptr) {
 		pvpTefTask = new PvpTefRemovalTask(parent);
@@ -2431,6 +2450,7 @@ void PlayerObjectImplementation::schedulePvpTefRemovalTask(bool removeGcwTefNow,
 	if (removeGcwTefNow || removeBhTefNow || removeJediTefNow) {
 		if (removeGcwTefNow)
 			lastGcwPvpCombatActionTimestamp.updateToCurrentTime();
+		}
 
 		if (removeBhTefNow) {
 			lastBhPvpCombatActionTimestamp.updateToCurrentTime();

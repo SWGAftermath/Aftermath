@@ -13,8 +13,6 @@
 #include "RESTEndpoint.h"
 #include "APIRequest.h"
 
-#define TRACE(msg) System::out << ":" << __PRETTY_FUNCTION__ << ":" << __LINE__ << " - " << msg << "\n"; System::flushStream(stdout);
-
 using namespace std;
 using namespace server::web3;
 
@@ -52,6 +50,10 @@ String RESTEndpoint::toString() const {
 	}
 
 	return buf.toString();
+}
+
+String RESTEndpoint::toStringData() const {
+	return toString();
 }
 
 bool RESTEndpoint::isMatch(const String& endpointKey) const {

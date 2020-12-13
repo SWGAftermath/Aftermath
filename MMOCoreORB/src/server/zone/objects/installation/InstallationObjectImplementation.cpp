@@ -668,6 +668,13 @@ bool InstallationObjectImplementation::isAggressiveTo(CreatureObject* target) {
 	if (!isAttackableBy(target) || target->isVehicleObject())
 		return false;
 
+	if (target->isPlayerCreature()) {
+		Reference<PlayerObject*> ghost = target->getPlayerObject();
+		if (ghost != nullptr && ghost->hasCrackdownTefTowards(getFaction())) {
+			return true;
+		}
+	}
+
 	if (getFaction() != 0 && target->getFaction() != 0 && getFaction() != target->getFaction())
 		return true;
 
@@ -717,13 +724,6 @@ bool InstallationObjectImplementation::isAttackableBy(CreatureObject* object) {
 	unsigned int thisFaction = getFaction();
 	unsigned int otherFaction = object->getFaction();
 
-	if (otherFaction != 0 && thisFaction != 0) {
-		if (otherFaction == thisFaction) {
-			return false;
-		}
-
-	}
-
 	if (object->isPet()) {
 		ManagedReference<CreatureObject*> owner = object->getLinkedCreature().get();
 
@@ -736,6 +736,7 @@ bool InstallationObjectImplementation::isAttackableBy(CreatureObject* object) {
 		if (object->getFactionStatus() == 0 || otherFaction == 0) {
 			return false;
 		}
+	}
 
 		//if ((getPvpStatusBitmask() & CreatureFlag::OVERT) && object->getFactionStatus() != FactionStatus::OVERT) {
 		//	return false;

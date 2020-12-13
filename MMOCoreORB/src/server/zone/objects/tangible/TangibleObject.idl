@@ -9,6 +9,7 @@ import system.util.SortedVector;
 import engine.log.Logger;
 include server.zone.packets.scene.AttributeListMessage;
 import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.tangible.tool.repair.RepairTool;
 import server.zone.objects.area.ActiveArea;
 include templates.params.OptionBitmask;
 include templates.params.ObserverEventType;
@@ -732,12 +733,20 @@ class TangibleObject extends SceneObject {
 	 * Creates a factory crate for this object, can insert this object or a clone
 	 */
 	@reference
-	public native FactoryCrate createFactoryCrate(int maxSize, boolean insertSelf = false);
+	public native FactoryCrate createFactoryCrate(int maxSize, string type, boolean insertSelf = false);
 
 	@dirty
 	public native boolean canRepair(CreatureObject player);
 
-	public native void repair(CreatureObject player);
+	/**
+	* Repair this object with the given tool. If null, this method will
+	* search the player's inventory for an approriate tool (used by the
+	* radial menu repair option)
+	* @param player The player who's performing the repair. Must own this item.
+	* @param repairTool the repairTool with which to perform the repair. If
+	* null, players inventory will be searched for a valid tool
+	*/
+	public native void repair(CreatureObject player, RepairTool repairTool = null);
 
 	@dirty
 	public abstract string repairAttempt(int repairChance) {
@@ -829,8 +838,26 @@ class TangibleObject extends SceneObject {
 	}
 
 	@read
+	public abstract boolean isNoTrade() {
+		if (antiDecayKitObject) {
+			return antiDecayKitObject.isNoTrade() || super.isNoTrade();
+		}
+
+		return super.isNoTrade();
+	}
+
+	@read
 	public boolean hasAntiDecayKit() {
-		return antiDecayKitObject != null;
+		return antiDecayKitObject;
+	}
+
+	@read
+	public unsigned long getAntiDecayKitObjectID() {
+		if (!hasAntiDecayKit()) {
+		    return 0;
+		}
+
+		return antiDecayKitObject.getObjectID();
 	}
 
 	@preLocked
@@ -838,7 +865,9 @@ class TangibleObject extends SceneObject {
 		if (!hasAntiDecayKit()) {
 			antiDecayKitObject = adk;
 
-			if (adk.getParent() != null)
+			SceneObject parent = adk.getParent();
+
+			if (parent)
 				adk.destroyObjectFromWorld(true);
 
 			sendAttributeListTo(player);
@@ -854,6 +883,8 @@ class TangibleObject extends SceneObject {
 		}
 		return null;
 	}
+
+	public abstract native void destroyObjectFromDatabase(boolean destroyContainedObjects = false);
 
 	@read
 	public native boolean isCityStreetLamp();

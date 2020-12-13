@@ -127,68 +127,14 @@ public:
 				if (lootManager == nullptr)
 					return INVALIDPARAMETERS;
 
-				lootManager->createLoot(inventory, lootGroup, level);
-			}else if (commandType.beginsWith("createattachment")) {
-				//Syntax exmaple /object createattachment clothing mindblast_accuracy 25
-				String attachmentType;
-				String skillMod;
-				args.getStringToken(attachmentType);
-		
-				if (attachmentType != "armor" && attachmentType != "clothing"){
-					creature->sendSystemMessage("You must specify armor or clothing.");
-					return INVALIDPARAMETERS;
+				TransactionLog trx(TrxCode::ADMINCOMMAND, creature);
+				trx.addState("commandType", commandType);
+				if (lootManager->createLoot(trx, inventory, lootGroup, level)) {
+					trx.commit(true);
+				} else {
+					trx.abort() << "createLoot failed for lootGroup " << lootGroup << " level " << level;
 				}
-
-				if (args.hasMoreTokens())
-					args.getStringToken(skillMod);
-				
-				int skillBonus = 1;
-				if (args.hasMoreTokens())
-					skillBonus = args.getIntToken();
-
-				ManagedReference<SceneObject*> inventory = creature->getSlottedObject("inventory");
-
-				if (inventory == NULL || inventory->isContainerFullRecursive()) {
-					creature->sendSystemMessage("Your inventory is full, so the item could not be created.");
-					return INVALIDPARAMETERS;
-				}
-
-				ManagedReference<LootManager*> lootManager = creature->getZoneServer()->getLootManager();
-
-				
-
-				if (lootManager == NULL)
-					return INVALIDPARAMETERS;
-					
-				Reference<const LootItemTemplate*> itemTemplate = NULL;
-				LootGroupMap* lootGroupMap = LootGroupMap::instance();
-				if (attachmentType == "armor")
-					itemTemplate = lootGroupMap->getLootItemTemplate("attachment_armor");
-				else
-					itemTemplate = lootGroupMap->getLootItemTemplate("attachment_clothing");
-							
-				ManagedReference<SceneObject*> ca = lootManager->createLootAttachment(itemTemplate,skillMod, skillBonus); 
-
-				if (ca != NULL){
-					Attachment* attachment = cast<Attachment*>(ca.get());
-								
-					if (attachment != NULL){
-						Locker objLocker(attachment);
-						if (inventory->transferObject(ca, -1, true, true)) { //Transfer tape to player inventory
-							inventory->broadcastObject(ca, true);
-						} else {
-							ca->destroyObjectFromDatabase(true);
-							creature->sendSystemMessage("Unable to place Skill Attachment in player's inventory!");
-							return INVALIDPARAMETERS;
-						}
-						
-					}
-							
-				}
-
-
-			}
-			 else if (commandType.beginsWith("createresource")) {
+			} else if (commandType.beginsWith("createresource")) {
 				String resourceName;
 				args.getStringToken(resourceName);
 
@@ -245,8 +191,14 @@ public:
 
 						ManagedReference<SceneObject*> inventory = targetPlayer->getSlottedObject("inventory");
 						if (inventory != nullptr) {
-							if( lootManager->createLoot(inventory, lootGroup, level) )
+							TransactionLog trx(creature, targetPlayer, nullptr, TrxCode::ADMINCOMMAND);
+							trx.addState("commandType", commandType);
+							if (lootManager->createLoot(trx, inventory, lootGroup, level)) {
+								trx.commit(true);
 								targetPlayer->sendSystemMessage( "You have received a loot item!");
+							} else {
+								trx.abort() << "createLoot failed for lootGroup " << lootGroup << " level " << level;
+							}
 						}
 
 						tlock.release();
