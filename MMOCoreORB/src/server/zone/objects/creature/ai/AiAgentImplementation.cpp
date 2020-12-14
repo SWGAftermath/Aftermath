@@ -2803,9 +2803,6 @@ bool AiAgentImplementation::isAggressiveTo(CreatureObject* target) {
 	uint32 targetFaction = target->getFaction();
 	PlayerObject* ghost = target->getPlayerObject();
 
-	if (ghost != nullptr && ghost->hasCrackdownTefTowards(getFaction())) {
-		return true;
-	}
 
 	// check the GCW factions if both entities have one
 	if (getFaction() != 0 && targetFaction != 0) {
@@ -3298,9 +3295,6 @@ bool AiAgentImplementation::isAttackableBy(CreatureObject* object) {
 
 	if (object->isPlayerCreature()) {
 		Reference<PlayerObject*> ghost = object->getPlayerObject();
-		if (ghost != nullptr && ghost->hasCrackdownTefTowards(getFaction())) {
-			return true;
-		}
 	}
 
 	unsigned int targetFaction = object->getFaction();

@@ -1401,21 +1401,21 @@ void PlayerObjectImplementation::notifyOnline() {
 
 	//Remove FR2 from Jedi
 	ManagedReference<PlayerObject*> ghost = playerCreature->getPlayerObject();
-	if (ghost != NULL && playerCreature->hasSkill("force_title_jedi_rank_02") && ghost->hasAbility("forceRun2") && !(playerCreature->hasSkill("frs_post9_light_enhancer_04") || playerCreature->hasSkill("frs_post9_dark_enhancer_04"))){
+	if (ghost != nullptr && playerCreature->hasSkill("force_title_jedi_rank_02") && ghost->hasAbility("forceRun2") && !(playerCreature->hasSkill("frs_post9_light_enhancer_04") || playerCreature->hasSkill("frs_post9_dark_enhancer_04"))){
 		SkillManager::instance()->removeAbility(ghost, "forceRun2", true);
 	}
 
 	//Remove TotalhealSelf from non-frs Jedi
-	if (ghost != NULL && playerCreature->hasSkill("force_title_jedi_rank_02") && ghost->hasAbility("totalHealSelf") && !(playerCreature->hasSkill("frs_post9_light_healing_04") || playerCreature->hasSkill("frs_post9_dark_healing_04"))){
+	if (ghost != nullptr && playerCreature->hasSkill("force_title_jedi_rank_02") && ghost->hasAbility("totalHealSelf") && !(playerCreature->hasSkill("frs_post9_light_healing_04") || playerCreature->hasSkill("frs_post9_dark_healing_04"))){
 		SkillManager::instance()->removeAbility(ghost, "totalHealSelf", true);
 	}
 
 	//Remove TotalhealSelf from non-frs Jedi
-	if (ghost != NULL && playerCreature->hasSkill("force_title_jedi_rank_02") && ghost->hasAbility("totalHealOther") && !(playerCreature->hasSkill("frs_post9_light_healing_04") || playerCreature->hasSkill("frs_post9_dark_healing_04"))){
+	if (ghost != nullptr && playerCreature->hasSkill("force_title_jedi_rank_02") && ghost->hasAbility("totalHealOther") && !(playerCreature->hasSkill("frs_post9_light_healing_04") || playerCreature->hasSkill("frs_post9_dark_healing_04"))){
 		SkillManager::instance()->removeAbility(ghost, "totalHealOther", true);
 	}
 
-	if (ghost != NULL && ghost->getRatingReset() != 1){
+	if (ghost != nullptr && ghost->getRatingReset() != 1){
 		ghost->setPvpRating(1200);
 		ghost->setRatingReset(1);
 	}
@@ -2374,12 +2374,12 @@ void PlayerObjectImplementation::updateLastPvpCombatActionTimestamp(bool updateG
 	if (parent == nullptr)
 		return;
 
-	bool alreadyHasTef = hasTef();
+	bool alreadyHasTef = hasPvpTef();
 
-	if (updateGcwCrackdownAction) {
+/*	if (updateGcwCrackdownAction) {
 		lastCrackdownGcwCombatActionTimestamp.updateToCurrentTime();
 		lastCrackdownGcwCombatActionTimestamp.addMiliTime(FactionManager::TEFTIMER);
-	}
+	} */
 
 	if (updateBhAction) {
 		bool alreadyHasBhTef = hasBhTef();
@@ -2448,7 +2448,7 @@ void PlayerObjectImplementation::schedulePvpTefRemovalTask(bool removeGcwTefNow,
 	}
 
 	if (removeGcwTefNow || removeBhTefNow || removeJediTefNow) {
-		if (removeGcwTefNow)
+		if (removeGcwTefNow){
 			lastGcwPvpCombatActionTimestamp.updateToCurrentTime();
 		}
 

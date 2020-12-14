@@ -586,6 +586,8 @@ namespace conf {
 		}
 		inline int getInactiveStructurePackupDays() {
 			return getInt("Core3.inactiveStructurePackupDays", 365);
+		}
+		
 		inline String getNoTradeMessage() {
 			static uint32 cachedVersion = 0;
 			static String cachedNoTradeMessage;

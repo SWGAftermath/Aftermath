@@ -32,7 +32,7 @@ public:
 		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
 		CreatureObject* targetCreature = dynamic_cast<CreatureObject*>(object.get());
 
-		if (targetCreature == NULL)
+		if (targetCreature == nullptr)
 			return INVALIDTARGET;
 
 		Locker clocker(targetCreature, creature);
@@ -40,9 +40,9 @@ public:
 		ManagedReference<PlayerObject*> player = creature->getPlayerObject();
 		PlayerObject* targetPlayerObject = targetCreature->getPlayerObject();
 
-		if (targetPlayerObject == NULL) {
+		if (targetPlayerObject == nullptr) {
 			return INVALIDTARGET;
-		} else if (player == NULL)
+		} else if (player == nullptr)
 			return GENERALERROR;
 
 		if (!creature->checkCooldownRecovery(skillName)){
@@ -64,7 +64,7 @@ public:
 			// Setup debuff.
 
 
-			if (targetCreature != NULL) {
+			if (targetCreature != nullptr) {
 				Locker clocker(targetCreature, creature);
 
 				ManagedReference<Buff*> buff = new Buff(targetCreature, getNameCRC(), 6, BuffType::OTHER);

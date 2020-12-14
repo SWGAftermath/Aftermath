@@ -722,7 +722,7 @@ void CreatureManagerImplementation::droidHarvest(Creature* creature, CreatureObj
 		quantityExtracted = (int)(quantityExtracted * modifier);
 	}
 	//Remove cave 1 harvest yield and make it 25% of normal
-	if (creature->getParent().get() != NULL)
+	if (creature->getParent().get() != nullptr)
 		quantityExtracted *= .25;
 
 	int droidBonus = DroidMechanics::determineDroidSkillBonus(ownerSkill,harvestBonus,quantityExtracted);

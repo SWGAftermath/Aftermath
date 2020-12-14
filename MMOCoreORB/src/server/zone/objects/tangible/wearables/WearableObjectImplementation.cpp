@@ -89,12 +89,12 @@ bool WearableObjectImplementation::hasSeaRemovalTool(CreatureObject* player, boo
 
 	uint32 crc;
 
-	if (player == NULL)
+	if (player == nullptr)
 		return 0;
 
 	ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
 
-	if (inventory == NULL)
+	if (inventory == nullptr)
 		return false;
 
 	Locker inventoryLocker(inventory);
@@ -105,7 +105,7 @@ bool WearableObjectImplementation::hasSeaRemovalTool(CreatureObject* player, boo
 		crc = sceno->getServerObjectCRC();
 		if (String::valueOf(crc) == "3905622464") { //Sea Removal Tool
 
-			if (sceno != NULL) {
+			if (sceno != nullptr) {
 				if (removeItem) {
 					Locker locker(sceno);
 					sceno->destroyObjectFromWorld(true);

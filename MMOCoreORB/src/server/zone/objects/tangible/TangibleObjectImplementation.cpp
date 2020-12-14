@@ -704,14 +704,14 @@ int TangibleObjectImplementation::inflictDamage(TangibleObject* attacker, int da
 		setDisabled(true);
 
 		WearableObject* wearable = cast<WearableObject*>(asTangibleObject());
-			if(wearable != NULL) {
+			if(wearable != nullptr) {
 				ManagedReference<SceneObject*> playerParent = getParentRecursively(SceneObjectType::PLAYERCREATURE);
-				if (wearable->isEquipped() && playerParent != NULL){
+				if (wearable->isEquipped() && playerParent != nullptr){
 					SceneObject* inventory = playerParent->getSlottedObject("inventory");
 					SceneObject* parentOfWearableParent = wearable->getParent().get();
 					ZoneServer* zoneServer = server->getZoneServer();
 					ObjectController* objectController = zoneServer->getObjectController();
-					if (objectController != NULL && inventory != NULL && parentOfWearableParent != NULL){
+					if (objectController != nullptr && inventory != nullptr && parentOfWearableParent != nullptr){
 						objectController->transferObject(wearable,inventory,wearable->getContainmentType(), true, true);
 					}
 				}
@@ -1134,9 +1134,7 @@ bool TangibleObjectImplementation::isAttackableBy(TangibleObject* object) {
 bool TangibleObjectImplementation::isAttackableBy(CreatureObject* object) {
 	if (object->isPlayerCreature()) {
 		Reference<PlayerObject*> ghost = object->getPlayerObject();
-		if (ghost != nullptr && ghost->hasCrackdownTefTowards(getFaction())) {
-			return true;
-		}
+		
 		if (isImperial() && (!object->isRebel() || object->getFactionStatus() == 0)) {
 			return false;
 		}

@@ -747,9 +747,9 @@ void ChatManagerImplementation::handleChatRoomMessage(CreatureObject* sender, co
 		channel->broadcastMessageCheckIgnore(msg, name);
 	} else if (planetRoom != nullptr && planetRoom->getRoomID() == roomID) {
 		channel->broadcastMessageCheckIgnore(msg, name);
-	} else if (generalRoom != NULL && generalRoom->getRoomID() == roomID) {
+	} else if (generalRoom != nullptr && generalRoom->getRoomID() == roomID) {
 		channel->broadcastMessageCheckIgnore(msg, name); 
-	} else if (pvpRoom != NULL && pvpRoom->getRoomID() == roomID) {
+	} else if (pvpRoom != nullptr && pvpRoom->getRoomID() == roomID) {
 		channel->broadcastMessageCheckIgnore(msg, name);
 	} else {
 		channel->broadcastMessage(msg);

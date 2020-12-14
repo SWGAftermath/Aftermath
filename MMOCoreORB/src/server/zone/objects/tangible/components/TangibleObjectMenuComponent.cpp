@@ -63,7 +63,7 @@ void TangibleObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObjec
 	}
 
 	WearableObject* wearable = cast<WearableObject*>(tano);
-	if (wearable != NULL)
+	if (wearable != nullptr)
 	if (wearable->hasSeaRemovalTool(player, false) ==  true)
 	if (wearable->isWearableObject() || wearable->isArmorObject()){
 		VectorMap<String, int>* mods = wearable->getWearableSkillMods();
@@ -129,7 +129,7 @@ int TangibleObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject
 		ManagedReference<SceneObject*> sea = NULL;
 		bool convertedMods = false;
 		ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
-			if (wearable != NULL && inventory != NULL) { //safety Checks
+			if (wearable != nullptr && inventory != nullptr) { //safety Checks
 
 			if (wearable->hasSeaRemovalTool(player, false) ==  false){ //They need the tool
 				player->sendSystemMessage("This requires a specialzied skill enhancing attachment removal tool.");
@@ -161,7 +161,7 @@ int TangibleObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject
 							//error("detect as clothing");
 							itemTemplate = lootGroupMap->getLootItemTemplate("attachment_clothing");
 						}
-						if (lootGroupMap == NULL){
+						if (lootGroupMap == nullptr){
 						error("Invalid loot template");
 						return 0;
 						}
@@ -171,10 +171,10 @@ int TangibleObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject
 
 							sea = lootManager->createLootAttachment(itemTemplate,modKey, mods->elementAt(i).getValue()); 
 
-							if (sea != NULL){
+							if (sea != nullptr){
 								Attachment* attachment = cast<Attachment*>(sea.get());
 								
-								if (attachment != NULL){
+								if (attachment != nullptr){
 									Locker objLocker(attachment);
 									if (inventory->transferObject(sea, -1, true, true)) { //Transfer tape to player inventory
 										inventory->broadcastObject(sea, true);

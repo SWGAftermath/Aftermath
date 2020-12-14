@@ -153,7 +153,7 @@ public:
 			ManagedReference<PlayerObject*> ghost = target->getPlayerObject();
 			PlayerObject* playerGhost = player->getPlayerObject();
 
-			if ((target->getWeapon() != NULL && target->getWeapon()->isJediWeapon()) || target->hasSkill("force_title_jedi_rank_02")) {
+			if ((target->getWeapon() != nullptr && target->getWeapon()->isJediWeapon()) || target->hasSkill("force_title_jedi_rank_02")) {
 				ghost->updateLastJediAttackableTimestamp();
 				playerGhost->updateLastJediPvpCombatActionTimestamp();
 				// Jedi XP Loss

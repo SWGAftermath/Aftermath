@@ -425,7 +425,7 @@ void ContrabandScanSessionImplementation::addCrackdownTef(AiAgent* scanner, Crea
 	Reference<PlayerObject*> ghost = player->getPlayerObject();
 
 	if (ghost != nullptr) {
-		ghost->setCrackdownTefTowards(scanner->getFaction());
+		ghost->updateLastPvpCombatActionTimestamp(true, false, false);
 	}
 }
 

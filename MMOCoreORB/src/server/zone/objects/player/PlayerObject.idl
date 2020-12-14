@@ -253,6 +253,11 @@ class PlayerObject extends IntangibleObject {
 	protected Time lastJediAttackableTimestamp;
 
 	@dereferenced
+	protected Time lastCrackdownGcwCombatActionTimestamp;
+	
+	protected unsigned int crackdownFactionTefCrc;
+
+	@dereferenced
 	protected transient Reference<PvpTefRemovalTask> pvpTefTask;
 
 	@dereferenced
@@ -1767,9 +1772,6 @@ class PlayerObject extends IntangibleObject {
 	public native void updateLastJediAttackableTimestamp();
 
 	@read
-	public native boolean hasTef();
-
-	@read
 	public native boolean hasPvpTef();
 
 	@read
@@ -1779,6 +1781,7 @@ class PlayerObject extends IntangibleObject {
 	public native boolean hasJediTef();
 
 	public native boolean isJediAttackable();
+
 	
 	public native void schedulePvpTefRemovalTask(boolean removeGcwTefNow, boolean removeBhTefNow, boolean removeJediTefNow);
 

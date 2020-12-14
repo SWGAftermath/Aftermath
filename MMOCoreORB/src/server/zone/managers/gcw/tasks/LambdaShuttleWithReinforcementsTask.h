@@ -164,7 +164,7 @@ private:
 
 	void spawnTroops(SceneObject* lambdaShuttle, CreatureObject* player) {
 		if (reinforcementType == LAMBDASHUTTLESCAN && ((faction != player->getFaction() && player->getFaction() != Factions::FACTIONNEUTRAL) ||
-													   (player->getPlayerObject() != nullptr && player->getPlayerObject()->hasCrackdownTefTowards(faction)))) {
+													   (player->getPlayerObject() != nullptr))) {
 			if (player->getFactionStatus() == FactionStatus::OVERT || player->getFactionStatus() == FactionStatus::COVERT) {
 				reinforcementType = LAMBDASHUTTLEATTACK;
 			}

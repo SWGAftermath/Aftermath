@@ -133,6 +133,7 @@ public:
 			if (object->isStructureControlDevice()) {
 				creature->sendSystemMessage("Error: You cannot delete this control device.");
 				return GENERALERROR;
+			}
 			if (trx.isVerbose()) {
 				// Force a synchronous export because the object will be deleted before we can export it!
 				trx.addRelatedObject(object, true);

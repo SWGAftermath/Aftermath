@@ -75,7 +75,7 @@ int HeroRingMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Crea
 		player->removeFeignedDeath();
 
 		// Jedi XP Loss
-		if ((player->getWeapon() != NULL && player->getWeapon()->isJediWeapon()) || player->hasSkill("force_title_jedi_rank_02")) {
+		if ((player->getWeapon() != nullptr && player->getWeapon()->isJediWeapon()) || player->hasSkill("force_title_jedi_rank_02")) {
 			CreatureObject* creature = cast<CreatureObject*>(player);
 			PlayerObject* ghost = creature->getPlayerObject();
 			int jediXpCap = ghost->getXpCap("jedi_general");

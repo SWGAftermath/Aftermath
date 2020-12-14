@@ -879,6 +879,7 @@ const String TransactionLog::trxCodeToString(TrxCode code) {
 	case TrxCode::TRANSFERSTRUCT:           return "transferstruct";            // Transfer Structure
 	case TrxCode::VENDORLIFECYCLE:          return "vendorlifecycle";           // Vendor lifecycle (create/destroy)
 	case TrxCode::VETERANREWARD:            return "veteranreward";             // /claimveteranreward command
+	case TrxCode::GCWREWARD:				return "gcwterminalreward";			// GCW Terminal Reward
 	}
 	// clang-format on
 

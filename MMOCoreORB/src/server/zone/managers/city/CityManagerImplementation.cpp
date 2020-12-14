@@ -1147,7 +1147,7 @@ void CityManagerImplementation::updateCityVoting(CityRegion* city, bool override
 
 			Reference<PlayerObject*> ghost = mayorObject->getSlottedObject("ghost").castTo<PlayerObject*>();
 
-			if (ghost != NULL) {
+			if (ghost != nullptr) {
 				ghost->addExperience("political", votes * 1200, true);
 			}
 
@@ -1693,7 +1693,7 @@ String CityManagerImplementation::getNextUpdateTimeString(CityRegion* city) {
 }
 
 String CityManagerImplementation::getNextVoteTimeString(CityRegion* city) {
-	if (city == NULL)
+	if (city == nullptr)
 		return "";
 
 	int seconds = city->getTimeToVote();

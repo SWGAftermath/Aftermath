@@ -254,11 +254,11 @@ int CombatManager::doCombatAction(CreatureObject* attacker, WeaponObject* weapon
 				Locker olocker(attackingCreature, attacker);
 				ghost->updateLastPvpCombatActionTimestamp(shouldGcwTef, shouldBhTef, shouldJediTef);
 				ManagedReference<CreatureObject*> defenderCreature = cast<CreatureObject*>(defenderObject);
-				if (defenderCreature != NULL){
+				if (defenderCreature != nullptr){
 					olocker.release();
 					Locker olocker(defenderCreature, attacker);
 					ManagedReference<PlayerObject*> defenderPlayer = defenderCreature->getPlayerObject(); 
-					if (defenderPlayer != NULL && shouldJediTef)
+					if (defenderPlayer != nullptr && shouldJediTef)
 						defenderPlayer->updateLastPvpCombatActionTimestamp(false, false, true);
 				}
 			}
@@ -310,9 +310,9 @@ int CombatManager::doTargetCombatAction(CreatureObject* attacker, WeaponObject* 
 		damage = doTargetCombatAction(attacker, weapon, defender, data, shouldGcwTef, shouldBhTef, shouldJediTef);
 	} else {
 		int poolsToDamage = calculatePoolsToDamage(data.getPoolsToDamage());
-		if (tano != NULL && attacker != NULL && attacker->isPlayerCreature() && tano->getFaction() != 0 && attacker->getFaction() != tano->getFaction()){
+		if (tano != nullptr && attacker != nullptr && attacker->isPlayerCreature() && tano->getFaction() != 0 && attacker->getFaction() != tano->getFaction()){
 			PlayerObject* ghost = attacker->getPlayerObject();
-			if (ghost != NULL)
+			if (ghost != nullptr)
 				ghost->updateLastPvpCombatActionTimestamp(true, false, false);
 		}
 
@@ -2919,30 +2919,12 @@ void CombatManager::initializeDefaultAttacks() {
 void CombatManager::checkForTefs(CreatureObject* attacker, CreatureObject* defender, bool* shouldGcwTef, bool* shouldBhTef, bool* shouldJediTef) const {
 	if (*shouldGcwTef && *shouldBhTef)
 		return;
-	}
 
 	ManagedReference<CreatureObject*> attackingCreature = attacker->isPet() ? attacker->getLinkedCreature() : attacker;
 	ManagedReference<CreatureObject*> targetCreature = defender->isPet() || defender->isVehicleObject() ? defender->getLinkedCreature() : defender;
 
-	if (attackingCreature != nullptr && targetCreature != nullptr) {
-		if (attackingCreature->isPlayerCreature() && targetCreature->isPlayerCreature() && !areInDuel(attackingCreature, targetCreature)) {
-
-			if (!(*shouldGcwTef)) {
-				if (attackingCreature->getFaction() != targetCreature->getFaction() && attackingCreature->getFactionStatus() == FactionStatus::OVERT && targetCreature->getFactionStatus() == FactionStatus::OVERT) {
-					*shouldGcwTef = true;
-				}
-			}
-
-			if (!(*shouldBhTef)) {
-				if (attackingCreature->hasBountyMissionFor(targetCreature) || targetCreature->hasBountyMissionFor(attackingCreature)) {
-					*shouldBhTef = true;
-				}
-			}
-		}
-
-		if (!(*shouldGcwCrackdownTef)) {
-			if (attackingCreature->isPlayerObject() && targetCreature->isAiAgent()) {
-				Reference<PlayerObject*> ghost = attackingCreature->getPlayerObject();
+	if (attackingCreature != nullptr && targetCreature != nullptr && attackingCreature->isPlayerCreature() && targetCreature->isPlayerCreature() && !areInDuel(attackingCreature, targetCreature)) {	
+	
 
 		if (!(*shouldJediTef) && (targetCreature->getPlayerObject()->isJedi() && targetCreature->getWeapon()->isJediWeapon()))
 			*shouldJediTef = true;
@@ -2958,7 +2940,7 @@ void CombatManager::checkForTefs(CreatureObject* attacker, CreatureObject* defen
 
 		if (!(*shouldBhTef) && (attackingCreature->hasBountyMissionFor(targetCreature) || targetCreature->hasBountyMissionFor(attackingCreature)))
 			*shouldBhTef = true;
-	} else if (attackingCreature != NULL && targetCreature != NULL && attackingCreature->isPlayerCreature() && targetCreature->getFaction() != 0 && targetCreature->getFaction() != attackingCreature->getFaction()){
+	} else if (attackingCreature != nullptr && targetCreature != nullptr && attackingCreature->isPlayerCreature() && targetCreature->getFaction() != 0 && targetCreature->getFaction() != attackingCreature->getFaction()){
 		*shouldGcwTef = true;
 	}
 }

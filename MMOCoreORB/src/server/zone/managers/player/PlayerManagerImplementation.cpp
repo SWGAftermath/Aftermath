@@ -1219,7 +1219,7 @@ void PlayerManagerImplementation::killPlayer(TangibleObject* attacker, CreatureO
 		if (attackerCreature->isPet()) {
 				CreatureObject* owner = attackerCreature->getLinkedCreature().get();
 
-				if (owner != NULL && owner->isPlayerCreature()) {
+				if (owner != nullptr && owner->isPlayerCreature()) {
 					attackerCreature = owner;
 				}
 		}
@@ -1443,7 +1443,7 @@ void PlayerManagerImplementation::sendActivateCloneRequest(CreatureObject* playe
 		} else if (cbot->getFacilityType() != CloningBuildingObjectTemplate::JEDI_ONLY){
 			String name = "None";
 			ManagedReference<CityRegion*> cr2 = loc->getCityRegion().get();
-			if (cr2 != NULL)
+			if (cr2 != nullptr)
 				name = cr2->getRegionDisplayedName();
 			else
 				name = loc->getDisplayedName();
@@ -5994,7 +5994,7 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		ThreatMapEntry* entry = &threatMap->elementAt(i).getValue();
 		CreatureObject* attacker = threatMap->elementAt(i).getKey();
 		Locker crossLock(attacker, player);
-		if (frsManager != NULL && frsManager->isFrsEnabled() && frsManager->isValidFrsBattle(attacker, player))
+		if (frsManager != nullptr && frsManager->isFrsEnabled() && frsManager->isValidFrsBattle(attacker, player))
 			totalFrsMembers++;
 		crossLock.release();
 	}
@@ -6063,7 +6063,7 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 
 		float damageContribution = (float) entry->getTotalDamage() / totalDamage;
 
-		if (frsManager != NULL && frsManager->isFrsEnabled() && frsManager->isValidFrsBattle(attacker, player)) {
+		if (frsManager != nullptr && frsManager->isFrsEnabled() && frsManager->isValidFrsBattle(attacker, player)) {
 			int attackerFrsXp = frsManager->calculatePvpExperienceChange(attacker, player, damageContribution, totalFrsMembers, false);
 			int victimFrsXp = frsManager->calculatePvpExperienceChange(attacker, player, damageContribution, totalFrsMembers, true);
 			frsXpAdjustment += victimFrsXp;

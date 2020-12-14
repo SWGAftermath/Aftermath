@@ -89,6 +89,7 @@ enum class TrxCode {
 	TRANSFERSTRUCT,             // Transfer Structure
 	VENDORLIFECYCLE,            // Vendor lifecycle (create/destroy)
 	VETERANREWARD,              // /claimveteranreward command
+	GCWREWARD,                  // GCW Reward Terminal
 };
 // clang-format on
 
