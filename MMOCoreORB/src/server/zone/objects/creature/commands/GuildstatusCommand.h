@@ -53,7 +53,7 @@ public:
 				ManagedReference<GuildObject*> guild = player->getGuildObject().get();
 				uint64 objid = player->getObjectID();
 
-				if (guild == NULL)
+				if (guild == nullptr)
 					return GENERALERROR;
 
 				if (!guild->hasMember(objid))
@@ -65,13 +65,13 @@ public:
 
 				GuildMemberList* memberList = guild->getGuildMemberList();
 
-				if (memberList == NULL)
+				if (memberList == nullptr)
 					return GENERALERROR;
 
 				for (int i = 0; i < memberList->size(); ++i) {
 					GuildMemberInfo* gmi = &memberList->get(i);
 
-					if (gmi == NULL)
+					if (gmi == nullptr)
 						continue;
 
 					members.add(gmi->getPlayerID());
@@ -125,7 +125,7 @@ public:
 				
 				ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
 
-				if (ghost == NULL) {
+				if (ghost == nullptr) {
 					return GENERALERROR;
 				}
 				ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::NONE);

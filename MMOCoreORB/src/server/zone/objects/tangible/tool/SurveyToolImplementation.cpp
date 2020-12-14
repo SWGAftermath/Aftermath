@@ -24,7 +24,7 @@ void SurveyToolImplementation::loadTemplateData(SharedObjectTemplate* templateDa
 
 	SurveyToolTemplate* surveyToolData = dynamic_cast<SurveyToolTemplate*>(templateData);
 
-	if (surveyToolData == NULL) {
+	if (surveyToolData == nullptr) {
 		throw Exception("invalid template for SurveyTool");
 	}
 
@@ -60,7 +60,7 @@ int SurveyToolImplementation::handleObjectMenuSelect(CreatureObject* player, byt
 			Locker locker(_this.getReferenceUnsafeStaticCast());
 
 			ManagedReference<SurveySession*> session = player->getActiveSession(SessionFacadeType::SURVEY).castTo<SurveySession*>();
-			if(session == NULL) {
+			if(session == nullptr) {
 				session = new SurveySession(player);
 				session->initializeSession(_this.getReferenceUnsafeStaticCast());
 			}
@@ -68,8 +68,8 @@ int SurveyToolImplementation::handleObjectMenuSelect(CreatureObject* player, byt
 			session->setOpenSurveyTool(_this.getReferenceUnsafeStaticCast());
 
 			ManagedReference<ResourceManager*> resourceManager = cast<ResourceManager*>(server->getZoneServer()->getResourceManager());
-			if(resourceManager == NULL) {
-				error("null resource manager");
+			if(resourceManager == nullptr) {
+				error("nullptr resource manager");
 				return 0;
 			}
 			resourceManager->sendResourceListForSurvey(player, getToolType(), getSurveyType());
