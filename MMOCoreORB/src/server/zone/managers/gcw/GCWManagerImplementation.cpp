@@ -2652,6 +2652,22 @@ void GCWManagerImplementation::startContrabandScanSession(AiAgent* scanner, Crea
 	contrabandScanSession->initializeSession();
 }
 
+String GCWManagerImplementation::getCrackdownInfo(CreatureObject* player) const {
+	auto zone = player->getZone();
+	if (zone == nullptr) {
+		return "No zone information";
+	} else {
+		return "Crackdown scan information:"
+			"\nScans enabled - " + String::valueOf(crackdownScansEnabled) +
+			"\nScans enabled (privileged players) - " + String::valueOf(crackdownScanPrivilegedPlayers) +
+			"\nScans enabled on this planet - " + String::valueOf(planetsWithWildScans.find(zone->getZoneName()) != Vector<String>::npos) +
+			"\nPlayer has no scan cooldown - " + String::valueOf(player->checkCooldownRecovery("crackdown_scan")) +
+			"\nPlayer outside - " + String::valueOf(player->getParentID() == 0 || player->isRidingMount()) +
+			"\nIs spawning permitted at the coordinates - " + String::valueOf(zone->getPlanetManager()->isSpawningPermittedAt(player->getWorldPositionX(), player->getWorldPositionY())) +
+			"\nIs player privileged - " + String::valueOf(player->getPlayerObject()->isPrivileged());
+	}
+}
+
 void GCWManagerImplementation::performCheckWildContrabandScanTask() {
 	if (!crackdownScansEnabled || planetsWithWildScans.find(zone->getZoneName()) == Vector<String>::npos) {
 		return;
@@ -2668,7 +2684,7 @@ void GCWManagerImplementation::performCheckWildContrabandScanTask() {
 		SceneObject* object = cast<SceneObject*>(closePlayers->get(playerIndex).get());
 		CreatureObject* player = object->asCreatureObject();
 
-		if (player->checkCooldownRecovery("crackdown_scan") && player->getParentID() == 0 && player->getPlayerObject() != nullptr &&
+		if (player->checkCooldownRecovery("crackdown_scan") && (player->getParentID() == 0 || player->isRidingMount()) && player->getPlayerObject() != nullptr &&
 			player->getPlayerObject()->getSessionMiliSecs() > 60 * 1000 && !player->isDead() && !player->isIncapacitated() && !player->isFeigningDeath() && !player->isInCombat() &&
 			zone->getPlanetManager()->isSpawningPermittedAt(player->getWorldPositionX(), player->getWorldPositionY())) {
 			if (crackdownScanPrivilegedPlayers || (player->getPlayerObject() != nullptr && !player->getPlayerObject()->isPrivileged())) {
